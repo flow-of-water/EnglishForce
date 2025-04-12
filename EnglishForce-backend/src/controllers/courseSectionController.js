@@ -1,4 +1,4 @@
-import * as CourseSectionModel from "../models/courseSectionModel.js";
+import * as courseSectionService from "../services/courseSection.service.js"
 
 // Tạo course section mới
 export async function createCourseSection(req, res) {
@@ -9,7 +9,7 @@ export async function createCourseSection(req, res) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
-        const section = await CourseSectionModel.create(name, course_id, video_link, order_index , description);
+        const section = await courseSectionService.create(name, course_id, video_link, order_index , description);
         return res.status(201).json(section);
     } catch (error) {
         console.error("❌ Error creating section:", error);
@@ -20,7 +20,7 @@ export async function createCourseSection(req, res) {
 // Lấy tất cả course sections
 export async function getAllCourseSections(req, res) {
     try {
-        const sections = await CourseSectionModel.getAll();
+        const sections = await courseSectionService.getAll();
         return res.json(sections);
     } catch (error) {
         console.error("❌ Error fetching sections:", error);
@@ -37,7 +37,7 @@ export async function getAllCourseSectionsByCourseId(req, res) {
             return res.status(400).json({ message: "Missing course_id parameter" });
         }
 
-        const sections = await CourseSectionModel.getAllByCourseId(course_id);
+        const sections = await courseSectionService.getAllByCourseId(course_id);
         return res.json(sections);
     } catch (error) {
         console.error("❌ Error fetching sections by course_id:", error);
@@ -49,7 +49,7 @@ export async function getAllCourseSectionsByCourseId(req, res) {
 export async function getCourseSectionById(req, res) {
     try {
         const { id } = req.params;
-        const section = await CourseSectionModel.getById(id);
+        const section = await courseSectionService.getById(id);
 
         if (!section) {
             return res.status(404).json({ message: "Course section not found" });
@@ -66,7 +66,7 @@ export async function getCourseSectionById(req, res) {
 export async function deleteCourseSection(req, res) {
     try {
         const { id } = req.params;
-        const deleted = await CourseSectionModel.deleteSection(id);
+        const deleted = await courseSectionService.deleteSection(id);
 
         if (!deleted) {
             return res.status(404).json({ message: "Course section not found" });
@@ -85,7 +85,7 @@ export const updateCourseSection = async (req, res) => {
     const { name, description, video_link, order_index } = req.body;
   
     try {
-      const updatedSection = await CourseSectionModel.updateCourseSection(id, name, description, video_link, order_index);
+      const updatedSection = await courseSectionService.updateCourseSection(id, name, description, video_link, order_index);
       if (!updatedSection) {
         return res.status(404).json({ message: "Course section not found" });
       }

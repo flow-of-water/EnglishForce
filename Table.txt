@@ -1,0 +1,48 @@
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email TEXT,
+    password TEXT NOT NULL,
+    username TEXT NOT NULL,
+    role TEXT
+);
+
+
+CREATE TABLE courses (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    instructor TEXT,
+    description TEXT,
+    thumbnail TEXT,
+    price NUMERIC(10, 2)
+);
+
+CREATE TABLE user_courses (
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
+    rating INTEGER,
+	comment TEXT,
+    PRIMARY KEY (user_id, course_id)
+);
+
+
+CREATE TABLE course_sections (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    description TEXT,
+	course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
+    video_link TEXT,
+    order_index INT DEFAULT 0
+);
+
+
+
+CREATE TABLE comments (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+    course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
+	parent_comment_id UUID REFERENCES comments(id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+

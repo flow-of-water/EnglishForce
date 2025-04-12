@@ -62,13 +62,14 @@ const CommentAdmin = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Pagination
+            
+            {comments.length!=0 &&<Pagination
                 count={totalPages}
                 page={page}
                 onChange={(event, value) => setPage(value)} // Update page state on page change
                 color="primary"
                 style={{ marginTop: 20 }}
-            />
+            />}
         </Container>
     );
 };

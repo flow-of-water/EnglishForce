@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
-import * as userCourseModel from '../models/userCourseModel.js'; 
-import * as courseModel from "../models/courseModel.js";
+import * as userCourseService from "../services/userCourse.service.js"
+import * as courseService from "../services/course.service.js"
 import moment from "moment";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export const createPaymentIntent = async (req, res) => {
   try {
     const { courseIds } = req.body;
-    var amount = await courseModel.getTotalPriceByCourseIds(courseIds) ;
+    var amount = await courseService.getTotalPriceByCourseIds(courseIds) ;
     amount = Math.round(amount * 100);
     const userId = req.user.id;
 
@@ -22,9 +22,9 @@ export const createPaymentIntent = async (req, res) => {
         const results = [];
         for (const courseId of courseIds) {
           // Kiểm tra xem user đã đăng ký khóa học này chưa
-          const existing = await userCourseModel.getUserCourse(userId, courseId);
+          const existing = await userCourseService.getUserCourse(userId, courseId);
           if (!existing) {
-            const newRecord = await userCourseModel.createUserCourse(userId, courseId);
+            const newRecord = await userCourseService.createUserCourse(userId, courseId);
             results.push({ courseId, status: 'enrolled', record: newRecord });
           } else {
             results.push({ courseId, status: 'already enrolled' });

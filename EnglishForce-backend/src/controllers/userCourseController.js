@@ -1,6 +1,6 @@
-import * as userCourseModel from '../models/userCourseModel.js';
-import * as courseModel from '../models/courseModel.js'
-import * as userModel from '../models/userModel.js'
+import * as userCourseService from "../services/userCourse.service.js"
+import * as courseService from "../services/course.service.js"
+import * as userService from "../services/user.service.js"
 
 function ImgArrayToBase64(courses) {
   return courses.map(course => {
@@ -31,12 +31,12 @@ export const createUserCourseController = async (req, res) => {
     }
 
     // Kiểm tra xem user đã đăng ký khóa học này chưa
-    const existing = await userCourseModel.getUserCourse(userId, courseId);
+    const existing = await userCourseService.getUserCourse(userId, courseId);
     if (existing) {
       return res.status(400).json({ error: 'User already enrolled in this course.' });
     }
 
-    const userCourse = await userCourseModel.createUserCourse(userId, courseId);
+    const userCourse = await userCourseService.createUserCourse(userId, courseId);
     res.status(201).json(userCourse);
   } catch (error) {
     console.error(error);
@@ -56,11 +56,11 @@ export const createUserCoursesFromCartController = async (req, res) => {
     const results = [];
     for (const courseId of courseIds) {
       // Kiểm tra xem user đã đăng ký khóa học này chưa
-      const existing = await userCourseModel.getUserCourse(userId, courseId);
+      const existing = await userCourseService.getUserCourse(userId, courseId);
       if (existing) {
         results.push({ courseId, status: 'already enrolled' });
       } else {
-        const newRecord = await userCourseModel.createUserCourse(userId, courseId);
+        const newRecord = await userCourseService.createUserCourse(userId, courseId);
         results.push({ courseId, status: 'enrolled', record: newRecord });
       }
     }
@@ -82,7 +82,7 @@ export const updateUserCourseRatingController = async (req,res) => { // PATCH ME
     if (!userId || !courseId) {
       return res.status(400).json({ error: 'Missing userId or courseIds array' });
     }
-    const userCourse = await userCourseModel.updateUserCourse(userId,courseId,rating,comment) ;
+    const userCourse = await userCourseService.updateUserCourse(userId,courseId,rating,comment) ;
     
     return res.status(200).json({ userCourse });
   } catch (error) {
@@ -100,7 +100,7 @@ export const getUserCoursesController = async (req, res) => {
     if (!userId) {
       return res.status(400).json({ error: 'Missing userId' });
     }
-    const userCourses = await userCourseModel.getUserCoursesByUser(userId);
+    const userCourses = await userCourseService.getUserCoursesByUser(userId);
     res.status(200).json(userCourses);
   } catch (error) {
     console.error(error);
@@ -115,7 +115,7 @@ export const deleteUserCourseController = async (req, res) => {
     if (!userId || !courseId) {
       return res.status(400).json({ error: 'Missing userId or courseId' });
     }
-    const deleted = await userCourseModel.deleteUserCourse(userId, courseId);
+    const deleted = await userCourseService.deleteUserCourse(userId, courseId);
     if (!deleted) {
       return res.status(404).json({ error: 'Record not found.' });
     }
@@ -137,7 +137,7 @@ export const getCoursesController = async (req, res) => {
     if (!userId) {
       return res.status(400).json({ error: 'Missing userId' });
     }
-    var userCourses = await userCourseModel.getCoursesByUser(userId);
+    var userCourses = await userCourseService.getCoursesByUser(userId);
     userCourses = ImgArrayToBase64(userCourses)
     res.status(200).json(userCourses);
   } catch (error) {
@@ -154,11 +154,11 @@ export const getCourseOverviewController = async(req,res) => {
       return res.status(400).json({ error: 'Missing CourseId' });
     }
 
-    var course = await courseModel.getCourseById(courseId) ;
+    var course = await courseService.getCourseById(courseId) ;
     var owned = null ;
-    const reviews = await userCourseModel.getRatingsByCourseId(courseId);
-    var overview = await userCourseModel.getOverviewRatingByCourseId(courseId) ;
-    if(userId) owned= await userCourseModel.checkUserCourseExists(userId,courseId) ;
+    const reviews = await userCourseService.getRatingsByCourseId(courseId);
+    var overview = await userCourseService.getOverviewRatingByCourseId(courseId) ;
+    if(userId) owned= await userCourseService.checkUserCourseExists(userId,courseId) ;
 
     if(!overview) overview ={
       "courseid": courseId,
@@ -167,7 +167,7 @@ export const getCourseOverviewController = async(req,res) => {
     }
     
     var userCourse = null ;
-    if (owned) userCourse = await userCourseModel.getUserCourse(userId,courseId) ;
+    if (owned) userCourse = await userCourseService.getUserCourse(userId,courseId) ;
     course = ImgToBase64(course) ;
     return res.status(200).json({
       course,
@@ -187,9 +187,9 @@ export const getCourseOverviewController = async(req,res) => {
 
 export const getStatisticsController = async(req,res) => {
   try {
-    const totalUsers = await userModel.getNumberOfUsers() ;
-    const totalCourses = await courseModel.getNumberOfCourses() ;
-    const totalEnrollments = await userCourseModel.getNumberOfEnrollments() ;
+    const totalUsers = await userService.getNumberOfUsers() ;
+    const totalCourses = await courseService.getNumberOfCourses() ;
+    const totalEnrollments = await userCourseService.getNumberOfEnrollments() ;
     return res.status(200).json({
       totalCourses,
       totalEnrollments,

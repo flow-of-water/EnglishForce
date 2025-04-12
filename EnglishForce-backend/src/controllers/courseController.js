@@ -1,7 +1,8 @@
 // controllers/courseController.js
-import { getCourses, getCourseById, updateCourse, addCourse, deleteCourse, searchCourses, getPaginatedCourses , updateCoursePartial } from "../models/courseModel.js";
-import { deleteSectionsByCourseId } from "../models/courseSectionModel.js";
-import { getOverviewRatingByCourseId } from "../models/userCourseModel.js";
+import { getCourses, getCourseById, updateCourse, addCourse, deleteCourse, searchCourses, getPaginatedCourses , updateCoursePartial } from "../services/course.service.js";
+
+import { deleteSectionsByCourseId } from "../services/courseSection.service.js"
+import { getOverviewRatingByCourseId } from "../services/userCourse.service.js"
 
 function ImgArrayToBase64(courses) {
   return courses.map(course => {

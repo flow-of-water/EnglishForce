@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUser, getUserByUsername, findOrCreateUser , updateUserPassword, getUserById } from "../models/userModel.js";
+import * as userService from "../services/user.service.js"
 
 const saltRounds = 10;
 const jwtSecret = process.env.JWT_SECRET || "your_jwt_secret";
@@ -10,8 +10,11 @@ export const register = async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    const existingUser = await userService.getUserByUsername(username);
+    if (existingUser) return res.status(409).json({ message: 'Username already taken' });
+
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const newUser = await createUser(username, hashedPassword);
+    const newUser = await userService.createUser(username, hashedPassword);
     res.status(201).json({ message: "User registered", user: newUser });
   } catch (error) {
     res.status(500).json({ message: "Error registering user", error });
@@ -23,7 +26,7 @@ export const login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await getUserByUsername(username);
+    const user = await userService.getUserByUsername(username);
     if (!user) return res.status(400).json({ message: "User not found" });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -42,7 +45,7 @@ export const changePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   try {
-    const user = await getUserById(userId);
+    const user = await userService.getUserById(userId);
     if (!user) {
       return res.status(404).json({ message: "User don't exists" });
     }
@@ -55,7 +58,7 @@ export const changePassword = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
-    await updateUserPassword(userId, hashedPassword);
+    await userService.updateUserPassword(userId, hashedPassword);
 
     res.status(200).json({ message: 'Password was changed' });
   } catch (error) {
@@ -67,7 +70,7 @@ export const changePassword = async (req, res) => {
 // ___ OAuth ___
 // Google and Facebook
 export const OAuthCallback = async (req, res) => {
-  const user = await findOrCreateUser(req.user); // req.user chính là Googleuser Hoặc Facebookuser
+  const user = await userService.findOrCreateUser(req.user); // req.user chính là Googleuser Hoặc Facebookuser
   const token = jwt.sign(
     {
       id: user.id,

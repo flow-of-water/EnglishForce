@@ -1,4 +1,4 @@
-import { getAllUsers, getUserById, updateUserRole } from "../models/userModel.js";
+import { getAllUsers, getUserById, updateUserRole } from "../services/user.service.js";
 
 export const getAllUsersController = async (req, res) => {
     try {

@@ -1,6 +1,6 @@
 // controllers/geminiController.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { searchCourseInSentences } from '../models/courseModel.js';
+import { searchCourseInSentences } from '../services/course.service.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
