@@ -1,6 +1,5 @@
 // controllers/courseController.js
 import { getCourses, getCourseById, updateCourse, addCourse, deleteCourse, searchCourses, getPaginatedCourses , updateCoursePartial } from "../services/course.service.js";
-
 import { deleteSectionsByCourseId } from "../services/courseSection.service.js"
 import { getOverviewRatingByCourseId } from "../services/userCourse.service.js"
 
@@ -119,10 +118,11 @@ export const updateCourseController = async (req, res) => {
 
 // Thêm khóa học mới
 export const addCourseController = async (req, res) => {
-  const { name, instructor, description } = req.body;
-  const thumbnail = req.file ? req.file.buffer : null;
+  const { name, instructor, description, price } = req.body;
+  const thumbnail = req.file ? req.file.path : null;
+
   try {
-    const newCourse = await addCourse(name, instructor, description, thumbnail);
+    const newCourse = await addCourse(name, instructor, description, price, thumbnail);
     res.status(201).json(newCourse);  // Trả về khóa học mới vừa được thêm
   } catch (err) {
     console.error(err);

@@ -105,11 +105,12 @@ export const updateCoursePartial = async (id, updates) => {
 };
 
 // Thêm khóa học mới
-export const addCourse = async (name, instructor, description, thumbnail) => {
+export const addCourse = async (name, instructor, description, price, thumbnail) => {
   const course = await Course.create({
     name,
-    author: instructor,
+    instructor,
     description,
+    price,
     thumbnail
   });
   return course.get({ plain: true });

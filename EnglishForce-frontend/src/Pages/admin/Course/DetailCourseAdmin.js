@@ -76,14 +76,15 @@ const DetailCourseAdmin = () => {
 
       <Paper sx={{ p: 3, mb: 3 }}>
         <Typography variant="h6">Course Name: {course.name}</Typography>
-        <Typography variant="body1">Author: {course.author}</Typography>
+        <Typography variant="body1">Instructor: {course.instructor}</Typography>
+        <Typography variant="body1">Price: {course.price}</Typography>
         <Typography variant="body2" sx={{ mt: 1 }}>
           {course.description}
         </Typography>
         {/* Hiển thị ảnh thumbnail nếu có */}
         {course.thumbnail && (
           <img
-            src={`data:image/png;base64,${course.thumbnail}`}
+            src={course.thumbnail}
             alt="Course Thumbnail"
             style={{ maxWidth: "100%", maxHeight: "300px", marginTop: 10 }}
           />

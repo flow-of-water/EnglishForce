@@ -15,6 +15,11 @@ export default (sequelize, DataTypes) => {
     timestamps: false
   });
 
+  UserCourse.associate = (models) => {
+    UserCourse.belongsTo(models.User, { foreignKey: 'user_id' });
+    UserCourse.belongsTo(models.Course, { foreignKey: 'course_id' });
+  };
+  
   return UserCourse;
 };
 // export default (sequelize, DataTypes) => {

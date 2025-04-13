@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Typography, TextField, Button, Paper, Snackbar, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from "@mui/material";
+import {
+  Container, Typography, TextField, Button, Paper, Snackbar, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton,
+  FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
+} from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import axiosInstance from "../../../Api/axiosInstance";
 
 
 const mockSections = [
-    { id: 1, name: "Introduction", description: "Overview of the course", course_id: 101, video_link: "https://youtube.com/example1", order_index: 1 },
-    { id: 2, name: "Getting Started", description: "Setting up the environment", course_id: 101, video_link: "https://youtube.com/example2", order_index: 2 },
-    { id: 3, name: "Advanced Topics", description: "Deep dive into concepts", course_id: 101, video_link: "https://youtube.com/example3", order_index: 3 }
-  ];
+  { id: 1, name: "Introduction", description: "Overview of the course", course_id: 101, video_link: "https://youtube.com/example1", order_index: 1 },
+  { id: 2, name: "Getting Started", description: "Setting up the environment", course_id: 101, video_link: "https://youtube.com/example2", order_index: 2 },
+  { id: 3, name: "Advanced Topics", description: "Deep dive into concepts", course_id: 101, video_link: "https://youtube.com/example3", order_index: 3 }
+];
 
 const AdminCourseSections = () => {
   const { id } = useParams();
@@ -17,8 +20,10 @@ const AdminCourseSections = () => {
   const [sections, setSections] = useState(mockSections);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [uploadMode, setUploadMode] = useState("link"); // "link" | "upload"
+  const [videoFile, setVideoFile] = useState(null);
   const [videoLink, setVideoLink] = useState("");
-  const [orderIndex, setOrderIndex] = useState(0) ;
+  const [orderIndex, setOrderIndex] = useState(0);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -37,17 +42,36 @@ const AdminCourseSections = () => {
   }, []);
 
   const handleAddSection = async () => {
+    let finalVideoLink = videoLink;
+
+    if (uploadMode === "upload" && videoFile) {
+      const formData = new FormData();
+      formData.append("video", videoFile);
+  
+      try {
+        const uploadRes = await axiosInstance.post("/courses/upload_video", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        finalVideoLink = uploadRes.data.url; // Cloudinary hoặc link backend trả về
+      } catch (err) {
+        console.error("Video upload failed:", err);
+        return;
+      }
+    }
+
     try {
       const response = await axiosInstance.post(
         "/course_sections",
-        { name, description, video_link: videoLink, course_id: id , order_index :orderIndex}
+        { name, description, video_link: finalVideoLink, course_id: id, order_index: orderIndex }
       );
       setSections([...sections, response.data]);
       setSnackbarMessage("Section added successfully!");
       setOpenSnackbar(true);
       setName("");
       setDescription("");
+      setUploadMode("link");
       setVideoLink("");
+      setVideoFile(null);
     } catch (error) {
       console.error("Error adding section:", error);
     }
@@ -72,7 +96,28 @@ const AdminCourseSections = () => {
           <TextField label="Section Name" fullWidth value={name} onChange={(e) => setName(e.target.value)} margin="normal" required />
           <TextField label="Description" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} margin="normal" required />
           <TextField label="Order Index" fullWidth value={orderIndex} onChange={(e) => setOrderIndex(Number(e.target.value))} margin="normal" type="number" required />
-          <TextField label="Video Link" fullWidth value={videoLink} onChange={(e) => setVideoLink(e.target.value)} margin="normal" />
+
+          <FormControl component="fieldset" margin="normal">
+            <FormLabel component="legend">Video Input Mode</FormLabel>
+            <RadioGroup row value={uploadMode} onChange={(e) => setUploadMode(e.target.value)}>
+              <FormControlLabel value="link" control={<Radio />} label="Link" />
+              <FormControlLabel value="upload" control={<Radio />} label="Upload" />
+            </RadioGroup>
+          </FormControl>
+
+          {uploadMode === "link" ? (
+            <TextField label="Video Link" fullWidth value={videoLink} onChange={(e) => setVideoLink(e.target.value)} margin="normal" />
+          ) : (
+            <> <br />
+              <Button variant="outlined" component="label">
+                Upload MP4
+                <input type="file" accept="video/mp4" hidden onChange={(e) => setVideoFile(e.target.files[0])} />
+              </Button>
+              <Typography variant="body1" sx={{ mt: 1 }}>
+                {videoFile ? `Selected file: ${videoFile.name}` : "No file selected"}
+              </Typography>
+              </>
+          )}
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Add Section</Button>
         </form>
       </Paper>

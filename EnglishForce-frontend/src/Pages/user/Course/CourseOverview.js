@@ -9,7 +9,7 @@ import { CartContext } from "../../../Context/CartContext";
 
 function imageProgress(course) {
   return course.thumbnail
-    ? `data:image/png;base64,${course.thumbnail}`
+    ? course.thumbnail
     : "/Errores-Web-404.jpg";
 }
 

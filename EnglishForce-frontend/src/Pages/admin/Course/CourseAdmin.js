@@ -47,7 +47,7 @@ const CourseAdmin = () => {
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Instructor</TableCell>
-              <TableCell>Students</TableCell>
+              <TableCell>Description</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -56,7 +56,7 @@ const CourseAdmin = () => {
               <TableRow key={course.id}>
                 <TableCell>{course.id}</TableCell>
                 <TableCell>{course.name}</TableCell>
-                <TableCell>{course.author}</TableCell>
+                <TableCell>{course.instructor}</TableCell>
                 <TableCell>{course.description}</TableCell>
                 <TableCell>
                   <Button color="primary" component={Link} to={`/admin/courses/${course.id}`}>Detail</Button>

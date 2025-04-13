@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, TextField, Button, Paper, Snackbar, Alert, Input } from "@mui/material";
+import { Container, Typography, TextField, Button, Paper, Snackbar, Alert, Input,
+  InputAdornment 
+ } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
 
 const CreateCourseAdmin = () => {
   const [name, setName] = useState("");
   const [instructor, setInstructor] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
   const [thumbnail, setThumbnail] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -31,6 +34,7 @@ const CreateCourseAdmin = () => {
     formData.append("instructor", instructor);
     formData.append("description", description);
     formData.append("thumbnail", thumbnail);
+    formData.append("price", price);
 
     try {
       const token = localStorage.getItem("token");
@@ -65,6 +69,14 @@ const CreateCourseAdmin = () => {
           <TextField label="Course Name" fullWidth value={name} onChange={(e) => setName(e.target.value)} margin="normal" required />
           <TextField label="Instructor" fullWidth value={instructor} onChange={(e) => setInstructor(e.target.value)} margin="normal" required />
           <TextField label="Description" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} margin="normal" required />
+          <TextField label="Price"      fullWidth value={price} onChange={(e) => setPrice(e.target.value)} margin="normal"
+            type="number"
+            required
+            inputProps={{ step: "0.01" }}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
+          />
           <Input type="file" accept="image/*" onChange={handleFileChange} sx={{ mt: 2 }} />
           <br/>
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Create Course</Button>
