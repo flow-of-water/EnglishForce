@@ -1,15 +1,26 @@
 import db from '../sequelize/models/index.js';
 const { CourseSection } = db;
+import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
 
 // Tạo section mới
-export async function create(name, course_id, video_link, order_index, description) {
+export async function create(name, course_id, order_index, description, video_link, videoFile) {
+  let finalVideoLink = video_link || null;
+  let videoPublicId = null;
+
+  if (videoFile) {
+    finalVideoLink = videoFile.path; // Cloudinary video URL
+    videoPublicId = videoFile.filename; // Cloudinary public_id
+  }
+
   const section = await CourseSection.create({
     name,
     course_id,
-    video_link,
     order_index,
-    description
+    description,
+    video_link: finalVideoLink,
+    video_public_id: videoPublicId
   });
+
   return section.get({ plain: true });
 }
 
@@ -38,6 +49,18 @@ export async function getById(id) {
 
 // Xóa section theo id
 export async function deleteSection(id) {
+  // Delete video in Cloudinary
+  const section = await CourseSection.findByPk(id);
+  if (!section) return false;
+  if (section.video_public_id) {
+    try {
+      await deleteCloudinaryFile(section.video_public_id, 'video');
+    } catch (err) {
+      console.error('Failed to delete video from Cloudinary:', err);
+    }
+  }
+
+  // Delete Course Section in Database
   const deletedCount = await CourseSection.destroy({
     where: { id }
   });
@@ -46,26 +69,67 @@ export async function deleteSection(id) {
 
 // Xóa tất cả section của 1 course
 export async function deleteSectionsByCourseId(course_id) {
+  // Delete video in Cloudinary
+  const sections = await CourseSection.findAll({ where: { course_id } });
+  for (const section of sections) {
+    if (section.video_public_id) {
+      try {
+        await deleteCloudinaryFile(section.video_public_id, 'video');
+      } catch (err) {
+        console.error(`❌ Failed to delete Cloudinary video for section ${JSON.stringify(section)}:`, err);
+      }
+    }
+  }
+
+  // Delete Course Section in Database
   const deleted = await CourseSection.destroy({
     where: { course_id },
     returning: true
   });
-  // Sequelize không luôn trả về rows nếu không phải Postgres, nên optional
-  return deleted; // có thể là số lượng nếu không dùng returning
+  return deleted; 
 }
 
 // Cập nhật section
-export const updateCourseSection = async (id, name, description, video_link, order_index) => {
-  try {
-    const [count, [updatedSection]] = await CourseSection.update(
-      { name, description, video_link, order_index },
-      {
-        where: { id },
-        returning: true
+export const updateCourseSection = async (id, data, file) => {
+  const section = await CourseSection.findByPk(id);
+  if (!section) return null;
+
+  const updates = {
+    name: data.name,
+    description: data.description,
+    order_index: data.order_index,
+  };
+
+  if (file) {
+    // Nếu upload file mới → xóa video cũ
+    if (section.video_public_id) {
+      try {
+        await deleteCloudinaryFile(section.video_public_id, 'video');
+      } catch (err) {
+        console.error('Failed to delete old video from Cloudinary:', err);
       }
-    );
-    return updatedSection?.get({ plain: true }) || null;
-  } catch (error) {
-    throw new Error("Error updating course section: " + error.message);
+    }
+
+    updates.video_link = file.path;
+    updates.video_public_id = file.filename; // multer-storage-cloudinary
+  } else if (data.video_link && data.video_link !== section.video_link) {
+    // Nếu chọn video link mới → xóa video cũ
+    if (section.video_public_id) {
+      try {
+        await deleteCloudinaryFile(section.video_public_id, 'video');
+      } catch (err) {
+        console.error('Failed to delete old video from Cloudinary:', err);
+      }
+    }
+
+    updates.video_link = data.video_link;
+    updates.video_public_id = null;
   }
+
+  const [count, [updated]] = await CourseSection.update(updates, {
+    where: { id },
+    returning: true,
+  });
+
+  return updated?.get({ plain: true }) || null;
 };

@@ -17,6 +17,7 @@ export default (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     course_id: DataTypes.INTEGER,
     video_link: DataTypes.TEXT,
+    video_public_id: DataTypes.TEXT, // Public ID video (Cloudinary)
     order_index: {
       type: DataTypes.INTEGER,
       defaultValue: 0
@@ -27,7 +28,7 @@ export default (sequelize, DataTypes) => {
   });
 
   CourseSection.associate = function(models) {
-    CourseSection.belongsTo(models.Course, { foreignKey: 'course_id' });
+    CourseSection.belongsTo(models.Course, { foreignKey: 'course_id' , onDelete: 'CASCADE' });
   };
 
   return CourseSection;

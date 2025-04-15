@@ -28,7 +28,7 @@ const HomePage = () => {
   // Cấu hình cho carousel
   const sliderSettings = {
     dots: true,
-    infinite: true,
+    infinite: courses.length > 2,
     speed: 500,
     slidesToShow: 3,  // Hiển thị 3 khóa học cùng lúc
     slidesToScroll: 1,

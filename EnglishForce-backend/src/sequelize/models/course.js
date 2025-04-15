@@ -17,6 +17,7 @@ export default (sequelize, DataTypes) => {
     instructor: DataTypes.TEXT,
     description: DataTypes.TEXT,
     thumbnail: DataTypes.TEXT,
+    thumbnail_public_id: DataTypes.TEXT, // public ID image (Cloudinary)
     price: DataTypes.DECIMAL(10, 2)
   }, {
     tableName: 'courses',
@@ -29,10 +30,13 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'course_id',
       otherKey: 'user_id'
     });
-    Course.hasMany(models.UserCourse, { foreignKey: 'course_id' });
+    Course.hasMany(models.UserCourse, { foreignKey: 'course_id' , onDelete: 'CASCADE' });
 
-    Course.hasMany(models.CourseSection, { foreignKey: 'course_id' });
-    Course.hasMany(models.Comment, { foreignKey: 'course_id' });
+    Course.hasMany(models.CourseSection, { 
+      foreignKey: 'course_id',
+      onDelete: 'CASCADE'
+    });
+    Course.hasMany(models.Comment, { foreignKey: 'course_id' , onDelete: 'CASCADE' });
   };
 
   return Course;

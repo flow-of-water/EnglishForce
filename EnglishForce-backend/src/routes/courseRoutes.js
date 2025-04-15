@@ -24,9 +24,5 @@ router.post("/", authMiddleware, adminMiddleware, uploadImage.single('thumbnail'
 // Xóa khóa học
 router.delete("/:id", authMiddleware, adminMiddleware, deleteCourseController);
 
-// Upload course video 
-router.post('/upload_video', uploadVideo.single('video'), (req, res) => {
-    res.status(200).json({ url: req.file.path });
-});
 
 export default router;

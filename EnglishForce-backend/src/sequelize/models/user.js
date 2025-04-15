@@ -32,9 +32,9 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'user_id',
       otherKey: 'course_id'
     });
-    User.hasMany(models.UserCourse, { foreignKey: 'user_id' });
+    User.hasMany(models.UserCourse, { foreignKey: 'user_id' , onDelete: 'CASCADE'});
 
-    User.hasMany(models.Comment, { foreignKey: 'user_id' });
+    User.hasMany(models.Comment, { foreignKey: 'user_id' , onDelete: 'CASCADE' });
   };
 
   return User;

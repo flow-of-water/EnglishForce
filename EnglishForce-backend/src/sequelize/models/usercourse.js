@@ -16,8 +16,8 @@ export default (sequelize, DataTypes) => {
   });
 
   UserCourse.associate = (models) => {
-    UserCourse.belongsTo(models.User, { foreignKey: 'user_id' });
-    UserCourse.belongsTo(models.Course, { foreignKey: 'course_id' });
+    UserCourse.belongsTo(models.User, { foreignKey: 'user_id' , onDelete: 'CASCADE' });
+    UserCourse.belongsTo(models.Course, { foreignKey: 'course_id', onDelete: 'CASCADE' });
   };
   
   return UserCourse;

@@ -27,7 +27,7 @@ const CommentAdmin = () => {
     const handleDelete = async (commentId) => {
         try {
             await axiosInstance.delete(`/comments/${commentId}`);
-            setComments(comments.filter(comment => comment.comment_id !== commentId)); // Update list after deletion
+            setComments(comments.filter(comment => comment.id !== commentId)); // Update list after deletion
         } catch (error) {
             console.error("Error deleting comment:", error);
         }
@@ -49,13 +49,13 @@ const CommentAdmin = () => {
                     </TableHead>
                     <TableBody>
                         {comments.map((comment) => (
-                            <TableRow key={comment.comment_id}>
-                                <TableCell>{comment.comment_id}</TableCell>
+                            <TableRow key={comment.id}>
+                                <TableCell>{comment.id}</TableCell>
                                 <TableCell>{comment.user_id}</TableCell>
                                 <TableCell>{comment.content}</TableCell>
                                 <TableCell>{new Date(comment.created_at).toLocaleString()}</TableCell>
                                 <TableCell>
-                                    <Button onClick={() => handleDelete(comment.comment_id)} color="error">Delete</Button>
+                                    <Button onClick={() => handleDelete(comment.id)} color="error">Delete</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -64,7 +64,7 @@ const CourseCard = ({ course }) => {
                             WebkitBoxOrient: "vertical",
                         }}
                     >
-                        by {course.author}
+                        by {course.instructor}
                     </Typography>
                     <Typography
                         variant="body2"

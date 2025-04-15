@@ -46,6 +46,13 @@ const DetailCourseAdmin = () => {
     fetchCourseDetails();
   }, [id]);
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this course?")) {
+      const response = await axiosInstance.delete(`/courses/${id}`);
+      window.location.href = `/admin/courses`;
+    }
+  };
+  
   if (loading) {
     return (
       <Container sx={{ textAlign: "center", mt: 4 }}>
@@ -141,7 +148,8 @@ const DetailCourseAdmin = () => {
       >
         Edit Course Sections
       </Button>
-      <Button variant="contained" color="error" sx={{ mt: 2 }}>
+      <Button variant="contained" color="error" sx={{ mt: 2 }}
+      onClick={()=>handleDelete(id)} >
         Delete Course
       </Button>
     </Container>

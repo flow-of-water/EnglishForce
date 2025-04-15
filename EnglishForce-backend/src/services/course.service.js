@@ -1,6 +1,7 @@
 import db from '../sequelize/models/index.js';
-const { Course, UserCourse } = db;
+const { Course, UserCourse, CourseSection } = db;
 const { Op, fn, col, literal } = db.Sequelize;
+import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
 
 // Đếm số lượng khóa học
 export const getNumberOfCourses = async () => {
@@ -83,44 +84,66 @@ export const searchCourseInSentences = async (sentence, limit = 5) => {
   });
 };
 
-// Cập nhật toàn phần
-export const updateCourse = async (id, name, instructor, description, thumbnail) => {
-  const [count, [updated]] = await Course.update(
-    { name, author: instructor, description, thumbnail },
-    {
-      where: { id },
-      returning: true
-    }
-  );
-  return updated?.get({ plain: true }) || null;
-};
-
 // Cập nhật từng phần (PATCH)
-export const updateCoursePartial = async (id, updates) => {
+export const updateCourseWithMedia = async (id, body, file) => {
+  const course = await Course.findByPk(id);
+  if (!course) return null;
+
+  const updates = { ...body };
+
+  // Nếu có file ảnh mới được upload
+  if (file && file.path) {
+    if (course.thumbnail_public_id) {
+      await deleteCloudinaryFile(course.thumbnail_public_id, 'image');
+    }
+
+    updates.thumbnail = file.path;
+    updates.thumbnail_public_id = file.filename;
+  }
+
   const [count, [updated]] = await Course.update(updates, {
     where: { id },
     returning: true
   });
+
   return updated?.get({ plain: true }) || null;
 };
 
+
+
 // Thêm khóa học mới
-export const addCourse = async (name, instructor, description, price, thumbnail) => {
+export const addCourse = async (name, instructor, description, price, thumbnail, thumbnail_public_id) => {
   const course = await Course.create({
     name,
     instructor,
     description,
     price,
-    thumbnail
+    thumbnail,
+    thumbnail_public_id
   });
   return course.get({ plain: true });
 };
 
 // Xóa khóa học
 export const deleteCourse = async (id) => {
-  const course = await Course.findByPk(id);
+  const course = await Course.findByPk(id,{
+    include: [
+      {
+        model: CourseSection,
+        as: 'CourseSections'
+      }
+    ]
+  });
+  console.log(course) ;
+  console.log(course.CourseSections)
   if (!course) return null;
 
+  if (course.thumbnail_public_id) 
+    await deleteCloudinaryFile(course.thumbnail_public_id, 'image');
+  for (const section of course.CourseSections || []) {
+    if (section.video_public_id) 
+      await deleteCloudinaryFile(section.video_public_id, 'video');
+  }
   await course.destroy();
   return course.get({ plain: true });
 };

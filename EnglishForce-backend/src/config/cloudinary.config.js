@@ -19,7 +19,7 @@ const imageStorage  = new CloudinaryStorage({
     allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });
-const uploadImage = multer({ imageStorage });
+export const uploadImage = multer({ storage: imageStorage });
 
 
 const videoStorage = new CloudinaryStorage({
@@ -30,7 +30,19 @@ const videoStorage = new CloudinaryStorage({
     allowed_formats: ['mp4', 'mov', 'avi', 'mkv'],
   },
 });
-const uploadVideo = multer({ storage: videoStorage });
+export const uploadVideo = multer({ storage: videoStorage });
 
-export { uploadImage, uploadVideo };
+// Xóa file Cloudinary theo public_id và loại file (image/video)
+export const deleteCloudinaryFile = async (publicId, type = 'image') => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: type,
+    });
+    return result;
+  } catch (error) {
+    console.error('Cloudinary deletion failed:', error);
+    throw error;
+  }
+};
+
 

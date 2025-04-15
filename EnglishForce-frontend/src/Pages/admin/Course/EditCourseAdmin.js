@@ -10,7 +10,6 @@ import {
   Input,
 } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance"; // Đảm bảo đường dẫn đúng với cấu trúc dự án
-import imageCompression from "browser-image-compression";
 
 const EditCourse = () => {
   const { id } = useParams(); // Lấy id khóa học từ URL
@@ -19,7 +18,7 @@ const EditCourse = () => {
   // State lưu thông tin khóa học (không bao gồm thumbnail file)
   const [courseData, setCourseData] = useState({
     name: "",
-    author: "",
+    instructor: "",
     description: "",
     price: null,
   });
@@ -38,11 +37,10 @@ const EditCourse = () => {
         const data = response.data;
         setCourseData({
           name: data.name || "",
-          author: data.author || "",
+          instructor: data.instructor || "",
           description: data.description || "",
           price: data.price || 0,
         });
-        // Giả sử backend trả về thumbnail đã được chuyển sang chuỗi Base64
         if (data.thumbnail) {
           setImagePreview(data.thumbnail);
         }
@@ -71,7 +69,7 @@ const EditCourse = () => {
       try {
         setThumbnailFile(file)
       } catch (error) {
-        console.error("Error compressing image:", error);
+        console.error("Error with image:", error);
       }
     }
   };
@@ -82,7 +80,7 @@ const EditCourse = () => {
     try {
       const formData = new FormData();
       formData.append("name", courseData.name);
-      formData.append("author", courseData.author);
+      formData.append("instructor", courseData.instructor);
       formData.append("description", courseData.description);
       formData.append("price", courseData.price);
       if (thumbnailFile) {
@@ -130,11 +128,11 @@ const EditCourse = () => {
             required
           />
           <TextField
-            label="Author"
-            name="author"
+            label="Instructor"
+            name="instructor"
             fullWidth
             margin="normal"
-            value={courseData.author}
+            value={courseData.instructor}
             onChange={handleChange}
             required
           />
@@ -165,7 +163,7 @@ const EditCourse = () => {
           </Typography>
           {imagePreview ? (
             <img
-              src={`data:image/png;base64,${imagePreview}`}
+              src={imagePreview}
               alt="Course Thumbnail"
               style={{ maxWidth: "200px", marginBottom: "10px" }}
             />

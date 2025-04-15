@@ -8,16 +8,11 @@ import { Delete, Edit } from "@mui/icons-material";
 import axiosInstance from "../../../Api/axiosInstance";
 
 
-const mockSections = [
-  { id: 1, name: "Introduction", description: "Overview of the course", course_id: 101, video_link: "https://youtube.com/example1", order_index: 1 },
-  { id: 2, name: "Getting Started", description: "Setting up the environment", course_id: 101, video_link: "https://youtube.com/example2", order_index: 2 },
-  { id: 3, name: "Advanced Topics", description: "Deep dive into concepts", course_id: 101, video_link: "https://youtube.com/example3", order_index: 3 }
-];
 
 const AdminCourseSections = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [sections, setSections] = useState(mockSections);
+  const [sections, setSections] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [uploadMode, setUploadMode] = useState("link"); // "link" | "upload"
@@ -42,27 +37,19 @@ const AdminCourseSections = () => {
   }, []);
 
   const handleAddSection = async () => {
-    let finalVideoLink = videoLink;
+    const formData = new FormData();
+    formData.append("name",name) ;
+    formData.append("description",description) ;
+    formData.append("course_id",id);
+    formData.append("order_index",orderIndex) ;
 
-    if (uploadMode === "upload" && videoFile) {
-      const formData = new FormData();
-      formData.append("video", videoFile);
-  
-      try {
-        const uploadRes = await axiosInstance.post("/courses/upload_video", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        finalVideoLink = uploadRes.data.url; // Cloudinary hoặc link backend trả về
-      } catch (err) {
-        console.error("Video upload failed:", err);
-        return;
-      }
-    }
+    if (uploadMode === "upload" && videoFile) formData.append("video", videoFile);
+    else formData.append("video_link",videoLink) ;
+    console.log(videoFile)
 
     try {
       const response = await axiosInstance.post(
-        "/course_sections",
-        { name, description, video_link: finalVideoLink, course_id: id, order_index: orderIndex }
+        "/course_sections", formData,{headers:{"Content-Type": "multipart/form-data"}}
       );
       setSections([...sections, response.data]);
       setSnackbarMessage("Section added successfully!");

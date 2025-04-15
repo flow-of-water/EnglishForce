@@ -3,19 +3,23 @@ import * as courseSectionService from "../services/courseSection.service.js"
 // Tạo course section mới
 export async function createCourseSection(req, res) {
     try {
-        const { name, course_id, video_link, order_index , description } = req.body;
-
-        if (!name || !course_id || order_index === undefined) {
-            return res.status(400).json({ message: "Missing required fields" });
-        }
-
-        const section = await courseSectionService.create(name, course_id, video_link, order_index , description);
-        return res.status(201).json(section);
+      const { name, course_id, video_link, order_index, description } = req.body;
+  
+      if (!name || !course_id || order_index === undefined) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+  
+      const videoFile = req.file; // nếu có upload
+      const section = await courseSectionService.create(
+        name, course_id, order_index, description, video_link, videoFile
+      );
+  
+      return res.status(201).json(section);
     } catch (error) {
-        console.error("❌ Error creating section:", error);
-        return res.status(500).json({ message: "Internal server error" });
+      console.error("❌ Error creating section:", error);
+      return res.status(500).json({ message: "Internal server error" });
     }
-}
+  }
 
 // Lấy tất cả course sections
 export async function getAllCourseSections(req, res) {
@@ -82,16 +86,21 @@ export async function deleteCourseSection(req, res) {
 
 export const updateCourseSection = async (req, res) => {
     const { id } = req.params;
-    const { name, description, video_link, order_index } = req.body;
   
     try {
-      const updatedSection = await courseSectionService.updateCourseSection(id, name, description, video_link, order_index);
+      const updatedSection = await courseSectionService.updateCourseSection(
+        id,
+        req.body,
+        req.file // file video nếu có upload
+      );
+  
       if (!updatedSection) {
         return res.status(404).json({ message: "Course section not found" });
       }
+  
       res.status(200).json(updatedSection);
     } catch (error) {
       console.error("Error updating course section:", error);
       res.status(500).json({ message: "Error updating course section" });
     }
-};
+  };

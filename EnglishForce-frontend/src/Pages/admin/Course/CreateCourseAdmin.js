@@ -37,17 +37,9 @@ const CreateCourseAdmin = () => {
     formData.append("price", price);
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setSnackbarMessage("Authorization token not found");
-        setOpenSnackbar(true);
-        return;
-      }
-
       const response = await axiosInstance.post("/courses", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${token}`,
         },
       });
 

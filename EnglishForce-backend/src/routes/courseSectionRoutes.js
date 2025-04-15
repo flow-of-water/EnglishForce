@@ -1,13 +1,11 @@
 import express from "express";
 import { authMiddleware, adminMiddleware } from "../middleware/authorize.js";  
 import {
-    createCourseSection,
-    getAllCourseSections,
-    getAllCourseSectionsByCourseId,
-    getCourseSectionById,
-    deleteCourseSection,
-    updateCourseSection
+    createCourseSection, getAllCourseSections,
+    getAllCourseSectionsByCourseId, getCourseSectionById,
+    deleteCourseSection, updateCourseSection
 } from "../controllers/courseSectionController.js";
+import { uploadVideo } from "../config/cloudinary.config.js";
 
 const router = express.Router();
 
@@ -22,13 +20,13 @@ router.get("/:id",authMiddleware, getCourseSectionById);
 router.get("/course/:course_id",authMiddleware, getAllCourseSectionsByCourseId);
 
 // Tạo một course section mới
-router.post("/",authMiddleware, adminMiddleware, createCourseSection);
+router.post("/",authMiddleware, adminMiddleware, uploadVideo.single('video'), createCourseSection);
 
 
 // Xóa một course section theo ID
 router.delete("/:id",authMiddleware, adminMiddleware, deleteCourseSection);
 
 // Cập nhật course section theo sectionId
-router.put("/:id", authMiddleware, adminMiddleware, updateCourseSection);
+router.put("/:id", authMiddleware, adminMiddleware, uploadVideo.single('video'), updateCourseSection);
 
 export default router;
