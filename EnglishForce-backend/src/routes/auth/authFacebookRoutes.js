@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import dotenv from 'dotenv';
 import express from 'express';
-import { OAuthCallback } from '../controllers/authController.js';
+import { OAuthCallback } from '../../controllers/authController.js';
 
 dotenv.config();
 

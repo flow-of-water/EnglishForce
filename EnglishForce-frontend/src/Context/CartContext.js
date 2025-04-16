@@ -10,7 +10,7 @@ export const CartProvider = ({ children }) => {
   }
 
   const addToCart = (item) => {
-    const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id);
+    const isItemInCart = cartItems.find((cartItem) => cartItem.public_id === item.public_id);
 
     if (!isItemInCart) {
       setCartItems([...cartItems, item]);
@@ -18,7 +18,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (item) => {
-    setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
+    setCartItems(cartItems.filter((cartItem) => cartItem.public_id !== item.public_id));
   };
 
   const clearCart = () => {

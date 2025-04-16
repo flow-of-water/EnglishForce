@@ -14,7 +14,7 @@ const CourseCard = ({ course }) => {
         >
             <CardActionArea
                 component={Link}
-                to={`/courses/overview/${course.id}`}
+                to={`/courses/overview/${course.public_id}`}
                 sx={{
                     height: "100%",
                     display: "flex",

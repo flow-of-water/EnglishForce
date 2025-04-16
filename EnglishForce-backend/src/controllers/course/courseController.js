@@ -1,7 +1,7 @@
 // controllers/courseController.js
-import { getCourseById, addCourse, deleteCourse, searchCourses, getPaginatedCourses, updateCourseWithMedia } from "../services/course.service.js";
-import { deleteSectionsByCourseId } from "../services/courseSection.service.js"
-import { getOverviewRatingByCourseId } from "../services/userCourse.service.js"
+import { getCourseByPublicId, addCourse, deleteCourse, searchCourses, getPaginatedCourses, updateCourseWithMedia } from "../../services/course.service.js";
+import { deleteSectionsByCourseId } from "../../services/courseSection.service.js"
+import { getOverviewRatingByCourseId } from "../../services/userCourse.service.js"
 
 
 
@@ -41,14 +41,13 @@ export const getCoursesController = async (req, res) => {
   }
 };
 // Lấy thông tin khóa học theo ID
-export const getCourseByIdController = async (req, res) => {
+export const getCourseByPublicIdController = async (req, res) => {
   const { id } = req.params;
 
   try {
-    var course = await getCourseById(id);
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
-    }
+    var course = await getCourseByPublicId(id);
+
+    if (!course) return res.status(404).json({ message: "Course not found" });
     res.json(course);
   } catch (err) {
     console.error(err);

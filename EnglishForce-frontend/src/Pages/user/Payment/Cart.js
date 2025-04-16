@@ -27,12 +27,13 @@ const CartPage = () => {
       try {
         const res = await axiosInstance.get('/user-course/user'); 
         const userCourses = res.data || [];
-        const ownedCourseIds = userCourses.map((c) => c.id || c.courseId);
-
+        console.log(userCourses)
+        const ownedCourseIds = userCourses.map((c) => c.public_id);
+        console.log(ownedCourseIds)
         const removedThings = [];
         const keptThings = []
         cartItems.forEach((item) => {
-          if (ownedCourseIds.includes(item.id)) removedThings.push(item.name);
+          if (ownedCourseIds.includes(item.public_id)) removedThings.push(item.name);
           else keptThings.push(item) ;
         });
   
@@ -57,7 +58,7 @@ const CartPage = () => {
         <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
           <Box sx={{ mb: 2 }}>
             <img
-              src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
+              src="/empty_cart.png"
               alt="Empty Cart"
               style={{ width: '100%', maxWidth: 200, margin: '0 auto' }}
             />
@@ -81,7 +82,7 @@ const CartPage = () => {
       <Paper sx={{ p: 2 }}>
         <List>
           {cartItems.map((item) => (
-            <Box key={item.id}>
+            <Box key={item.public_id}>
               <ListItem
                 secondaryAction={
                   <Button

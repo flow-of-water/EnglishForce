@@ -1,5 +1,5 @@
 import db from '../sequelize/models/index.js'; // Sequelize instance
-const { Comment, User } = db;
+const { Comment, User, Course } = db;
 
 // Lấy tất cả comment
 export const getAllComments = async () => {
@@ -13,7 +13,17 @@ export const getComments = async (offset, limit) => {
     const { count, rows } = await Comment.findAndCountAll({
       order: [['created_at', 'DESC']],
       limit,
-      offset
+      offset,
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+        {
+          model: Course,
+          attributes: ['name'],
+        },
+      ],
     });
 
     return {

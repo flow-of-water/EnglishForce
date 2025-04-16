@@ -109,7 +109,7 @@ const CoursesPage = () => {
                 fullWidth
                 sx={{ mt: "auto" }}
                 component={Link}
-                to={`/courses/${course.id}`}
+                to={`/courses/${course.public_id}`}
               >
                 Learn Now
               </Button>

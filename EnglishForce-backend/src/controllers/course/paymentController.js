@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
-import * as userCourseService from "../services/userCourse.service.js"
-import * as courseService from "../services/course.service.js"
+import * as userCourseService from "../../services/userCourse.service.js"
+import * as courseService from "../../services/course.service.js"
 import moment from "moment";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);

@@ -1,24 +1,7 @@
-import * as userCourseService from "../services/userCourse.service.js"
-import * as courseService from "../services/course.service.js"
-import * as userService from "../services/user.service.js"
+import * as userCourseService from "../../services/userCourse.service.js"
+import * as courseService from "../../services/course.service.js"
+import * as userService from "../../services/user.service.js"
 
-function ImgArrayToBase64(courses) {
-  return courses.map(course => {
-    if (course.thumbnail) {
-      // Kiểm tra xem course.thumbnail có phải là Buffer không
-      if (Buffer.isBuffer(course.thumbnail)) {
-        course.thumbnail = course.thumbnail.toString("base64");
-      }
-    }
-    return course;
-  });
-}
-function ImgToBase64(course) {
-  if (Buffer.isBuffer(course.thumbnail)) {
-    course.thumbnail = course.thumbnail.toString("base64");
-  }
-  return course
-}
 
 
 // Tạo mới bản ghi user_course
@@ -74,13 +57,14 @@ export const createUserCoursesFromCartController = async (req, res) => {
 // User review 
 export const updateUserCourseRatingController = async (req,res) => { // PATCH METHOD
   try {
-    var { courseId, rating, comment } = req.body;
+    var { coursePublicId, rating, comment } = req.body;
+    var courseId = await courseService.findCourseIdByPublicId(coursePublicId) ;
     if(!comment) comment = null 
     if(!rating) rating = null
     
     const userId = req.user.id ;
     if (!userId || !courseId) {
-      return res.status(400).json({ error: 'Missing userId or courseIds array' });
+      return res.status(400).json({ error: 'Missing userId or courseId' });
     }
     const userCourse = await userCourseService.updateUserCourse(userId,courseId,rating,comment) ;
     
@@ -138,7 +122,6 @@ export const getCoursesController = async (req, res) => {
       return res.status(400).json({ error: 'Missing userId' });
     }
     var userCourses = await userCourseService.getCoursesByUser(userId);
-    userCourses = ImgArrayToBase64(userCourses)
     res.status(200).json(userCourses);
   } catch (error) {
     console.error(error);
@@ -149,7 +132,8 @@ export const getCoursesController = async (req, res) => {
 export const getCourseOverviewController = async(req,res) => {
   try {
     const userId = req?.user?.id ;
-    const { courseId } = req.params ;
+    const { coursePublicId } = req.params ;
+    const courseId = await courseService.findCourseIdByPublicId(coursePublicId) ;
     if (!courseId) {
       return res.status(400).json({ error: 'Missing CourseId' });
     }
@@ -168,7 +152,6 @@ export const getCourseOverviewController = async(req,res) => {
     
     var userCourse = null ;
     if (owned) userCourse = await userCourseService.getUserCourse(userId,courseId) ;
-    course = ImgToBase64(course) ;
     return res.status(200).json({
       course,
       owned, 

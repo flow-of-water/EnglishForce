@@ -49,9 +49,9 @@ const CourseDetail = () => {
     setValueTab(newValue);
   };
 
-  if (loading) return <p>Đang tải...</p>;
+  if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
-  if (!course) return <p>Không có dữ liệu khóa học.</p>;
+  if (!course) return <p>No course data available.</p>;
 
   return (
     <Container sx={{ mt: 4 }}>
@@ -64,10 +64,10 @@ const CourseDetail = () => {
 
 
       <Card>
-        <CardMedia component="img" height="250" image={imageProgress(course)} alt={course.title} />
+        <CardMedia component="img" height="250" image={imageProgress(course)} alt={course.name} />
         <CardContent>
           <Typography variant="h4" gutterBottom>
-            {course.title}
+            {course.name}
           </Typography>
           <Typography variant="body1" paragraph>
             {course.description}
@@ -83,7 +83,7 @@ const CourseDetail = () => {
               Course Sections
             </Typography>
             {sections.length === 0 ? (
-              <Typography variant="body2">Chưa có section nào cho khóa học này.</Typography>
+              <Typography variant="body2">No sections available for this course yet.</Typography>
             ) : (<>
               <Button variant="text" onClick={handleDrawerToggle}>Course Content</Button>
               {selectedSection ?

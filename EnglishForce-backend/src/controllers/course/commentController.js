@@ -1,4 +1,5 @@
-import * as commentService from "../services/comment.service.js";
+import * as commentService from "../../services/comment.service.js";
+import * as courseService from "../../services/course.service.js"
 
 // Lấy tất cả bình luận
 export const getAllCommentsController = async (req, res) => {
@@ -30,9 +31,10 @@ export const getPaginatedCommentsController = async (req, res) => {
     }
 };
 
-export const getDetailCommentsByCourseIdController = async (req, res) => {
+export const getDetailCommentsByCoursePublicIdController = async (req, res) => {
     try {
-        const { courseId } = req.params;
+        const { coursePublicId } = req.params;
+        const courseId = await courseService.findCourseIdByPublicId(coursePublicId) ;
         const comments = await commentService.getDetailCommentsByCourseId(courseId);
         res.status(200).json(comments);
     } catch (error) {
@@ -42,7 +44,8 @@ export const getDetailCommentsByCourseIdController = async (req, res) => {
 
 // Tạo bình luận mới
 export const createComment = async (req, res) => {
-    const { user_id, course_id, content, parent_comment_id = null } = req.body;
+    const { user_id, course_public_id, content, parent_comment_id = null } = req.body;
+    const course_id = await courseService.findCourseIdByPublicId(course_public_id)
     try {
         const newComment = await commentService.createComment(user_id, course_id, content,parent_comment_id);
         res.status(201).json(newComment);

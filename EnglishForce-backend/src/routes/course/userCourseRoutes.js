@@ -7,8 +7,8 @@ import {
   getCourseOverviewController,
   getStatisticsController,
   updateUserCourseRatingController,
-} from '../controllers/userCourseController.js';
-import { authMiddleware , adminMiddleware, authMiddlewareWithoutError } from '../middleware/authorize.js';
+} from '../../controllers/course/userCourseController.js';
+import { authMiddleware , adminMiddleware, authMiddlewareWithoutError } from '../../middleware/authorize.js';
 
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get('/user', authMiddleware, getCoursesController);
 // GET /api/user-course/statistics - Lấy thống kê hệ thống cho admin 
 router.get('/statistics',authMiddleware,adminMiddleware,getStatisticsController) ;
 
-router.get('/course-overview/:courseId',authMiddlewareWithoutError, getCourseOverviewController);
+router.get('/course-overview/:coursePublicId',authMiddlewareWithoutError, getCourseOverviewController);
 // DELETE /api/user-course/:userId/:courseId - Xóa bản ghi user_course
 router.delete('/:userId/:courseId', authMiddleware, deleteUserCourseController);
 

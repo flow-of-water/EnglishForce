@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
 import express from "express";
-import { OAuthCallback } from '../controllers/authController.js';
+import { OAuthCallback } from '../../controllers/authController.js';
 
 
 dotenv.config();

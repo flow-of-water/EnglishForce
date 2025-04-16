@@ -43,7 +43,7 @@ const Comments = ({ courseId }) => {
       return;
     }
     try {
-      const newComment = { user_id: userId, course_id: courseId, content };
+      const newComment = { user_id: userId, course_public_id: courseId, content };
       await axiosInstance.post('/comments', newComment);
       setContent('');
       fetchComments();

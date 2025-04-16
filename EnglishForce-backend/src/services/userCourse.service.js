@@ -28,7 +28,11 @@ export const getNumberOfEnrollments = async () => {
 // Lấy tất cả các khóa học của một user
 export const getUserCoursesByUser = async (userId) => {
   const userCourses = await UserCourse.findAll({
-    where: { user_id: userId }
+    where: { user_id: userId },
+    include: [{
+      model: Course,
+      attributes: ['public_id']
+    }]
   });
   return userCourses.map(uc => uc.get({ plain: true }));
 };

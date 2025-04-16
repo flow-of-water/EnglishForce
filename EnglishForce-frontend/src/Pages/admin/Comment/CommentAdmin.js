@@ -10,13 +10,12 @@ const CommentAdmin = () => {
     useEffect(() => {
         async function Fetch() {
             try {
-                // Send the page number as a query parameter to the backend
                 const response = await axiosInstance.get(`/comments`, {
                     params: { page } // pass the page number as a query param
                 });
-
-                setComments(response.data.comments); // Assuming response has comments data
-                setTotalPages(response.data.totalPages); // Assuming response includes total pages info
+                
+                setComments(response.data.comments); 
+                setTotalPages(response.data.totalPages); 
             } catch (error) {
                 console.error("Error fetching comments:", error);
             }
@@ -24,10 +23,10 @@ const CommentAdmin = () => {
         Fetch();
     }, [page]);
 
-    const handleDelete = async (commentId) => {
+    const handleDelete = async (commentPublicId) => {
         try {
-            await axiosInstance.delete(`/comments/${commentId}`);
-            setComments(comments.filter(comment => comment.id !== commentId)); // Update list after deletion
+            await axiosInstance.delete(`/comments/${commentPublicId}`);
+            setComments(comments.filter(comment => comment.public_id !== commentPublicId)); // Update list after deletion
         } catch (error) {
             console.error("Error deleting comment:", error);
         }
@@ -40,7 +39,7 @@ const CommentAdmin = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
+                            <TableCell>Course</TableCell>
                             <TableCell>User Name</TableCell>
                             <TableCell>Content</TableCell>
                             <TableCell>Create at</TableCell>
@@ -49,13 +48,13 @@ const CommentAdmin = () => {
                     </TableHead>
                     <TableBody>
                         {comments.map((comment) => (
-                            <TableRow key={comment.id}>
-                                <TableCell>{comment.id}</TableCell>
-                                <TableCell>{comment.user_id}</TableCell>
+                            <TableRow key={comment.public_id}>
+                                <TableCell>{comment.Course.name}</TableCell>
+                                <TableCell>{comment.User.username}</TableCell>
                                 <TableCell>{comment.content}</TableCell>
                                 <TableCell>{new Date(comment.created_at).toLocaleString()}</TableCell>
                                 <TableCell>
-                                    <Button onClick={() => handleDelete(comment.id)} color="error">Delete</Button>
+                                    <Button onClick={() => handleDelete(comment.public_id)} color="error">Delete</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

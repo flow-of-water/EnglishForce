@@ -1,5 +1,5 @@
 import db from '../sequelize/models/index.js';
-const { CourseSection } = db;
+const { CourseSection, Course } = db;
 import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
 
 // Tạo section mới
@@ -32,8 +32,10 @@ export async function getAll() {
   return sections.map(s => s.get({ plain: true }));
 }
 
-// Lấy section theo courseId
-export async function getAllByCourseId(course_id) {
+// Lấy section theo course:publicId
+export async function getAllByCoursePublicId(course_public_id) {
+  const course = await Course.findByPublicId(course_public_id) ;
+  const course_id = course.id;
   const sections = await CourseSection.findAll({
     where: { course_id },
     order: [['order_index', 'ASC']]

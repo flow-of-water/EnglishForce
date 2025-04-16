@@ -1,4 +1,4 @@
-import { addUserCourses } from "../services/userCourse.service.js";
+import { addUserCourses } from "../../services/userCourse.service.js";
 
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);

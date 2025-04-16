@@ -33,12 +33,15 @@ const files = fs.readdirSync(__dirname).filter(file => {
   );
 });
 
+
 for (const file of files) {
   const fullPath = pathToFileURL(path.join(__dirname, file)).href;
   const { default: modelDefiner } = await import(fullPath);
   const model = modelDefiner(sequelize, DataTypes);
   db[model.name] = model;
 }
+
+console.log('📦 Các model đã được nạp:', Object.keys(db));
 
 // Call associate if available
 Object.keys(db).forEach(modelName => {

@@ -39,5 +39,12 @@ export default (sequelize, DataTypes) => {
     Course.hasMany(models.Comment, { foreignKey: 'course_id' , onDelete: 'CASCADE' });
   };
 
+    // 🔽 Static method 
+    Course.findByPublicId = async function (publicId) {
+      const course = await this.findOne({ where: { public_id: publicId } });
+      if (!course) throw new Error('Course not found with that public_id');
+      return course;
+    };
+
   return Course;
 };

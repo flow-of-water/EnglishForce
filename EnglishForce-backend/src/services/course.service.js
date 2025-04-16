@@ -3,6 +3,18 @@ const { Course, UserCourse, CourseSection } = db;
 const { Op, fn, col, literal } = db.Sequelize;
 import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
 
+export const findCourseIdByPublicId = async (publicId) => {
+  const course = await Course.findOne({ where: { public_id: publicId } });
+  if (!course) throw new Error('Course not found with that public_id');
+  return course.id ;
+}
+export const findCourseByPublicId = async (publicId) => {
+  const course = await Course.findOne({ where: { public_id: publicId } });
+  if (!course) throw new Error('Course not found with that public_id');
+  
+  return course ;
+}
+
 // Đếm số lượng khóa học
 export const getNumberOfCourses = async () => {
   return await Course.count();
@@ -13,9 +25,15 @@ export const getCourses = async () => {
   return await Course.findAll({ raw: true });
 };
 
-// Tìm theo ID
+
+// Tìm theo Real ID
 export const getCourseById = async (id) => {
   return await Course.findByPk(id, { raw: true });
+};
+
+// Tìm theo Public ID
+export const getCourseByPublicId = async (publicId) => {
+  return await Course.findByPublicId(publicId) ;
 };
 
 // Phân trang + tìm kiếm + kiểm tra đã mua

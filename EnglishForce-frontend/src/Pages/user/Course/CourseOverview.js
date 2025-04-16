@@ -8,9 +8,7 @@ import axiosInstance from "../../../Api/axiosInstance";
 import { CartContext } from "../../../Context/CartContext";
 
 function imageProgress(course) {
-  return course.thumbnail
-    ? course.thumbnail
-    : "/Errores-Web-404.jpg";
+  return course.thumbnail ? course.thumbnail : "/Errores-Web-404.jpg";
 }
 
 function RatingBox({ courseId , initialRating = null, initialReview = "" , setMyRating, setMyComment}) {
@@ -22,7 +20,7 @@ function RatingBox({ courseId , initialRating = null, initialReview = "" , setMy
   const handleSubmit = async () => {
     if (rating) {
       const response = await axiosInstance.patch("/user-course/rating",{
-        courseId:courseId , rating , comment:review
+        coursePublicId:courseId , rating , comment:review
       });
       setSubmitted(true);
       setOpenSnackbar(true);
@@ -124,10 +122,10 @@ const CourseOverview = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Card>
-        <CardMedia component="img" height="250" image={imageProgress(course)} alt={course.title} />
+        <CardMedia component="img" height="250" image={imageProgress(course)} alt={course.name} />
         <CardContent>
-          <Typography variant="h4" gutterBottom>{course.title}</Typography>
-          <Typography variant="subtitle1" color="text.secondary">By {course.author}</Typography>
+          <Typography variant="h4" gutterBottom>{course.name}</Typography>
+          <Typography variant="subtitle1" color="text.secondary">By {course.instructor}</Typography>
           <Typography variant="body1" sx={{ mt: 2 }}>{course.description}</Typography>
           <Typography variant="h5" color="primary" sx={{ mt: 2 }}>${course.price?course.price:0}</Typography>
 
@@ -178,7 +176,7 @@ const CourseOverview = () => {
             <List sx={{ mt: 2 }}>
               {reviews.map((review, index) => (
                 review.rating && (
-                <React.Fragment key={review.id}>
+                <React.Fragment key={review.user_id}>
                   <ListItem alignItems="flex-start">
                     <ListItemText
                       primary={

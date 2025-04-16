@@ -82,8 +82,7 @@ const Profile = () => {
 
   useEffect(() => {
     async function Fetch() {
-      const userId = localStorage.getItem("userId");
-      const response = await axiosInstance(`/users/profile/${userId}`);
+      const response = await axiosInstance(`/users/profile`);
       setUser(response.data);
       setLoading(false);
     }
