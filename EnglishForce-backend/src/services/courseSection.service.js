@@ -2,6 +2,13 @@ import db from '../sequelize/models/index.js';
 const { CourseSection, Course } = db;
 import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
 
+
+export const findCourseSectionIdByPublicId = async (publicId) => {
+  const courseSection = await CourseSection.findOne({ where: { public_id: publicId } });
+  if (!courseSection) throw new Error('Course not found with that public_id');
+  return courseSection.id ;
+}
+
 // Tạo section mới
 export async function create(name, course_id, order_index, description, video_link, videoFile) {
   let finalVideoLink = video_link || null;

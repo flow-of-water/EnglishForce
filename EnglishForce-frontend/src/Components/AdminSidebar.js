@@ -1,19 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  Divider
+  Drawer, List, ListItem, ListItemIcon, ListItemText, ListSubheader, Divider
 } from "@mui/material";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import SchoolIcon from "@mui/icons-material/School";
 import CommentIcon from "@mui/icons-material/Comment";
+import QuizIcon from '@mui/icons-material/Quiz';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const AdminSidebar = ({ isOpen, toggleSidebar }) => {
@@ -56,6 +51,19 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
           <ListItem button component={Link} to="/admin/comments">
             <ListItemIcon><CommentIcon /></ListItemIcon>
             <ListItemText primary="Comments" />
+          </ListItem>
+        </List>
+
+        <Divider />
+
+        <List
+          subheader={
+            <ListSubheader component="div">Exam Management</ListSubheader>
+          }
+        >
+          <ListItem button component={Link} to="/admin/exams">
+            <ListItemIcon><QuizIcon /></ListItemIcon>
+            <ListItemText primary="Exams" />
           </ListItem>
         </List>
 

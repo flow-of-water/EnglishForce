@@ -28,10 +28,10 @@ const CourseAdmin = () => {
   };
 
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (publicId) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
-      const response = await axiosInstance.delete(`/courses/${id}`);
-      setCourses(courses.filter(course => course.id !== id));
+      const response = await axiosInstance.delete(`/courses/${publicId}`);
+      setCourses(courses.filter(course => course.public_id !== publicId));
     }
   };
 
@@ -53,14 +53,14 @@ const CourseAdmin = () => {
           </TableHead>
           <TableBody>
             {courses.map((course) => (
-              <TableRow key={course.id}>
-                <TableCell>{course.id}</TableCell>
+              <TableRow key={course.public_id}>
+                <TableCell>{course.public_id}</TableCell>
                 <TableCell>{course.name}</TableCell>
                 <TableCell>{course.instructor}</TableCell>
                 <TableCell>{course.description}</TableCell>
                 <TableCell>
-                  <Button color="primary" component={Link} to={`/admin/courses/${course.id}`}>Detail</Button>
-                  <Button onClick={() => handleDelete(course.id)} color="error">Delete</Button>
+                  <Button color="primary" component={Link} to={`/admin/courses/${course.public_id}`}>Detail</Button>
+                  <Button color="error" onClick={() => handleDelete(course.public_id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Container, Typography, Card, CardMedia, CardContent, Button, Grid, Tab, Tabs } from "@mui/material";
+import { Container, Typography, Card, CardMedia, CardContent, Button, Grid, Tab, Tabs, Box } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
 import CourseVideoPlayer from "../../../Components/CourseVideoPlayer";
 import CourseSidebar from '../../../Components/CourseSideBar';
@@ -11,7 +11,7 @@ function imageProgress(course) {
 
 const drawerWidth = 240;
 const CourseDetail = () => {
-  const { id } = useParams();
+  const { publicId } = useParams();
   const [course, setCourse] = useState(null);
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,22 +25,22 @@ const CourseDetail = () => {
       try {
         const token = localStorage.getItem("token"); // Lấy token từ localStorage
         // Gọi API lấy thông tin khóa học
-        const courseRes = await axiosInstance.get(`/courses/${id}`);
+        const courseRes = await axiosInstance.get(`/courses/${publicId}`);
         setCourse(courseRes.data);
 
-        // Gọi API lấy danh sách sections theo courseId
-        const sectionsRes = await axiosInstance.get(`/course_sections/course/${id}`);
+        // Gọi API lấy danh sách sections theo coursePublicId
+        const sectionsRes = await axiosInstance.get(`/course_sections/course/${publicId}`);
         setSections(sectionsRes.data);
       } catch (err) {
         console.error("Error fetching data:", err);
-        setError("Không tìm thấy khóa học!");
+        setError("The course is not found!");
       } finally {
         setLoading(false);
       }
     };
 
     fetchCourseAndSections();
-  }, [id]);
+  }, [publicId]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -50,7 +50,11 @@ const CourseDetail = () => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <Box mt={4} textAlign="center">
+    <Typography variant="h6" color="error">
+      {error}
+    </Typography>
+  </Box>
   if (!course) return <p>No course data available.</p>;
 
   return (
@@ -88,18 +92,18 @@ const CourseDetail = () => {
               <Button variant="text" onClick={handleDrawerToggle}>Course Content</Button>
               {selectedSection ?
                 <Grid container spacing={3}>
-                    <Grid item xs={12} key={selectedSection.id}>
-                      <Card sx={{ p: 2 }}>
-                        <Typography variant="h6">{selectedSection.name}</Typography>
-                        <Typography variant="body2">{selectedSection.description}</Typography>
-                        <CourseVideoPlayer url={selectedSection.video_link} />
-                      </Card>
-                    </Grid>
+                  <Grid item xs={12} key={selectedSection.public_id}>
+                    <Card sx={{ p: 2 }}>
+                      <Typography variant="h6">{selectedSection.name}</Typography>
+                      <Typography variant="body2">{selectedSection.description}</Typography>
+                      <CourseVideoPlayer url={selectedSection.video_link} />
+                    </Card>
+                  </Grid>
                 </Grid>
                 :
                 <Grid container spacing={3}>
                   {sections.map((section) => (
-                    <Grid item xs={12} key={section.id}>
+                    <Grid item xs={12} key={section.public_id}>
                       <Card sx={{ p: 2 }}>
                         <Typography variant="h6">{section.name}</Typography>
                         <Typography variant="body2">{section.description}</Typography>
@@ -111,7 +115,7 @@ const CourseDetail = () => {
               }
             </>)}
           </>)}
-          {valueTab == 1 && <Comments courseId={id} />}
+          {valueTab == 1 && <Comments coursePublicId={publicId} />}
 
           {/* Back Button */}
           <Button variant="contained" color="secondary" sx={{ mt: 3 }} component={Link} to="/courses">

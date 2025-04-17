@@ -16,7 +16,7 @@ import {
 import axiosInstance from "../../../Api/axiosInstance";
 
 const DetailCourseAdmin = () => {
-  const { id } = useParams();
+  const { publicId } = useParams();
   const [course, setCourse] = useState(null);
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,12 +26,12 @@ const DetailCourseAdmin = () => {
     const fetchCourseDetails = async () => {
       try {
         const token = localStorage.getItem("token"); // Lấy token từ localStorage
-        const response = await axiosInstance.get(`/courses/${id}`, {
+        const response = await axiosInstance.get(`/courses/${publicId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         // Giả sử API trả về đối tượng course bao gồm cả mảng sections
         setCourse(response.data);
-        const response2 = await axiosInstance.get(`/course_sections/course/${id}`, {
+        const response2 = await axiosInstance.get(`/course_sections/course/${publicId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSections(response2.data)
@@ -44,11 +44,11 @@ const DetailCourseAdmin = () => {
     };
 
     fetchCourseDetails();
-  }, [id]);
+  }, [publicId]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (publicId) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
-      const response = await axiosInstance.delete(`/courses/${id}`);
+      const response = await axiosInstance.delete(`/courses/${publicId}`);
       window.location.href = `/admin/courses`;
     }
   };
@@ -111,7 +111,7 @@ const DetailCourseAdmin = () => {
           </TableHead>
           <TableBody>
             {sections.map((section) => (
-              <TableRow key={section.id}>
+              <TableRow key={section.public_id}>
                 <TableCell>{section.order_index}</TableCell>
                 <TableCell>{section.name}</TableCell>
                 <TableCell>{section.description}</TableCell>
@@ -135,7 +135,7 @@ const DetailCourseAdmin = () => {
         color="primary"
         sx={{ mt: 2, mr: 2 }}
         component={Link}
-        to={`/admin/courses/edit/${id}`}
+        to={`/admin/courses/edit/${publicId}`}
       >
         Edit Course
       </Button>
@@ -144,12 +144,12 @@ const DetailCourseAdmin = () => {
         color="info"
         sx={{ mt: 2, mr: 2 }}
         component={Link}
-        to={`/admin/courses/sections/${id}`}
+        to={`/admin/courses/sections/${publicId}`}
       >
         Edit Course Sections
       </Button>
       <Button variant="contained" color="error" sx={{ mt: 2 }}
-      onClick={()=>handleDelete(id)} >
+      onClick={()=>handleDelete(publicId)} >
         Delete Course
       </Button>
     </Container>

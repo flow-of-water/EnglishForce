@@ -12,7 +12,7 @@ import {
 import axiosInstance from "../../../Api/axiosInstance"; // Đảm bảo đường dẫn đúng với cấu trúc dự án
 
 const EditCourse = () => {
-  const { id } = useParams(); // Lấy id khóa học từ URL
+  const { publicId } = useParams(); // Lấy publicId khóa học từ URL
   const navigate = useNavigate();
 
   // State lưu thông tin khóa học (không bao gồm thumbnail file)
@@ -33,7 +33,7 @@ const EditCourse = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axiosInstance.get(`/courses/${id}`);
+        const response = await axiosInstance.get(`/courses/${publicId}`);
         const data = response.data;
         setCourseData({
           name: data.name || "",
@@ -52,7 +52,7 @@ const EditCourse = () => {
       }
     };
     fetchCourse();
-  }, [id]);
+  }, [publicId]);
 
   // Xử lý thay đổi các trường input text
   const handleChange = (e) => {
@@ -86,12 +86,12 @@ const EditCourse = () => {
       if (thumbnailFile) {
         formData.append("thumbnail", thumbnailFile);
       }
-      await axiosInstance.put(`/courses/${id}`, formData, {
+      await axiosInstance.put(`/courses/${publicId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      navigate(`/admin/courses/${id}`);
+      navigate(`/admin/courses/${publicId}`);
     } catch (err) {
       console.error("Error updating course:", err);
       setError("Error updating course.");

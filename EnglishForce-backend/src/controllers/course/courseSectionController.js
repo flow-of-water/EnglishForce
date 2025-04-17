@@ -1,10 +1,11 @@
 import * as courseSectionService from "../../services/courseSection.service.js"
+import * as courseService from "../../services/course.service.js"
 
 // Tạo course section mới
 export async function createCourseSectionController(req, res) {
     try {
-      const { name, course_id, video_link, order_index, description } = req.body;
-  
+      const { name, course_public_id, video_link, order_index, description } = req.body;
+      const course_id = await courseService.findCourseIdByPublicId(course_public_id) ;
       if (!name || !course_id || order_index === undefined) {
         return res.status(400).json({ message: "Missing required fields" });
       }
@@ -52,7 +53,8 @@ export async function getAllCourseSectionsByCourseIdController(req, res) {
 // Lấy course section theo ID
 export async function getCourseSectionByIdController(req, res) {
     try {
-        const { id } = req.params;
+        const { publicId } = req.params;
+        const id = await courseSectionService.findCourseSectionIdByPublicId(publicId) ;
         const section = await courseSectionService.getById(id);
 
         if (!section) {
@@ -69,7 +71,8 @@ export async function getCourseSectionByIdController(req, res) {
 // Xóa course section
 export async function deleteCourseSectionController(req, res) {
     try {
-        const { id } = req.params;
+        const { publicId } = req.params;
+        const id = await courseSectionService.findCourseSectionIdByPublicId(publicId);
         const deleted = await courseSectionService.deleteSection(id);
 
         if (!deleted) {
@@ -85,7 +88,8 @@ export async function deleteCourseSectionController(req, res) {
 
 
 export const updateCourseSectionController = async (req, res) => {
-    const { id } = req.params;
+    const { publicId } = req.params;
+    const id = await courseSectionService.findCourseSectionIdByPublicId(publicId);
   
     try {
       const updatedSection = await courseSectionService.updateCourseSection(

@@ -18,15 +18,21 @@ const CourseSidebar = ({ sections, mobileOpen, handleDrawerToggle, handleClickIt
       <Toolbar />
       <Divider />
       <List>
-        <ListItem button key={0}>
-          <Button onClick={() => { handleClickItem(null) }}>
-          <ListItemText primary="Show all course content"  />
+        <ListItem button key="all">
+          <Button onClick={() => { handleClickItem(null) }}
+            fullWidth
+            sx={{ justifyContent: 'center', textTransform: 'none' }}
+          >
+            <ListItemText primary="Show all course content" />
           </Button>
         </ListItem>
         {sections.map((section) => (
-          <ListItem button key={section.id}>
-            <Button onClick={() => { handleClickItem(section) }}>
-            <ListItemText primary={section.name} />
+          <ListItem button key={section.public}>
+            <Button onClick={() => { handleClickItem(section) }}
+              fullWidth
+              sx={{ justifyContent: 'center', textTransform: 'none' }}
+            >
+              <ListItemText primary={section.name} />
             </Button>
           </ListItem>
         ))}

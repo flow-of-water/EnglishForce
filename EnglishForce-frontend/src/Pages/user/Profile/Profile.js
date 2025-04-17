@@ -26,7 +26,7 @@ const ChangePassword = () => {
       });
       setMessage(response.data.message);
     } catch (error) {
-      setMessage('Error changing password');
+      setMessage('Error when changing password. Current password is incorrect.');
     }
     setLoading(false);
   };

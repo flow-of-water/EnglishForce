@@ -1,6 +1,8 @@
 import express from "express"
 import bodyParser from "body-parser"
 import cors from "cors"
+// OAuth
+import passport from 'passport';
 // routes
 import authRoutes from "./routes/auth/authRoutes.js";
 import authGoogleRoutes from './routes/auth/authGoogleRoutes.js';
@@ -14,8 +16,8 @@ import chatBotRoutes from './routes/chatBotRoutes.js';
 import commentRoutes from './routes/course/commentRoutes.js';
 // Stripe webhook
 import stripeRoutes from "./routes/course/stripeRoutes.js"
-// OAuth
-import passport from 'passport';
+// exam
+import examRoutes from "./routes/exam/examRoutes.js"
 
 
 const app = express()
@@ -32,20 +34,25 @@ app.get("/",(req,res)=> {
   res.send("Backend of The Last Water Bender is working. I'll teach you anything you want !") ;
 })
 
-// WEBHOOK
+// ***** WEBHOOK *****
+// Payment Stripe webhook
 app.use('/webhook',stripeRoutes);
 
-// API
+// ***** API *****
 app.use("/api/auth", authRoutes);
 app.use('/api/auth_google',authGoogleRoutes); 
 app.use('/api/auth_facebook',authFacebookRoutes) ;
+app.use("/api/users",userRoutes);
+
+app.use('/api/chatbot', chatBotRoutes) ;
+
+// Course
 app.use("/api/courses" , courseRoutes) ;
 app.use("/api/course_sections" , courseSectionRoutes) ;
-app.use("/api/users",userRoutes)
 app.use('/api/payments', paymentRoutes);
 app.use('/api/user-course', userCourseRoutes);
-app.use('/api/chatbot', chatBotRoutes) ;
 app.use('/api/comments', commentRoutes) ;
-
+// Exam
+app.use("/api/exams" , examRoutes) ;
 
 export default app ;

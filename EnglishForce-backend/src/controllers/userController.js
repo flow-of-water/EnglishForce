@@ -1,4 +1,4 @@
-import { getAllUsers, getUserById, updateUserRole } from "../services/user.service.js";
+import { getAllUsers, getUserById, updateUserRole, findUserIdByPublicId } from "../services/user.service.js";
 
 export const getAllUsersController = async (req, res) => {
     try {
@@ -34,7 +34,9 @@ export const getUserByIdController = async (req,res) => {
 
 export const updateUserRoleController = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { publicId } = req.params;
+    const id = await findUserIdByPublicId(publicId) ;
+    
     const { role } = req.body ;
     var updatedRole = "admin" ;
     if(role=='admin') updatedRole = 'user' ;

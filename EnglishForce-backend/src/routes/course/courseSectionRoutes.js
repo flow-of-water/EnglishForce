@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/",authMiddleware, getAllCourseSectionsController);
 
 // Lấy một course section theo ID
-router.get("/:id",authMiddleware, getCourseSectionByIdController);
+router.get("/:publicId",authMiddleware, getCourseSectionByIdController);
 
 // Lấy tất cả sections theo course_id
 router.get("/course/:course_public_id",authMiddleware, getAllCourseSectionsByCourseIdController);
@@ -24,9 +24,9 @@ router.post("/",authMiddleware, adminMiddleware, uploadVideo.single('video'), cr
 
 
 // Xóa một course section theo ID
-router.delete("/:id",authMiddleware, adminMiddleware, deleteCourseSectionController);
+router.delete("/:publicId",authMiddleware, adminMiddleware, deleteCourseSectionController);
 
 // Cập nhật course section theo sectionId
-router.put("/:id", authMiddleware, adminMiddleware, uploadVideo.single('video'), updateCourseSectionController);
+router.put("/:publicId", authMiddleware, adminMiddleware, uploadVideo.single('video'), updateCourseSectionController);
 
 export default router;

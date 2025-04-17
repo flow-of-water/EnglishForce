@@ -10,7 +10,7 @@ import axiosInstance from "../../../Api/axiosInstance";
 
 
 const AdminCourseSections = () => {
-  const { id } = useParams();
+  const { publicId } = useParams();
   const navigate = useNavigate();
   const [sections, setSections] = useState([]);
   const [name, setName] = useState("");
@@ -26,7 +26,7 @@ const AdminCourseSections = () => {
 
   const fetchSections = async () => {
     try {
-      const response = await axiosInstance.get(`/course_sections/course/${id}`);
+      const response = await axiosInstance.get(`/course_sections/course/${publicId}`);
       setSections(response.data);
     } catch (error) {
       console.error("Error fetching sections:", error);
@@ -40,7 +40,7 @@ const AdminCourseSections = () => {
     const formData = new FormData();
     formData.append("name",name) ;
     formData.append("description",description) ;
-    formData.append("course_id",id);
+    formData.append("course_public_id",publicId);
     formData.append("order_index",orderIndex) ;
 
     if (uploadMode === "upload" && videoFile) formData.append("video", videoFile);
@@ -64,10 +64,10 @@ const AdminCourseSections = () => {
     }
   };
 
-  const handleDeleteSection = async (id) => {
+  const handleDeleteSection = async (publicId) => {
     try {
-      await axiosInstance.delete(`/course_sections/${id}`);
-      setSections(sections.filter((s) => s.id !== id));
+      await axiosInstance.delete(`/course_sections/${publicId}`);
+      setSections(sections.filter((s) => s.public_id !== publicId));
       setSnackbarMessage("Section deleted!");
       setOpenSnackbar(true);
     } catch (error) {
@@ -130,10 +130,10 @@ const AdminCourseSections = () => {
                 <TableCell><a href={section.video_link} target="_blank" rel="noopener noreferrer">Watch</a></TableCell>
                 <TableCell>{section.order_index}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" onClick={() => navigate(`/admin/courses/sections/${section.id}/edit`)}>
+                  <IconButton color="primary" onClick={() => navigate(`/admin/courses/sections/${section.public_id}/edit`)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="error" onClick={() => handleDeleteSection(section.id)}>
+                  <IconButton color="error" onClick={() => handleDeleteSection(section.public_id)}>
                     <Delete />
                   </IconButton>
                 </TableCell>

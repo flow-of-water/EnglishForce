@@ -1,6 +1,12 @@
 import db from '../sequelize/models/index.js'; // Sequelize instance
 const { User } = db;
 
+export const findUserIdByPublicId = async (publicId) => {
+  const user = await User.findOne({ where: { public_id: publicId } });
+  if (!user) throw new Error('User not found with that public_id');
+  return user.id ;
+}
+
 // Tạo user mới
 export const createUser = async (username, hashedPassword) => {
   return await User.create({
@@ -34,10 +40,10 @@ export const getUserById = async (id) => {
 };
 
 
-export const updateUserPassword = async (userId, hashedPassword) => {
+export const updateUserPassword = async (id, hashedPassword) => {
   return await User.update(
     { password: hashedPassword },
-    { where: { id: userId } }
+    { where: { id: id } }
   );
 };
 

@@ -7,6 +7,6 @@ const router = express.Router();
 router.get("/", getAllUsersController);
 router.get("/profile",authMiddleware, getMyUserAccountController) ;
 
-router.patch("/:id",authMiddleware,adminMiddleware, updateUserRoleController ) ;
+router.patch("/:publicId",authMiddleware,adminMiddleware, updateUserRoleController ) ;
 
 export default router;

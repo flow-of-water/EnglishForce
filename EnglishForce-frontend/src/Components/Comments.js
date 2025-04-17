@@ -13,7 +13,7 @@ import {
 import { Delete, Edit, Save, Close, Reply } from '@mui/icons-material';
 import axiosInstance from '../Api/axiosInstance';
 
-const Comments = ({ courseId }) => {
+const Comments = ({ coursePublicId }) => {
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState('');
   const [userId, setUserId] = useState('');
@@ -24,7 +24,7 @@ const Comments = ({ courseId }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axiosInstance.get(`/comments/${courseId}`);
+      const response = await axiosInstance.get(`/comments/${coursePublicId}`);
       setComments(response.data);
     } catch (err) {
       console.error(err);
@@ -38,12 +38,12 @@ const Comments = ({ courseId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!content || !userId || !courseId) {
+    if (!content || !userId || !coursePublicId) {
       alert('Please fill all information');
       return;
     }
     try {
-      const newComment = { user_id: userId, course_public_id: courseId, content };
+      const newComment = { user_id: userId, course_public_id: coursePublicId, content };
       await axiosInstance.post('/comments', newComment);
       setContent('');
       fetchComments();
@@ -57,7 +57,7 @@ const Comments = ({ courseId }) => {
     try {
       await axiosInstance.post('/comments', {
         user_id: userId,
-        course_id: courseId,
+        course_public_id: coursePublicId,
         content: replyContent,
         parent_comment_id: parentId,
       });
@@ -150,7 +150,7 @@ const Comments = ({ courseId }) => {
                         {!comment.parent_comment_id && (
                           <IconButton
                             size="small"
-                            onClick={() => setReplyingCommentId(comment.id)}
+                            onClick={() => setReplyingCommentId(replyingCommentId?null:comment.id)}
                           >
                             <Reply fontSize="small" />
                           </IconButton>

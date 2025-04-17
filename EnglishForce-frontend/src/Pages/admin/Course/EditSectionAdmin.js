@@ -7,7 +7,7 @@ import {
 import axiosInstance from "../../../Api/axiosInstance";
 
 const EditCourseSection = () => {
-  const { id } = useParams(); // Lấy id từ URL
+  const { publicId } = useParams(); // Lấy publicId từ URL
   const navigate = useNavigate();
   const [section, setSection] = useState(null);
   const [uploadMode, setUploadMode] = useState("link"); // "link" | "upload"
@@ -18,7 +18,7 @@ const EditCourseSection = () => {
   useEffect(() => {
     const fetchSection = async () => {
       try {
-        const response = await axiosInstance.get(`/course_sections/${id}`);
+        const response = await axiosInstance.get(`/course_sections/${publicId}`);
         setSection(response.data);
       } catch (err) {
         console.error("Error fetching section:", err);
@@ -29,7 +29,7 @@ const EditCourseSection = () => {
     };
 
     fetchSection();
-  }, [id]);
+  }, [publicId]);
 
   // Xử lý thay đổi các trường trong form
   const handleChange = (e) => {
@@ -55,7 +55,7 @@ const EditCourseSection = () => {
         formData.append("video", section.videoFile); // field name phải giống bên backend expect
       }
 
-      await axiosInstance.put(`/course_sections/${id}`, formData,{
+      await axiosInstance.put(`/course_sections/${publicId}`, formData,{
         headers: {
           "Content-Type": "multipart/form-data",
         },

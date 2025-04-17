@@ -18,12 +18,10 @@ const UserTable = () => {
     }, []);
 
     const handleEdit = async (user) => {
-        const response = await axiosInstance.patch(`/users/${user.id}`,{
+        const response = await axiosInstance.patch(`/users/${user.public_id}`,{
             role: user.role
         })
-        setUsers(prevUsers => 
-            prevUsers.map(u => u.id === user.id ? response.data : u)
-          );
+        setUsers(prevUsers => prevUsers.map(u => u.public_id === user.public_id ? response.data : u));
     };
 
     const handleDelete = (id) => {

@@ -49,7 +49,7 @@ export default function Header() {
             color="inherit" component={Link} to="/admin"
           >Admin</Button>}
           <Button color="inherit" component={Link} to="/courses">Program</Button>
-          <Button color="inherit" component={Link} to="/courses">Tests</Button>
+          <Button color="inherit" component={Link} to="/exams">Exams</Button>
           <Button color="inherit" component={Link} to="/courses">Courses</Button>
           {/* <Button color="inherit" component={Link} to="/about">About</Button>
           <Button color="inherit" component={Link} to="/contact">Contact</Button> */}

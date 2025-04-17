@@ -79,9 +79,9 @@ export const deleteCommentController = async (req, res) => {
     try {
         const success = await commentService.deleteComment(id);
         if (success) {
-            res.status(200).json({ message: 'Bình luận đã được xóa.' });
+            res.status(200).json({ message: 'Comment is deleted' });
         } else {
-            res.status(404).json({ message: 'Không tìm thấy bình luận.' });
+            res.status(404).json({ message: 'Not found comment' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });

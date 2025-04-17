@@ -1,11 +1,11 @@
 // models/testattempt.js
 export default (sequelize, DataTypes) => {
-    const TestAttempt = sequelize.define('TestAttempt', {
+    const ExamAttempt = sequelize.define('ExamAttempt', {
       user_id: {
         type: DataTypes.INTEGER,
         primaryKey: true
       },
-      test_id: {
+      exam_id: {
         type: DataTypes.INTEGER,
         primaryKey: true
       },
@@ -22,21 +22,21 @@ export default (sequelize, DataTypes) => {
         allowNull: false
       }
     }, {
-      tableName: 'test_attempts',
+      tableName: 'exam_attempts',
       timestamps: false
     });
   
-    TestAttempt.associate = (models) => {
-      TestAttempt.belongsTo(models.User, {
+    ExamAttempt.associate = (models) => {
+      ExamAttempt.belongsTo(models.User, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE'
       });
-      TestAttempt.belongsTo(models.Test, {
-        foreignKey: 'test_id',
+      ExamAttempt.belongsTo(models.Exam, {
+        foreignKey: 'exam_id',
         onDelete: 'CASCADE'
       });
     };
   
-    return TestAttempt;
+    return ExamAttempt;
   };
   

@@ -1,7 +1,6 @@
 // controllers/courseController.js
-import { getCourseByPublicId, addCourse, deleteCourse, searchCourses, getPaginatedCourses, updateCourseWithMedia } from "../../services/course.service.js";
-import { deleteSectionsByCourseId } from "../../services/courseSection.service.js"
-import { getOverviewRatingByCourseId } from "../../services/userCourse.service.js"
+import * as courseService from "../../services/course.service.js"
+import * as userCourseService from "../../services/userCourse.service.js"
 
 
 
@@ -19,13 +18,13 @@ export const getCoursesController = async (req, res) => {
     // Cal offset
     const offset = (page - 1) * limit;
 
-    var { courses, totalItems } = await getPaginatedCourses(limit, offset, userId, q);
+    var { courses, totalItems } = await courseService.getPaginatedCourses(limit, offset, userId, q);
 
     const totalPages = Math.ceil(totalItems / limit);
 
     // Rating for each course 
     for (const course of courses) {
-      const overview = await getOverviewRatingByCourseId(course.id);
+      const overview = await userCourseService.getOverviewRatingByCourseId(course.id);
       course.average_rating = overview?.average_rating;
       course.total_rating = overview?.total_rating;
     }
@@ -42,10 +41,10 @@ export const getCoursesController = async (req, res) => {
 };
 // Lấy thông tin khóa học theo ID
 export const getCourseByPublicIdController = async (req, res) => {
-  const { id } = req.params;
+  const { publicId } = req.params;
 
   try {
-    var course = await getCourseByPublicId(id);
+    var course = await courseService.getCourseByPublicId(publicId);
 
     if (!course) return res.status(404).json({ message: "Course not found" });
     res.json(course);
@@ -63,7 +62,7 @@ export const getCoursesBySearch = async (req, res) => {
       return res.status(400).json({ message: "Search query is required" });
     }
 
-    var courses = await searchCourses(q);
+    var courses = await courseService.searchCourses(q);
     res.json(courses);
   } catch (error) {
     console.error("Error searching courses:", error);
@@ -74,9 +73,9 @@ export const getCoursesBySearch = async (req, res) => {
 // Cập nhật thông tin khóa học
 export const updateCourseController = async (req, res) => {
   try {
-    console.log("req.body:", req.body);
-    console.log("req.file:", req.file);
-    const updatedCourse = await updateCourseWithMedia(req.params.id, req.body, req.file);
+    const {publicId} = req.params;
+    const id = await courseService.findCourseIdByPublicId(publicId);
+    const updatedCourse = await courseService.updateCourseWithMedia(id, req.body, req.file);
 
     if (!updatedCourse) {
       return res.status(404).json({ message: "Course not found" });
@@ -96,7 +95,7 @@ export const addCourseController = async (req, res) => {
   const thumbnailPublicId = req.file ? req.file.filename : null;
 
   try {
-    const newCourse = await addCourse(name, instructor, description, price, thumbnail, thumbnailPublicId);
+    const newCourse = await courseService.addCourse(name, instructor, description, price, thumbnail, thumbnailPublicId);
     res.status(201).json(newCourse);  // Trả về khóa học mới vừa được thêm
   } catch (err) {
     console.error(err);
@@ -106,11 +105,12 @@ export const addCourseController = async (req, res) => {
 
 // Xóa khóa học theo ID
 export const deleteCourseController = async (req, res) => {
-  const { id } = req.params;
+  const { publicId } = req.params;
+  const id = await courseService.findCourseIdByPublicId(publicId);
 
   try {
     // await deleteSectionsByCourseId(id);
-    const deletedCourse = await deleteCourse(id);
+    const deletedCourse = await courseService.deleteCourse(id);
     if (!deletedCourse) {
       return res.status(404).json({ message: "Course not found" });
     }

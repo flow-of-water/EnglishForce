@@ -12,17 +12,17 @@ router.get("/search", getCoursesBySearch);
 
 router.get("/", authMiddlewareWithoutError, getCoursesController);
 // Lấy thông tin khóa học theo ID
-router.get("/:id", authMiddleware, getCourseByPublicIdController);
+router.get("/:publicId", authMiddleware, getCourseByPublicIdController);
 
 // Cập nhật thông tin khóa học
-router.put("/:id", authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), updateCourseController);
+router.put("/:publicId", authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), updateCourseController);
 
 
 // Thêm khóa học mới
 router.post("/", authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), addCourseController);
 
 // Xóa khóa học
-router.delete("/:id", authMiddleware, adminMiddleware, deleteCourseController);
+router.delete("/:publicId", authMiddleware, adminMiddleware, deleteCourseController);
 
 
 export default router;

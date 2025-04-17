@@ -20,7 +20,6 @@ export const getNumberOfCourses = async () => {
   return await Course.count();
 };
 
-// Lấy toàn bộ danh sách khóa học
 export const getCourses = async () => {
   return await Course.findAll({ raw: true });
 };
@@ -43,7 +42,7 @@ export const getPaginatedCourses = async (limit, offset, userId = null, q = "") 
     whereClause = {
       [Op.or]: [
         { name: { [Op.iLike]: `%${q}%` } },
-        { author: { [Op.iLike]: `%${q}%` } },
+        { instructor: { [Op.iLike]: `%${q}%` } },
       ]
     };
   }

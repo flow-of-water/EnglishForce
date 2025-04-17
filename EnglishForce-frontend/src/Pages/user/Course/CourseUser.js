@@ -72,7 +72,7 @@ const CoursesPage = () => {
       </Typography>
       <Grid container spacing={3}>
         {courses.map((course) => (
-          <Grid item xs={12} sm={6} md={4} key={course.id}>
+          <Grid item xs={12} sm={6} md={4} key={course.public_id}>
             <Card
               sx={{
                 height: "100%",

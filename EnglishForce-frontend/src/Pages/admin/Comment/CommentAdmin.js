@@ -7,26 +7,28 @@ const CommentAdmin = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
-        async function Fetch() {
-            try {
-                const response = await axiosInstance.get(`/comments`, {
-                    params: { page } // pass the page number as a query param
-                });
-                
-                setComments(response.data.comments); 
-                setTotalPages(response.data.totalPages); 
-            } catch (error) {
-                console.error("Error fetching comments:", error);
-            }
+    async function Fetch() {
+        try {
+            const response = await axiosInstance.get(`/comments`, {
+                params: { page } // pass the page number as a query param
+            });
+            
+            setComments(response.data.comments); 
+            setTotalPages(response.data.totalPages); 
+
+            if(response.data.comments.length==0 && page>1) setPage(page-1) ;
+        } catch (error) {
+            console.error("Error fetching comments:", error);
         }
+    }
+    useEffect(() => {
         Fetch();
     }, [page]);
 
-    const handleDelete = async (commentPublicId) => {
+    const handleDelete = async (commentId) => {
         try {
-            await axiosInstance.delete(`/comments/${commentPublicId}`);
-            setComments(comments.filter(comment => comment.public_id !== commentPublicId)); // Update list after deletion
+            await axiosInstance.delete(`/comments/${commentId}`);
+            Fetch() ;
         } catch (error) {
             console.error("Error deleting comment:", error);
         }
@@ -48,13 +50,13 @@ const CommentAdmin = () => {
                     </TableHead>
                     <TableBody>
                         {comments.map((comment) => (
-                            <TableRow key={comment.public_id}>
+                            <TableRow key={comment.id}>
                                 <TableCell>{comment.Course.name}</TableCell>
                                 <TableCell>{comment.User.username}</TableCell>
                                 <TableCell>{comment.content}</TableCell>
                                 <TableCell>{new Date(comment.created_at).toLocaleString()}</TableCell>
                                 <TableCell>
-                                    <Button onClick={() => handleDelete(comment.public_id)} color="error">Delete</Button>
+                                    <Button onClick={() => handleDelete(comment.id)} color="error">Delete</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

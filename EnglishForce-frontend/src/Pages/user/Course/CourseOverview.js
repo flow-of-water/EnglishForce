@@ -11,7 +11,7 @@ function imageProgress(course) {
   return course.thumbnail ? course.thumbnail : "/Errores-Web-404.jpg";
 }
 
-function RatingBox({ courseId , initialRating = null, initialReview = "" , setMyRating, setMyComment}) {
+function RatingBox({ coursePubicId , initialRating = null, initialReview = "" , setMyRating, setMyComment}) {
   const [rating, setRating] = useState(initialRating);
   const [review, setReview] = useState(initialReview);
   const [submitted, setSubmitted] = useState(initialRating !== null || initialReview !== "");
@@ -20,7 +20,7 @@ function RatingBox({ courseId , initialRating = null, initialReview = "" , setMy
   const handleSubmit = async () => {
     if (rating) {
       const response = await axiosInstance.patch("/user-course/rating",{
-        coursePublicId:courseId , rating , comment:review
+        coursePublicId:coursePubicId , rating , comment:review
       });
       setSubmitted(true);
       setOpenSnackbar(true);
@@ -69,7 +69,7 @@ function RatingBox({ courseId , initialRating = null, initialReview = "" , setMy
 
 
 const CourseOverview = () => {
-  const { id } = useParams();
+  const { publicId } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
   const [course, setCourse] = useState(null);
@@ -87,7 +87,7 @@ const CourseOverview = () => {
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const courseRes = await axiosInstance.get(`/user-course/course-overview/${id}`);
+        const courseRes = await axiosInstance.get(`/user-course/course-overview/${publicId}`);
         setCourse(courseRes.data.course);
         setIsPurchased(courseRes.data.owned);
         setAverageRating(courseRes.data.overview.average_rating)
@@ -109,7 +109,7 @@ const CourseOverview = () => {
     };
 
     fetchCourseDetails();
-  }, [id, myRating, myComment]);
+  }, [publicId, myRating, myComment]);
 
 
   if (loading) return <Container sx={{ textAlign: "center", mt: 4 }}><CircularProgress /></Container>;
@@ -142,7 +142,7 @@ const CourseOverview = () => {
           </Typography>
 
           {isPurchased ? (
-            <Button variant="contained" color="success" sx={{ mt: 3, mr: 2 }} onClick={() => navigate(`/courses/${id}`)}>
+            <Button variant="contained" color="success" sx={{ mt: 3, mr: 2 }} onClick={() => navigate(`/courses/${publicId}`)}>
               Go to Course
             </Button>
           ) : token &&(
@@ -165,7 +165,7 @@ const CourseOverview = () => {
             Student Reviews
           </Typography>
            {isPurchased && <RatingBox 
-           courseId={id} initialRating={myRating} initialReview={myComment} 
+           coursePubicId={publicId} initialRating={myRating} initialReview={myComment} 
            setMyRating={setMyRating} setMyComment={setMyComment}
            />}
           {reviews.length === 0 ? (

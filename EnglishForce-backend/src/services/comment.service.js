@@ -1,6 +1,13 @@
 import db from '../sequelize/models/index.js'; // Sequelize instance
 const { Comment, User, Course } = db;
 
+
+export const findCommentIdByPublicId = async (publicId) => {
+  const comment = await Comment.findOne({ where: { public_id: publicId } });
+  if (!comment) throw new Error('Comment not found with that public_id');
+  return comment.id ;
+}
+
 // Lấy tất cả comment
 export const getAllComments = async () => {
   const comments = await Comment.findAll();
