@@ -11,7 +11,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { Delete, Edit, Save, Close, Reply } from '@mui/icons-material';
-import axiosInstance from '../Api/axiosInstance';
+import axiosInstance from '../../Api/axiosInstance';
 
 const Comments = ({ coursePublicId }) => {
   const [comments, setComments] = useState([]);

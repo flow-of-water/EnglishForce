@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosInstance"
-import CourseImage from "../../../Components/CourseImage";
+import CourseImage from "../../../Components/user/CourseImage";
 import { CartContext } from "../../../Context/CartContext";
 
 const CoursesPage = () => {

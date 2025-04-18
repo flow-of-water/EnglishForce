@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, Typography, Button, Container, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../Api/axiosInstance";
-import CourseCard from "../../Components/CourseCard";
+import CourseCard from "../../Components/user/CourseCard";
+import { HomeFeatures } from "../../Components/user/HomeFeatures";
 import Slider from "react-slick"; // Import Carousel
 
 // Import CSS cho carousel
@@ -53,7 +54,7 @@ const HomePage = () => {
   return (
     <>
       {/* Hero Section */}
-      <Box sx={{ textAlign: "center", py: 6, bgcolor: "#f5f5f5" }}>
+      {/* <Box sx={{ textAlign: "center", py: 6, bgcolor: "#f5f5f5" }}>
         <Typography variant="h3" gutterBottom>
           Learn Anytime, Anywhere
         </Typography>
@@ -63,11 +64,13 @@ const HomePage = () => {
         <Button variant="contained" color="primary" sx={{ mt: 2 }} component={Link} to="/courses">
           Get Started
         </Button>
-      </Box>
+      </Box> */}
+
+      <HomeFeatures />
 
       {/* Courses Carousel Section */}
       <Container sx={{ py: 6 }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom align="center">
           Popular Courses
         </Typography>
         {courses.length > 0 ? (
@@ -84,6 +87,7 @@ const HomePage = () => {
           </Typography>
         )}
       </Container>
+
     </>
   );
 };

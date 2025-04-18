@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Box, TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import axiosInstance from "../Api/axiosInstance"
+import axiosInstance from '../../Api/axiosInstance.js';
 import { useNavigate } from "react-router-dom";
-import { SearchContext } from "./../Context/SearchContext.js"
+import { SearchContext } from "./../../Context/SearchContext.js"
 
 const SearchBar = ({ placeholder, onSearch }) => {
   const { updatePage , updateSearchQuery } = useContext(SearchContext);

@@ -20,7 +20,8 @@ import CheckoutForm from '../Pages/user/Payment/checkPage';
 // ***** Exam feature *****
 import ExamPage from '../Pages/user/Exam/Exam';
 import ExamDetailPage from '../Pages/user/Exam/ExamDetail';
-
+import ExamStartPage from '../Pages/user/Exam/ExamStart';
+import ExamResultPage from '../Pages/user/Exam/ExamResult';
 export const UserRoutes = () => (
   <>
     <Route path="/" element={<UserLayout><HomePage /></UserLayout>} />
@@ -40,6 +41,8 @@ export const UserRoutes = () => (
     {/* exam feature  */}
     <Route path="/exams" element={<UserLayout><ExamPage /></UserLayout>} />
     <Route path="/exams/:publicId" element={<UserLayout><ExamDetailPage /></UserLayout>} />
+    <Route path="/exams/:publicId/start" element={<UserLayout><ExamStartPage /></UserLayout>} />
+    <Route path="/exams/:publicId/result" element={<UserLayout><ExamResultPage /></UserLayout>} />
 
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />

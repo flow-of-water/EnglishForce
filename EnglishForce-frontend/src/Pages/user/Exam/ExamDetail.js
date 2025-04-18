@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
-import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 
-const ExamDetail = () => {
+const ExamDetailPage = () => {
   const { publicId } = useParams();
   const [exam, setExam] = useState(null);
 
@@ -16,25 +16,15 @@ const ExamDetail = () => {
   if (!exam) return <Typography>Loading...</Typography>;
 
   return (
-    <Box p={3}>
-      <Typography variant="h4">{exam.name}</Typography>
-      <Typography>{exam.description}</Typography>
+    <Box p={4}>
+      <Typography variant="h3">{exam.name}</Typography>
+      <Typography variant="subtitle1">Duration: {exam.duration} minutes</Typography>
+      <Typography paragraph>{exam.description}</Typography>
 
-      {exam.Questions.map((q, index) => (
-        <Box key={q.public_id} mt={3}>
-          <Typography variant="h6">Question {index + 1}</Typography>
-          <Typography>{q.content}</Typography>
-          <List>
-            {q.Answers.map(ans => (
-              <ListItem key={ans.public_id}>
-                <ListItemText primary={ans.content} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      ))}
+      <Button variant="contained" component={Link} to={`/exams/${publicId}/start`}>
+        Start Exam
+      </Button>
     </Box>
   );
 };
-
-export default ExamDetail;
+export default ExamDetailPage;

@@ -1,14 +1,18 @@
 // models/testattempt.js
 export default (sequelize, DataTypes) => {
     const ExamAttempt = sequelize.define('ExamAttempt', {
-      user_id: {
+      id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
       },
-      exam_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true
+      public_id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true,
       },
+      user_id: DataTypes.INTEGER,
+      exam_id: DataTypes.INTEGER,
       start: {
         type: DataTypes.DATE,
         allowNull: false
@@ -23,7 +27,9 @@ export default (sequelize, DataTypes) => {
       }
     }, {
       tableName: 'exam_attempts',
-      timestamps: false
+      timestamps: true,
+      createdAt: "created_at",
+      updatedAt: false,
     });
   
     ExamAttempt.associate = (models) => {

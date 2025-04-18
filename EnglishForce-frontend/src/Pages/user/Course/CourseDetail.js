@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Container, Typography, Card, CardMedia, CardContent, Button, Grid, Tab, Tabs, Box } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
-import CourseVideoPlayer from "../../../Components/CourseVideoPlayer";
-import CourseSidebar from '../../../Components/CourseSideBar';
-import Comments from "../../../Components/Comments";
+import CourseVideoPlayer from "../../../Components/user/CourseVideoPlayer";
+import CourseSidebar from '../../../Components/user/CourseSideBar';
+import Comments from "../../../Components/user/Comments";
 function imageProgress(course) {
   return course.thumbnail ? course.thumbnail : "/Errores-Web-404.jpg"
 }

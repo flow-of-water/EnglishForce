@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Box, Typography, Grid, Paper } from "@mui/material";
-import axiosInstance from "../Api/axiosInstance";
-import CircularLoading from "./Loading";
+import axiosInstance from "../../Api/axiosInstance";
+import CircularLoading from "../Loading";
 
 const RevenueChart = () => {
     const [dataPayment, setDataPayment] = useState([]);

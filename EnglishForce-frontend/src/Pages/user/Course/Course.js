@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosInstance";
-import CourseCard from "../../../Components/CourseCard";
+import CourseCard from "../../../Components/user/CourseCard";
 import { CartContext } from "../../../Context/CartContext";
 import { useSearch, SearchContext } from "../../../Context/SearchContext";
 

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
-import axiosInstance from "../Api/axiosInstance";
+import axiosInstance from "../../Api/axiosInstance";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);

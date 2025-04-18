@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AdminSidebar from "../Components/AdminSidebar";
+import AdminSidebar from "../Components/admin/AdminSidebar";
 import Footer from "../Components/Footer";
 import { AppBar, Toolbar, IconButton, Typography, Box, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";

@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Box } from "@mui/material";
-import Header from "../Components/Header";
+import Header from "../Components/user/Header";
 import Footer from "../Components/Footer";
 
-import Chatbot from "../Components/ChatBot";
+import Chatbot from "../Components/user/ChatBot";
 
 const Layout = ({ children }) => {
   return (

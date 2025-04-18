@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Badge } from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { CartContext } from "../Context/CartContext";
+import { CartContext } from "../../Context/CartContext";
 import { Link } from "react-router-dom";
 import SearchBar from './SearchBar'
 
