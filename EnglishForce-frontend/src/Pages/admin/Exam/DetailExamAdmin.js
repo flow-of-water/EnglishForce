@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Container,
-    Typography,
-    Card,
-    CardContent,
+    Container, Typography,
+    Card, CardContent,
     Divider,
-    Table,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableBody,
+    Table, TableContainer, TableHead, TableRow, TableCell, TableBody,
     Paper,
     CircularProgress,
-    Box
+    Box, Button
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
+import { Link } from 'react-router-dom';
 
 const DetailExamAdmin = () => {
     const { publicId } = useParams();
@@ -122,6 +116,30 @@ const DetailExamAdmin = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <Button
+        variant="contained"
+        color="primary"
+        sx={{ mt: 2, mr: 2 }}
+        component={Link}
+        to={`/admin/exams/edit/${publicId}`}
+      >
+        Edit Exam
+      </Button>
+      <Button
+        variant="contained"
+        color="info"
+        sx={{ mt: 2, mr: 2 }}
+        component={Link}
+        to={`/admin/exams/questions/${publicId}`}
+      >
+        Edit Questions
+      </Button>
+      <Button variant="contained" color="error" sx={{ mt: 2 }}
+    //   onClick={()=>handleDelete(publicId)} 
+      >
+        Delete Exam
+      </Button>
         </Container>
     );
 };

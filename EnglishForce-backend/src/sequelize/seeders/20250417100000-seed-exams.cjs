@@ -1,6 +1,6 @@
 // Run this seeders (already have .sequelizerc)
-// CREATE:  npx sequelize-cli db:seed --seed 20250417100000-seed-exams.js
-// DELETE:  npx sequelize-cli db:seed:undo --seed 20250417100000-seed-exams.js
+// CREATE:  npx sequelize-cli db:seed --seed 20250417100000-seed-exams.cjs
+// DELETE:  npx sequelize-cli db:seed:undo --seed 20250417100000-seed-exams.cjs
 
 'use strict';
 
@@ -25,7 +25,7 @@ module.exports = {
         exam_id,
         content: 'What is the man doing in the picture?',
         thumbnail: 'https://example.com/image1.jpg',
-        record: 'https://example.com/audio1.mp3',
+        record: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
         type: 'listening'
       },
       {
@@ -73,5 +73,6 @@ module.exports = {
     await queryInterface.bulkDelete('answers', null, {});
     await queryInterface.bulkDelete('questions', null, {});
     await queryInterface.bulkDelete('exams', null, {});
+    await queryInterface.bulkDelete('exam_attempts', null, {});
   }
 };

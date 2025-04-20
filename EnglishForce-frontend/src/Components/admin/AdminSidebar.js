@@ -10,7 +10,8 @@ import SchoolIcon from "@mui/icons-material/School";
 import CommentIcon from "@mui/icons-material/Comment";
 import QuizIcon from '@mui/icons-material/Quiz';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-
+import TaskIcon from '@mui/icons-material/Task';
+ 
 const AdminSidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleSidebar}>
@@ -64,6 +65,10 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
           <ListItem button component={Link} to="/admin/exams">
             <ListItemIcon><QuizIcon /></ListItemIcon>
             <ListItemText primary="Exams" />
+          </ListItem>
+          <ListItem button component={Link} to="/admin/exam-attempts">
+            <ListItemIcon><TaskIcon /></ListItemIcon>
+            <ListItemText primary="Exam Attempts" />
           </ListItem>
         </List>
 

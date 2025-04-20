@@ -5,7 +5,7 @@ const { Exam, Question, Answer, ExamAttempt } = db;
 export const findExamIdByPublicId = async (publicId) => {
   const Exam = await Exam.findOne({ where: { public_id: publicId } });
   if (!Exam) throw new Error('Exam not found with that public_id');
-  return Exam.id ;
+  return Exam.id;
 }
 
 
@@ -30,14 +30,44 @@ export const getExamWithQuestionsAndAnswersByPublicId = async (publicId) => {
 };
 
 
-export const submitExamAttempt = async (body,userId) => {
-  const { exam_public_id, answers } = body ;
+export const createExam = async ({ name, description, duration }) => {
+  const newExam = await Exam.create({
+    name,
+    description: description || null,
+    duration,
+  });
+  return newExam;
+};
+
+export const updateExamByPublicId = async (publicId, updates) => {
+  const exam = await Exam.findOne({ where: { public_id: publicId } });
+
+  if (!exam) {
+    throw new Error('Exam not found');
+  }
+
+  await exam.update(updates);
+  return exam;
+};
+
+export const deleteExamByPublicId = async (publicId) => {
+  const exam = await Exam.findOne({ where: { public_id: publicId } });
+  if (!exam) throw new Error('Exam not found');
+
+  await exam.destroy(); // Sequelize cascade sẽ xóa các Question vì đã set `onDelete: CASCADE`
+};
+
+
+export const submitExamAttempt = async (body, userId) => {
+  const { exam_public_id, answers } = body;
 
   const exam = await db.Exam.findOne({ where: { public_id: exam_public_id } });
   if (!exam) throw new Error('Exam not found');
 
   let correct = 0;
-  const total = answers.length;
+  const total = await Question.count({
+    where: { exam_id: exam.id }
+  });
 
   for (const { question_public_id, answer_ids } of answers) {
     const question = await db.Question.findOne({
@@ -53,14 +83,14 @@ export const submitExamAttempt = async (body,userId) => {
 
   await ExamAttempt.create({
     exam_id: exam.id,
-    user_id: userId, 
+    user_id: userId,
     start: now,
     end: now,
     score
   });
 };
 
-export const getExamResult = async (publicId,userId) => {
+export const getExamResult = async (publicId, userId) => {
   const exam = await Exam.findOne({
     where: { public_id: publicId },
     include: {
@@ -69,9 +99,9 @@ export const getExamResult = async (publicId,userId) => {
     }
   });
 
-  const attempt = await ExamAttempt.findOne({ 
-    where: { exam_id: exam.id, user_id: userId } , 
-    order: [['created_at', 'DESC']] 
+  const attempt = await ExamAttempt.findOne({
+    where: { exam_id: exam.id, user_id: userId },
+    order: [['created_at', 'DESC']]
   });
   if (!attempt) throw new Error('No attempt');
 

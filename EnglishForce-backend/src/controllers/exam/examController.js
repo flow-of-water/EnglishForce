@@ -23,6 +23,56 @@ export const getExamDetailWithQuestions = async (req, res) => {
 };
 
 
+export const createExam = async (req, res) => {
+  try {
+    const { name, description, duration } = req.body;
+
+    if (!name || !duration) {
+      return res.status(400).json({ message: 'Name and duration are required' });
+    }
+
+    const exam = await examService.createExam({ name, description, duration });
+    res.status(201).json(exam);
+  } catch (error) {
+    console.error('Error creating exam:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+export const updateExam = async (req, res) => {
+  try {
+    const { publicId } = req.params;
+    const { name, description, duration } = req.body;
+
+    const updatedExam = await examService.updateExamByPublicId(publicId, {
+      name,
+      description,
+      duration
+    });
+
+    res.json({
+      message: 'Exam updated successfully',
+      exam: updatedExam
+    });
+  } catch (error) {
+    console.error('Update exam error:', error);
+    res.status(500).json({ message: error.message || 'Internal Server Error' });
+  }
+};
+
+
+export const deleteExam = async (req, res) => {
+  try {
+    const { publicId } = req.params;
+    await examService.deleteExamByPublicId(publicId);
+    res.json({ message: 'Exam deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting exam:', error);
+    res.status(500).json({ message: error.message || 'Internal server error' });
+  }
+};
+
 export const submitExamAttempt = async (req, res) => {
   try {
     const userId = req?.user?.id;

@@ -12,9 +12,14 @@ import EditCourseAdmin from '../Pages/admin/Course/EditCourseAdmin';
 import CommentAdmin from '../Pages/admin/Comment/CommentAdmin';
 import UserAdmin from '../Pages/admin/User/UserAdmin';
 // Exam feature
+import ExamAttemptAdmin from '../Pages/admin/ExamAttempt/ExamAttemptAdmin';
 import ExamAdmin from "../Pages/admin/Exam/ExamAdmin" ;
 import DetailExamAdmin from '../Pages/admin/Exam/DetailExamAdmin';
 import CreateExamAdmin from '../Pages/admin/Exam/CreateExamAdmin';
+import EditExamAdmin from '../Pages/admin/Exam/EditExamAdmin';
+import ExamQuestionAdmin from '../Pages/admin/Exam/ExamQuestionAdmin' ;
+import EditQuestionAdmin from '../Pages/admin/Exam/EditQuestionAdmin';
+import QuestionAnswerAdmin from '../Pages/admin/Exam/QuestionAnswerAdmin';
 
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
@@ -29,8 +34,13 @@ export const AdminRoutes = () => (
     <Route path="/admin/courses/sections/:publicId/edit" element={<AdminLayout><EditSectionAdmin /></AdminLayout>} />
     <Route path="/admin/comments" element={<AdminLayout><CommentAdmin /></AdminLayout>} />
     {/* Exam feature  */} 
+    <Route path="/admin/exam-attempts" element={<AdminLayout><ExamAttemptAdmin /></AdminLayout>} />
     <Route path="/admin/exams" element={<AdminLayout><ExamAdmin /></AdminLayout>} />
     <Route path="/admin/exams/:publicId" element={<AdminLayout><DetailExamAdmin /></AdminLayout>} />
     <Route path="/admin/exams/create" element={<AdminLayout><CreateExamAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/edit/:publicId" element={<AdminLayout><EditExamAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/questions/:publicId" element={<AdminLayout><ExamQuestionAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/questions/:publicId/edit" element={<AdminLayout><EditQuestionAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/questions/:publicId/answer" element={<AdminLayout><QuestionAnswerAdmin /></AdminLayout>} />
   </Route>
 );

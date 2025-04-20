@@ -12,11 +12,11 @@ const CommentAdmin = () => {
             const response = await axiosInstance.get(`/comments`, {
                 params: { page } // pass the page number as a query param
             });
-            
-            setComments(response.data.comments); 
-            setTotalPages(response.data.totalPages); 
 
-            if(response.data.comments.length==0 && page>1) setPage(page-1) ;
+            setComments(response.data.comments);
+            setTotalPages(response.data.totalPages);
+
+            if (response.data.comments.length == 0 && page > 1) setPage(page - 1);
         } catch (error) {
             console.error("Error fetching comments:", error);
         }
@@ -28,7 +28,7 @@ const CommentAdmin = () => {
     const handleDelete = async (commentId) => {
         try {
             await axiosInstance.delete(`/comments/${commentId}`);
-            Fetch() ;
+            Fetch();
         } catch (error) {
             console.error("Error deleting comment:", error);
         }
@@ -60,11 +60,16 @@ const CommentAdmin = () => {
                                 </TableCell>
                             </TableRow>
                         ))}
+                        {comments.length === 0 && (
+                            <TableRow>
+                                <TableCell colSpan={6} align="center">No comments found.</TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
-            
-            {comments.length!=0 &&<Pagination
+
+            {comments.length != 0 && <Pagination
                 count={totalPages}
                 page={page}
                 onChange={(event, value) => setPage(value)} // Update page state on page change

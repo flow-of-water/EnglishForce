@@ -64,6 +64,11 @@ const CourseAdmin = () => {
                 </TableCell>
               </TableRow>
             ))}
+            {courses.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6} align="center">No courses found.</TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

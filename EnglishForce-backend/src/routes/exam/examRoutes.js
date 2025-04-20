@@ -1,11 +1,16 @@
 // routes/exam.routes.js
 import express from 'express';
 import * as examController from '../../controllers/exam/examController.js';
-import { authMiddlewareWithoutError } from '../../middleware/authorize.js';
+import { authMiddlewareWithoutError, authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 const router = express.Router();
 
 router.get('/', examController.getAllExams);
+router.post('/', authMiddleware, adminMiddleware, examController.createExam);
 router.get('/:publicId',authMiddlewareWithoutError, examController.getExamDetailWithQuestions);
+router.put('/:publicId',authMiddleware, adminMiddleware, examController.updateExam );
+router.delete('/:publicId',authMiddleware, adminMiddleware, examController.deleteExam);
+
+
 router.post('/attempts',authMiddlewareWithoutError, examController.submitExamAttempt);
 router.get('/attempts/result/:publicId',authMiddlewareWithoutError, examController.getExamResult);
 

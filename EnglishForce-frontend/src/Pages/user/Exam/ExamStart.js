@@ -23,10 +23,14 @@ const ExamStartPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axiosInstance
-      .get(`/exams/${publicId}`)
-      .then((res) => setExam(res.data))
-      .catch((err) => console.error('Failed to fetch exam details', err));
+    const FetchExam = async () => {
+      try {
+        const response = await axiosInstance.get(`/exams/${publicId}`);
+        setExam(response.data);
+      }
+      catch (err) { console.error('Failed to fetch exam details', err) };
+    }
+    FetchExam() ;
   }, [publicId]);
 
   const handleSelectAnswer = (questionId, answerId, type) => {
@@ -58,7 +62,21 @@ const ExamStartPage = () => {
         }))
       };
       await axiosInstance.post('/exams/attempts', payload);
-      navigate(`/exams/${publicId}/result`);
+      
+      const selectedAnswerContents = Object.entries(answers).map(([questionId, answerIds]) => {
+        const question = exam.Questions.find(q => q.public_id === questionId);
+        const selectedAnswers = question?.Answers.filter(a => answerIds.includes(a.public_id)) || [];
+  
+        return {
+          question_public_id: questionId,
+          question_content: question?.content,
+          selected_answers: selectedAnswers.map(a => a.content)
+        };
+      });
+      console.log(answers) ;
+      navigate(`/exams/${publicId}/result`,{
+        state: { selectedAnswers:selectedAnswerContents }
+      });
     } catch (err) {
       console.error('Submit failed', err);
     }
