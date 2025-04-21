@@ -38,3 +38,24 @@ export const deleteQuestion = async (publicId) => {
     if (!question) throw new Error('Question not found');
     await question.destroy();
 };
+
+
+
+
+export const getQuestionByPublicId = async (publicId) => {
+    const question = await db.Question.findOne({
+      where: { public_id: publicId },
+    //   include: [
+    //     {
+    //       model: db.Answer,
+    //       attributes: ['public_id', 'content', 'is_correct',], 
+    //     },
+    //   ],
+    });
+  
+    if (!question) {
+      throw new Error('Question not found');
+    }
+  
+    return question;
+  };

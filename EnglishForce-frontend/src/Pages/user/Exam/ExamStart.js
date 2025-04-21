@@ -20,6 +20,7 @@ const ExamStartPage = () => {
   const { publicId } = useParams();
   const [exam, setExam] = useState(null);
   const [answers, setAnswers] = useState({});
+  const [timeLeft, setTimeLeft] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +33,34 @@ const ExamStartPage = () => {
     }
     FetchExam() ;
   }, [publicId]);
+
+  useEffect(() => {
+    if (exam?.duration) {
+      const existingStart = localStorage.getItem(`exam_${publicId}_start`);
+      let startTime;
+
+      if (existingStart) {
+        startTime = new Date(existingStart);
+      } else {
+        startTime = new Date();
+        localStorage.setItem(`exam_${publicId}_start`, startTime.toISOString());
+      }
+
+      const endTime = new Date(startTime.getTime() + exam.duration * 60000);
+
+      const updateRemainingTime = () => {
+        const now = new Date();
+        const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
+        setTimeLeft(remaining);
+
+        if (remaining === 0) handleSubmit();
+      };
+
+      updateRemainingTime();
+      const interval = setInterval(updateRemainingTime, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [exam]);
 
   const handleSelectAnswer = (questionId, answerId, type) => {
     setAnswers((prev) => {
@@ -54,6 +83,8 @@ const ExamStartPage = () => {
 
   const handleSubmit = async () => {
     try {
+      localStorage.removeItem(`exam_${publicId}_start`);
+
       const payload = {
         exam_public_id: publicId,
         answers: Object.entries(answers).map(([question_public_id, answer_ids]) => ({
@@ -92,6 +123,11 @@ const ExamStartPage = () => {
       <Typography variant="subtitle1" color="text.secondary" gutterBottom>
         Duration: {exam.duration} minutes
       </Typography>
+      {timeLeft !== null && (
+        <Typography variant="subtitle1" color="error" gutterBottom>
+          Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+        </Typography>
+      )}
       <Typography variant="body1" paragraph>
         {exam.description}
       </Typography>

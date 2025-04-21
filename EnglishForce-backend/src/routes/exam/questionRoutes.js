@@ -6,4 +6,7 @@ router.get('/exam/:publicId', questionController.getQuestionsByExam);      // GE
 router.post('/', questionController.createQuestion);                       // POST new question
 router.delete('/:publicId', questionController.deleteQuestion);            // DELETE question by publicId
 
+
+router.get('/:publicId', questionController.getQuestionByPublicId); 
+
 export default router;

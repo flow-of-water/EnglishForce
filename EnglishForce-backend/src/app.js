@@ -20,6 +20,8 @@ import stripeRoutes from "./routes/course/stripeRoutes.js"
 import examRoutes from "./routes/exam/examRoutes.js"
 import examAttemptRoutes from "./routes/exam/examAttemptRoutes.js"
 import questionRoutes from './routes/exam/questionRoutes.js'
+import answerRoutes from './routes/exam/answerRoutes.js'
+
 
 const app = express()
 
@@ -57,5 +59,6 @@ app.use('/api/comments', commentRoutes) ;
 app.use("/api/exams" , examRoutes) ;
 app.use("/api/exam-attempts", examAttemptRoutes) ;
 app.use('/api/questions', questionRoutes) ;
+app.use('/api/answers', answerRoutes) ;
 
 export default app ;

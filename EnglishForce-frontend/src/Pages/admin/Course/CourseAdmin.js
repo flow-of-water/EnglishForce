@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination } from "@mui/material";
+import { Container, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosInstance"
+import { Add } from '@mui/icons-material';
 
 const CourseAdmin = () => {
   const [courses, setCourses] = useState([]);
@@ -37,8 +38,12 @@ const CourseAdmin = () => {
 
   return (
     <Container>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
       <Typography variant="h4" gutterBottom>Manage Courses</Typography>
-      <Button variant="contained" color="primary" sx={{ mb: 2 }} component={Link} to={`/admin/courses/create`} >Add New Course</Button>
+        <Button variant="contained" startIcon={<Add />} href="/admin/courses/create">
+          Create Course
+        </Button>
+      </Stack>
 
       <TableContainer component={Paper}>
         <Table>

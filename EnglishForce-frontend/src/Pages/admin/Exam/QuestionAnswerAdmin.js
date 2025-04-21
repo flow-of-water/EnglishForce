@@ -16,7 +16,7 @@ const QuestionAnswerAdmin = () => {
 
   const fetchAnswers = async () => {
     try {
-      const res = await axiosInstance.get(`/answers/question/${publicId}`);
+      const res = await axiosInstance.get(`/answers/by-question/${publicId}`);
       setAnswers(res.data);
     } catch (error) {
       console.error("Failed to fetch answers", error);
