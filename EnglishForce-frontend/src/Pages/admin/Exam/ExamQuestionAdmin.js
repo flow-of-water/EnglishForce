@@ -1,3 +1,5 @@
+// Trang này chứa tất cả questions của 1 Exam Part
+
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -28,7 +30,7 @@ const questionTypes = [
 ];
 
 const AdminExamQuestions = () => {
-    const { publicId } = useParams(); // exam publicId
+    const { publicId , partPublicId } = useParams(); // exam publicId
     const navigate = useNavigate();
 
     const [questions, setQuestions] = useState([]);
@@ -40,7 +42,7 @@ const AdminExamQuestions = () => {
 
     const fetchQuestions = async () => {
         try {
-            const res = await axiosInstance.get(`/questions/exam/${publicId}`);
+            const res = await axiosInstance.get(`/questions/exam-parts/${partPublicId}`);
             setQuestions(res.data);
         } catch (error) {
             console.error("Failed to fetch questions", error);
@@ -55,6 +57,7 @@ const AdminExamQuestions = () => {
         try {
             const res = await axiosInstance.post("/questions", {
                 exam_public_id: publicId,
+                exam_part_public_id: partPublicId,
                 content,
                 type,
                 thumbnail,

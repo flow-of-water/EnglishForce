@@ -11,10 +11,10 @@ export const getAllExams = async (req, res) => {
   }
 };
 
-export const getExamDetailWithQuestions = async (req, res) => {
+export const getExamWithFullHierarchy = async (req, res) => {
   try {
     const { publicId } = req.params;
-    const exam = await examService.getExamWithQuestionsAndAnswersByPublicId(publicId);
+    const exam = await examService.getExamWithFullHierarchy(publicId);
     res.json(exam);
   } catch (error) {
     console.error(error);

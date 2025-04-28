@@ -1,6 +1,6 @@
 // services/exam.service.js
 import db from '../../sequelize/models/index.js';
-const { Exam, Question, Answer, ExamAttempt } = db;
+const { Exam, Question, Answer, ExamAttempt, ExamPart, QuestionGroup } = db;
 
 export const findExamIdByPublicId = async (publicId) => {
   const Exam = await Exam.findOne({ where: { public_id: publicId } });
@@ -15,19 +15,60 @@ export const getAllExams = async () => {
   });
 };
 
-export const getExamWithQuestionsAndAnswersByPublicId = async (publicId) => {
-  const exam = await Exam.findOne({
+export const getExamWithFullHierarchy = async (publicId) => {
+  const exam = await db.Exam.findOne({
     where: { public_id: publicId },
-    include: {
-      model: Question,
-      include: Answer
-    }
+    attributes: ['id', 'public_id', 'name', 'description', 'duration'],
   });
 
-  if (!exam) throw new Error("Exam not found");
+  if (!exam) throw new Error('Exam not found');
 
-  return exam;
+  // Step 1: Lấy tất cả các ExamParts của bài thi
+  const allParts = await db.ExamPart.findAll({
+    where: { exam_id: exam.id },
+    order: [['order_index', 'ASC']],
+    include: [
+      {
+        model: db.Question,
+        attributes: ['id', 'public_id', 'content', 'type', 'thumbnail', 'record'],
+        include: [
+          {
+            model: db.Answer,
+            attributes: ['id', 'public_id', 'content', 'is_correct'],
+            order: [['id', 'ASC']],
+          }
+        ]
+      }
+    ]
+  });
+
+  // Step 2: Tạo map từ partId → ExamPart
+  const partMap = {};
+  allParts.forEach(part => {
+    part = part.toJSON(); // make plain
+    part.Children = [];
+    partMap[part.id] = part;
+  });
+  console.log(partMap);
+
+  // Step 3: Xây dựng cây phân cấp
+  const rootParts = [];
+  allParts.forEach(part => {
+    if (part.parent_part_id) partMap[part.parent_part_id]?.Children.push(part);
+  });
+  allParts.forEach(part => {
+    if (!part.parent_part_id) rootParts.push(partMap[part.id]);
+  });
+  console.log("ROOTTTT : ",rootParts);
+  return {
+    public_id: exam.public_id,
+    name: exam.name,
+    description: exam.description,
+    duration: exam.duration,
+    parts: rootParts
+  };
 };
+
 
 
 export const createExam = async ({ name, description, duration }) => {

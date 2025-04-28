@@ -11,6 +11,18 @@ export const getQuestionsByExam = async (req, res) => {
   }
 };
 
+export const getQuestionsByPartId = async (req, res) => {
+  try {
+    const { partPublicId } = req.params;
+    const questions = await questionService.getQuestionsByExamPartPublicId(partPublicId);
+
+    res.status(200).json(questions);
+  } catch (error) {
+    console.error('Error getting questions by part ID:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const createQuestion = async (req, res) => {
   try {
     const question = await questionService.createQuestion(req.body);

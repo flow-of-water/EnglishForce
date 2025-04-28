@@ -3,6 +3,7 @@ import * as questionController from "../../controllers/exam/questionController.j
 const router = express.Router() ;
 
 router.get('/exam/:publicId', questionController.getQuestionsByExam);      // GET questions by exam publicId
+router.get('/exam-parts/:partPublicId', questionController.getQuestionsByPartId);   // GET questions by exam Part publicId
 router.post('/', questionController.createQuestion);                       // POST new question
 router.delete('/:publicId', questionController.deleteQuestion);            // DELETE question by publicId
 

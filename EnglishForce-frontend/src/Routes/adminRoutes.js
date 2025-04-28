@@ -20,6 +20,9 @@ import EditExamAdmin from '../Pages/admin/Exam/EditExamAdmin';
 import ExamQuestionAdmin from '../Pages/admin/Exam/ExamQuestionAdmin' ;
 import EditQuestionAdmin from '../Pages/admin/Exam/EditQuestionAdmin';
 import QuestionAnswerAdmin from '../Pages/admin/Exam/QuestionAnswerAdmin';
+import ExamPartPage from '../Pages/admin/Exam/ExamPartAdmin';
+import PartDetailAdmin from '../Pages/admin/Exam/DetailPartAdmin';
+
 
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
@@ -39,7 +42,11 @@ export const AdminRoutes = () => (
     <Route path="/admin/exams/:publicId" element={<AdminLayout><DetailExamAdmin /></AdminLayout>} />
     <Route path="/admin/exams/create" element={<AdminLayout><CreateExamAdmin /></AdminLayout>} />
     <Route path="/admin/exams/edit/:publicId" element={<AdminLayout><EditExamAdmin /></AdminLayout>} />
-    <Route path="/admin/exams/questions/:publicId" element={<AdminLayout><ExamQuestionAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/:publicId/parts" element={<AdminLayout><ExamPartPage /></AdminLayout>} />
+    <Route path="/admin/exams/:publicId/parts/:partPublicId" element={<AdminLayout><PartDetailAdmin /></AdminLayout>} />
+
+
+    <Route path="/admin/exams/:publicId/parts/:partPublicId/questions" element={<AdminLayout><ExamQuestionAdmin /></AdminLayout>} />
     <Route path="/admin/exams/questions/:publicId/edit" element={<AdminLayout><EditQuestionAdmin /></AdminLayout>} />
     <Route path="/admin/exams/questions/:publicId/answer" element={<AdminLayout><QuestionAnswerAdmin /></AdminLayout>} />
   </Route>

@@ -1,4 +1,6 @@
 // Run all seeders : npx sequelize-cli db:seed:all
+// npx sequelize-cli db:seed --seed 20250415145631-seed-courses.cjs
+// npx sequelize-cli db:seed:undo --seed 20250415145631-seed-courses.cjs
 
 'use strict';
 const { v4: uuidv4 } = require('uuid');

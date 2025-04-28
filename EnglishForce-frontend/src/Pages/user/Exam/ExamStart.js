@@ -16,6 +16,8 @@ import {
   FormControlLabel
 } from '@mui/material';
 
+
+
 const ExamStartPage = () => {
   const { publicId } = useParams();
   const [exam, setExam] = useState(null);
@@ -28,10 +30,11 @@ const ExamStartPage = () => {
       try {
         const response = await axiosInstance.get(`/exams/${publicId}`);
         setExam(response.data);
+      } catch (err) {
+        console.error('Failed to fetch exam details', err);
       }
-      catch (err) { console.error('Failed to fetch exam details', err) };
-    }
-    FetchExam() ;
+    };
+    FetchExam();
   }, [publicId]);
 
   useEffect(() => {
@@ -93,20 +96,24 @@ const ExamStartPage = () => {
         }))
       };
       await axiosInstance.post('/exams/attempts', payload);
-      
-      const selectedAnswerContents = Object.entries(answers).map(([questionId, answerIds]) => {
-        const question = exam.Questions.find(q => q.public_id === questionId);
-        const selectedAnswers = question?.Answers.filter(a => answerIds.includes(a.public_id)) || [];
-  
-        return {
-          question_public_id: questionId,
-          question_content: question?.content,
-          selected_answers: selectedAnswers.map(a => a.content)
-        };
+
+      // Build selected answer content
+      const selectedAnswerContents = [];
+      exam.parts.forEach((part) => {
+        part.Questions.forEach((question) => {
+          if (answers[question.public_id]) {
+            const selectedAnswers = question.Answers.filter(a => answers[question.public_id].includes(a.public_id));
+            selectedAnswerContents.push({
+              question_public_id: question.public_id,
+              question_content: question.content,
+              selected_answers: selectedAnswers.map(a => a.content)
+            });
+          }
+        });
       });
-      console.log(answers) ;
-      navigate(`/exams/${publicId}/result`,{
-        state: { selectedAnswers:selectedAnswerContents }
+
+      navigate(`/exams/${publicId}/result`, {
+        state: { selectedAnswers: selectedAnswerContents }
       });
     } catch (err) {
       console.error('Submit failed', err);
@@ -114,25 +121,16 @@ const ExamStartPage = () => {
   };
 
   if (!exam) return <Typography>Loading exam start...</Typography>;
-
-  return (
-    <Box p={4}>
-      <Typography variant="h3" gutterBottom>
-        {exam.name}
+  const renderPartRecursively = (part, indexPath = '') => (
+    <Box key={part.public_id} mb={5}>
+      <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
+        Part {indexPath}: {part.name}
       </Typography>
-      <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-        Duration: {exam.duration} minutes
-      </Typography>
-      {timeLeft !== null && (
-        <Typography variant="subtitle1" color="error" gutterBottom>
-          Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-        </Typography>
-      )}
-      <Typography variant="body1" paragraph>
-        {exam.description}
+      <Typography variant="body2" sx={{ mb: 2 }}>
+        {part.description}
       </Typography>
 
-      {exam.Questions.map((question, index) => (
+      {part.Questions?.map((question, index) => (
         <Paper key={question.public_id} sx={{ p: 3, my: 3 }} elevation={3}>
           <Typography variant="h6" gutterBottom>
             Question {index + 1}
@@ -160,7 +158,7 @@ const ExamStartPage = () => {
           <Chip label={question.type} color="info" variant="outlined" sx={{ mb: 2 }} />
 
           <List>
-            {question.Answers.map((ans) => {
+            {question.Answers?.map((ans) => {
               const selected = !!answers[question.public_id]?.includes(ans.public_id);
               return (
                 <ListItem key={ans.public_id} disablePadding>
@@ -190,6 +188,35 @@ const ExamStartPage = () => {
           </List>
         </Paper>
       ))}
+
+      {/* Render Children nếu có */}
+      {part.Children?.map((childPart, idx) =>
+        renderPartRecursively(childPart, `${indexPath}.${idx + 1}`)
+      )}
+    </Box>
+  );
+
+  return (
+    <Box p={4}>
+      <Typography variant="h3" gutterBottom>
+        {exam.name}
+      </Typography>
+      <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+        Duration: {exam.duration} minutes
+      </Typography>
+      {timeLeft !== null && (
+        <Typography variant="subtitle1" color="error" gutterBottom>
+          Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+        </Typography>
+      )}
+      <Typography variant="body1" paragraph>
+        {exam.description}
+      </Typography>
+
+      {exam.parts.map((part, index) =>
+        renderPartRecursively(part, `${index + 1}`)
+      )}
+
 
       <Button variant="contained" color="primary" onClick={handleSubmit}>
         Submit

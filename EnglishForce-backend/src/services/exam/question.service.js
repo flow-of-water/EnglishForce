@@ -1,61 +1,89 @@
 import db from '../../sequelize/models/index.js';
-const { Exam, Question, Answer, ExamAttempt } = db;
+const { Exam, Question, Answer, ExamAttempt, ExamPart } = db;
 
 export const getQuestionsNumBerByExam = async (id) => {
-    const count = await Question.count({
-        where: { exam_id: id }
-    });
-    return count;
+  const count = await Question.count({
+    where: { exam_id: id }
+  });
+  return count;
 };
 
 
 export const getQuestionsByExamPublicId = async (examPublicId) => {
-    const exam = await Exam.findOne({ where: { public_id: examPublicId } });
-    if (!exam) throw new Error('Exam not found');
+  const exam = await Exam.findOne({ where: { public_id: examPublicId } });
+  if (!exam) throw new Error('Exam not found');
 
-    return await Question.findAll({
-        where: { exam_id: exam.id },
-        order: [['id', 'ASC']]
-    });
+  return await Question.findAll({
+    where: { exam_id: exam.id },
+    order: [['id', 'ASC']]
+  });
 };
 
-export const createQuestion = async (data) => {
-    const { exam_public_id, content, type, thumbnail, record } = data;
-    const exam = await Exam.findOne({ where: { public_id: exam_public_id } });
-    if (!exam) throw new Error('Exam not found');
 
-    return await Question.create({
-        content,
-        type,
-        thumbnail: thumbnail || null,
-        record: record || null,
-        exam_id: exam.id
-    });
+export const getQuestionsByExamPartPublicId = async (partPublicId) => {
+  const part = await db.ExamPart.findOne({
+    where: { public_id: partPublicId },
+    include: [{
+      model: db.Question,
+      as: 'Questions'
+    }]
+  });
+
+  if (!part) {
+    throw new Error('Exam Part not found');
+  }
+
+  return part.Questions; // Trả về danh sách Questions
+};
+
+
+export const createQuestion = async (data) => {
+  const { exam_public_id, exam_part_public_id, content, type, thumbnail, record } = data;
+
+  // Find Exam
+  const exam = await Exam.findOne({ where: { public_id: exam_public_id } });
+  if (!exam) throw new Error('Exam not found');
+
+  let examPart = null;
+  if (exam_part_public_id) {
+    examPart = await ExamPart.findOne({ where: { public_id: exam_part_public_id, exam_id: exam.id } });
+    if (!examPart) throw new Error('Exam Part not found');
+  }
+
+  // Create Question
+  return await Question.create({
+    content,
+    type,
+    thumbnail: thumbnail || null,
+    record: record || null,
+    exam_id: exam.id,
+    exam_part_id: examPart ? examPart.id : null
+  });
 };
 
 export const deleteQuestion = async (publicId) => {
-    const question = await Question.findOne({ where: { public_id: publicId } });
-    if (!question) throw new Error('Question not found');
-    await question.destroy();
+  const question = await Question.findOne({ where: { public_id: publicId } });
+  if (!question) throw new Error('Question not found');
+  await question.destroy();
 };
 
 
 
 
 export const getQuestionByPublicId = async (publicId) => {
-    const question = await db.Question.findOne({
-      where: { public_id: publicId },
-    //   include: [
-    //     {
-    //       model: db.Answer,
-    //       attributes: ['public_id', 'content', 'is_correct',], 
-    //     },
-    //   ],
-    });
-  
-    if (!question) {
-      throw new Error('Question not found');
-    }
-  
-    return question;
-  };
+  const question = await db.Question.findOne({
+    where: { public_id: publicId },
+    include: [
+      {
+        model: db.Answer,
+        attributes: ['public_id', 'content', 'is_correct',],
+      },
+    ],
+  });
+
+  if (!question) {
+    throw new Error('Question not found');
+  }
+
+  return question;
+};
