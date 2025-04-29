@@ -10,13 +10,14 @@ const ExamResultPage = () => {
   const { publicId } = useParams();
   const [result, setResult] = useState(null);
   const location = useLocation();
-  const selectedAnswers = location.state?.selectedAnswers || {};
+  const selectedAnswers = location.state?.selectedAnswers || [];
 
   useEffect(() => {
     axiosInstance.get(`/exams/attempts/result/${publicId}`)
       .then(res => setResult(res.data))
       .catch(err => console.error('Error fetching result', err));
     console.log(selectedAnswers)
+    console.log(location.state)
   }, [publicId]);
 
   if (!result) return <Typography>Loading...</Typography>;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, CircularProgress, Paper, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import axiosInstance from '../../../Api/axiosInstance';
-
+import CircularLoading from '../../../Components/Loading';
 
 
 const ChangePassword = () => {
@@ -98,11 +98,7 @@ const Profile = () => {
   };
 
   if (loading) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
+    return CircularLoading;
   }
 
   return (

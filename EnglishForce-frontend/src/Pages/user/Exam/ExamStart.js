@@ -15,8 +15,7 @@ import {
   Radio,
   FormControlLabel
 } from '@mui/material';
-
-
+import ExamMenu from '../../../Components/user/ExamMenu';
 
 const ExamStartPage = () => {
   const { publicId } = useParams();
@@ -26,7 +25,7 @@ const ExamStartPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const FetchExam = async () => {
+    const fetchExam = async () => {
       try {
         const response = await axiosInstance.get(`/exams/${publicId}`);
         setExam(response.data);
@@ -34,7 +33,7 @@ const ExamStartPage = () => {
         console.error('Failed to fetch exam details', err);
       }
     };
-    FetchExam();
+    fetchExam();
   }, [publicId]);
 
   useEffect(() => {
@@ -99,19 +98,29 @@ const ExamStartPage = () => {
 
       // Build selected answer content
       const selectedAnswerContents = [];
-      exam.parts.forEach((part) => {
-        part.Questions.forEach((question) => {
-          if (answers[question.public_id]) {
-            const selectedAnswers = question.Answers.filter(a => answers[question.public_id].includes(a.public_id));
-            selectedAnswerContents.push({
-              question_public_id: question.public_id,
-              question_content: question.content,
-              selected_answers: selectedAnswers.map(a => a.content)
-            });
-          }
+
+      const extractQuestions = (part) => {
+        part.Questions?.forEach((question) => {
+          const selected = question.Answers.filter((a) =>
+            answers[question.public_id]?.includes(a.public_id)
+          );
+          selectedAnswerContents.push({
+            question_public_id: question.public_id,
+            question_content: question.content,
+            selected_answers: selected.map((a) => a.content)
+          });
         });
+
+        part.Children?.forEach((childPart) => {
+          extractQuestions(childPart); // Đệ quy
+        });
+      };
+
+      exam.parts.forEach((part) => {
+        extractQuestions(part);
       });
 
+      console.log(selectedAnswerContents);
       navigate(`/exams/${publicId}/result`, {
         state: { selectedAnswers: selectedAnswerContents }
       });
@@ -121,6 +130,7 @@ const ExamStartPage = () => {
   };
 
   if (!exam) return <Typography>Loading exam start...</Typography>;
+
   const renderPartRecursively = (part, indexPath = '') => (
     <Box key={part.public_id} mb={5}>
       <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
@@ -130,8 +140,35 @@ const ExamStartPage = () => {
         {part.description}
       </Typography>
 
+      {/* Hiển thị Thumbnail và Record của Part */}
+      {part.thumbnail && (
+        <Box my={2}>
+          <Typography fontStyle="italic" color="text.secondary">
+            Part Thumbnail:
+          </Typography>
+          <img
+            src={part.thumbnail}
+            alt="Part thumbnail"
+            style={{
+              maxWidth: 600, height: 'auto', display: 'block',
+              borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+            }}
+          />
+        </Box>
+      )}
+
+      {part.record && (
+        <Box my={2}>
+          <Typography fontStyle="italic" color="text.secondary">
+            Part Record:
+          </Typography>
+          <audio controls src={part.record} style={{ width: "100%" }} />
+        </Box>
+      )}
+
+      {/* Danh sách Question */}
       {part.Questions?.map((question, index) => (
-        <Paper key={question.public_id} sx={{ p: 3, my: 3 }} elevation={3}>
+        <Paper key={question.public_id} sx={{ p: 3, my: 3 }} id={question.public_id} elevation={3}>
           <Typography variant="h6" gutterBottom>
             Question {index + 1}
           </Typography>
@@ -198,6 +235,13 @@ const ExamStartPage = () => {
 
   return (
     <Box p={4}>
+      <ExamMenu
+        parts={exam.parts}
+        answers={answers}             // Object: { question_public_id: [answer_id1, answer_id2] }
+        timeLeft={timeLeft}
+        onSubmit={handleSubmit}
+      />
+
       <Typography variant="h3" gutterBottom>
         {exam.name}
       </Typography>
@@ -217,10 +261,6 @@ const ExamStartPage = () => {
         renderPartRecursively(part, `${index + 1}`)
       )}
 
-
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Submit
-      </Button>
     </Box>
   );
 };

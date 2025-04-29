@@ -25,6 +25,9 @@ export default (sequelize, DataTypes) => {
       defaultValue: 0
     },
     thumbnail: DataTypes.TEXT,
+    thumbnail_public_id: DataTypes.TEXT, // public ID image (Cloudinary)
+    record: DataTypes.TEXT,
+    record_public_id: DataTypes.TEXT,  // public ID record (Cloudinary)
     parent_part_id: {
       type: DataTypes.INTEGER,
       allowNull: true

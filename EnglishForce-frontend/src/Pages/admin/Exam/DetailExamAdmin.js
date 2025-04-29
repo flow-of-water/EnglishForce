@@ -1,3 +1,5 @@
+// Detail exam : Infor of 1 exam , Part list
+
 import React, { useEffect, useState } from 'react';
 import {
   Container, Typography, Card, CardContent,

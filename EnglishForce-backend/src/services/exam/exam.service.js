@@ -49,7 +49,6 @@ export const getExamWithFullHierarchy = async (publicId) => {
     part.Children = [];
     partMap[part.id] = part;
   });
-  console.log(partMap);
 
   // Step 3: Xây dựng cây phân cấp
   const rootParts = [];
@@ -59,7 +58,6 @@ export const getExamWithFullHierarchy = async (publicId) => {
   allParts.forEach(part => {
     if (!part.parent_part_id) rootParts.push(partMap[part.id]);
   });
-  console.log("ROOTTTT : ",rootParts);
   return {
     public_id: exam.public_id,
     name: exam.name,

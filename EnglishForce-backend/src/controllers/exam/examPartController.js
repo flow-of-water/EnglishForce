@@ -35,11 +35,22 @@ export const getExamPartByPublicId = async (req, res) => {
 
 export const updateExamPart = async (req, res) => {
   try {
-    const part = await examPartService.updateExamPart(req.params.publicId, req.body);
-    res.json(part);
-  } catch (error) {
-    console.error('Error updating exam part:', error);
-    res.status(500).json({ error: error.message });
+    const { publicId } = req.params;
+    const { name, description } = req.body;
+
+    const updatedPart = await examPartService.updateExamPart(publicId, {
+      name,
+      description,
+      thumbnailFile: req.files?.thumbnail?.[0] || null,
+      recordFile: req.files?.record?.[0] || null,
+      thumbnailLink: thumbnail || null,
+      recordLink: record || null,
+    });
+
+    res.status(200).json(updatedPart);
+  } catch (err) {
+    console.error('Error updating exam part:', err);
+    res.status(500).json({ error: err.message });
   }
 };
 

@@ -1,3 +1,5 @@
+// Detail Part : Infor of one part, children part list 
+
 import React, { useEffect, useState } from 'react';
 import {
   Container, Typography, Box, TextField, Button,

@@ -3,6 +3,9 @@ import AdminLayout from '../Layouts/AdminLayout';
 import ProtectedRoute from '../Layouts/ProtectedRoute';
 
 import AdminHome from '../Pages/admin/HomeAdmin';
+import UserAdmin from '../Pages/admin/User/UserAdmin';
+
+// Course feature
 import CourseAdmin from '../Pages/admin/Course/CourseAdmin';
 import DetailCourseAdmin from '../Pages/admin/Course/DetailCourseAdmin';
 import CreateCourseAdmin from '../Pages/admin/Course/CreateCourseAdmin';
@@ -10,7 +13,7 @@ import CourseSectionAdmin from '../Pages/admin/Course/CourseSectionAdmin';
 import EditSectionAdmin from '../Pages/admin/Course/EditSectionAdmin';
 import EditCourseAdmin from '../Pages/admin/Course/EditCourseAdmin';
 import CommentAdmin from '../Pages/admin/Comment/CommentAdmin';
-import UserAdmin from '../Pages/admin/User/UserAdmin';
+
 // Exam feature
 import ExamAttemptAdmin from '../Pages/admin/ExamAttempt/ExamAttemptAdmin';
 import ExamAdmin from "../Pages/admin/Exam/ExamAdmin" ;
@@ -22,7 +25,7 @@ import EditQuestionAdmin from '../Pages/admin/Exam/EditQuestionAdmin';
 import QuestionAnswerAdmin from '../Pages/admin/Exam/QuestionAnswerAdmin';
 import ExamPartPage from '../Pages/admin/Exam/ExamPartAdmin';
 import PartDetailAdmin from '../Pages/admin/Exam/DetailPartAdmin';
-
+import EditPartAdmin from '../Pages/admin/Exam/EditPartAdmin';
 
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
@@ -44,6 +47,7 @@ export const AdminRoutes = () => (
     <Route path="/admin/exams/edit/:publicId" element={<AdminLayout><EditExamAdmin /></AdminLayout>} />
     <Route path="/admin/exams/:publicId/parts" element={<AdminLayout><ExamPartPage /></AdminLayout>} />
     <Route path="/admin/exams/:publicId/parts/:partPublicId" element={<AdminLayout><PartDetailAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/:publicId/parts/:partPublicId/edit" element={<AdminLayout><EditPartAdmin /></AdminLayout>} />
 
 
     <Route path="/admin/exams/:publicId/parts/:partPublicId/questions" element={<AdminLayout><ExamQuestionAdmin /></AdminLayout>} />

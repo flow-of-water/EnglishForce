@@ -1,3 +1,7 @@
+// Hơi giống trang Detail Exam 
+// Exam Part: Part List , Add Part Section , Detail Part Button 
+// Detail Exam: Exam info , part list , button to redirect to this page , Edit exam Button
+
 import React, { useEffect, useState } from "react";
 import {
   Container, Typography, Paper, Accordion, AccordionSummary, AccordionDetails,
