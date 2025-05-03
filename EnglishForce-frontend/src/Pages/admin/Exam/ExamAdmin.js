@@ -11,23 +11,27 @@ import {
   Paper,
   IconButton,
   Button,
-  Stack
+  Stack,
+  Pagination
 } from '@mui/material';
 import { Edit, Delete, Add } from '@mui/icons-material';
 import axiosInstance from '../../../Api/axiosInstance';
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ExamAdmin = () => {
   const [exams, setExams] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchExams();
-  }, []);
+    fetchExams(page);
+  }, [page]);
 
-  const fetchExams = async () => {
+  const fetchExams = async (page) => {
     try {
-      const res = await axiosInstance.get('/exams');
-      setExams(res.data);
+      const res = await axiosInstance.get(`/exams?page=${page}`);
+      setExams(res.data.exams);
+      setTotalPages(res.data.totalPages);
     } catch (error) {
       console.error('Failed to fetch exams:', error);
     }
@@ -36,13 +40,11 @@ const ExamAdmin = () => {
   const handleDelete = async (publicId) => {
     try {
       await axiosInstance.delete(`/exams/${publicId}`);
-      setExams(exams.filter((exam) => exam.public_id !== publicId));
+      setExams(prev => prev.filter((exam) => exam.public_id !== publicId));
     } catch (error) {
       console.error('Failed to delete exam:', error);
     }
   };
-
-
 
   return (
     <Container sx={{ mt: 4 }}>
@@ -70,12 +72,6 @@ const ExamAdmin = () => {
                 <TableCell>{exam.description}</TableCell>
                 <TableCell>{exam.duration}</TableCell>
                 <TableCell align="right">
-                  {/* <IconButton color="primary" onClick={() => handleEdit(exam.public_id)}>
-                    <Edit />
-                  </IconButton>
-                  <IconButton color="error" onClick={() => handleDelete(exam.public_id)}>
-                    <Delete />
-                  </IconButton> */}
                   <Button color="primary" component={Link} to={`/admin/exams/${exam.public_id}`}>Detail</Button>
                   <Button color="error" onClick={() => handleDelete(exam.public_id)}>Delete</Button>
                 </TableCell>
@@ -91,6 +87,16 @@ const ExamAdmin = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Phân trang */}
+      <Stack alignItems="center" mt={3}>
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={(event, value) => setPage(value)}
+          color="primary"
+        />
+      </Stack>
     </Container>
   );
 };

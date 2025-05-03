@@ -9,12 +9,35 @@ export const findExamIdByPublicId = async (publicId) => {
 }
 
 
-export const getAllExams = async () => {
-  return await Exam.findAll({
-    attributes: ['public_id', 'name', 'description', 'duration']
+export const getAllExams = async (page = 1) => {
+  const pageSize = 6;
+  const offset = (page - 1) * pageSize;
+
+  const { count, rows } = await Exam.findAndCountAll({
+    attributes: ['public_id', 'name', 'description', 'duration'],
+    limit: pageSize,
+    offset: offset,
+    order: [['id', 'DESC']]
   });
+
+  return {
+    totalItems: count,
+    totalPages: Math.ceil(count / pageSize),
+    currentPage: page,
+    exams: rows
+  };
 };
 
+
+
+// Lấy tất cả cây phân cấp của exam 
+function buildNestedParts(part, partMap) {
+  part.Children = part.Children.map(childId => {
+    const childPart = partMap[childId];
+    return childPart ? buildNestedParts(childPart, partMap) : null;
+  }).filter(Boolean);
+  return part;
+}
 export const getExamWithFullHierarchy = async (publicId) => {
   const exam = await db.Exam.findOne({
     where: { public_id: publicId },
@@ -41,8 +64,7 @@ export const getExamWithFullHierarchy = async (publicId) => {
       }
     ]
   });
-
-  // Step 2: Tạo map từ partId → ExamPart
+  // Step 2: Convert về object thuần + chuẩn bị Map theo ID
   const partMap = {};
   allParts.forEach(part => {
     part = part.toJSON(); // make plain
@@ -50,14 +72,19 @@ export const getExamWithFullHierarchy = async (publicId) => {
     partMap[part.id] = part;
   });
 
-  // Step 3: Xây dựng cây phân cấp
-  const rootParts = [];
+  // Step 3: Gắn part con vào cha (parent_part_id)
+  // Ở đây CHildren nên chỉ gắn part.id thay vì part , để tránh trường hợp ông bà nhận thg con , sau đó thg con nhận cháu
+  // => ông bà không nhận cháu   
   allParts.forEach(part => {
-    if (part.parent_part_id) partMap[part.parent_part_id]?.Children.push(part);
+    if (part.parent_part_id) partMap[part.parent_part_id]?.Children.push(part.id);
   });
+
+  var rootParts = [];
   allParts.forEach(part => {
     if (!part.parent_part_id) rootParts.push(partMap[part.id]);
   });
+  rootParts = rootParts.map(root => buildNestedParts(root, partMap));
+
   return {
     public_id: exam.public_id,
     name: exam.name,
@@ -67,6 +94,7 @@ export const getExamWithFullHierarchy = async (publicId) => {
   };
 };
 
+// ______
 
 
 export const createExam = async ({ name, description, duration }) => {

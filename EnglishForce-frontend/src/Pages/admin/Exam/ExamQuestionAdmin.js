@@ -25,8 +25,6 @@ import axiosInstance from "../../../Api/axiosInstance";
 const questionTypes = [
     { value: "single_choice", label: "Single Choice" },
     { value: "multiple_choice", label: "Multiple Choice" },
-    { value: "listening", label: "Listening" },
-    { value: "reading", label: "Reading" },
 ];
 
 const AdminExamQuestions = () => {

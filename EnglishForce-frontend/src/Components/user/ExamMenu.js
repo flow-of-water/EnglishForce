@@ -23,18 +23,21 @@ const ExamMenu = ({ parts, answers, timeLeft, onSubmit }) => {
     return `${mins}:${secs}`;
   };
 
+  // 🧠 Global index counter
+  let globalQuestionIndex = 1;
+
   const renderPartsAndQuestions = (parts) => {
     return parts.map((part) => (
       <Box key={part.public_id} sx={{ mb: 2 }}>
-        {/* Tên Part hoặc Child Part */}
         <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
           📚 {part.name}
         </Typography>
 
-        {/* Các câu hỏi của Part */}
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-          {part.Questions?.map((question, idx) => {
+          {part.Questions?.map((question) => {
             const isAnswered = answers[question.public_id] !== undefined;
+            const questionNumber = globalQuestionIndex++; // Tăng liên tục không reset
+
             return (
               <Box
                 key={question.public_id}
@@ -58,13 +61,12 @@ const ExamMenu = ({ parts, answers, timeLeft, onSubmit }) => {
                   }
                 }}
               >
-                {idx + 1}
+                {questionNumber}
               </Box>
             );
           })}
         </Box>
 
-        {/* Các Child Part (nếu có) */}
         {part.Children?.length > 0 && (
           <Box sx={{ pl: 2 }}>
             {renderPartsAndQuestions(part.Children)}
@@ -105,7 +107,6 @@ const ExamMenu = ({ parts, answers, timeLeft, onSubmit }) => {
             p: 2,
           }}
         >
-          {/* Thời gian còn lại */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="h6">⏳ Time Left</Typography>
             <Typography variant="h4" color={timeLeft <= 60 ? 'error.main' : 'text.primary'}>
@@ -113,7 +114,6 @@ const ExamMenu = ({ parts, answers, timeLeft, onSubmit }) => {
             </Typography>
           </Box>
 
-          {/* Danh sách Part / Child Part / Question */}
           <Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2 }}>
             <Typography variant="h6" sx={{ mb: 1 }}>
               📝 Questions
@@ -121,7 +121,6 @@ const ExamMenu = ({ parts, answers, timeLeft, onSubmit }) => {
             {renderPartsAndQuestions(parts)}
           </Box>
 
-          {/* Nút Submit */}
           <Button
             variant="contained"
             onClick={onSubmit}

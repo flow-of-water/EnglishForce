@@ -1,3 +1,5 @@
+import isHtml from 'is-html';
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
@@ -16,6 +18,7 @@ import {
   FormControlLabel
 } from '@mui/material';
 import ExamMenu from '../../../Components/user/ExamMenu';
+
 
 const ExamStartPage = () => {
   const { publicId } = useParams();
@@ -131,107 +134,97 @@ const ExamStartPage = () => {
 
   if (!exam) return <Typography>Loading exam start...</Typography>;
 
+  let globalQuestionIndex = 1; // Biến toàn cục ngoài component hoặc ở đầu trong component nếu không tách file
+
   const renderPartRecursively = (part, indexPath = '') => (
     <Box key={part.public_id} mb={5}>
       <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-        Part {indexPath}: {part.name}
-      </Typography>
-      <Typography variant="body2" sx={{ mb: 2 }}>
-        {part.description}
+        Exam Part {indexPath}: {part.name}
       </Typography>
 
-      {/* Hiển thị Thumbnail và Record của Part */}
+      {typeof part.description === 'string' && isHtml(part.description) ? <div dangerouslySetInnerHTML={{ __html: part.description }} />
+        : <Typography variant="body2" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {part.description}
+        </Typography>
+      }
+
       {part.thumbnail && (
         <Box my={2}>
-          <Typography fontStyle="italic" color="text.secondary">
-            Part Thumbnail:
-          </Typography>
-          <img
-            src={part.thumbnail}
-            alt="Part thumbnail"
-            style={{
-              maxWidth: 600, height: 'auto', display: 'block',
-              borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}
-          />
+          <Typography fontStyle="italic" color="text.secondary">Part Thumbnail:</Typography>
+          <img src={part.thumbnail} alt="Part thumbnail" style={{ maxWidth: 600, borderRadius: '8px' }} />
         </Box>
       )}
 
       {part.record && (
         <Box my={2}>
-          <Typography fontStyle="italic" color="text.secondary">
-            Part Record:
-          </Typography>
+          <Typography fontStyle="italic" color="text.secondary">Part Record:</Typography>
           <audio controls src={part.record} style={{ width: "100%" }} />
         </Box>
       )}
 
-      {/* Danh sách Question */}
-      {part.Questions?.map((question, index) => (
-        <Paper key={question.public_id} sx={{ p: 3, my: 3 }} id={question.public_id} elevation={3}>
-          <Typography variant="h6" gutterBottom>
-            Question {index + 1}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {question.content}
-          </Typography>
+      {part.Questions?.map((question) => {
+        const rendered = (
+          <Paper key={question.public_id} sx={{ p: 3, my: 3 }} id={question.public_id} elevation={3}>
+            <Typography variant="h6" gutterBottom>
+              Question {globalQuestionIndex}
+            </Typography>
+            <Typography variant="body1" gutterBottom>{question.content}</Typography>
 
-          {question.thumbnail && (
-            <Box my={2}>
-              <img
-                src={question.thumbnail}
-                alt="Question illustration"
-                style={{ maxWidth: '100%', borderRadius: '8px' }}
-              />
-            </Box>
-          )}
+            {question.thumbnail && (
+              <Box my={2}>
+                <img src={question.thumbnail} alt="Question illustration" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+              </Box>
+            )}
 
-          {question.record && (
-            <Box my={2}>
-              <audio controls src={question.record} />
-            </Box>
-          )}
+            {question.record && (
+              <Box my={2}>
+                <audio controls src={question.record} />
+              </Box>
+            )}
 
-          <Chip label={question.type} color="info" variant="outlined" sx={{ mb: 2 }} />
+            {question.type && <Chip label={question.type} color="info" variant="outlined" sx={{ mb: 2 }} />}
 
-          <List>
-            {question.Answers?.map((ans) => {
-              const selected = !!answers[question.public_id]?.includes(ans.public_id);
-              return (
-                <ListItem key={ans.public_id} disablePadding>
-                  <FormControlLabel
-                    control={
-                      question.type === 'multiple_choice' ? (
-                        <Checkbox
-                          checked={selected}
-                          onChange={() =>
-                            handleSelectAnswer(question.public_id, ans.public_id, 'multiple_choice')
-                          }
-                        />
-                      ) : (
-                        <Radio
-                          checked={selected}
-                          onChange={() =>
-                            handleSelectAnswer(question.public_id, ans.public_id, 'single_choice')
-                          }
-                        />
-                      )
-                    }
-                    label={ans.content}
-                  />
-                </ListItem>
-              );
-            })}
-          </List>
-        </Paper>
-      ))}
+            <List>
+              {question.Answers?.map((ans) => {
+                const selected = !!answers[question.public_id]?.includes(ans.public_id);
+                return (
+                  <ListItem key={ans.public_id} disablePadding>
+                    <FormControlLabel
+                      control={
+                        question.type === 'multiple_choice' ? (
+                          <Checkbox
+                            checked={selected}
+                            onChange={() =>
+                              handleSelectAnswer(question.public_id, ans.public_id, 'multiple_choice')
+                            }
+                          />
+                        ) : (
+                          <Radio
+                            checked={selected}
+                            onChange={() =>
+                              handleSelectAnswer(question.public_id, ans.public_id, 'single_choice')
+                            }
+                          />
+                        )
+                      }
+                      label={ans.content}
+                    />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Paper>
+        );
+        globalQuestionIndex++; // tăng sau mỗi question
+        return rendered;
+      })}
 
-      {/* Render Children nếu có */}
       {part.Children?.map((childPart, idx) =>
         renderPartRecursively(childPart, `${indexPath}.${idx + 1}`)
       )}
     </Box>
   );
+
 
   return (
     <Box p={4}>

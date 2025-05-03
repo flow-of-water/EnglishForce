@@ -70,7 +70,6 @@ export const generateResponseWithWebDataController = async (req, res) => {
       prompt = `${courseInfo}. ${prompt}`;
     }
 
-    console.log
     console.log(prompt)
     const result = await model.generateContent(prompt);
     res.json(result.response.text());

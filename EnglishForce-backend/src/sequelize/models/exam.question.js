@@ -20,7 +20,6 @@ export default (sequelize, DataTypes) => {
     },
     content: {
       type: DataTypes.TEXT,
-      allowNull: false
     },
     thumbnail: {
       type: DataTypes.TEXT // link ảnh minh họa (nếu có)
@@ -29,9 +28,13 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.TEXT // link file audio (nếu có)
     },
     type: {
-      type: DataTypes.ENUM('single_choice', 'multiple_choice', 'listening', 'reading'),
-      allowNull: false
-    }
+      type: DataTypes.ENUM('single_choice', 'multiple_choice'),
+      defaultValue: 'single_choice',
+    },
+    order_index: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
   }, {
     tableName: 'questions',
     timestamps: false

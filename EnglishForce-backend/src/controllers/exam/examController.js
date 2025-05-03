@@ -3,7 +3,8 @@ import * as examService from '../../services/exam/exam.service.js';
 
 export const getAllExams = async (req, res) => {
   try {
-    const exams = await examService.getAllExams();
+    const page = parseInt(req.query.page) || 1;
+    const exams = await examService.getAllExams(page);
     res.json(exams);
   } catch (error) {
     console.error(error);
