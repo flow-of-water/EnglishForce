@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import { Box, Typography, Button } from '@mui/material';
+import CircularLoading from '../../../Components/Loading';
 
 const ExamDetailPage = () => {
   const { publicId } = useParams();
@@ -12,7 +13,7 @@ const ExamDetailPage = () => {
   useEffect(() => {
     const FetchExamAndAttempts = async () => {
       try {
-        const response = await axiosInstance.get(`/exams/${publicId}`);
+        const response = await axiosInstance.get(`/exams/${publicId}/short`);
         setExam(response.data);
 
         const attemptRes = await axiosInstance.get(`/exam-attempts/${publicId}/user`);
@@ -23,8 +24,7 @@ const ExamDetailPage = () => {
     FetchExamAndAttempts();
   }, [publicId]);
 
-  if (!exam) return <Typography>Loading...</Typography>;
-
+  if (!exam) return <CircularLoading/>;
   return (
     <Box p={4}>
       <Typography variant="h3">{exam.name}</Typography>

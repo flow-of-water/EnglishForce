@@ -23,6 +23,17 @@ export const getExamWithFullHierarchy = async (req, res) => {
   }
 };
 
+export const getExamShortly = async (req, res) => {
+  try {
+    const { publicId } = req.params;
+    const examShort = await examService.getExamShort(publicId);
+    if (!examShort) return res.status(404).json({ error: 'Exam not found' });
+    res.status(200).json(examShort);
+  } catch (err) {
+    console.error('Error fetching short exam info:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 export const createExam = async (req, res) => {
   try {

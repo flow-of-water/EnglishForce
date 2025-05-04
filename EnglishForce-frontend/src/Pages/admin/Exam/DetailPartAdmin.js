@@ -109,7 +109,7 @@ const ExamPartDetailAdmin = () => {
           <Typography variant="h4">{part.name}</Typography>
           <Typography variant="body1">{part.description}</Typography>
         </Box>
-        <IconButton onClick={() => navigate(`/admin/exams/${partPublicId}/parts/${part.public_id}/edit`)}>
+        <IconButton onClick={() => navigate(`/admin/exams/${publicId}/parts/${partPublicId}/edit`)}>
           <EditIcon />
         </IconButton>
       </Box>

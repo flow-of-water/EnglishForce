@@ -8,7 +8,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import axiosInstance from "../../../Api/axiosInstance";
 
 const QuestionAnswerAdmin = () => {
-  const { publicId } = useParams(); // question public_id
+  const { questionPublicId } = useParams(); // question public_id
   const [answers, setAnswers] = useState([]);
   const [newAnswerContent, setNewAnswerContent] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
@@ -16,7 +16,7 @@ const QuestionAnswerAdmin = () => {
 
   const fetchAnswers = async () => {
     try {
-      const res = await axiosInstance.get(`/answers/by-question/${publicId}`);
+      const res = await axiosInstance.get(`/answers/by-question/${questionPublicId}`);
       setAnswers(res.data);
     } catch (error) {
       console.error("Failed to fetch answers", error);
@@ -25,12 +25,12 @@ const QuestionAnswerAdmin = () => {
 
   useEffect(() => {
     fetchAnswers();
-  }, [publicId]);
+  }, [questionPublicId]);
 
   const handleAddAnswer = async () => {
     try {
       const res = await axiosInstance.post("/answers", {
-        question_public_id: publicId,
+        question_public_id: questionPublicId,
         content: newAnswerContent,
         is_correct: isCorrect,
       });

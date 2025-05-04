@@ -37,7 +37,7 @@ const CourseAdmin = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{ mt: 4 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
       <Typography variant="h4" gutterBottom>Manage Courses</Typography>
         <Button variant="contained" startIcon={<Add />} href="/admin/courses/create">

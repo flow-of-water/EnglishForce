@@ -87,3 +87,47 @@ export const getQuestionByPublicId = async (publicId) => {
 
   return question;
 };
+
+
+export const updateQuestion = async (publicId, data) => {
+  const question = await db.Question.findOne({ where: { public_id: publicId } });
+  if (!question) throw new Error('Question not found');
+
+  // Update thumbnail
+  if (data.thumbnailFile) {
+    if (question.thumbnail_public_id) {
+      await deleteCloudinaryFile(question.thumbnail_public_id, 'image');
+    }
+    question.thumbnail = data.thumbnailFile.path;
+    question.thumbnail_public_id = data.thumbnailFile.filename;
+  } else if (data.thumbnailLink) {
+    if (question.thumbnail_public_id) {
+      await deleteCloudinaryFile(question.thumbnail_public_id, 'image');
+      question.thumbnail_public_id = null;
+    }
+    question.thumbnail = data.thumbnailLink;
+  }
+
+  // Update record
+  if (data.recordFile) {
+    if (question.record_public_id) {
+      await deleteCloudinaryFile(question.record_public_id, 'video');
+    }
+    question.record = data.recordFile.path;
+    question.record_public_id = data.recordFile.filename;
+  } else if (data.recordLink) {
+    if (question.record_public_id) {
+      await deleteCloudinaryFile(question.record_public_id, 'video');
+      question.record_public_id = null;
+    }
+    question.record = data.recordLink;
+  }
+
+  // Update others
+  if (data.content !== undefined) question.content = data.content;
+  if (data.type !== undefined) question.type = data.type;
+  if (data.order_index !== undefined) question.order_index = data.order_index;
+
+  await question.save();
+  return question;
+};

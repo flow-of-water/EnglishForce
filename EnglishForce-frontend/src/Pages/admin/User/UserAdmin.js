@@ -37,7 +37,7 @@ const UserTable = () => {
     };
 
     return (
-        <Container>
+        <Container sx={{ mt: 4 }}>
             <Typography variant="h4" gutterBottom>Manage Users</Typography>
             <TableContainer component={Paper}>
                 <Table>

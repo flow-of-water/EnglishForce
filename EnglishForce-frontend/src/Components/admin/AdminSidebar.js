@@ -11,7 +11,12 @@ import CommentIcon from "@mui/icons-material/Comment";
 import QuizIcon from '@mui/icons-material/Quiz';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import TaskIcon from '@mui/icons-material/Task';
- 
+
+import MenuBookIcon from '@mui/icons-material/MenuBook'; 
+import ViewModuleIcon from '@mui/icons-material/ViewModule'; 
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'; 
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'; 
+
 const AdminSidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleSidebar}>
@@ -69,6 +74,29 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
           <ListItem button component={Link} to="/admin/exam-attempts">
             <ListItemIcon><TaskIcon /></ListItemIcon>
             <ListItemText primary="Exam Attempts" />
+          </ListItem>
+        </List>
+
+        <Divider />
+
+        <List
+          subheader={<ListSubheader component="div">Program Management</ListSubheader>}
+        >
+          <ListItem button component={Link} to="/admin/programs">
+            <ListItemIcon><MenuBookIcon /></ListItemIcon>
+            <ListItemText primary="Programs" />
+          </ListItem>
+          <ListItem button component={Link} to="/admin/units">
+            <ListItemIcon><ViewModuleIcon /></ListItemIcon>
+            <ListItemText primary="Units" />
+          </ListItem>
+          <ListItem button component={Link} to="/admin/lessons">
+            <ListItemIcon><LibraryBooksIcon /></ListItemIcon>
+            <ListItemText primary="Lessons" />
+          </ListItem>
+          <ListItem button component={Link} to="/admin/exercises">
+            <ListItemIcon><CheckCircleIcon /></ListItemIcon>
+            <ListItemText primary="Exercises" />
           </ListItem>
         </List>
 

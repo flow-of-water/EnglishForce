@@ -3,16 +3,17 @@ import bodyParser from "body-parser"
 import cors from "cors"
 // OAuth
 import passport from 'passport';
-// routes
+// ***** routes *****
 import authRoutes from "./routes/auth/authRoutes.js";
 import authGoogleRoutes from './routes/auth/authGoogleRoutes.js';
 import authFacebookRoutes from './routes/auth/authFacebookRoutes.js';
+import chatBotRoutes from './routes/chatBotRoutes.js';
+import userRoutes from "./routes/userRoutes.js"
+// course
 import courseRoutes from "./routes/course/courseRoutes.js"
 import courseSectionRoutes from "./routes/course/courseSectionRoutes.js"
-import userRoutes from "./routes/userRoutes.js"
 import paymentRoutes from "./routes/course/paymentRoutes.js"
 import userCourseRoutes from './routes/course/userCourseRoutes.js';
-import chatBotRoutes from './routes/chatBotRoutes.js';
 import commentRoutes from './routes/course/commentRoutes.js';
 // Stripe webhook
 import stripeRoutes from "./routes/course/stripeRoutes.js"
@@ -22,7 +23,8 @@ import examAttemptRoutes from "./routes/exam/examAttemptRoutes.js"
 import questionRoutes from './routes/exam/questionRoutes.js'
 import answerRoutes from './routes/exam/answerRoutes.js'
 import examPartRoutes from './routes/exam/examPartRoutes.js'
-
+// program
+import programRoutes from './routes/program/programRoutes.js'
 const app = express()
 
 app.use(cors());
@@ -61,5 +63,6 @@ app.use("/api/exam-parts" , examPartRoutes) ;
 app.use("/api/exam-attempts", examAttemptRoutes) ;
 app.use('/api/questions', questionRoutes) ;
 app.use('/api/answers', answerRoutes) ;
-
+// Program 
+app.use('/api/programs', programRoutes);
 export default app ;

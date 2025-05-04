@@ -36,7 +36,7 @@ export const getExamPartByPublicId = async (req, res) => {
 export const updateExamPart = async (req, res) => {
   try {
     const { publicId } = req.params;
-    const { name, description } = req.body;
+    const { name, description, thumbnail, record } = req.body;
 
     const updatedPart = await examPartService.updateExamPart(publicId, {
       name,

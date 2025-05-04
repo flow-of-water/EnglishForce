@@ -35,7 +35,7 @@ const CommentAdmin = () => {
     };
 
     return (
-        <Container>
+        <Container sx={{ mt: 4 }}>
             <Typography variant="h4" gutterBottom>Manage Comments</Typography>
             <TableContainer component={Paper}>
                 <Table>

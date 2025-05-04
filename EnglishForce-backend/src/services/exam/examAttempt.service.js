@@ -3,15 +3,28 @@ import db from '../../sequelize/models/index.js';
 const { Exam, Question, Answer, ExamAttempt, User } = db;
 
 
-export const getAllAttempts = async () => {
-    const attempts = await ExamAttempt.findAll({
+export const getPaginatedAttempts = async (page = 1) => {
+    const pageSize = 6;
+    const offset = (page - 1) * pageSize;
+
+    const { count, rows } = await ExamAttempt.findAndCountAll({
+        offset,
+        limit: pageSize,
+        order: [['created_at', 'DESC']],
         include: [
             { model: User, attributes: ['username'] },
             { model: Exam, attributes: ['name', 'public_id'] }
         ],
     });
-    return attempts;
-}
+
+    return {
+        total: count,
+        page,
+        pageSize,
+        totalPages: Math.ceil(count / pageSize),
+        attempts: rows,
+    };
+};
 
 
 export const getExamAttemptByUserId = async (publicId, userId, limit_number = 5) => {

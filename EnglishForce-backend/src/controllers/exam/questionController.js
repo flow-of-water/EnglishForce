@@ -53,3 +53,32 @@ export const getQuestionByPublicId = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+
+export const updateQuestion = async (req, res) => {
+  try {
+    const { questionPublicId } = req.params;
+    const {
+      content,
+      type,
+      order_index,
+      thumbnail: thumbnailLink,
+      record: recordLink,
+    } = req.body;
+
+    const updated = await questionService.updateQuestion(questionPublicId, {
+      content,
+      type,
+      order_index: parseInt(order_index),
+      thumbnailFile: req.files?.thumbnail?.[0] || null,
+      recordFile: req.files?.record?.[0] || null,
+      thumbnailLink: thumbnailLink || null,
+      recordLink: recordLink || null,
+    });
+
+    res.status(200).json(updated);
+  } catch (err) {
+    console.error('Update question failed:', err);
+    res.status(500).json({ error: err.message });
+  }
+};

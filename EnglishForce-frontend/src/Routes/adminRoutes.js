@@ -27,10 +27,16 @@ import ExamPartPage from '../Pages/admin/Exam/ExamPartAdmin';
 import PartDetailAdmin from '../Pages/admin/Exam/DetailPartAdmin';
 import EditPartAdmin from '../Pages/admin/Exam/EditPartAdmin';
 
+// Program feature 
+import ProgramAdmin from '../Pages/admin/Program/ProgramAdmin';
+import CreateProgramAdmin from '../Pages/admin/Program/CreateProgramAdmin';
+
+
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
     <Route path="/admin" element={<AdminLayout><AdminHome /></AdminLayout>} />
     <Route path="/admin/users" element={<AdminLayout><UserAdmin /></AdminLayout>} />
+
     {/* Course feature */}
     <Route path="/admin/courses" element={<AdminLayout><CourseAdmin /></AdminLayout>} />
     <Route path="/admin/courses/create" element={<AdminLayout><CreateCourseAdmin /></AdminLayout>} />
@@ -39,6 +45,7 @@ export const AdminRoutes = () => (
     <Route path="/admin/courses/sections/:publicId" element={<AdminLayout><CourseSectionAdmin /></AdminLayout>} />
     <Route path="/admin/courses/sections/:publicId/edit" element={<AdminLayout><EditSectionAdmin /></AdminLayout>} />
     <Route path="/admin/comments" element={<AdminLayout><CommentAdmin /></AdminLayout>} />
+
     {/* Exam feature  */} 
     <Route path="/admin/exam-attempts" element={<AdminLayout><ExamAttemptAdmin /></AdminLayout>} />
     <Route path="/admin/exams" element={<AdminLayout><ExamAdmin /></AdminLayout>} />
@@ -49,9 +56,14 @@ export const AdminRoutes = () => (
     <Route path="/admin/exams/:publicId/parts/:partPublicId" element={<AdminLayout><PartDetailAdmin /></AdminLayout>} />
     <Route path="/admin/exams/:publicId/parts/:partPublicId/edit" element={<AdminLayout><EditPartAdmin /></AdminLayout>} />
 
-
     <Route path="/admin/exams/:publicId/parts/:partPublicId/questions" element={<AdminLayout><ExamQuestionAdmin /></AdminLayout>} />
-    <Route path="/admin/exams/questions/:publicId/edit" element={<AdminLayout><EditQuestionAdmin /></AdminLayout>} />
-    <Route path="/admin/exams/questions/:publicId/answer" element={<AdminLayout><QuestionAnswerAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/questions/:questionPublicId/edit" element={<AdminLayout><EditQuestionAdmin /></AdminLayout>} />
+    <Route path="/admin/exams/questions/:questionPublicId/answer" element={<AdminLayout><QuestionAnswerAdmin /></AdminLayout>} />
+
+    {/* Program feature  */}
+    <Route path="/admin/programs" element={<AdminLayout><ProgramAdmin /></AdminLayout>} />
+    <Route path="/admin/programs/create" element={<AdminLayout><CreateProgramAdmin /></AdminLayout>} />
+
+
   </Route>
 );

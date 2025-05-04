@@ -1,17 +1,19 @@
 import * as examAttemptService from '../../services/exam/examAttempt.service.js';
 
 
-export const getAllAttempts = async (req, res) => {
+export const getPaginatedAttempts = async (req, res) => {
   try {
-  
-    const attempts = await examAttemptService.getAllAttempts() ;
+    const page = parseInt(req.query.page) || 1;
 
-    res.json(attempts);
+    const result = await examAttemptService.getPaginatedAttempts(page);
+
+    res.json(result);
   } catch (err) {
-    console.error('Error fetching all exam attempts:', err);
+    console.error('Error fetching paginated exam attempts:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 
 export const getUserExamAttempts = async (req, res) => {

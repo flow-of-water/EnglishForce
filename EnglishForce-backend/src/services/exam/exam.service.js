@@ -97,6 +97,18 @@ export const getExamWithFullHierarchy = async (publicId) => {
 // ______
 
 
+export const getExamShort = async (publicId) => {
+  const exam = await db.Exam.findOne({
+    where: { public_id: publicId },
+    attributes: ['public_id', 'name', 'description', 'duration'],
+  });
+
+  return exam ? exam.toJSON() : null;
+};
+
+
+
+
 export const createExam = async ({ name, description, duration }) => {
   const newExam = await Exam.create({
     name,

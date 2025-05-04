@@ -18,7 +18,7 @@ import {
   FormControlLabel
 } from '@mui/material';
 import ExamMenu from '../../../Components/user/ExamMenu';
-
+import CircularLoading from '../../../Components/Loading';
 
 const ExamStartPage = () => {
   const { publicId } = useParams();
@@ -132,7 +132,7 @@ const ExamStartPage = () => {
     }
   };
 
-  if (!exam) return <Typography>Loading exam start...</Typography>;
+  if (!exam) return <CircularLoading />;
 
   let globalQuestionIndex = 1; // Biến toàn cục ngoài component hoặc ở đầu trong component nếu không tách file
 

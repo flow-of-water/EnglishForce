@@ -22,6 +22,13 @@ import ExamPage from '../Pages/user/Exam/Exam';
 import ExamDetailPage from '../Pages/user/Exam/ExamDetail';
 import ExamStartPage from '../Pages/user/Exam/ExamStart';
 import ExamResultPage from '../Pages/user/Exam/ExamResult';
+
+
+// ***** Program feature *****
+import ProgramPage from '../Pages/user/Program/Program';
+import ProgramDetailPage from '../Pages/user/Program/ProgramDetail';
+import UnitDetailPage from '../Pages/user/Program/UnitDetail';
+
 export const UserRoutes = () => (
   <>
     <Route path="/" element={<UserLayout><HomePage /></UserLayout>} />
@@ -43,6 +50,11 @@ export const UserRoutes = () => (
     <Route path="/exams/:publicId" element={<UserLayout><ExamDetailPage /></UserLayout>} />
     <Route path="/exams/:publicId/start" element={<UserLayout><ExamStartPage /></UserLayout>} />
     <Route path="/exams/:publicId/result" element={<UserLayout><ExamResultPage /></UserLayout>} />
+
+    {/* program feature  */}
+    <Route path="/programs" element={<UserLayout><ProgramPage /></UserLayout>} />
+    <Route path="/programs/:programPublicId" element={<UserLayout><ProgramDetailPage /></UserLayout>} />
+    <Route path="/programs/:programPublicId/units/:unitPublicId" element={<UserLayout><UnitDetailPage /></UserLayout>} />
 
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />
