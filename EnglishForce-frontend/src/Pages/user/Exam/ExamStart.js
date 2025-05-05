@@ -15,7 +15,8 @@ import {
   Button,
   Checkbox,
   Radio,
-  FormControlLabel
+  FormControlLabel,
+  CircularProgress,
 } from '@mui/material';
 import ExamMenu from '../../../Components/user/ExamMenu';
 import CircularLoading from '../../../Components/Loading';
@@ -24,7 +25,7 @@ const ExamStartPage = () => {
   const { publicId } = useParams();
   const [exam, setExam] = useState(null);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,57 +40,50 @@ const ExamStartPage = () => {
     fetchExam();
   }, [publicId]);
 
+
+  // Warn users when they try to leave the page.
   useEffect(() => {
-    if (exam?.duration) {
-      const existingStart = localStorage.getItem(`exam_${publicId}_start`);
-      let startTime;
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = ''; // cần thiết để Chrome hiển thị popup xác nhận
+    };
 
-      if (existingStart) {
-        startTime = new Date(existingStart);
-      } else {
-        startTime = new Date();
-        localStorage.setItem(`exam_${publicId}_start`, startTime.toISOString());
-      }
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
-      const endTime = new Date(startTime.getTime() + exam.duration * 60000);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
-      const updateRemainingTime = () => {
-        const now = new Date();
-        const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
-        setTimeLeft(remaining);
 
-        if (remaining === 0) handleSubmit();
-      };
-
-      updateRemainingTime();
-      const interval = setInterval(updateRemainingTime, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [exam]);
-
-  const handleSelectAnswer = (questionId, answerId, type) => {
+  const handleSelectAnswer = (questionPublicId, answerPublicId, type) => {
     setAnswers((prev) => {
       if (type === 'multiple_choice') {
-        const current = prev[questionId] || [];
+        const current = prev[questionPublicId] || [];
         return {
           ...prev,
-          [questionId]: current.includes(answerId)
-            ? current.filter((id) => id !== answerId)
-            : [...current, answerId],
+          [questionPublicId]: current.includes(answerPublicId)
+            ? current.filter((id) => id !== answerPublicId)
+            : [...current, answerPublicId],
         };
       } else {
         return {
           ...prev,
-          [questionId]: [answerId],
+          [questionPublicId]: [answerPublicId],
         };
       }
     });
   };
+  // answers sẽ có dạng :
+  // {
+  //   'question-public-id-1': ['answer-id-1', 'answer-id-2'], // nếu multiple
+  //   'question-public-id-2': ['answer-id-3']                 // nếu single
+  // }
+
 
   const handleSubmit = async () => {
     try {
-      localStorage.removeItem(`exam_${publicId}_start`);
-
+      setLoading(true);
       const payload = {
         exam_public_id: publicId,
         answers: Object.entries(answers).map(([question_public_id, answer_ids]) => ({
@@ -97,6 +91,7 @@ const ExamStartPage = () => {
           answer_ids
         }))
       };
+      // console.log("payload : ",payload) ;
       await axiosInstance.post('/exams/attempts', payload);
 
       // Build selected answer content
@@ -123,12 +118,14 @@ const ExamStartPage = () => {
         extractQuestions(part);
       });
 
-      console.log(selectedAnswerContents);
+      // console.log(selectedAnswerContents);
       navigate(`/exams/${publicId}/result`, {
         state: { selectedAnswers: selectedAnswerContents }
       });
     } catch (err) {
       console.error('Submit failed', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -228,10 +225,31 @@ const ExamStartPage = () => {
 
   return (
     <Box p={4}>
+
+      {loading && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            bgcolor: 'rgba(255,255,255,0.7)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
+
+      
       <ExamMenu
         parts={exam.parts}
         answers={answers}             // Object: { question_public_id: [answer_id1, answer_id2] }
-        timeLeft={timeLeft}
+        duration={exam?.duration}
         onSubmit={handleSubmit}
       />
 
@@ -241,11 +259,6 @@ const ExamStartPage = () => {
       <Typography variant="subtitle1" color="text.secondary" gutterBottom>
         Duration: {exam.duration} minutes
       </Typography>
-      {timeLeft !== null && (
-        <Typography variant="subtitle1" color="error" gutterBottom>
-          Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-        </Typography>
-      )}
       <Typography variant="body1" paragraph>
         {exam.description}
       </Typography>

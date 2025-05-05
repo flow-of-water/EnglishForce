@@ -37,3 +37,26 @@ export const deleteProgramByPublicId = async (req, res) => {
   }
 };
 
+
+
+export const createProgram = async (req, res) => {
+  try {
+    const { name, description, order_index } = req.body;
+    const thumbnail = req.file?.path || null;
+
+    const program = await programService.createProgramService({
+      name,
+      description,
+      order_index: parseInt(order_index) || 0,
+      thumbnail,
+    });
+
+    res.status(201).json({
+      message: '✅ Program created successfully',
+      program,
+    });
+  } catch (error) {
+    console.error('❌ Failed to create program:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

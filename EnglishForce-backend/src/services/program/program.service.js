@@ -41,3 +41,14 @@ export const deleteByPublicId = async (publicId) => {
   await program.destroy(); 
   // CASCADE will delete relational Units, Lessons 
 };
+
+
+
+export const createProgramService = async ({ name, description, order_index, thumbnail }) => {
+  return await db.Program.create({
+    name,
+    description,
+    order_index,
+    thumbnail,
+  });
+};

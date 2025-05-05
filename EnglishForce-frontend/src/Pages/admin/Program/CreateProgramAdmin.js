@@ -1,90 +1,164 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  Box, Container, Button, TextField, Typography, Stack, InputLabel
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../../Api/axiosInstance';
+  Box,
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Snackbar,
+  Alert,
+  CircularProgress,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../Api/axiosInstance";
 
-const ProgramCreate = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    order_index: 0,
-    thumbnail: null
-  });
-
+const CreateProgramPage = () => {
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [orderIndex, setOrderIndex] = useState(0);
 
-  const handleFileChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      thumbnail: e.target.files[0]
-    }));
-  };
+  const [thumbnailUrl, setThumbnailUrl] = useState("");
+  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
+  const [thumbnailMode, setThumbnailMode] = useState("link");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const [uploading, setUploading] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
-    const data = new FormData();
-    data.append('name', formData.name);
-    data.append('description', formData.description);
-    data.append('order_index', formData.order_index);
-    if (formData.thumbnail) {
-      data.append('thumbnail', formData.thumbnail);
-    }
-
+  const handleSubmit = async () => {
     try {
-      await axiosInstance.post('/programs', data);
-      navigate('/admin/programs');
-    } catch (err) {
-      console.error('Failed to create program:', err);
+      setUploading(true);
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("order_index", orderIndex);
+
+      if (thumbnailMode === "link" && thumbnailUrl) {
+        formData.append("thumbnail", thumbnailUrl);
+      } else if (thumbnailMode === "upload" && selectedThumbnail) {
+        formData.append("thumbnail", selectedThumbnail);
+      }
+
+      await axiosInstance.post("/programs", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      setSnackbar({ open: true, message: "Program created successfully", severity: "success" });
+      setTimeout(() => navigate("/admin/programs"), 1500);
+    } catch (error) {
+      console.error("❌ Error creating program:", error);
+      setSnackbar({ open: true, message: "Failed to create program", severity: "error" });
+    } finally {
+      setUploading(false);
     }
   };
 
   return (
-    <Container p={3}>
-      <Typography variant="h4" gutterBottom>Create New Program</Typography>
-      <Box component="form" onSubmit={handleSubmit} encType="multipart/form-data">
-        <Stack spacing={3}>
-          <TextField
-            label="Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <TextField
-            label="Description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            multiline
-            rows={4}
-          />
-          <TextField
-            label="Order Index"
-            name="order_index"
-            type="number"
-            value={formData.order_index}
-            onChange={handleChange}
-          />
-          <Box>
-            <InputLabel>Thumbnail</InputLabel>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-          </Box>
-          <Button type="submit" variant="contained">Create Program</Button>
-        </Stack>
-      </Box>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Typography variant="h5" fontWeight="bold" gutterBottom>
+        Create New Program
+      </Typography>
+
+      <TextField
+        label="Program Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+
+      <TextField
+        label="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        fullWidth
+        multiline
+        rows={3}
+        sx={{ mb: 2 }}
+      />
+
+      <TextField
+        label="Order Index"
+        type="number"
+        value={orderIndex}
+        onChange={(e) => setOrderIndex(e.target.value)}
+        fullWidth
+        sx={{ mb: 3 }}
+      />
+
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">Thumbnail Input Mode</FormLabel>
+        <RadioGroup
+          row
+          value={thumbnailMode}
+          onChange={(e) => setThumbnailMode(e.target.value)}
+        >
+          <FormControlLabel value="link" control={<Radio />} label="Link" />
+          <FormControlLabel value="upload" control={<Radio />} label="Upload" />
+        </RadioGroup>
+      </FormControl>
+
+      {thumbnailMode === "link" ? (
+        <TextField
+          fullWidth
+          label="Thumbnail URL"
+          value={thumbnailUrl}
+          onChange={(e) => setThumbnailUrl(e.target.value)}
+          sx={{ mb: 2 }}
+        />
+      ) : (
+        <Box sx={{ mb: 2 }}>
+          {selectedThumbnail ? (
+            <>
+              <Typography fontStyle="italic" color="text.secondary">
+                New Thumbnail: {selectedThumbnail.name}
+              </Typography>
+              <img
+                src={URL.createObjectURL(selectedThumbnail)}
+                alt="preview"
+                width="100%"
+                style={{ marginTop: 8, borderRadius: 4 }}
+              />
+            </>
+          ) : null}
+          <Button variant="outlined" component="label" fullWidth sx={{ mt: 1 }}>
+            Upload Thumbnail
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={(e) => setSelectedThumbnail(e.target.files[0])}
+            />
+          </Button>
+        </Box>
+      )}
+
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        disabled={uploading}
+        fullWidth
+        sx={{ mt: 3 }}
+      >
+        {uploading ? <CircularProgress size={24} /> : "Create Program"}
+      </Button>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+      >
+        <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
+      </Snackbar>
     </Container>
   );
 };
 
-export default ProgramCreate;
+export default CreateProgramPage;

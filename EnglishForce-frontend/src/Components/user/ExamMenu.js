@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, List, Button, IconButton, Drawer } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { green, grey } from '@mui/material/colors';
 
-const handleNavigateToQuestion = (questionId) => {
-  const element = document.getElementById(`${questionId}`);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-};
 
-const ExamMenu = ({ parts, answers, timeLeft, onSubmit }) => {
+const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
   const [open, setOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(null);
+
+
+  useEffect(() => {
+    if (duration) {
+      const startTime = new Date(); // Luôn tạo mới
+
+      const endTime = new Date(startTime.getTime() + duration * 60000);
+
+      const updateRemainingTime = () => {
+        const now = new Date();
+        const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
+        setTimeLeft(remaining);
+
+        if (remaining === 0) onSubmit();
+      };
+
+      updateRemainingTime();
+      const interval = setInterval(updateRemainingTime, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [duration]);
+
 
   const toggleDrawer = (state) => () => {
     setOpen(state);
+  };
+
+  const handleNavigateToQuestion = (questionId) => {
+    const element = document.getElementById(`${questionId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   const formatTimeLeft = (seconds) => {
@@ -78,23 +102,39 @@ const ExamMenu = ({ parts, answers, timeLeft, onSubmit }) => {
 
   return (
     <>
-      {!open && (
-        <IconButton
-          onClick={toggleDrawer(true)}
-          sx={{
-            position: 'fixed',
-            top: 60,
-            right: 16,
-            zIndex: 1300,
-            bgcolor: grey[200],
-            '&:hover': {
-              bgcolor: grey[300],
-            },
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-      )}
+{!open && (
+  <Box
+    sx={{
+      position: 'fixed',
+      top: 60,
+      right: 16,
+      zIndex: 1300,
+      bgcolor: grey[200],
+      borderRadius: '28px',
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0 12px',
+      height: 56,
+      boxShadow: 3,
+      '&:hover': {
+        bgcolor: grey[300],
+      },
+    }}
+  >
+    <IconButton
+      onClick={toggleDrawer(true)}
+      sx={{
+        color: 'inherit',
+      }}
+    >
+      <MenuIcon sx={{ fontSize: 32 }} />
+    </IconButton>
+    <Typography variant="subtitle1" sx={{ fontWeight: 'bold', ml: 1 }}>
+      {formatTimeLeft(timeLeft)}
+    </Typography>
+  </Box>
+)}
+
 
       <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
         <Box
