@@ -4,7 +4,7 @@ export default (sequelize, DataTypes) => {
       public_id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, unique: true },
       lesson_id: { type: DataTypes.INTEGER },
       question: { type: DataTypes.TEXT, allowNull: false },
-      type: { type: DataTypes.ENUM('multiple_choice', 'fill_blank', 'listen_translate'), defaultValue: 'multiple_choice' },
+      type: { type: DataTypes.ENUM('single_choice', 'speaking', 'writing'), defaultValue: 'single_choice' },
       thumbnail: DataTypes.TEXT,
       record: DataTypes.TEXT,
       order_index: { type: DataTypes.INTEGER, defaultValue: 0 }

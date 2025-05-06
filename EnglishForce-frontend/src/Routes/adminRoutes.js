@@ -30,7 +30,12 @@ import EditPartAdmin from '../Pages/admin/Exam/EditPartAdmin';
 // Program feature 
 import ProgramAdmin from '../Pages/admin/Program/ProgramAdmin';
 import CreateProgramAdmin from '../Pages/admin/Program/CreateProgramAdmin';
-
+import DetailProgramAdmin from '../Pages/admin/Program/DetailProgramAdmin';
+import EditProgramAdmin from '../Pages/admin/Program/EditProgramAdmin';
+import DetailUnitAdmin from '../Pages/admin/Program/DetailUnitAdmin';
+import EditUnitAdmin from '../Pages/admin/Program/EditUnitAdmin';
+import DetailLessonAdmin from '../Pages/admin/Program/DetailLessonAdmin';
+import DetailExerciseAdmin from '../Pages/admin/Program/DetailExerciseAdmin';
 
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
@@ -63,6 +68,12 @@ export const AdminRoutes = () => (
     {/* Program feature  */}
     <Route path="/admin/programs" element={<AdminLayout><ProgramAdmin /></AdminLayout>} />
     <Route path="/admin/programs/create" element={<AdminLayout><CreateProgramAdmin /></AdminLayout>} />
+    <Route path="/admin/programs/:publicProgramId" element={<AdminLayout><DetailProgramAdmin /></AdminLayout>} />
+    <Route path="/admin/programs/:publicProgramId/edit" element={<AdminLayout><EditProgramAdmin /></AdminLayout>} />
+    <Route path="/admin/programs/:publicProgramId/units/:unitPublicId" element={<AdminLayout><DetailUnitAdmin /></AdminLayout>} />
+    <Route path="/admin/units/:unitPublicId/edit" element={<AdminLayout><EditUnitAdmin /></AdminLayout>} />
+    <Route path="/admin/lessons/:lessonPublicId" element={<AdminLayout><DetailLessonAdmin /></AdminLayout>} />
+    <Route path="/admin/lessons/:lessonPublicId/exercises/:exercisePublicId" element={<AdminLayout><DetailExerciseAdmin /></AdminLayout>} />
 
 
   </Route>

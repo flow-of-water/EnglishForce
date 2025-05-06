@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import axiosInstance from '../../../Api/axiosInstance';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const ProgramList = () => {
   const [programs, setPrograms] = useState([]);
@@ -68,12 +68,8 @@ const ProgramList = () => {
                   ) : 'N/A'}
                 </TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => navigate(`/admin/programs/edit/${program.id}`)}>
-                    <Edit />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(program.public_id)}>
-                    <Delete color="error" />
-                  </IconButton>
+                  <Button color="primary" component={Link} to={`/admin/programs/${program.public_id}`}>Detail</Button>
+                  <Button color="error" onClick={() => handleDelete(program.public_id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}

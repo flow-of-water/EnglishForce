@@ -25,6 +25,9 @@ import answerRoutes from './routes/exam/answerRoutes.js'
 import examPartRoutes from './routes/exam/examPartRoutes.js'
 // program
 import programRoutes from './routes/program/programRoutes.js'
+import unitRoutes from './routes/program/unitRoutes.js'
+import lessonRoutes from './routes/program/lessonRoutes.js'
+
 const app = express()
 
 app.use(cors());
@@ -65,4 +68,7 @@ app.use('/api/questions', questionRoutes) ;
 app.use('/api/answers', answerRoutes) ;
 // Program 
 app.use('/api/programs', programRoutes);
+app.use('/api/units', unitRoutes);
+app.use('/api/lessons', lessonRoutes);
+
 export default app ;

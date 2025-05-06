@@ -6,6 +6,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails,
   Box, CircularProgress, Button, Divider
 } from '@mui/material';
+import CircularLoading from '../../../Components/Loading';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axiosInstance from '../../../Api/axiosInstance';
 import { useParams, Link } from 'react-router-dom';
@@ -90,13 +91,7 @@ const DetailExamAdmin = () => {
     </Accordion>
   );
 
-  if (loading) {
-    return (
-      <Box mt={4} display="flex" justifyContent="center">
-        <CircularProgress />
-      </Box>
-    );
-  }
+  if (loading) return <CircularLoading />;
 
   if (!exam) {
     return (

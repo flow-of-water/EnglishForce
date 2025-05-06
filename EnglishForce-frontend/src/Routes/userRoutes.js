@@ -28,6 +28,7 @@ import ExamResultPage from '../Pages/user/Exam/ExamResult';
 import ProgramPage from '../Pages/user/Program/Program';
 import ProgramDetailPage from '../Pages/user/Program/ProgramDetail';
 import UnitDetailPage from '../Pages/user/Program/UnitDetail';
+import LessonStartPage from '../Pages/user/Program/LessonStart';
 
 export const UserRoutes = () => (
   <>
@@ -55,6 +56,7 @@ export const UserRoutes = () => (
     <Route path="/programs" element={<UserLayout><ProgramPage /></UserLayout>} />
     <Route path="/programs/:programPublicId" element={<UserLayout><ProgramDetailPage /></UserLayout>} />
     <Route path="/programs/:programPublicId/units/:unitPublicId" element={<UserLayout><UnitDetailPage /></UserLayout>} />
+    <Route path="/lessons/:lessonPublicId/start" element={<UserLayout><LessonStartPage /></UserLayout>} />
 
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />

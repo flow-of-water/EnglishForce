@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import {
-  Box, Typography, CircularProgress, Card, CardContent, List, ListItem, ListItemText, Divider
+  Box, Typography, Card, CardContent, List, ListItem, ListItemText, Divider
 } from '@mui/material';
+import CircularLoading from '../../../Components/Loading'; 
 
 const UnitDetailPage = () => {
   const { unitPublicId } = useParams();
@@ -13,7 +14,7 @@ const UnitDetailPage = () => {
   const fetchUnitDetail = async () => {
     try {
       const res = await axiosInstance.get(`/units/${unitPublicId}`);
-      setUnit(res.data.unit);
+      setUnit(res.data);
     } catch (err) {
       console.error("Error loading unit:", err);
     } finally {
@@ -26,7 +27,7 @@ const UnitDetailPage = () => {
   }, [unitPublicId]);
 
   if (loading) {
-    return <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>;
+    return <CircularLoading />;
   }
 
   if (!unit) {
@@ -42,11 +43,11 @@ const UnitDetailPage = () => {
 
       <Typography variant="h6" gutterBottom>Lessons</Typography>
       <List>
-        {unit.lessons.map((lesson, idx) => (
+        {unit.Lessons.map((lesson, idx) => (
           <React.Fragment key={lesson.public_id}>
             <ListItem
               component={Link}
-              to={`/lessons/${lesson.public_id}`}
+              to={`/lessons/${lesson.public_id}/start`}
               button
             >
               <ListItemText

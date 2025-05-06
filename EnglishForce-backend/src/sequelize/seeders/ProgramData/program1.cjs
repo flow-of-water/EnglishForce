@@ -20,11 +20,21 @@ module.exports =  {
           exercises: [
             {
               question: "Say Hello",
-              type: "multiple_choice",
+              type: "single_choice",
               order_index: 0,
               answers: [
                 { content: "Hello", is_correct: true },
                 { content: "Bye", is_correct: false }
+              ]
+            },
+
+            {
+              question: "Say Bye",
+              type: "single_choice",
+              order_index: 0,
+              answers: [
+                { content: "Hello", is_correct: false },
+                { content: "Bye", is_correct: true }
               ]
             }
           ]

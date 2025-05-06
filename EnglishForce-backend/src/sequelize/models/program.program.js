@@ -5,6 +5,7 @@ export default (sequelize, DataTypes) => {
         name: { type: DataTypes.TEXT, allowNull: false },
         description: DataTypes.TEXT,
         thumbnail: DataTypes.TEXT,
+        thumbnail_public_id: DataTypes.TEXT, // public ID image (Cloudinary)
         order_index: { type: DataTypes.INTEGER, defaultValue: 0 },
     }, {
         tableName: 'programs',

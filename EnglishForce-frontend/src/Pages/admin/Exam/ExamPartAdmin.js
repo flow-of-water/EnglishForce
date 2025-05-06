@@ -7,6 +7,7 @@ import {
   Container, Typography, Paper, Accordion, AccordionSummary, AccordionDetails,
   CircularProgress, Snackbar, Alert, Box, Button, TextField, IconButton
 } from "@mui/material";
+import CircularLoading from "../../../Components/Loading";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Visibility } from "@mui/icons-material";
@@ -147,13 +148,7 @@ const ExamPartDetailAdmin = () => {
     </Accordion>
   );
 
-  if (loading) {
-    return (
-      <Container sx={{ mt: 4 }}>
-        <CircularProgress />
-      </Container>
-    );
-  }
+  if (loading) return <CircularLoading/>;
 
   if (!exam) {
     return (
