@@ -1,5 +1,6 @@
 import express from 'express';
 import * as unitController from '../../controllers/program/unitController.js';
+import { authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 
 const router = express.Router();
 
@@ -13,6 +14,6 @@ router.get('/:publicId', unitController.getUnitByPublicId);
 router.get('/program/:programPublicId', unitController.getUnitsByProgramPublicId);
 
 
-router.put('/:publicUnitId', unitController.updateUnit);
+router.put('/:publicUnitId', authMiddleware, adminMiddleware, unitController.updateUnit);
 
 export default router;

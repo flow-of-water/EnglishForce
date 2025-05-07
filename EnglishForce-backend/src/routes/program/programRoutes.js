@@ -1,5 +1,6 @@
 import express from 'express';
 import * as programController from '../../controllers/program/programController.js';
+import { authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 import { uploadImage } from "../../config/cloudinary.config.js";
 
 const router = express.Router();
@@ -7,9 +8,9 @@ const router = express.Router();
 router.get('/', programController.getAllPrograms);
 router.get('/:public_id', programController.getProgramDetail);
 
-router.post('/', uploadImage.single('thumbnail'), programController.createProgram);
+router.post('/', authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), programController.createProgram);
 
-router.delete('/:publicId', programController.deleteProgramByPublicId);
+router.delete('/:publicId', authMiddleware, adminMiddleware, programController.deleteProgramByPublicId);
 
 
 export default router;
