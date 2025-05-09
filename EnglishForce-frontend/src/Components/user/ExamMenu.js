@@ -102,38 +102,39 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
 
   return (
     <>
-{!open && (
-  <Box
-    sx={{
-      position: 'fixed',
-      top: 60,
-      right: 16,
-      zIndex: 1300,
-      bgcolor: grey[200],
-      borderRadius: '28px',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0 12px',
-      height: 56,
-      boxShadow: 3,
-      '&:hover': {
-        bgcolor: grey[300],
-      },
-    }}
-  >
-    <IconButton
-      onClick={toggleDrawer(true)}
-      sx={{
-        color: 'inherit',
-      }}
-    >
-      <MenuIcon sx={{ fontSize: 32 }} />
-    </IconButton>
-    <Typography variant="subtitle1" sx={{ fontWeight: 'bold', ml: 1 }}>
-      {formatTimeLeft(timeLeft)}
-    </Typography>
-  </Box>
-)}
+      {!open && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 60,
+            right: 16,
+            zIndex: 1300,
+            bgcolor: grey[200],
+            borderRadius: '28px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 12px',
+            height: 56,
+            boxShadow: 3,
+            '&:hover': {
+              bgcolor: grey[300],
+            },
+            caretColor: "transparent",
+          }}
+        >
+          <IconButton
+            onClick={toggleDrawer(true)}
+            sx={{
+              color: 'inherit',
+            }}
+          >
+            <MenuIcon sx={{ fontSize: 32 }} />
+          </IconButton>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold', ml: 1 }}>
+            {formatTimeLeft(timeLeft)}
+          </Typography>
+        </Box>
+      )}
 
 
       <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>

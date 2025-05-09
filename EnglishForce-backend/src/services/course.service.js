@@ -95,7 +95,7 @@ export const searchCourses = async (query) => {
 export const searchCourseInSentences = async (sentence, limit = 5) => {
   return await Course.findAll({
     where: literal(`'${sentence}' ILIKE '%' || name || '%'`),
-    attributes: ['name', 'price', 'description', 'author'],
+    attributes: ['name', 'price', 'description', 'instructor'],
     limit,
     raw: true
   });

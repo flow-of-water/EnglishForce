@@ -1,4 +1,4 @@
-import db from "../../sequelize/models/index.js"
+import db from "../../sequelize/models/index.js";
 const { Unit, Lesson, Program } = db;
 
 export const getAllUnits = async () => {

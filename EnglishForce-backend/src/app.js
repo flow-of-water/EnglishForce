@@ -27,6 +27,8 @@ import examPartRoutes from './routes/exam/examPartRoutes.js'
 import programRoutes from './routes/program/programRoutes.js'
 import unitRoutes from './routes/program/unitRoutes.js'
 import lessonRoutes from './routes/program/lessonRoutes.js'
+import exerciseRoutes from './routes/program/exerciseRoutes.js'
+import exerciseAnswerRoutes from './routes/program/exerciseAnswerRoutes.js'
 
 const app = express()
 
@@ -70,5 +72,7 @@ app.use('/api/answers', answerRoutes) ;
 app.use('/api/programs', programRoutes);
 app.use('/api/units', unitRoutes);
 app.use('/api/lessons', lessonRoutes);
+app.use('/api/exercises', exerciseRoutes);
+app.use('/api/exercise-answers', exerciseAnswerRoutes);
 
 export default app ;

@@ -23,7 +23,7 @@ import EditExamAdmin from '../Pages/admin/Exam/EditExamAdmin';
 import ExamQuestionAdmin from '../Pages/admin/Exam/ExamQuestionAdmin' ;
 import EditQuestionAdmin from '../Pages/admin/Exam/EditQuestionAdmin';
 import QuestionAnswerAdmin from '../Pages/admin/Exam/QuestionAnswerAdmin';
-import ExamPartPage from '../Pages/admin/Exam/ExamPartAdmin';
+import ExamPartAdmin from '../Pages/admin/Exam/ExamPartAdmin';
 import PartDetailAdmin from '../Pages/admin/Exam/DetailPartAdmin';
 import EditPartAdmin from '../Pages/admin/Exam/EditPartAdmin';
 
@@ -36,6 +36,8 @@ import DetailUnitAdmin from '../Pages/admin/Program/DetailUnitAdmin';
 import EditUnitAdmin from '../Pages/admin/Program/EditUnitAdmin';
 import DetailLessonAdmin from '../Pages/admin/Program/DetailLessonAdmin';
 import DetailExerciseAdmin from '../Pages/admin/Program/DetailExerciseAdmin';
+import EditExerciseAdmin from '../Pages/admin/Program/EditExercise';
+import EditExerciseAnswerAdmin from '../Pages/admin/Program/EditExerciseAnswerAdmin';
 
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
@@ -57,7 +59,7 @@ export const AdminRoutes = () => (
     <Route path="/admin/exams/:publicId" element={<AdminLayout><DetailExamAdmin /></AdminLayout>} />
     <Route path="/admin/exams/create" element={<AdminLayout><CreateExamAdmin /></AdminLayout>} />
     <Route path="/admin/exams/edit/:publicId" element={<AdminLayout><EditExamAdmin /></AdminLayout>} />
-    <Route path="/admin/exams/:publicId/parts" element={<AdminLayout><ExamPartPage /></AdminLayout>} />
+    <Route path="/admin/exams/:publicId/parts" element={<AdminLayout><ExamPartAdmin /></AdminLayout>} />
     <Route path="/admin/exams/:publicId/parts/:partPublicId" element={<AdminLayout><PartDetailAdmin /></AdminLayout>} />
     <Route path="/admin/exams/:publicId/parts/:partPublicId/edit" element={<AdminLayout><EditPartAdmin /></AdminLayout>} />
 
@@ -74,6 +76,8 @@ export const AdminRoutes = () => (
     <Route path="/admin/units/:unitPublicId/edit" element={<AdminLayout><EditUnitAdmin /></AdminLayout>} />
     <Route path="/admin/lessons/:lessonPublicId" element={<AdminLayout><DetailLessonAdmin /></AdminLayout>} />
     <Route path="/admin/lessons/:lessonPublicId/exercises/:exercisePublicId" element={<AdminLayout><DetailExerciseAdmin /></AdminLayout>} />
+    <Route path="/admin/exercises/:exercisePublicId/edit" element={<AdminLayout><EditExerciseAdmin /></AdminLayout>} />
+    <Route path="/admin/exercises/:exercisePublicId/answer/:answerPublicId" element={<AdminLayout><EditExerciseAnswerAdmin /></AdminLayout>} />
 
 
   </Route>

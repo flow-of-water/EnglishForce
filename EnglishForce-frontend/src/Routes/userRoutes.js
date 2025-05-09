@@ -56,7 +56,7 @@ export const UserRoutes = () => (
     <Route path="/programs" element={<UserLayout><ProgramPage /></UserLayout>} />
     <Route path="/programs/:programPublicId" element={<UserLayout><ProgramDetailPage /></UserLayout>} />
     <Route path="/programs/:programPublicId/units/:unitPublicId" element={<UserLayout><UnitDetailPage /></UserLayout>} />
-    <Route path="/lessons/:lessonPublicId/start" element={<UserLayout><LessonStartPage /></UserLayout>} />
+    <Route path="lessons/:lessonPublicId/start" element={<UserLayout><LessonStartPage /></UserLayout>} />
 
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />

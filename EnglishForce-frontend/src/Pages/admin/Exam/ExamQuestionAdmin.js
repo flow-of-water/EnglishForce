@@ -36,6 +36,7 @@ const AdminExamQuestions = () => {
     const [type, setType] = useState("single_choice");
     const [thumbnail, setThumbnail] = useState("");
     const [record, setRecord] = useState("");
+    const [orderIndex, setOrderIndex] = useState(0);
     const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
     const fetchQuestions = async () => {
@@ -60,6 +61,7 @@ const AdminExamQuestions = () => {
                 type,
                 thumbnail,
                 record,
+                order_index: orderIndex,
             });
             setQuestions([...questions, res.data]);
             setSnackbar({ open: true, message: "Question added!", severity: "success" });
@@ -110,6 +112,14 @@ const AdminExamQuestions = () => {
                         </MenuItem>
                     ))}
                 </TextField>
+                <TextField
+                    fullWidth
+                    label="Order Index"
+                    value={orderIndex}
+                    onChange={(e) => setOrderIndex(Number(e.target.value))}
+                    margin="normal"
+                    type="number"
+                />
                 <TextField
                     fullWidth
                     label="Thumbnail URL"

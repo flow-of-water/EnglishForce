@@ -1,4 +1,4 @@
-# *** My gitignore ***
+# ***** My gitignore *****
 *.env
 node_modules/
 
@@ -6,13 +6,17 @@ node_modules/
 # FastAPI server gitignore 
 # Ignore virtual environment
 .venv/
+venv/
 # Ignore Python cache & compiled files
 __pycache__/ 
 # Ignore model & large data files (optional)
 *.h5
+# Ignore IDE/editor folders (optional)
+.vscode/
+.idea/
 
 
-# *** Below is node gitignore template ***
+# ***** Below is node gitignore template *****
 # Logs
 logs
 *.log

@@ -1,12 +1,9 @@
 // src/components/Chatbot.js
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Box,
-  TextField,
-  Button,
-  List,
-  ListItem,
-  IconButton,
+  Box, TextField,
+  Button, IconButton,
+  List, ListItem,
 } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,6 +13,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [open, setOpen] = useState(false);
+  const [chatbot, setChatbot] = useState("gemini");
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -29,9 +27,8 @@ const Chatbot = () => {
     setMessages([...messages, userMessage]);
 
     try {
-      const response = await axiosInstance.post("/chatbot/generate2", {
-        prompt: input,
-      });
+      const endpoint = (chatbot === 'gemini') ? '/chatbot/generate2' : '/chatbot';
+      const response = await axiosInstance.post(endpoint, { prompt: input });
 
       const data = await response.data;
       const botMessage = { sender: "bot", text: data };
@@ -99,6 +96,21 @@ const Chatbot = () => {
               <CloseIcon />
             </IconButton>
           </Box>
+          <select value={chatbot} onChange={(e) => setChatbot(e.target.value)}
+            style={{
+              padding: "8px 12px", borderRadius: "8px",
+              border: "1px solid #ccc", backgroundColor: "#fff",
+              color: "#333", fontSize: "14px",
+              outline: "none", appearance: "none",
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+              cursor: "pointer", margin: "10px",
+              caretColor: "transparent", // 👈 NGĂN con trỏ nhấp nháy
+            }}>
+            <option value="gemini">Gemini</option>
+            <option value="myChatbot">MyChatbot</option>
+          </select>
 
           {/* Danh sách tin nhắn */}
           <List

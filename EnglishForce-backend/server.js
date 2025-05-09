@@ -1,3 +1,5 @@
+import './src/config/config.js';
+
 import app from "./src/app.js";
 // Sequelize 
 import db from "./src/sequelize/models/index.js";

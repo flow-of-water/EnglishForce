@@ -1,0 +1,116 @@
+{
+    "intents": [
+        {
+            "tag": "greeting_en",
+            "patterns": [
+                "Hi there",
+                "How are you",
+                "Is anyone there?",
+                "Hey",
+                "Hola",
+                "Hello",
+                "Good day"
+            ],
+            "responses": [
+                "Hello, thanks for asking",
+                "Good to see you again",
+                "Hi there, how can I help?"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "goodbye_en",
+            "patterns": [
+                "Bye",
+                "See you later",
+                "Goodbye",
+                "Nice chatting to you, bye",
+                "Till next time"
+            ],
+            "responses": [
+                "See you!",
+                "Have a nice day",
+                "Bye! Come back again soon."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "thanks_en",
+            "patterns": [
+                "Thanks",
+                "Thank you",
+                "That's helpful",
+                "Awesome, thanks",
+                "Thanks for helping me"
+            ],
+            "responses": [
+                "Happy to help!",
+                "Any time!",
+                "My pleasure"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "learning_tips_en",
+            "patterns": [
+                "How to learn English fast?",
+                "Tips for improving English",
+                "Any advice for learning English?"
+            ],
+            "responses": [
+                "One of the fastest ways to improve your English is to immerse yourself in the language every day. Try setting small goals like learning 5 new words daily, and use them in real sentences. Watching English shows with subtitles can help you get used to pronunciation, while reading books or articles aloud will improve both vocabulary and fluency.",
+                "To truly master English, consistency is key. Create a daily habit of learning — start your morning with a vocabulary review, practice speaking in front of a mirror, and listen to English podcasts while commuting. Use spaced repetition apps like Anki or Quizlet to retain new words efficiently. The more you expose yourself to English in real-life contexts, the faster you'll progress.",
+                "Improving your English takes patience and smart strategies. Focus on active learning: instead of just reading, speak and write the new phrases you learn. Join online communities or speaking clubs where you can interact with real people. And most importantly, don't be afraid to make mistakes — they are the fastest way to grow.",
+                "On EnglishForce, you can practice English through exercises and courses. With just 15 minutes of daily practice, you’ll see significant improvement!"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "noanswer_en",
+            "patterns": [],
+            "responses": [
+                "Sorry, can't understand you",
+                "Please give me more info",
+                "Not sure I understand"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "greeting_vi_vi",
+            "patterns": [
+                "Chào bạn",
+                "Xin chào",
+                "Có ai ở đây không?"
+            ],
+            "responses": [
+                "Chào bạn! Mình có thể giúp gì cho bạn hôm nay?"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "learning_tips_vi_vi",
+            "patterns": [
+                "Làm sao để học tiếng Anh nhanh?",
+                "Có mẹo học từ vựng nào không?"
+            ],
+            "responses": [
+                "Bạn có thể sử dụng các bài học trên EnglishForce và luyện tập mỗi ngày. Đừng quên thử làm đề thi mô phỏng và bài tập tương tác nhé!"
+            ],
+            "context": [
+                ""
+            ]
+        }
+    ]
+}

@@ -86,7 +86,7 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
             <ListItemIcon><MenuBookIcon /></ListItemIcon>
             <ListItemText primary="Programs" />
           </ListItem>
-          <ListItem button component={Link} to="/admin/units">
+          {/* <ListItem button component={Link} to="/admin/units">
             <ListItemIcon><ViewModuleIcon /></ListItemIcon>
             <ListItemText primary="Units" />
           </ListItem>
@@ -97,7 +97,7 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
           <ListItem button component={Link} to="/admin/exercises">
             <ListItemIcon><CheckCircleIcon /></ListItemIcon>
             <ListItemText primary="Exercises" />
-          </ListItem>
+          </ListItem> */}
         </List>
 
         <Divider />

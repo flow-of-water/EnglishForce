@@ -1,0 +1,20 @@
+{
+  "intents": [
+    {
+      "tag": "greeting_vi",
+      "patterns": ["Chào bạn", "Xin chào", "Có ai ở đây không?"],
+      "responses": ["Chào bạn! Mình có thể giúp gì cho bạn hôm nay?","Chào mừng bạn đến với EnglishForce!","Xin chào! Rất vui được gặp bạn."],
+      "context": [""]
+    },
+    {
+      "tag": "learning_tips_vi",
+      "patterns": ["Làm sao để học tiếng Anh nhanh?", "Có mẹo học từ vựng nào không?","Có bí quyết học tiếng Anh không?","Tiến bộ trong tiếng anh"],
+      "responses": [
+        "Bạn có thể sử dụng các bài học trên EnglishForce và luyện tập mỗi ngày. Đừng quên thử làm đề thi mô phỏng và bài tập tương tác nhé!",
+        "Để học nhanh, bạn nên có kế hoạch học tập rõ ràng và làm bài kiểm tra thường xuyên trên EnglishForce.",
+        "Luyện bài tập trên EnglishForce là cách rất hiệu quả đó nghen!"
+      ],
+      "context": [""]
+    }
+  ]
+}

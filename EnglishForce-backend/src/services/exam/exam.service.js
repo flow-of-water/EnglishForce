@@ -38,7 +38,7 @@ function buildNestedParts(part, partMap) {
   }).filter(Boolean);
   return part;
 }
-export const getExamWithFullHierarchy = async (publicId) => {
+export const getExamWithFullHierarchy = async (publicId , onlyCorrectAnswers = false) => {
   const exam = await db.Exam.findOne({
     where: { public_id: publicId },
     attributes: ['id', 'public_id', 'name', 'description', 'duration'],
@@ -53,10 +53,13 @@ export const getExamWithFullHierarchy = async (publicId) => {
     include: [
       {
         model: db.Question,
-        attributes: ['id', 'public_id', 'content', 'type', 'thumbnail', 'record'],
+        attributes: ['id', 'public_id', 'content', 'type', 'thumbnail', 'record','order_index'],
+        separate: true, // ⚠️ BẮT BUỘC nếu muốn order hoạt động
+        order: [['order_index', 'ASC']],
         include: [
           {
             model: db.Answer,
+            where: onlyCorrectAnswers ? { is_correct: true } : undefined,
             attributes: ['id', 'public_id', 'content', 'is_correct'],
             order: [['id', 'ASC']],
           }
@@ -170,13 +173,7 @@ export const submitExamAttempt = async (body, userId) => {
 };
 
 export const getExamResult = async (publicId, userId) => {
-  const exam = await Exam.findOne({
-    where: { public_id: publicId },
-    include: {
-      model: Question,
-      include: [Answer]
-    }
-  });
+  const exam = await Exam.findOne({ where: { public_id: publicId } });
 
   const attempt = await ExamAttempt.findOne({
     where: { exam_id: exam.id, user_id: userId },
@@ -184,19 +181,11 @@ export const getExamResult = async (publicId, userId) => {
   });
   if (!attempt) throw new Error('No attempt');
 
-  const questions = exam.Questions.map(q => {
-    const correct_answers = q.Answers.filter(a => a.is_correct).map(a => a.content);
-    return {
-      public_id: q.public_id,
-      content: q.content,
-      correct_answers,
-      selected_answers: ['...'], // TODO: fetch user answers if stored
-    };
-  });
+  const examInfor = await getExamWithFullHierarchy(publicId, true); // lấy đáp án đúng thôi
 
   return {
+    ...examInfor,
     score: attempt.score,
     duration: (new Date(attempt.end) - new Date(attempt.start)) / 60000,
-    questions
   };
 };

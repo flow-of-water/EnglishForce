@@ -1,4 +1,4 @@
-import db from "../../sequelize/models/index.js"
+import db from "../../sequelize/models/index.js";
 const { Program, Unit } = db;
 
 export const getPaginatedPrograms = async (page = 1) => {

@@ -38,7 +38,7 @@ export const getQuestionsByExamPartPublicId = async (partPublicId) => {
 
 
 export const createQuestion = async (data) => {
-  const { exam_public_id, exam_part_public_id, content, type, thumbnail, record } = data;
+  const { exam_public_id, exam_part_public_id, content, type, thumbnail, record, order_index } = data;
 
   // Find Exam
   const exam = await Exam.findOne({ where: { public_id: exam_public_id } });
@@ -57,7 +57,8 @@ export const createQuestion = async (data) => {
     thumbnail: thumbnail || null,
     record: record || null,
     exam_id: exam.id,
-    exam_part_id: examPart ? examPart.id : null
+    exam_part_id: examPart ? examPart.id : null,
+    order_index,
   });
 };
 

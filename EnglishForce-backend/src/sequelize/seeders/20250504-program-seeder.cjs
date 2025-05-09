@@ -134,7 +134,8 @@ module.exports = {
     const resolvedAnswers = allAnswers.map(ans => ({
       content: ans.content,
       is_correct: ans.is_correct,
-      exercise_id: exerciseIdMap.get(ans._exerciseSymbol)
+      exercise_id: exerciseIdMap.get(ans._exerciseSymbol),
+      public_id: uuidv4(),
     }));
 
     await queryInterface.bulkInsert('exercise_answers', resolvedAnswers);

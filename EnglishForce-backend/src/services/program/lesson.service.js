@@ -1,4 +1,4 @@
-import db from "../../sequelize/models/index.js"
+import db from "../../sequelize/models/index.js";
 const { Lesson, Exercise, ExerciseAnswer } = db;
 
 export const getAllLessons = async () => {

@@ -1,12 +1,13 @@
 // controllers/geminiController.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { searchCourseInSentences } from '../services/course.service.js';
-import dotenv from 'dotenv';
+import axios from "axios";
 
-dotenv.config();
+const FASTAPI_CHATBOT_URL = process.env.FASTAPI_CHATBOT_URL;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 const client = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY,
+  GEMINI_API_KEY,
 );
 const model = client.getGenerativeModel({ model: "gemini-2.0-flash" });
 export const generateResponseController = async (req, res) => {
@@ -64,13 +65,13 @@ export const generateResponseWithWebDataController = async (req, res) => {
     const intent = detectIntent(prompt);
     const courseInfo = await getCourseInfo(prompt, intent);
 
-    prompt = "Limit in 5 sentences: " + prompt;
+    prompt = "Respond clearly in no more than 9 sentences: " + prompt;
 
     if (courseInfo) {
       prompt = `${courseInfo}. ${prompt}`;
     }
 
-    console.log(prompt)
+    // console.log(prompt)
     const result = await model.generateContent(prompt);
     res.json(result.response.text());
   } catch (error) {
@@ -78,3 +79,18 @@ export const generateResponseWithWebDataController = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 }
+
+
+// API call My chatbot (FastAPI server)
+export const myChatbotController = async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    const response = await axios.post(`${FASTAPI_CHATBOT_URL}/chat`, { msg: prompt });
+
+    res.status(200).json(response.data.response);
+  } catch (error) {
+    console.error('FastAPI chatbot error:', error.message);
+    res.status(500).json({ error: 'Chatbot API error', details: error.message });
+  }
+};

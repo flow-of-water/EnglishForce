@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 
 const LessonStartPage = () => {
-  const { lessonPublicId } = useParams();
+  const { lessonPublicId , unitPublicId } = useParams();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState(null);
   const [exercises, setExercises] = useState([]);
@@ -59,7 +59,7 @@ const LessonStartPage = () => {
   };
 
   const handleBackToLesson = () => {
-    navigate(`/programs/${lesson?.Unit?.program_id}/units/${lesson?.unit_id}`);
+    // navigate(`/programs/${lesson?.Unit?.program_id}/units/${lesson?.unit_id}`);
   };
 
   if (loading) {
