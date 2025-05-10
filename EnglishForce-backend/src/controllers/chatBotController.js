@@ -81,6 +81,30 @@ export const generateResponseWithWebDataController = async (req, res) => {
 }
 
 
+// Writing Exercise Checking
+export const checkWritingController = async (req, res) => {
+  try {
+    const { question, userAnswer } = req.body;
+    const myprompt = `
+You are an English teacher. Grade the student's answer.
+Question:
+"${question}"
+Student's answer:
+"${userAnswer}"
+Give a score of 1 if the student's answer fulfills the question's requirement in meaning, even if there are grammar or spelling issues. Otherwise, score 0.
+Respond ONLY with "1" or "0".
+  `;
+
+    const result = await model.generateContent(myprompt);
+    const raw = result.response.text().trim();
+    res.json(parseInt(raw));
+  } catch (error) {
+    console.error('Error generating response:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
 // API call My chatbot (FastAPI server)
 export const myChatbotController = async (req, res) => {
   try {

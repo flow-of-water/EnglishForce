@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import {
-  Box, Typography, Card, CardContent, CardMedia, Divider, Grid, CircularProgress
+  Box, Typography, Card, CardContent, CardMedia, Divider, Grid, 
 } from '@mui/material';
+import CircularLoading from '../../../Components/Loading';
 
 const ProgramDetailPage = () => {
   const { programPublicId } = useParams();
@@ -29,13 +30,7 @@ const ProgramDetailPage = () => {
     fetchProgramDetail();
   }, [programPublicId]);
 
-  if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" mt={5}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  if (loading) return <CircularLoading />;
 
   if (!program) {
     return (

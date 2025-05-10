@@ -53,7 +53,6 @@ module.exports = {
           name: lesson.name,
           description: lesson.description,
           order_index: lesson.order_index,
-          type: lesson.type,
           public_id: lessonPublicId,
           _unitSymbol: unitIdPlaceholder,
           _lessonSymbol: lessonIdPlaceholder

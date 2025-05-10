@@ -7,7 +7,7 @@ import passport from 'passport';
 import authRoutes from "./routes/auth/authRoutes.js";
 import authGoogleRoutes from './routes/auth/authGoogleRoutes.js';
 import authFacebookRoutes from './routes/auth/authFacebookRoutes.js';
-import chatBotRoutes from './routes/chatBotRoutes.js';
+import AIRoutes from './routes/AIRoutes.js';
 import userRoutes from "./routes/userRoutes.js"
 // course
 import courseRoutes from "./routes/course/courseRoutes.js"
@@ -29,6 +29,7 @@ import unitRoutes from './routes/program/unitRoutes.js'
 import lessonRoutes from './routes/program/lessonRoutes.js'
 import exerciseRoutes from './routes/program/exerciseRoutes.js'
 import exerciseAnswerRoutes from './routes/program/exerciseAnswerRoutes.js'
+import userProcessRoutes from './routes/program/userProgressRoutes.js'
 
 const app = express()
 
@@ -54,7 +55,7 @@ app.use('/api/auth_google',authGoogleRoutes);
 app.use('/api/auth_facebook',authFacebookRoutes) ;
 app.use("/api/users",userRoutes);
 
-app.use('/api/chatbot', chatBotRoutes) ;
+app.use('/api/AI', AIRoutes) ;
 
 // Course
 app.use("/api/courses" , courseRoutes) ;
@@ -74,5 +75,6 @@ app.use('/api/units', unitRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/exercises', exerciseRoutes);
 app.use('/api/exercise-answers', exerciseAnswerRoutes);
+app.use('/api/user-progresses', userProcessRoutes);
 
 export default app ;

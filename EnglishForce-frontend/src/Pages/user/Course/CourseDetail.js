@@ -5,6 +5,8 @@ import axiosInstance from "../../../Api/axiosInstance";
 import CourseVideoPlayer from "../../../Components/user/CourseVideoPlayer";
 import CourseSidebar from '../../../Components/user/CourseSideBar';
 import Comments from "../../../Components/user/Comments";
+import CircularLoading from "../../../Components/Loading";
+
 function imageProgress(course) {
   return course.thumbnail ? course.thumbnail : "/Errores-Web-404.jpg"
 }
@@ -49,7 +51,7 @@ const CourseDetail = () => {
     setValueTab(newValue);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <CircularLoading />;
   if (error) return <Box mt={4} textAlign="center">
     <Typography variant="h6" color="error">
       {error}

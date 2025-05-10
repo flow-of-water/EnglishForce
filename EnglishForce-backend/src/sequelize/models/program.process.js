@@ -4,7 +4,7 @@ export default (sequelize, DataTypes) => {
       user_id: { type: DataTypes.INTEGER },
       lesson_id: { type: DataTypes.INTEGER },
       completed_at: DataTypes.DATE,
-      score: DataTypes.INTEGER,
+      score: DataTypes.DECIMAL(5, 2), 
     }, {
       tableName: 'user_progresses',
       timestamps: false

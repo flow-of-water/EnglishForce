@@ -15,6 +15,7 @@ import axiosInstance from "../../../Api/axiosInstance";
 import CourseCard from "../../../Components/user/CourseCard";
 import { CartContext } from "../../../Context/CartContext";
 import { useSearch, SearchContext } from "../../../Context/SearchContext";
+import CircularLoading from "../../../Components/Loading";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -49,13 +50,7 @@ const CoursesPage = () => {
     updatePage(value);
   };
 
-  if (loading) {
-    return (
-      <Container sx={{ textAlign: "center", mt: 4 }}>
-        <CircularProgress />
-      </Container>
-    );
-  }
+  if (loading) return <CircularLoading />;
 
   if (error) {
     return (

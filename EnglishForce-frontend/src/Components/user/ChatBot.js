@@ -27,7 +27,7 @@ const Chatbot = () => {
     setMessages([...messages, userMessage]);
 
     try {
-      const endpoint = (chatbot === 'gemini') ? '/chatbot/generate2' : '/chatbot';
+      const endpoint = (chatbot === 'gemini') ? '/AI/generate2' : '/AI/chatbot';
       const response = await axiosInstance.post(endpoint, { prompt: input });
 
       const data = await response.data;
@@ -109,7 +109,7 @@ const Chatbot = () => {
               caretColor: "transparent", // 👈 NGĂN con trỏ nhấp nháy
             }}>
             <option value="gemini">Gemini</option>
-            <option value="myChatbot">MyChatbot</option>
+            <option value="myChatbot">EnglishForceBot</option>
           </select>
 
           {/* Danh sách tin nhắn */}

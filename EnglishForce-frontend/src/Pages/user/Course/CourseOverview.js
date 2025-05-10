@@ -6,6 +6,7 @@ import {
 } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
 import { CartContext } from "../../../Context/CartContext";
+import CircularLoading from "../../../Components/Loading";
 
 function imageProgress(course) {
   return course.thumbnail ? course.thumbnail : "/Errores-Web-404.jpg";
@@ -112,7 +113,7 @@ const CourseOverview = () => {
   }, [publicId, myRating, myComment]);
 
 
-  if (loading) return <Container sx={{ textAlign: "center", mt: 4 }}><CircularProgress /></Container>;
+  if (loading) return <CircularLoading />;
   if (error) return <Container sx={{ textAlign: "center", mt: 4 }}><Alert severity="error">{error}</Alert></Container>;
 
   const handleAddToCart = () => {

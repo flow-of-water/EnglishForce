@@ -6,7 +6,6 @@ export default (sequelize, DataTypes) => {
       name: { type: DataTypes.TEXT, allowNull: false },
       description: DataTypes.TEXT,
       order_index: { type: DataTypes.INTEGER, defaultValue: 0 },
-      type: { type: DataTypes.ENUM('grammar', 'vocabulary', 'quiz'), defaultValue: 'vocabulary' },
     }, {
       tableName: 'lessons',
       timestamps: false
