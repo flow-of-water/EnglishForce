@@ -5,7 +5,6 @@ export default (sequelize, DataTypes) => {
       program_id: { type: DataTypes.INTEGER },
       name: { type: DataTypes.TEXT, allowNull: false },
       description: DataTypes.TEXT,
-      thumbnail: DataTypes.TEXT,
       order_index: { type: DataTypes.INTEGER, defaultValue: 0 },
     }, {
       tableName: 'units',

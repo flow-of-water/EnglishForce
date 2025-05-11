@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', unitController.getAllUnits);
 
 // GET chi tiết Unit theo public_id
-router.get('/:publicId', unitController.getUnitByPublicId);
+router.get('/:publicId', authMiddleware, unitController.getUnitByPublicId);
 
 // GET tất cả Unit của 1 Program
 router.get('/program/:programPublicId', unitController.getUnitsByProgramPublicId);

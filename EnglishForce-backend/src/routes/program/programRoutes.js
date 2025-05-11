@@ -5,8 +5,9 @@ import { uploadImage } from "../../config/cloudinary.config.js";
 
 const router = express.Router();
 
-router.get('/', programController.getAllPrograms);
-router.get('/:public_id', programController.getProgramDetail);
+router.get('/',authMiddleware, programController.getPaginatedPrograms);
+router.get('/status',authMiddleware, programController.getAllProgramsWithStatus);
+router.get('/:public_id',authMiddleware, programController.getProgramDetail);
 
 router.post('/', authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), programController.createProgram);
 

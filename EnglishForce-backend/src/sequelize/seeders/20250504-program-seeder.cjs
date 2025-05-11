@@ -7,7 +7,6 @@ const programData = require('./ProgramData/program1.cjs');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // 1. Insert program
     const [program] = await queryInterface.bulkInsert(
       'programs',
       [{
@@ -20,122 +19,139 @@ module.exports = {
       { returning: true }
     );
 
-    const unitMap = new Map();
-    const lessonMap = new Map();
-    const exerciseMap = new Map();
+    const unitSymbolMap = new Map();
+    const lessonSymbolMap = new Map();
+    const exerciseSymbolMap = new Map();
 
     const allUnits = [];
     const allLessons = [];
     const allExercises = [];
     const allAnswers = [];
 
-    // 2. Units → Lessons → Exercises → Answers
+    // 1. Build raw data
     for (const unit of programData.units) {
-      const unitPublicId = uuidv4();
-      const unitIdPlaceholder = Symbol(unit.name);
-      unitMap.set(unitIdPlaceholder, { public_id: unitPublicId, name: unit.name });
+      const unitSymbol = Symbol(unit.name);
+      unitSymbolMap.set(unitSymbol, null); // null for now
 
+      const unitPublicId = uuidv4();
       allUnits.push({
         program_id: program.id,
         name: unit.name,
         description: unit.description,
         order_index: unit.order_index,
-        public_id: unitPublicId
+        public_id: unitPublicId,
+        _unitSymbol: unitSymbol
       });
 
       for (const lesson of unit.lessons) {
-        const lessonPublicId = uuidv4();
-        const lessonIdPlaceholder = Symbol(lesson.name);
-        lessonMap.set(lessonIdPlaceholder, { name: lesson.name, unitSymbol: unitIdPlaceholder });
+        const lessonSymbol = Symbol(lesson.name);
+        lessonSymbolMap.set(lessonSymbol, unitSymbol);
 
+        const lessonPublicId = uuidv4();
         allLessons.push({
-          unit_id: null, // resolve later
+          unit_id: null, // to resolve later
           name: lesson.name,
           description: lesson.description,
           order_index: lesson.order_index,
           public_id: lessonPublicId,
-          _unitSymbol: unitIdPlaceholder,
-          _lessonSymbol: lessonIdPlaceholder
+          _unitSymbol: unitSymbol,
+          _lessonSymbol: lessonSymbol
         });
 
         for (const exercise of lesson.exercises) {
-          const exercisePublicId = uuidv4();
-          const exSymbol = Symbol(exercise.question);
-          exerciseMap.set(exSymbol, { question: exercise.question, lessonSymbol: lessonIdPlaceholder });
+          const exerciseSymbol = Symbol();
+          exerciseSymbolMap.set(exerciseSymbol, lessonSymbol);
 
+          const exercisePublicId = uuidv4();
           allExercises.push({
-            lesson_id: null, // resolve later
+            lesson_id: null,
             question: exercise.question,
             type: exercise.type,
             order_index: exercise.order_index,
+            explanation: exercise.explanation || null,
             thumbnail: exercise.thumbnail || null,
             record: exercise.record || null,
             public_id: exercisePublicId,
-            _lessonSymbol: lessonIdPlaceholder,
-            _exerciseSymbol: exSymbol
+            _lessonSymbol: lessonSymbol,
+            _exerciseSymbol: exerciseSymbol
           });
 
           for (const answer of exercise.answers) {
             allAnswers.push({
               content: answer.content,
               is_correct: answer.is_correct,
-              exercise_id: null, // resolve later
-              _exerciseSymbol: exSymbol
+              exercise_id: null,
+              _exerciseSymbol: exerciseSymbol
             });
           }
         }
       }
     }
 
-    // 3. Insert units and build map: unit.name → unit.id
-    const unitResults = await queryInterface.bulkInsert('units', allUnits, { returning: true });
-    const unitIdMap = new Map();
-    for (const unit of unitResults) {
-      const match = [...unitMap.entries()].find(([, val]) => val.name === unit.name);
-      if (match) unitIdMap.set(match[0], unit.id);
-    }
+    // 2. Insert Units
+    const unitResults = await queryInterface.bulkInsert(
+      'units',
+      allUnits.map(({ _unitSymbol, ...rest }) => rest),
+      { returning: true }
+    );
 
-    // 4. Resolve lessons with unit_id
-    const resolvedLessons = allLessons.map(lesson => {
-      const unitId = unitIdMap.get(lesson._unitSymbol);
-      return {
-        ...lesson,
-        unit_id: unitId
-      };
+    const unitIdMap = new Map();
+    unitResults.forEach((u, i) => {
+      const symbol = allUnits[i]._unitSymbol;
+      unitIdMap.set(symbol, u.id);
     });
 
-    const lessonResults = await queryInterface.bulkInsert('lessons', resolvedLessons.map(({ _unitSymbol, _lessonSymbol, ...rest }) => rest), { returning: true });
+    // 3. Insert Lessons
+    const resolvedLessons = allLessons.map(lesson => ({
+      ...lesson,
+      unit_id: unitIdMap.get(lesson._unitSymbol)
+    }));
+
+    const lessonResults = await queryInterface.bulkInsert(
+      'lessons',
+      resolvedLessons.map(({ _unitSymbol, _lessonSymbol, ...rest }) => rest),
+      { returning: true }
+    );
 
     const lessonIdMap = new Map();
-    for (const lesson of lessonResults) {
-      const match = [...lessonMap.entries()].find(([, val]) => val.name === lesson.name && unitIdMap.get(val.unitSymbol) === lesson.unit_id);
-      if (match) lessonIdMap.set(match[0], lesson.id);
-    }
-
-    // 5. Resolve exercises with lesson_id
-    const resolvedExercises = allExercises.map(ex => {
-      const lessonId = lessonIdMap.get(ex._lessonSymbol);
-      return {
-        ...ex,
-        lesson_id: lessonId
-      };
+    lessonResults.forEach((l, i) => {
+      const symbol = allLessons[i]._lessonSymbol;
+      lessonIdMap.set(symbol, l.id);
     });
 
-    const exerciseResults = await queryInterface.bulkInsert('exercises', resolvedExercises.map(({ _lessonSymbol, _exerciseSymbol, ...rest }) => rest), { returning: true });
+    // 4. Insert Exercises
+    const resolvedExercises = allExercises.map(ex => ({
+      ...ex,
+      lesson_id: lessonIdMap.get(ex._lessonSymbol)
+    }));
+
+    const exerciseResults = await queryInterface.bulkInsert(
+      'exercises',
+      resolvedExercises.map(({ _lessonSymbol, _exerciseSymbol, ...rest }) => rest),
+      { returning: true }
+    );
 
     const exerciseIdMap = new Map();
-    for (const ex of exerciseResults) {
-      const match = [...exerciseMap.entries()].find(([, val]) => val.question === ex.question && lessonIdMap.get(val.lessonSymbol) === ex.lesson_id);
-      if (match) exerciseIdMap.set(match[0], ex.id);
-    }
+    exerciseResults.forEach((e, i) => {
+      const symbol = allExercises[i]._exerciseSymbol;
+      exerciseIdMap.set(symbol, e.id);
+    });
 
-    // 6. Resolve answers with exercise_id
-    const resolvedAnswers = allAnswers.map(ans => ({
-      content: ans.content,
-      is_correct: ans.is_correct,
-      exercise_id: exerciseIdMap.get(ans._exerciseSymbol),
-      public_id: uuidv4(),
-    }));
+    // 5. Insert Answers
+    const resolvedAnswers = allAnswers
+      .map(ans => {
+        const exerciseId = exerciseIdMap.get(ans._exerciseSymbol);
+        if (!exerciseId) {
+          console.warn(`❌ Missing exercise_id for answer: '${ans.content}'`);
+        }
+        return {
+          content: ans.content,
+          is_correct: ans.is_correct,
+          exercise_id: exerciseId,
+          public_id: uuidv4()
+        };
+      })
+      .filter(ans => ans.exercise_id);
 
     await queryInterface.bulkInsert('exercise_answers', resolvedAnswers);
   },

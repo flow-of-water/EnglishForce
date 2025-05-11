@@ -1,5 +1,5 @@
 import db from "../../sequelize/models/index.js";
-const { Unit, Lesson, Program } = db;
+const { Unit, Lesson, Program, UserProgress } = db;
 
 export const getAllUnits = async () => {
   return await Unit.findAll({
@@ -8,13 +8,21 @@ export const getAllUnits = async () => {
   });
 };
 
-export const getUnitByPublicId = async (publicId) => {
+export const getUnitByPublicId = async (publicId, userId = null) => {
   return await Unit.findOne({
     where: { public_id: publicId },
     include: [
       {
         model: Lesson,
+        separate: true, // để order hoạt động trong include
         order: [['order_index', 'ASC']],
+        include: userId
+          ? [{
+              model: UserProgress,
+              where: { user_id: userId },
+              required: false,
+            }]
+          : []
       },
     ],
   });
@@ -30,6 +38,7 @@ export const getUnitsByProgramPublicId = async (programPublicId) => {
     order: [['order_index', 'ASC']],
   });
 };
+
 
 
 export const updateUnit = async (publicId, data) => {

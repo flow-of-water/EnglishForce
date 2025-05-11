@@ -14,6 +14,7 @@ export default (sequelize, DataTypes) => {
     Lesson.associate = models => {
       Lesson.belongsTo(models.Unit, { foreignKey: 'unit_id', onDelete: 'CASCADE' });
       Lesson.hasMany(models.Exercise, { foreignKey: 'lesson_id', onDelete: 'CASCADE' });
+      Lesson.hasMany(models.UserProgress, { foreignKey: 'lesson_id', onDelete: 'CASCADE' });
     };
   
     return Lesson;

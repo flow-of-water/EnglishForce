@@ -1,9 +1,20 @@
 import * as programService from '../../services/program/program.service.js';
 
-export const getAllPrograms = async (req, res) => {
+export const getPaginatedPrograms = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const result = await programService.getPaginatedPrograms(page);
+    res.json(result);
+  } catch (err) {
+    console.error('Error fetching programs:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getAllProgramsWithStatus = async (req, res) => {
+  try {
+    const userId = req?.user?.id;
+    const result = await programService.getAllProgramsWithProgressStatus(userId);
     res.json(result);
   } catch (err) {
     console.error('Error fetching programs:', err);

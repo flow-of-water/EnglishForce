@@ -12,7 +12,8 @@ export const getAllUnits = async (req, res) => {
 
 export const getUnitByPublicId = async (req, res) => {
   try {
-    const unit = await unitService.getUnitByPublicId(req.params.publicId);
+    const userId = req?.user?.id ;
+    const unit = await unitService.getUnitByPublicId(req.params.publicId,userId);
     if (!unit) return res.status(404).json({ message: 'Unit not found' });
     res.json(unit);
   } catch (error) {
@@ -23,7 +24,8 @@ export const getUnitByPublicId = async (req, res) => {
 
 export const getUnitsByProgramPublicId = async (req, res) => {
   try {
-    const units = await unitService.getUnitsByProgramPublicId(req.params.programPublicId);
+    const { programPublicId } = req.params;
+    const units = await unitService.getUnitsByProgramPublicId(programPublicId);
     res.json(units);
   } catch (error) {
     console.error('❌ getUnitsByProgramPublicId error:', error);

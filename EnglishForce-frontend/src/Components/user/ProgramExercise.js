@@ -36,7 +36,7 @@ const ExerciseCard = ({
     setIsCorrect(null);
     setShowResult(false);
   }, [exercise]);
-  
+
 
   const handleCheckAnswer = async () => {
     if (!exercise) return;
@@ -58,7 +58,7 @@ const ExerciseCard = ({
           question: exercise.question,
           userAnswer: userText
         });
-    
+
         const isCorrect = res.data === 1; // hoặc res.data.isCorrect nếu bạn trả về JSON
         setIsCorrect(isCorrect);
         setShowResult(true);
@@ -67,7 +67,7 @@ const ExerciseCard = ({
         console.error("Gemini API error:", error);
         alert("An error occurred while grading. Please try again.");
       }
-    
+
       return;
     }
 
@@ -128,7 +128,7 @@ const ExerciseCard = ({
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6" sx={{ mb: 1 }}>
+        <Typography variant="h6" sx={{ mb: 1, whiteSpace: 'pre-line' }}>
           Question {index + 1}: {exercise.question}
         </Typography>
 
@@ -142,10 +142,16 @@ const ExerciseCard = ({
         )}
 
         {exercise.record && (
-          <audio controls style={{ marginBottom: '1rem' }}>
-            <source src={exercise.record} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              const utterance = new SpeechSynthesisUtterance(exercise.record);
+              speechSynthesis.speak(utterance);
+            }}
+            sx={{ mb: 2, display: 'block', }}
+          >
+            🔊 Read Aloud
+          </Button>
         )}
 
         <Chip
@@ -158,9 +164,16 @@ const ExerciseCard = ({
         {renderAnswerSection()}
 
         {showResult && (
-          <Alert severity={isCorrect ? 'success' : 'error'} sx={{ mt: 2 }}>
-            {isCorrect ? '✅ Correct!' : '❌ Incorrect!'}
-          </Alert>
+          <>
+            <Alert severity={isCorrect ? 'success' : 'error'} sx={{ mt: 2 }}>
+              {isCorrect ? '✅ Correct!' : '❌ Incorrect!'}
+            </Alert>
+            {exercise.explanation && (
+              <Alert severity="info" sx={{ mt: 2 }}>
+                📘 Explanation: {exercise.explanation}
+              </Alert>
+            )}
+          </>
         )}
 
         {!showResult ? (

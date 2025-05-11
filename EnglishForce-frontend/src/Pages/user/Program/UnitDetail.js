@@ -2,9 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import {
-  Box, Typography, Card, CardContent, List, ListItem, ListItemText, Divider
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Chip,
 } from '@mui/material';
-import CircularLoading from '../../../Components/Loading'; 
+import CircularLoading from '../../../Components/Loading';
 
 const UnitDetailPage = () => {
   const { unitPublicId } = useParams();
@@ -31,7 +39,11 @@ const UnitDetailPage = () => {
   }
 
   if (!unit) {
-    return <Typography variant="h6" color="error" textAlign="center" mt={4}>Unit not found</Typography>;
+    return (
+      <Typography variant="h6" color="error" textAlign="center" mt={4}>
+        Unit not found
+      </Typography>
+    );
   }
 
   return (
@@ -42,23 +54,34 @@ const UnitDetailPage = () => {
       <Divider sx={{ my: 2 }} />
 
       <Typography variant="h6" gutterBottom>Lessons</Typography>
-      <List>
-        {unit.Lessons.map((lesson, idx) => (
-          <React.Fragment key={lesson.public_id}>
-            <ListItem
-              component={Link}
-              to={`/lessons/${lesson.public_id}/start`}
-              button
-            >
-              <ListItemText
-                primary={`Lesson ${lesson.order_index + 1}: ${lesson.name}`}
-                secondary={lesson.description}
-              />
-            </ListItem>
-            <Divider component="li" />
-          </React.Fragment>
-        ))}
-      </List>
+      {unit.Lessons && unit.Lessons.length > 0 ? (
+        <List>
+          {unit.Lessons
+            .sort((a, b) => a.order_index - b.order_index)
+            .map((lesson, idx) => (
+              <React.Fragment key={lesson.public_id}>
+                <ListItem
+                  component={Link}
+                  to={`/lessons/${lesson.public_id}/start`}
+                  button
+                >
+                  <ListItemText
+                    primary={`${lesson.order_index + 1}. ${lesson.name}`}
+                    secondary={lesson.description}
+                  />
+                  {lesson.UserProgresses && lesson.UserProgresses.length > 0 && (
+                    <Chip label="✅ Completed" color="success" size="small" />
+                  ) }
+                </ListItem>
+                <Divider component="li" />
+              </React.Fragment>
+            ))}
+        </List>
+      ) : (
+        <Typography variant="body1" color="text.secondary">
+          Không có bài học nào trong unit này.
+        </Typography>
+      )}
     </Box>
   );
 };

@@ -7,7 +7,9 @@ export default (sequelize, DataTypes) => {
       type: { type: DataTypes.ENUM('single_choice', 'speaking', 'writing'), defaultValue: 'single_choice' },
       thumbnail: DataTypes.TEXT,
       record: DataTypes.TEXT,
-      order_index: { type: DataTypes.INTEGER, defaultValue: 0 }
+      order_index: { type: DataTypes.INTEGER, defaultValue: 0 },
+      explanation: DataTypes.TEXT,
+      
     }, {
       tableName: 'exercises',
       timestamps: false

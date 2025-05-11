@@ -14,6 +14,8 @@ export default (sequelize, DataTypes) => {
 
     LearningProgram.associate = models => {
         LearningProgram.hasMany(models.Unit, { foreignKey: 'program_id', onDelete: 'CASCADE' });
+        LearningProgram.hasMany(models.UserProgress, { foreignKey: 'program_id', onDelete: 'CASCADE'});
+          
     };
 
     return LearningProgram;

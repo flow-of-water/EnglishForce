@@ -2,10 +2,64 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import {
-  Box, Typography, Divider, Button,
+  Box, Typography, Divider, Button,Paper, Stack
 } from '@mui/material';
 import ExerciseCard from '../../../Components/user/ProgramExercise';
 import CircularLoading from '../../../Components/Loading';
+
+const LessonCompleted = ({ score, exercises }) => {
+  return (
+    <Box 
+      sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '60vh', 
+        p: 2 
+      }}
+    >
+      <Paper 
+        elevation={4}
+        sx={{ 
+          p: 4, 
+          maxWidth: 500, 
+          textAlign: 'center', 
+          borderRadius: 4 
+        }}
+      >
+        <Stack spacing={3}>
+        <Box
+            component="img"
+            src="/LessonCompleted/download.jpg" 
+            alt="Lesson Completed"
+            sx={{
+              width: '100%',
+              maxHeight: 300,
+              objectFit: 'contain',
+              borderRadius: 2,
+              mx: 'auto'
+            }}
+          />
+          <Typography variant="h4" fontWeight="bold">
+          🎉 Lesson Completed!
+          </Typography>
+
+          <Typography variant="h6">
+            You answered <b>{score}</b> out of <b>{exercises.length}</b> questions correctly.
+          </Typography>
+
+          <Button 
+            variant="contained" 
+            size="large" 
+            sx={{ borderRadius: 3 }}
+          >
+            🔙 Back to Unit
+          </Button>
+        </Stack>
+      </Paper>
+    </Box>
+  );
+};
 
 const LessonStartPage = () => {
   const { lessonPublicId } = useParams();
@@ -70,20 +124,7 @@ const LessonStartPage = () => {
 
   if (finished) {
     return (
-      <Box sx={{ p: 4 }}>
-        <Typography variant="h4" gutterBottom>🎉 Lesson Completed!</Typography>
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          You answered <b>{score}</b> out of <b>{exercises.length}</b> questions correctly.
-        </Typography>
-
-        <Button
-          variant="contained"
-          sx={{ mt: 3 }}
-          onClick={handleBackToLesson}
-        >
-          Back to Unit
-        </Button>
-      </Box>
+      <LessonCompleted score={score} exercises={exercises} />
     );
   }
 

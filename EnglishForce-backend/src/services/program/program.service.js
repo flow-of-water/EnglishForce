@@ -1,8 +1,10 @@
 import db from "../../sequelize/models/index.js";
 const { Program, Unit } = db;
 
+import { Sequelize } from 'sequelize';
+
 export const getPaginatedPrograms = async (page = 1) => {
-    const limit = 6 ;
+  const limit = 6;
   const offset = (page - 1) * limit;
 
   const { count, rows } = await Program.findAndCountAll({
@@ -17,6 +19,64 @@ export const getPaginatedPrograms = async (page = 1) => {
     currentPage: page
   };
 };
+
+
+export const getAllProgramsWithProgressStatus = async (userId) => {
+  // 1. Truy vấn tổng số lesson theo program_id
+  const lessonCounts = await db.sequelize.query(`
+    SELECT p.id AS program_id, COUNT(l.id) AS total_lessons
+    FROM programs p
+    JOIN units u ON u.program_id = p.id
+    JOIN lessons l ON l.unit_id = u.id
+    GROUP BY p.id
+  `, { type: Sequelize.QueryTypes.SELECT });
+
+  const lessonCountMap = Object.fromEntries(
+    lessonCounts.map(row => [row.program_id, parseInt(row.total_lessons)])
+  );
+
+  // 2. Truy vấn số bài học đã học của user theo program_id
+  const userProgressCounts = await db.UserProgress.findAll({
+    where: { user_id: userId },
+    attributes: [
+      'program_id',
+      [Sequelize.fn('COUNT', Sequelize.col('lesson_id')), 'learned']
+    ],
+    group: ['program_id']
+  });
+
+  const learnedMap = {};
+  userProgressCounts.forEach(row => {
+    learnedMap[row.program_id] = parseInt(row.get('learned'));
+  });
+
+  // 3. Truy vấn danh sách Program
+  const programs = await db.Program.findAll({
+    order: [['order_index', 'ASC']]
+  });
+
+  // 4. Gắn trạng thái tiến độ
+  return programs.map(program => {
+    const programId = program.id;
+    const totalLessons = lessonCountMap[programId] || 0;
+    const learned = learnedMap[programId] || 0;
+
+    let progressStatus = 'not_started';
+    if (totalLessons > 0 && learned === totalLessons) {
+      progressStatus = 'completed';
+    } else if (learned > 0) {
+      progressStatus = 'in_progress';
+    }
+
+    return {
+      ...program.toJSON(),
+      progressStatus,
+      totalLessons,
+      learnedLessons: learned
+    };
+  });
+};
+
 
 export const getProgramByPublicId = async (public_id) => {
   const program = await Program.findOne({
@@ -38,7 +98,7 @@ export const deleteByPublicId = async (publicId) => {
   if (!program) {
     throw new Error('Program not found');
   }
-  await program.destroy(); 
+  await program.destroy();
   // CASCADE will delete relational Units, Lessons 
 };
 
