@@ -141,6 +141,7 @@ const Chatbot = () => {
                       msg.sender === "user" ? "#0084ff" : "#e4e6eb",
                     color: msg.sender === "user" ? "white" : "black",
                     fontSize: "14px",
+                    whiteSpace: "pre-wrap",
                   }}
                 >
                   {msg.text}

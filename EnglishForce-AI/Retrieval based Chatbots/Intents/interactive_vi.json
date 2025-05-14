@@ -1,0 +1,68 @@
+{
+    "intents": [
+      {
+        "tag": "course_recommendation",
+        "patterns": [
+          "Bạn có thể gợi ý cho tôi các khóa học không?",
+          "Bạn có thể đề xuất một số khóa học cho tôi không?",
+          "Tôi nên học khóa học nào tiếp theo?",
+          "Tôi cần các gợi ý khóa học.",
+          "Khóa học nào phù hợp với trình độ của tôi?"
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "course_info",
+        "patterns": [
+          "Hãy cho tôi biết về khóa học [course_name].",
+          "Khóa học [course_name] nói về cái gì?",
+          "Cho tôi thêm thông tin về khóa học [course_name].",
+          "Khóa học [course_name] bao gồm những gì?",
+          "Khóa học [course_name] kéo dài bao lâu?",
+          "Thông tin khóa học [course_name]"
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "exam_info",
+        "patterns": [
+          "Kỳ thi [exam_name] tiếp theo khi nào?",
+          "Cho tôi biết về kỳ thi [exam_name].",
+          "Chi tiết về kỳ thi [exam_name] là gì?",
+          "Làm thế nào để tôi đăng ký kỳ thi [exam_name]?",
+          "Định dạng của kỳ thi [exam_name] là gì?",
+          "Thông tin kỳ thi [exam_name]",
+          "Thông tin chi tiết về kì kiểm tra [exam_name]"
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "learning_progress",
+        "patterns": [
+          "Tiến độ học tập của tôi như thế nào?",
+          "Bạn có thể cho tôi xem tiến độ học của tôi không?",
+          "Tôi đã hoàn thành bao nhiêu bài học?",
+          "Tiến độ của tôi trong khóa học này là bao nhiêu?",
+          "Cập nhật tiến độ học tập của tôi đi."
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "user_info",
+        "patterns": [
+          "Hãy cho tôi biết thông tin tài khoản của tôi.",
+          "Thông tin người dùng của tôi là gì?",
+          "Bạn có thể cho tôi biết chi tiết về hồ sơ của tôi không?",
+          "Hiển thị thông tin cá nhân của tôi.",
+          "Hiện tại tôi có gói đăng ký nào?"
+        ],
+        "responses": [],
+        "context": [""]
+      }
+    ]
+  }
+  

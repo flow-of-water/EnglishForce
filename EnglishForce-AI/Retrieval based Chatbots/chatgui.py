@@ -3,6 +3,10 @@ from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
+import sys
+import os
+sys.path.append(os.path.abspath("../AIserver"))
+from db_utils import query_db_for_info 
 
 from keras.models import load_model
 model = load_model('chatbot_model.h5')
@@ -62,12 +66,23 @@ def getResponse(ints, intents_json):
             break
     return result
 
-def chatbot_response(msg):
-    ints = predict_class(msg, model)
+# Luồng hoạt động chính
+def chatbot_response(user_input):
+    ints = predict_class(user_input, model)
     if not ints:
-        return "Sorry bro, tf are you talking about ?"
-    res = getResponse(ints, intents)
-    return res
+        return "Sorry, I couldn't understand that."
+
+    intent = ints[0]['intent']
+    print(intent)
+    # Kiểm tra xem tag có bắt đầu với '#' không (dấu '#' dùng để phân biệt intent cần truy vấn cơ sở dữ liệu)
+    if intent.startswith("#"):
+        # Truy vấn dữ liệu nếu cần
+        data_response = query_db_for_info(intent, user_input)
+        return data_response
+    
+    # Nếu không cần truy vấn DB, trả về response từ file intents.json
+    response = getResponse(ints, intents)
+    return response
 
 
 #Creating GUI with tkinter

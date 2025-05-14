@@ -99,7 +99,19 @@ module.exports =  {
                 { content: "Chúc ngủ ngon", is_correct: false }
               ],
               explanation: "'Good evening' nghĩa là 'Chào buổi tối', thường dùng sau 6 giờ tối."
-            }
+            },
+            {
+              question: "Làm ơn",
+              type: "single_choice",
+              order_index: 7,
+              answers: [
+                { content: "Sorry", is_correct: false },
+                { content: "Thank you", is_correct: false },
+                { content: "Please", is_correct: true },
+                { content: "Excuse me", is_correct: false }
+              ],
+              explanation: "Từ 'Please' (hoặc 'Làm ơn') được sử dụng phổ biến để thể hiện sự lịch sự khi đưa ra một lời yêu cầu hoặc đề nghị."
+            },
           ],          
         },
         {
@@ -205,7 +217,79 @@ module.exports =  {
               ]
             },
           ]
-        }
+        },
+        {
+          name: "Lesson 3",
+          order_index: 2,
+          exercises: [
+            {
+              question: "Nghĩa trong tiếng việt: 'Good Morning, Lisa'",
+              type: "single_choice",
+              order_index: 0,
+              answers: [
+                { content: "Chào buổi sáng,Lisa", is_correct: true },
+                { content: "Xin chào, Lisa", is_correct: false }
+              ],
+            },
+            {
+              question: "What did you hear? (Bạn đã nghe thấy gì?)",
+              record: "Look",
+              type: "single_choice",
+              order_index: 1,
+              answers: [
+                { content: "Look", is_correct: true },
+                { content: "Like", is_correct: false },
+              ],
+              explanation:"The speaker clearly says 'Look'",
+            },
+            {
+              question: "What did you hear? (Bạn đã nghe thấy gì?)",
+              record: "Go",
+              type: "single_choice",
+              order_index: 2,
+              answers: [
+                { content: "Go", is_correct: true },
+                { content: "Got", is_correct: false },
+              ],
+              explanation:"The speaker clearly says 'Go'",
+            },
+            {
+              question: "Write in English: 'Không, với đường, cảm ơn'",
+              type: "writing",
+              order_index: 3,
+              answers: [],
+              explanation:"No, with sugar, thanks",
+            },
+            {
+              question: "Nhập từ còn thiếu: 'Yes, tea, ______'",
+              record: "Yes, tea, please",
+              type: "single_choice",
+              order_index: 4,
+              answers: [
+                { content: "Peace", is_correct: false },
+                { content: "Please", is_correct: true },
+              ],
+              explanation:"The speaker clearly says 'Please'",
+            },
+            {
+              question: "What did you hear? (Bạn đã nghe thấy gì?)",
+              record: "Coffee or water",
+              type: "single_choice",
+              order_index: 5,
+              answers: [
+                { content: "Coffee or water", is_correct: true },
+                { content: "Coffee and water", is_correct: false },
+              ],
+              explanation:"The speaker clearly says 'Coffee or water'",
+            },
+            {
+              question: "Hello, coffee, please!",
+              type: "speaking",
+              order_index: 6,
+              answers: []
+            },
+          ],          
+        },
       ]
     }
   ]

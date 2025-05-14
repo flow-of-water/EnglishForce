@@ -1,0 +1,227 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi there",
+        "How are you",
+        "Is anyone there?",
+        "Hey",
+        "Hola",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hello, thanks for asking",
+        "Good to see you again",
+        "Hi there, how can I help?"
+      ],
+      "context": [
+        ""
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye",
+        "Nice chatting to you, bye",
+        "Till next time"
+      ],
+      "responses": [
+        "See you!",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ],
+      "context": [
+        ""
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Awesome, thanks",
+        "Thanks for helping me"
+      ],
+      "responses": [
+        "Happy to help!",
+        "Any time!",
+        "My pleasure"
+      ],
+      "context": [
+        ""
+      ]
+    },
+    {
+      "tag": "learning_tips",
+      "patterns": [
+        "How to learn English fast?",
+        "Tips for improving English",
+        "Any advice for learning English?",
+        "English learning method"
+      ],
+      "responses": [
+        "One of the fastest ways to improve your English is to immerse yourself in the language every day. Try setting small goals like learning 5 new words daily, and use them in real sentences. Watching English shows with subtitles can help you get used to pronunciation, while reading books or articles aloud will improve both vocabulary and fluency.",
+        "To truly master English, consistency is key. Create a daily habit of learning — start your morning with a vocabulary review, practice speaking in front of a mirror, and listen to English podcasts while commuting. Use spaced repetition apps like Anki or Quizlet to retain new words efficiently. The more you expose yourself to English in real-life contexts, the faster you'll progress.",
+        "Improving your English takes patience and smart strategies. Focus on active learning: instead of just reading, speak and write the new phrases you learn. Join online communities or speaking clubs where you can interact with real people. And most importantly, don't be afraid to make mistakes — they are the fastest way to grow.",
+        "On EnglishForce, you can practice English through exercises and courses. With just 15 minutes of daily practice, you’ll see significant improvement!"
+      ],
+      "context": [
+        ""
+      ]
+    },
+    {
+      "tag": "web_feature",
+      "patterns": [
+        "Tell me about the learning program",
+        "What features are available on this website?",
+        "What can I do here?"
+      ],
+      "responses": [
+        "Our website offers a free **learning program** that is designed to help you improve your English skills step-by-step. It includes lessons, quizzes, and progress tracking to ensure you are advancing in your learning journey.",
+        "We have several **exams** available, including a **TOEIC exam** that follows the real TOEIC structure. You can take practice tests to assess your English level and prepare for the actual exam.",
+        "Our **recommendation system** suggests courses tailored to your needs. Based on your learning activities, we recommend courses that match your interests, helping you focus on areas where you need improvement.",
+        "In addition to TOEIC-style exams, we offer other practice tests to help you prepare for various English proficiency exams. The platform also gives you feedback on your performance, so you can track your progress over time.",
+        "You can access our free **learning program**, take **exams** like TOEIC or other proficiency tests, and use the **recommendation system** to get personalized course suggestions based on your learning behavior and progress. These features help you learn at your own pace and according to your level."
+      ],
+      "context": [""]
+    },
+    
+  {
+      "tag": "chatbot_ability",
+      "patterns": [
+        "What can you do?",
+        "How can you help me?",
+        "What services do you provide?",
+        "What are your abilities?",
+        "How can you assist in learning English?"
+      ],
+      "responses": [
+        "I can chat with you, provide advice on your learning, and answer questions about courses or exams on this website.",
+        "I can help you find details about available courses, give you information on exams, and offer suggestions to improve your learning experience.",
+        "Feel free to ask me for course recommendations or details about any exam, and I’ll do my best to help.",
+        "I can provide information about courses, exams, and even give you useful advice to boost your learning progress."
+      ],
+      "context": [""]
+  },
+    
+  {
+      "tag": "book_recommendation",
+      "patterns": [
+        "Can you recommend me a book?",
+        "What book should I read to improve my English?",
+        "Suggest a good book for learning English",
+        "I want to read something in English, any suggestions?"
+      ],
+      "responses": [
+        "I recommend ‘English Grammar in Use’ by Raymond Murphy if you want to improve your grammar.",
+        "For vocabulary building, ‘Word Power Made Easy’ by Norman Lewis is a great choice.",
+        "You could try ‘The Great Gatsby’ by F. Scott Fitzgerald, a classic that will help you understand English culture and improve your vocabulary.",
+        "If you're into stories, ‘Harry Potter and the Sorcerer's Stone’ is a fun and educational read for English learners!"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "exam_recommendation",
+      "patterns": [
+        "What exam should I take to improve my English?",
+        "Which English exam is best for me?",
+        "Recommend an English test for me",
+        "What exam should I prepare for?",
+        "I need your advice on which exam I should practice for."
+      ],
+      "responses": [
+        "If you're aiming for academic or professional purposes, the TOEFL or IELTS might be a good fit.",
+        "If you want to test your general English skills, the Cambridge English exams (PET, FCE, CAE) are highly recommended.",
+        "For a certification that proves your English proficiency, you can consider taking the TOEIC exam.",
+        "The Duolingo English Test is a quick and accessible option if you're looking for an online exam."
+      ],
+      "context": [""]
+    },
+    
+    {
+      "tag": "why_learn_english",
+      "patterns": [
+        "Why should I learn English?",
+        "What are the benefits of learning English?",
+        "Why is learning English important?",
+        "Tell me why I should learn English"
+      ],
+      "responses": [
+        "Learning English opens up more opportunities for travel, work, and education worldwide.",
+        "English is the global language of business, science, and technology, and mastering it gives you a competitive edge.",
+        "By learning English, you can connect with millions of people across the world and access a wealth of knowledge in various fields.",
+        "English is the most widely spoken language and is essential for accessing international media, news, and resources."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "motivational_quote",
+      "patterns": [
+          "Give me a motivational quote",
+          "I need some motivation",
+          "Inspire me",
+          "What’s your motivational message?",
+          "Tell me something inspiring",
+          "I feel tired, give me a push",
+          "I feel lazy",
+          "I’m feeling down, need motivation",
+          "I need a pep talk",
+          "What should I do when I feel like quitting?",
+          "How do I keep going when it gets tough?",
+          "Things are so hard.",
+          "Things are so tough",
+          "I don't want to study"
+      ],
+      "responses": [
+        "Remember: 'The expert in anything was once a beginner.' Keep going, you're making progress!",
+        "Don’t stop when you’re tired. Stop when you’re done!",
+        "‘Success is the sum of small efforts, repeated day in and day out.’ You need to try harder!!",
+        "‘The journey of a thousand miles begins with a single step.’ Stay focused, you’re on the right path!",
+        "Believe in yourself, and all that you are. Know that there is something inside you that is greater than any obstacle.",
+        "'When you think you’re done, you’re only at 40% of your potential.' Keep pushing, you’ve got more inside you!",
+        "'The pain you feel today is the strength you feel tomorrow.' Embrace the struggle, it’s making you stronger!",
+        "'You are your only competition.' Don’t focus on others, just keep improving yourself, every day!",
+        "'Stay hard! The mind is a weapon, and it only gets stronger when you keep using it.' Push through the discomfort!",
+        "'Don’t stop when you’re tired, stop when you’re done.' Your limits are just the starting point, break them!"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "technical_support",
+      "patterns": [
+        "I can't log in",
+        "The website is not loading",
+        "I’m having trouble accessing my account",
+        "The exam page is not working",
+        "I can't submit my answers",
+        "The videos are not playing",
+        "I'm experiencing a technical issue",
+        "I have a problem with the website",
+        "I need technical support"
+      ],
+      "responses": [
+        "Please email us at support@englishforce.com for further assistance.",
+        "For help with login issues, please contact us at support@englishforce.com or call us at +123456789.",
+        "If you're having trouble with the exam page or submitting answers, please reach out to us at support@englishforce.com or call +123456789 for immediate assistance."
+      ],
+      "context": [""]
+    },   
+    {
+      "tag": "noanswer",
+      "patterns": [],
+      "responses": [
+        "Sorry, can't understand you",
+        "Please give me more info",
+        "Not sure I understand"
+      ],
+      "context": [
+        ""
+      ]
+    }
+  ]
+}

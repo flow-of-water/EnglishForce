@@ -1,0 +1,197 @@
+{
+  "intents": [
+    {
+      "tag": "greeting_vi",
+      "patterns": ["Chào bạn", "Xin chào", "Có ai ở đây không?"],
+      "responses": ["Chào bạn! Mình có thể giúp gì cho bạn hôm nay?","Chào mừng bạn đến với EnglishForce!","Xin chào! Rất vui được gặp bạn."],
+      "context": [""]
+    },
+    {
+      "tag": "goodbye_vi",
+      "patterns": [
+        "Tạm biệt",
+        "Hẹn gặp lại",
+        "Chào tạm biệt",
+        "Rất vui được trò chuyện với bạn, tạm biệt",
+        "Hẹn gặp lại lần sau"
+      ],
+      "responses": [
+        "Hẹn gặp lại!",
+        "Chúc bạn một ngày tốt lành",
+        "Tạm biệt! Hãy quay lại sớm nhé."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Cảm ơn",
+        "Cảm ơn bạn",
+        "Điều này hữu ích",
+        "Tuyệt vời, cảm ơn",
+        "Cảm ơn vì đã giúp tôi"
+      ],
+      "responses": [
+        "Rất vui được giúp đỡ!",
+        "Tôi luôn ở đây vì bạn!"
+      ],
+      "context": [""]
+    },
+    
+    {
+      "tag": "learning_tips_vi",
+      "patterns": ["Làm sao để học tiếng Anh nhanh?", "Có mẹo học tiếng Anh nào không?","Có bí quyết học tiếng Anh không?","Tiến bộ trong tiếng anh","Phương pháp học tiếng Anh"],
+      "responses": [
+        "Bạn có thể sử dụng các bài học trên EnglishForce và luyện tập mỗi ngày. Đừng quên thử làm đề thi mô phỏng và bài tập tương tác nhé!",
+        "Để học nhanh, bạn nên có kế hoạch học tập rõ ràng và làm bài kiểm tra thường xuyên trên EnglishForce.",
+        "Luyện bài tập trên EnglishForce là cách rất hiệu quả đó nghen!"
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "web_feature",
+      "patterns": [
+        "Cho tôi biết về chương trình học",
+        "Trang web này có những tính năng gì?",
+        "Tôi có thể làm gì ở đây?",
+        "Chức năng trang web"
+      ],
+      "responses": [
+        "Trang web của chúng tôi cung cấp một **chương trình học miễn phí** được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh từng bước. Chương trình bao gồm các bài học, bài kiểm tra, và theo dõi tiến độ để đảm bảo bạn đang tiến bộ trong hành trình học tập.",
+        "Chúng tôi có một số **bài thi** có sẵn, bao gồm **bài thi TOEIC** theo cấu trúc thực tế của TOEIC. Bạn có thể làm các bài kiểm tra thử để đánh giá trình độ tiếng Anh của mình và chuẩn bị cho kỳ thi thật.",
+        "Hệ thống **gợi ý khóa học** của chúng tôi sẽ đề xuất các khóa học phù hợp với nhu cầu của bạn. Dựa trên hoạt động học tập của bạn, chúng tôi sẽ gợi ý những khóa học phù hợp với sở thích và giúp bạn cải thiện các kỹ năng cần thiết.",
+        "Ngoài các bài thi theo cấu trúc TOEIC, chúng tôi còn cung cấp các bài kiểm tra khác để giúp bạn chuẩn bị cho các kỳ thi tiếng Anh khác. Nền tảng cũng cung cấp phản hồi về kết quả của bạn để bạn có thể theo dõi tiến trình học tập.",
+        "Bạn có thể truy cập vào **chương trình học miễn phí**, làm các bài **kiểm tra** như TOEIC hoặc các bài thi năng lực khác, và sử dụng **hệ thống gợi ý khóa học** để nhận các đề xuất khóa học của riêng bạn. Các tính năng này giúp bạn học theo tốc độ và trình độ của mình."
+      ],
+      "context": [""]
+    },
+    
+    {
+      "tag": "chatbot_ability",
+      "patterns": [
+        "Bạn có thể làm gì?",
+        "Bạn có thể giúp tôi như thế nào?",
+        "Bạn cung cấp dịch vụ gì?",
+        "Khả năng của bạn là gì?",
+        "Bạn có thể hỗ trợ tôi học tiếng Anh như thế nào?"
+      ],
+      "responses": [
+        "Tôi có thể trò chuyện với bạn, cung cấp lời khuyên về việc học của bạn, và trả lời các câu hỏi về khóa học hoặc bài thi trên trang web này.",
+        "Tôi có thể giúp bạn tìm kiếm thông tin về các khóa học có sẵn, cung cấp thông tin về các bài thi, và đưa ra gợi ý để cải thiện trải nghiệm học tập của bạn.",
+        "Hãy thoải mái yêu cầu tôi gợi ý khóa học hoặc cung cấp thông tin về bất kỳ bài thi nào, tôi sẽ cố gắng hết sức để giúp bạn.",
+        "Tôi có thể cung cấp thông tin về các khóa học, bài thi, và thậm chí đưa ra những lời khuyên hữu ích để giúp bạn tiến bộ trong việc học."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "book_recommendation",
+      "patterns": [
+        "Bạn có thể gợi ý cho tôi một cuốn sách không?",
+        "Cuốn sách nào tôi nên đọc để cải thiện tiếng Anh?",
+        "Gợi ý cho tôi một cuốn sách hay để học tiếng Anh",
+        "Tôi muốn đọc gì đó bằng tiếng Anh, có gợi ý nào không?"
+      ],
+      "responses": [
+        "Tôi gợi ý cuốn sách ‘English Grammar in Use’ của Raymond Murphy nếu bạn muốn cải thiện ngữ pháp của mình.",
+        "Để xây dựng từ vựng, cuốn sách ‘Word Power Made Easy’ của Norman Lewis là một lựa chọn tuyệt vời.",
+        "Bạn có thể thử cuốn ‘The Great Gatsby’ của F. Scott Fitzgerald, một tác phẩm kinh điển sẽ giúp bạn hiểu về văn hóa tiếng Anh và cải thiện từ vựng.",
+        "Nếu bạn thích đọc truyện, ‘Harry Potter and the Sorcerer's Stone’ là một cuốn sách thú vị và giáo dục dành cho người học tiếng Anh!"
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "exam_recommendation",
+      "patterns": [
+        "Tôi nên thi bài kiểm tra nào để cải thiện tiếng Anh?",
+        "Bài thi tiếng Anh nào phù hợp với tôi nhất?",
+        "Gợi ý cho tôi một bài thi tiếng Anh",
+        "Tôi nên chuẩn bị cho bài thi nào?",
+        "Tôi cần lời khuyên của bạn về kỳ thi nào tôi nên luyện tập"
+      ],
+      "responses": [
+        "Nếu bạn đang hướng tới mục đích học thuật hoặc nghề nghiệp, TOEFL hoặc IELTS có thể là lựa chọn phù hợp.",
+        "Nếu bạn muốn kiểm tra kỹ năng tiếng Anh tổng quát, các kỳ thi Cambridge English (PET, FCE, CAE) được khuyến nghị rất cao.",
+        "Để có chứng nhận về khả năng tiếng Anh của bạn, bạn có thể cân nhắc tham gia kỳ thi TOEIC.",
+        "Bài thi Duolingo English Test là một lựa chọn nhanh chóng và dễ tiếp cận nếu bạn đang tìm kiếm một kỳ thi trực tuyến."
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "why_learn_english",
+      "patterns": [
+        "Tại sao tôi nên học tiếng Anh?",
+        "Lợi ích của việc học tiếng Anh là gì?",
+        "Tại sao việc học tiếng Anh lại quan trọng?",
+        "Hãy nói cho tôi lý do tại sao tôi nên học tiếng Anh"
+      ],
+      "responses": [
+        "Học tiếng Anh mở ra nhiều cơ hội hơn cho việc du lịch, công việc, và giáo dục trên toàn thế giới.",
+        "Tiếng Anh là ngôn ngữ toàn cầu trong kinh doanh, khoa học, và công nghệ, và việc thành thạo nó sẽ mang lại cho bạn lợi thế cạnh tranh.",
+        "Bằng việc học tiếng Anh, bạn có thể kết nối với hàng triệu người trên toàn thế giới và tiếp cận một kho tàng kiến thức trong nhiều lĩnh vực.",
+        "Tiếng Anh là ngôn ngữ được sử dụng rộng rãi nhất và rất quan trọng để tiếp cận các phương tiện truyền thông, tin tức, và tài nguyên quốc tế."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "motivational_quote",
+      "patterns": [
+        "Cho tôi một câu nói động lực",
+        "Tôi cần chút động lực",
+        "Truyền cảm hứng cho tôi",
+        "Lời động viên của bạn là gì?",
+        "Nói gì đó truyền cảm hứng cho tôi",
+        "Tôi cảm thấy mệt mỏi, cho tôi một đòn bẩy",
+        "Tôi cảm thấy lười biếng",
+        "Tôi đang buồn, cần chút động lực",
+        "Tôi cần một lời khích lệ",
+        "Tôi phải làm gì khi tôi muốn bỏ cuộc?",
+        "Làm sao để tôi tiếp tục khi mọi thứ trở nên khó khăn?",
+        "Mọi việc thật khó khăn",
+        "Tôi không muốn học nữa"
+      ],
+      "responses": [
+        "Hãy nhớ: 'Chuyên gia trong bất cứ lĩnh vực nào cũng từng là người mới bắt đầu.' Hãy tiếp tục, bạn đang tiến bộ!",
+        "Đừng dừng lại khi bạn cảm thấy mệt mỏi. Hãy dừng lại khi bạn đã hoàn thành!",
+        "'Thành công là tổng hợp của những nỗ lực nhỏ, lặp đi lặp lại mỗi ngày.' Bạn cần cố gắng hơn nữa!",
+        "'Hành trình dài nghìn dặm bắt đầu từ một bước chân.' Hãy tập trung, bạn đang đi đúng hướng!",
+        "Hãy tin vào bản thân và tất cả những gì bạn có. Hãy biết rằng bên trong bạn có điều gì đó lớn hơn bất kỳ thử thách nào.",
+        "'Khi bạn nghĩ rằng mình đã làm xong, bạn chỉ mới đạt được 40% tiềm năng của mình.' Hãy tiếp tục, bạn còn nhiều sức mạnh bên trong!",
+        "'Cơn đau mà bạn cảm nhận hôm nay chính là sức mạnh bạn cảm nhận vào ngày mai.' Hãy đón nhận thử thách, nó đang làm bạn mạnh mẽ hơn!",
+        "'Bạn chỉ có một đối thủ duy nhất.' Đừng chú ý đến người khác, hãy luôn cải thiện bản thân mỗi ngày!",
+        "'Hãy kiên cường! Tâm trí là vũ khí, và nó chỉ mạnh mẽ hơn khi bạn tiếp tục sử dụng nó.' Vượt qua sự khó chịu!",
+        "'Đừng dừng lại khi bạn mệt mỏi, hãy dừng lại khi bạn đã hoàn thành.' Giới hạn của bạn chỉ là điểm khởi đầu, hãy phá vỡ chúng!"
+      ],
+      "context": [""]
+    },
+
+    {
+      "tag": "technical_support",
+      "patterns": [
+        "Tôi không thể đăng nhập",
+        "Trang web không tải được",
+        "Tôi gặp vấn đề khi truy cập tài khoản của mình",
+        "Trang thi không hoạt động",
+        "Tôi không thể nộp bài làm",
+        "Video không thể phát",
+        "Tôi gặp sự cố kỹ thuật",
+        "Tôi có vấn đề với trang web",
+        "Tôi cần hỗ trợ kĩ thuật"
+      ],
+      "responses": [
+        "Vui lòng gửi email cho chúng tôi tại support@englishforce.com để được hỗ trợ thêm.",
+        "Nếu bạn gặp vấn đề với đăng nhập, vui lòng liên hệ với chúng tôi qua email support@englishforce.com hoặc gọi cho chúng tôi theo số +123456789.",
+        "Nếu bạn gặp vấn đề với trang thi hoặc không thể nộp bài làm, vui lòng liên hệ với chúng tôi qua email support@englishforce.com hoặc gọi ngay cho chúng tôi theo số +123456789 để được hỗ trợ kịp thời."
+      ],
+      "context": [""]
+    }
+    
+    
+    
+    
+    
+    
+  ]
+}

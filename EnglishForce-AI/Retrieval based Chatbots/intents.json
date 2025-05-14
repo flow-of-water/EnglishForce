@@ -61,13 +61,162 @@
             "patterns": [
                 "How to learn English fast?",
                 "Tips for improving English",
-                "Any advice for learning English?"
+                "Any advice for learning English?",
+                "English learning method"
             ],
             "responses": [
                 "One of the fastest ways to improve your English is to immerse yourself in the language every day. Try setting small goals like learning 5 new words daily, and use them in real sentences. Watching English shows with subtitles can help you get used to pronunciation, while reading books or articles aloud will improve both vocabulary and fluency.",
                 "To truly master English, consistency is key. Create a daily habit of learning — start your morning with a vocabulary review, practice speaking in front of a mirror, and listen to English podcasts while commuting. Use spaced repetition apps like Anki or Quizlet to retain new words efficiently. The more you expose yourself to English in real-life contexts, the faster you'll progress.",
                 "Improving your English takes patience and smart strategies. Focus on active learning: instead of just reading, speak and write the new phrases you learn. Join online communities or speaking clubs where you can interact with real people. And most importantly, don't be afraid to make mistakes — they are the fastest way to grow.",
                 "On EnglishForce, you can practice English through exercises and courses. With just 15 minutes of daily practice, you’ll see significant improvement!"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "web_feature_en",
+            "patterns": [
+                "Tell me about the learning program",
+                "What features are available on this website?",
+                "What can I do here?"
+            ],
+            "responses": [
+                "Our website offers a free **learning program** that is designed to help you improve your English skills step-by-step. It includes lessons, quizzes, and progress tracking to ensure you are advancing in your learning journey.",
+                "We have several **exams** available, including a **TOEIC exam** that follows the real TOEIC structure. You can take practice tests to assess your English level and prepare for the actual exam.",
+                "Our **recommendation system** suggests courses tailored to your needs. Based on your learning activities, we recommend courses that match your interests, helping you focus on areas where you need improvement.",
+                "In addition to TOEIC-style exams, we offer other practice tests to help you prepare for various English proficiency exams. The platform also gives you feedback on your performance, so you can track your progress over time.",
+                "You can access our free **learning program**, take **exams** like TOEIC or other proficiency tests, and use the **recommendation system** to get personalized course suggestions based on your learning behavior and progress. These features help you learn at your own pace and according to your level."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "chatbot_ability_en",
+            "patterns": [
+                "What can you do?",
+                "How can you help me?",
+                "What services do you provide?",
+                "What are your abilities?",
+                "How can you assist in learning English?"
+            ],
+            "responses": [
+                "I can chat with you, provide advice on your learning, and answer questions about courses or exams on this website.",
+                "I can help you find details about available courses, give you information on exams, and offer suggestions to improve your learning experience.",
+                "Feel free to ask me for course recommendations or details about any exam, and I’ll do my best to help.",
+                "I can provide information about courses, exams, and even give you useful advice to boost your learning progress."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "book_recommendation_en",
+            "patterns": [
+                "Can you recommend me a book?",
+                "What book should I read to improve my English?",
+                "Suggest a good book for learning English",
+                "I want to read something in English, any suggestions?"
+            ],
+            "responses": [
+                "I recommend ‘English Grammar in Use’ by Raymond Murphy if you want to improve your grammar.",
+                "For vocabulary building, ‘Word Power Made Easy’ by Norman Lewis is a great choice.",
+                "You could try ‘The Great Gatsby’ by F. Scott Fitzgerald, a classic that will help you understand English culture and improve your vocabulary.",
+                "If you're into stories, ‘Harry Potter and the Sorcerer's Stone’ is a fun and educational read for English learners!"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "exam_recommendation_en",
+            "patterns": [
+                "What exam should I take to improve my English?",
+                "Which English exam is best for me?",
+                "Recommend an English test for me",
+                "What exam should I prepare for?",
+                "I need your advice on which exam I should practice for."
+            ],
+            "responses": [
+                "If you're aiming for academic or professional purposes, the TOEFL or IELTS might be a good fit.",
+                "If you want to test your general English skills, the Cambridge English exams (PET, FCE, CAE) are highly recommended.",
+                "For a certification that proves your English proficiency, you can consider taking the TOEIC exam.",
+                "The Duolingo English Test is a quick and accessible option if you're looking for an online exam."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "why_learn_english_en",
+            "patterns": [
+                "Why should I learn English?",
+                "What are the benefits of learning English?",
+                "Why is learning English important?",
+                "Tell me why I should learn English"
+            ],
+            "responses": [
+                "Learning English opens up more opportunities for travel, work, and education worldwide.",
+                "English is the global language of business, science, and technology, and mastering it gives you a competitive edge.",
+                "By learning English, you can connect with millions of people across the world and access a wealth of knowledge in various fields.",
+                "English is the most widely spoken language and is essential for accessing international media, news, and resources."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "motivational_quote_en",
+            "patterns": [
+                "Give me a motivational quote",
+                "I need some motivation",
+                "Inspire me",
+                "What’s your motivational message?",
+                "Tell me something inspiring",
+                "I feel tired, give me a push",
+                "I feel lazy",
+                "I’m feeling down, need motivation",
+                "I need a pep talk",
+                "What should I do when I feel like quitting?",
+                "How do I keep going when it gets tough?",
+                "Things are so hard.",
+                "Things are so tough",
+                "I don't want to study"
+            ],
+            "responses": [
+                "Remember: 'The expert in anything was once a beginner.' Keep going, you're making progress!",
+                "Don’t stop when you’re tired. Stop when you’re done!",
+                "‘Success is the sum of small efforts, repeated day in and day out.’ You need to try harder!!",
+                "‘The journey of a thousand miles begins with a single step.’ Stay focused, you’re on the right path!",
+                "Believe in yourself, and all that you are. Know that there is something inside you that is greater than any obstacle.",
+                "'When you think you’re done, you’re only at 40% of your potential.' Keep pushing, you’ve got more inside you!",
+                "'The pain you feel today is the strength you feel tomorrow.' Embrace the struggle, it’s making you stronger!",
+                "'You are your only competition.' Don’t focus on others, just keep improving yourself, every day!",
+                "'Stay hard! The mind is a weapon, and it only gets stronger when you keep using it.' Push through the discomfort!",
+                "'Don’t stop when you’re tired, stop when you’re done.' Your limits are just the starting point, break them!"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "technical_support_en",
+            "patterns": [
+                "I can't log in",
+                "The website is not loading",
+                "I’m having trouble accessing my account",
+                "The exam page is not working",
+                "I can't submit my answers",
+                "The videos are not playing",
+                "I'm experiencing a technical issue",
+                "I have a problem with the website",
+                "I need technical support"
+            ],
+            "responses": [
+                "Please email us at support@englishforce.com for further assistance.",
+                "For help with login issues, please contact us at support@englishforce.com or call us at +123456789.",
+                "If you're having trouble with the exam page or submitting answers, please reach out to us at support@englishforce.com or call +123456789 for immediate assistance."
             ],
             "context": [
                 ""
@@ -93,7 +242,44 @@
                 "Có ai ở đây không?"
             ],
             "responses": [
-                "Chào bạn! Mình có thể giúp gì cho bạn hôm nay?"
+                "Chào bạn! Mình có thể giúp gì cho bạn hôm nay?",
+                "Chào mừng bạn đến với EnglishForce!",
+                "Xin chào! Rất vui được gặp bạn."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "goodbye_vi_vi",
+            "patterns": [
+                "Tạm biệt",
+                "Hẹn gặp lại",
+                "Chào tạm biệt",
+                "Rất vui được trò chuyện với bạn, tạm biệt",
+                "Hẹn gặp lại lần sau"
+            ],
+            "responses": [
+                "Hẹn gặp lại!",
+                "Chúc bạn một ngày tốt lành",
+                "Tạm biệt! Hãy quay lại sớm nhé."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "thanks_vi",
+            "patterns": [
+                "Cảm ơn",
+                "Cảm ơn bạn",
+                "Điều này hữu ích",
+                "Tuyệt vời, cảm ơn",
+                "Cảm ơn vì đã giúp tôi"
+            ],
+            "responses": [
+                "Rất vui được giúp đỡ!",
+                "Tôi luôn ở đây vì bạn!"
             ],
             "context": [
                 ""
@@ -103,11 +289,311 @@
             "tag": "learning_tips_vi_vi",
             "patterns": [
                 "Làm sao để học tiếng Anh nhanh?",
-                "Có mẹo học từ vựng nào không?"
+                "Có mẹo học tiếng Anh nào không?",
+                "Có bí quyết học tiếng Anh không?",
+                "Tiến bộ trong tiếng anh",
+                "Phương pháp học tiếng Anh"
             ],
             "responses": [
-                "Bạn có thể sử dụng các bài học trên EnglishForce và luyện tập mỗi ngày. Đừng quên thử làm đề thi mô phỏng và bài tập tương tác nhé!"
+                "Bạn có thể sử dụng các bài học trên EnglishForce và luyện tập mỗi ngày. Đừng quên thử làm đề thi mô phỏng và bài tập tương tác nhé!",
+                "Để học nhanh, bạn nên có kế hoạch học tập rõ ràng và làm bài kiểm tra thường xuyên trên EnglishForce.",
+                "Luyện bài tập trên EnglishForce là cách rất hiệu quả đó nghen!"
             ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "web_feature_vi",
+            "patterns": [
+                "Cho tôi biết về chương trình học",
+                "Trang web này có những tính năng gì?",
+                "Tôi có thể làm gì ở đây?",
+                "Chức năng trang web"
+            ],
+            "responses": [
+                "Trang web của chúng tôi cung cấp một **chương trình học miễn phí** được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh từng bước. Chương trình bao gồm các bài học, bài kiểm tra, và theo dõi tiến độ để đảm bảo bạn đang tiến bộ trong hành trình học tập.",
+                "Chúng tôi có một số **bài thi** có sẵn, bao gồm **bài thi TOEIC** theo cấu trúc thực tế của TOEIC. Bạn có thể làm các bài kiểm tra thử để đánh giá trình độ tiếng Anh của mình và chuẩn bị cho kỳ thi thật.",
+                "Hệ thống **gợi ý khóa học** của chúng tôi sẽ đề xuất các khóa học phù hợp với nhu cầu của bạn. Dựa trên hoạt động học tập của bạn, chúng tôi sẽ gợi ý những khóa học phù hợp với sở thích và giúp bạn cải thiện các kỹ năng cần thiết.",
+                "Ngoài các bài thi theo cấu trúc TOEIC, chúng tôi còn cung cấp các bài kiểm tra khác để giúp bạn chuẩn bị cho các kỳ thi tiếng Anh khác. Nền tảng cũng cung cấp phản hồi về kết quả của bạn để bạn có thể theo dõi tiến trình học tập.",
+                "Bạn có thể truy cập vào **chương trình học miễn phí**, làm các bài **kiểm tra** như TOEIC hoặc các bài thi năng lực khác, và sử dụng **hệ thống gợi ý khóa học** để nhận các đề xuất khóa học của riêng bạn. Các tính năng này giúp bạn học theo tốc độ và trình độ của mình."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "chatbot_ability_vi",
+            "patterns": [
+                "Bạn có thể làm gì?",
+                "Bạn có thể giúp tôi như thế nào?",
+                "Bạn cung cấp dịch vụ gì?",
+                "Khả năng của bạn là gì?",
+                "Bạn có thể hỗ trợ tôi học tiếng Anh như thế nào?"
+            ],
+            "responses": [
+                "Tôi có thể trò chuyện với bạn, cung cấp lời khuyên về việc học của bạn, và trả lời các câu hỏi về khóa học hoặc bài thi trên trang web này.",
+                "Tôi có thể giúp bạn tìm kiếm thông tin về các khóa học có sẵn, cung cấp thông tin về các bài thi, và đưa ra gợi ý để cải thiện trải nghiệm học tập của bạn.",
+                "Hãy thoải mái yêu cầu tôi gợi ý khóa học hoặc cung cấp thông tin về bất kỳ bài thi nào, tôi sẽ cố gắng hết sức để giúp bạn.",
+                "Tôi có thể cung cấp thông tin về các khóa học, bài thi, và thậm chí đưa ra những lời khuyên hữu ích để giúp bạn tiến bộ trong việc học."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "book_recommendation_vi",
+            "patterns": [
+                "Bạn có thể gợi ý cho tôi một cuốn sách không?",
+                "Cuốn sách nào tôi nên đọc để cải thiện tiếng Anh?",
+                "Gợi ý cho tôi một cuốn sách hay để học tiếng Anh",
+                "Tôi muốn đọc gì đó bằng tiếng Anh, có gợi ý nào không?"
+            ],
+            "responses": [
+                "Tôi gợi ý cuốn sách ‘English Grammar in Use’ của Raymond Murphy nếu bạn muốn cải thiện ngữ pháp của mình.",
+                "Để xây dựng từ vựng, cuốn sách ‘Word Power Made Easy’ của Norman Lewis là một lựa chọn tuyệt vời.",
+                "Bạn có thể thử cuốn ‘The Great Gatsby’ của F. Scott Fitzgerald, một tác phẩm kinh điển sẽ giúp bạn hiểu về văn hóa tiếng Anh và cải thiện từ vựng.",
+                "Nếu bạn thích đọc truyện, ‘Harry Potter and the Sorcerer's Stone’ là một cuốn sách thú vị và giáo dục dành cho người học tiếng Anh!"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "exam_recommendation_vi",
+            "patterns": [
+                "Tôi nên thi bài kiểm tra nào để cải thiện tiếng Anh?",
+                "Bài thi tiếng Anh nào phù hợp với tôi nhất?",
+                "Gợi ý cho tôi một bài thi tiếng Anh",
+                "Tôi nên chuẩn bị cho bài thi nào?",
+                "Tôi cần lời khuyên của bạn về kỳ thi nào tôi nên luyện tập"
+            ],
+            "responses": [
+                "Nếu bạn đang hướng tới mục đích học thuật hoặc nghề nghiệp, TOEFL hoặc IELTS có thể là lựa chọn phù hợp.",
+                "Nếu bạn muốn kiểm tra kỹ năng tiếng Anh tổng quát, các kỳ thi Cambridge English (PET, FCE, CAE) được khuyến nghị rất cao.",
+                "Để có chứng nhận về khả năng tiếng Anh của bạn, bạn có thể cân nhắc tham gia kỳ thi TOEIC.",
+                "Bài thi Duolingo English Test là một lựa chọn nhanh chóng và dễ tiếp cận nếu bạn đang tìm kiếm một kỳ thi trực tuyến."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "why_learn_english_vi",
+            "patterns": [
+                "Tại sao tôi nên học tiếng Anh?",
+                "Lợi ích của việc học tiếng Anh là gì?",
+                "Tại sao việc học tiếng Anh lại quan trọng?",
+                "Hãy nói cho tôi lý do tại sao tôi nên học tiếng Anh"
+            ],
+            "responses": [
+                "Học tiếng Anh mở ra nhiều cơ hội hơn cho việc du lịch, công việc, và giáo dục trên toàn thế giới.",
+                "Tiếng Anh là ngôn ngữ toàn cầu trong kinh doanh, khoa học, và công nghệ, và việc thành thạo nó sẽ mang lại cho bạn lợi thế cạnh tranh.",
+                "Bằng việc học tiếng Anh, bạn có thể kết nối với hàng triệu người trên toàn thế giới và tiếp cận một kho tàng kiến thức trong nhiều lĩnh vực.",
+                "Tiếng Anh là ngôn ngữ được sử dụng rộng rãi nhất và rất quan trọng để tiếp cận các phương tiện truyền thông, tin tức, và tài nguyên quốc tế."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "motivational_quote_vi",
+            "patterns": [
+                "Cho tôi một câu nói động lực",
+                "Tôi cần chút động lực",
+                "Truyền cảm hứng cho tôi",
+                "Lời động viên của bạn là gì?",
+                "Nói gì đó truyền cảm hứng cho tôi",
+                "Tôi cảm thấy mệt mỏi, cho tôi một đòn bẩy",
+                "Tôi cảm thấy lười biếng",
+                "Tôi đang buồn, cần chút động lực",
+                "Tôi cần một lời khích lệ",
+                "Tôi phải làm gì khi tôi muốn bỏ cuộc?",
+                "Làm sao để tôi tiếp tục khi mọi thứ trở nên khó khăn?",
+                "Mọi việc thật khó khăn",
+                "Tôi không muốn học nữa"
+            ],
+            "responses": [
+                "Hãy nhớ: 'Chuyên gia trong bất cứ lĩnh vực nào cũng từng là người mới bắt đầu.' Hãy tiếp tục, bạn đang tiến bộ!",
+                "Đừng dừng lại khi bạn cảm thấy mệt mỏi. Hãy dừng lại khi bạn đã hoàn thành!",
+                "'Thành công là tổng hợp của những nỗ lực nhỏ, lặp đi lặp lại mỗi ngày.' Bạn cần cố gắng hơn nữa!",
+                "'Hành trình dài nghìn dặm bắt đầu từ một bước chân.' Hãy tập trung, bạn đang đi đúng hướng!",
+                "Hãy tin vào bản thân và tất cả những gì bạn có. Hãy biết rằng bên trong bạn có điều gì đó lớn hơn bất kỳ thử thách nào.",
+                "'Khi bạn nghĩ rằng mình đã làm xong, bạn chỉ mới đạt được 40% tiềm năng của mình.' Hãy tiếp tục, bạn còn nhiều sức mạnh bên trong!",
+                "'Cơn đau mà bạn cảm nhận hôm nay chính là sức mạnh bạn cảm nhận vào ngày mai.' Hãy đón nhận thử thách, nó đang làm bạn mạnh mẽ hơn!",
+                "'Bạn chỉ có một đối thủ duy nhất.' Đừng chú ý đến người khác, hãy luôn cải thiện bản thân mỗi ngày!",
+                "'Hãy kiên cường! Tâm trí là vũ khí, và nó chỉ mạnh mẽ hơn khi bạn tiếp tục sử dụng nó.' Vượt qua sự khó chịu!",
+                "'Đừng dừng lại khi bạn mệt mỏi, hãy dừng lại khi bạn đã hoàn thành.' Giới hạn của bạn chỉ là điểm khởi đầu, hãy phá vỡ chúng!"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "technical_support_vi",
+            "patterns": [
+                "Tôi không thể đăng nhập",
+                "Trang web không tải được",
+                "Tôi gặp vấn đề khi truy cập tài khoản của mình",
+                "Trang thi không hoạt động",
+                "Tôi không thể nộp bài làm",
+                "Video không thể phát",
+                "Tôi gặp sự cố kỹ thuật",
+                "Tôi có vấn đề với trang web",
+                "Tôi cần hỗ trợ kĩ thuật"
+            ],
+            "responses": [
+                "Vui lòng gửi email cho chúng tôi tại support@englishforce.com để được hỗ trợ thêm.",
+                "Nếu bạn gặp vấn đề với đăng nhập, vui lòng liên hệ với chúng tôi qua email support@englishforce.com hoặc gọi cho chúng tôi theo số +123456789.",
+                "Nếu bạn gặp vấn đề với trang thi hoặc không thể nộp bài làm, vui lòng liên hệ với chúng tôi qua email support@englishforce.com hoặc gọi ngay cho chúng tôi theo số +123456789 để được hỗ trợ kịp thời."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#en_course_recommendation",
+            "patterns": [
+                "What courses do you recommend for me?",
+                "Can you suggest some courses?",
+                "Which courses should I take next?",
+                "I need recommendations for courses",
+                "What courses are available for my level?"
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#en_course_info",
+            "patterns": [
+                "Tell me about the course [course_name].",
+                "What is the course [course_name] about?",
+                "Give me more information on the course [course_name].",
+                "What does the [course_name] course cover?",
+                "How long is the [course_name] course?",
+                "Course information [course_name].",
+                "Course infor [course_name]."
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#en_exam_info",
+            "patterns": [
+                "When is the next [exam_name] exam?",
+                "Tell me about the [exam_name] exam.",
+                "What are the details of the [exam_name] exam?",
+                "How can I register for the [exam_name] exam?",
+                "What is the format of the [exam_name] exam?",
+                "Exam information [exam_name].",
+                "Exam infor [exam_name]."
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#en_learning_progress",
+            "patterns": [
+                "How am I progressing in my learning?",
+                "Can you show me my learning progress?",
+                "What is my progress in the course?",
+                "How many lessons have I completed?",
+                "Give me an update on my learning progress."
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#en_user_info",
+            "patterns": [
+                "Tell me about my account.",
+                "What is my user information?",
+                "Can you give me details about my profile?",
+                "Show me my personal information.",
+                "What is my current subscription?"
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#vi_course_recommendation",
+            "patterns": [
+                "Bạn có thể gợi ý cho tôi các khóa học không?",
+                "Bạn có thể đề xuất một số khóa học cho tôi không?",
+                "Tôi nên học khóa học nào tiếp theo?",
+                "Tôi cần các gợi ý khóa học.",
+                "Khóa học nào phù hợp với trình độ của tôi?"
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#vi_course_info",
+            "patterns": [
+                "Hãy cho tôi biết về khóa học [course_name].",
+                "Khóa học [course_name] nói về cái gì?",
+                "Cho tôi thêm thông tin về khóa học [course_name].",
+                "Khóa học [course_name] bao gồm những gì?",
+                "Khóa học [course_name] kéo dài bao lâu?",
+                "Thông tin khóa học [course_name]"
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#vi_exam_info",
+            "patterns": [
+                "Kỳ thi [exam_name] tiếp theo khi nào?",
+                "Cho tôi biết về kỳ thi [exam_name].",
+                "Chi tiết về kỳ thi [exam_name] là gì?",
+                "Làm thế nào để tôi đăng ký kỳ thi [exam_name]?",
+                "Định dạng của kỳ thi [exam_name] là gì?",
+                "Thông tin kỳ thi [exam_name]",
+                "Thông tin chi tiết về kì kiểm tra [exam_name]"
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#vi_learning_progress",
+            "patterns": [
+                "Tiến độ học tập của tôi như thế nào?",
+                "Bạn có thể cho tôi xem tiến độ học của tôi không?",
+                "Tôi đã hoàn thành bao nhiêu bài học?",
+                "Tiến độ của tôi trong khóa học này là bao nhiêu?",
+                "Cập nhật tiến độ học tập của tôi đi."
+            ],
+            "responses": [],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "#vi_user_info",
+            "patterns": [
+                "Hãy cho tôi biết thông tin tài khoản của tôi.",
+                "Thông tin người dùng của tôi là gì?",
+                "Bạn có thể cho tôi biết chi tiết về hồ sơ của tôi không?",
+                "Hiển thị thông tin cá nhân của tôi.",
+                "Hiện tại tôi có gói đăng ký nào?"
+            ],
+            "responses": [],
             "context": [
                 ""
             ]

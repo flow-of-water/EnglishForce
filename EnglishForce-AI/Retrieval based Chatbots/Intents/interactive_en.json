@@ -1,0 +1,69 @@
+{
+    "intents": [
+      {
+        "tag": "course_recommendation",
+        "patterns": [
+          "What courses do you recommend for me?",
+          "Can you suggest some courses?",
+          "Which courses should I take next?",
+          "I need recommendations for courses",
+          "What courses are available for my level?"
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "course_info",
+        "patterns": [
+          "Tell me about the course [course_name].",
+          "What is the course [course_name] about?",
+          "Give me more information on the course [course_name].",
+          "What does the [course_name] course cover?",
+          "How long is the [course_name] course?",
+          "Course information [course_name].",
+          "Course infor [course_name]."
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "exam_info",
+        "patterns": [
+          "When is the next [exam_name] exam?",
+          "Tell me about the [exam_name] exam.",
+          "What are the details of the [exam_name] exam?",
+          "How can I register for the [exam_name] exam?",
+          "What is the format of the [exam_name] exam?",
+          "Exam information [exam_name].",
+          "Exam infor [exam_name]."
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "learning_progress",
+        "patterns": [
+          "How am I progressing in my learning?",
+          "Can you show me my learning progress?",
+          "What is my progress in the course?",
+          "How many lessons have I completed?",
+          "Give me an update on my learning progress."
+        ],
+        "responses": [],
+        "context": [""]
+      },
+      {
+        "tag": "user_info",
+        "patterns": [
+          "Tell me about my account.",
+          "What is my user information?",
+          "Can you give me details about my profile?",
+          "Show me my personal information.",
+          "What is my current subscription?"
+        ],
+        "responses": [],
+        "context": [""]
+      }
+    ]
+  }
+  

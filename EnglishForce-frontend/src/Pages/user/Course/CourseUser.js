@@ -7,12 +7,12 @@ import {
   Button,
   Grid,
   Container,
-  CircularProgress,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosInstance"
 import CourseImage from "../../../Components/user/CourseImage";
 import { CartContext } from "../../../Context/CartContext";
+import CircularLoading from "../../../Components/Loading";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -37,13 +37,7 @@ const CoursesPage = () => {
     fetchCourses();
   }, []);
 
-  if (loading) {
-    return (
-      <Container sx={{ textAlign: "center", mt: 4 }}>
-        <CircularProgress />
-      </Container>
-    );
-  }
+  if (loading) return <CircularLoading />;
 
   if (error) {
     return (
