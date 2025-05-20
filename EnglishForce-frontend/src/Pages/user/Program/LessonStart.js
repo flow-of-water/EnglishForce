@@ -8,6 +8,8 @@ import ExerciseCard from '../../../Components/user/ProgramExercise';
 import CircularLoading from '../../../Components/Loading';
 
 const LessonCompleted = ({ score, exercises }) => {
+  const navigate = useNavigate();
+
   return (
     <Box 
       sx={{ 
@@ -37,7 +39,8 @@ const LessonCompleted = ({ score, exercises }) => {
               maxHeight: 300,
               objectFit: 'contain',
               borderRadius: 2,
-              mx: 'auto'
+              mx: 'auto',
+              caretColor: "transparent",
             }}
           />
           <Typography variant="h4" fontWeight="bold">
@@ -52,6 +55,7 @@ const LessonCompleted = ({ score, exercises }) => {
             variant="contained" 
             size="large" 
             sx={{ borderRadius: 3 }}
+            onClick={() => navigate(-1)} 
           >
             🔙 Back to Unit
           </Button>

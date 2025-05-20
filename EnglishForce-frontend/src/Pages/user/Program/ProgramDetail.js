@@ -22,7 +22,7 @@ const ProgramDetailPage = () => {
 
   const fetchProgramDetail = async () => {
     try {
-      const res = await axiosInstance.get(`/programs/${programPublicId}`);
+      const res = await axiosInstance.get(`/programs/${programPublicId}/progress`);
       setProgram(res.data);
       setUnits(res.data.Units || []);
     } catch (error) {
@@ -66,7 +66,7 @@ const ProgramDetailPage = () => {
           <Grid item xs={12} md={6} key={unit.public_id}>
             <Card
               onClick={() =>
-                navigate(`/programs/${programPublicId}/units/${unit.public_id}`)
+                navigate(`/units/${unit.public_id}`)
               }
               sx={{
                 cursor: 'pointer',

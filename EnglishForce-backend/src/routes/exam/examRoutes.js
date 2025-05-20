@@ -14,7 +14,7 @@ router.delete('/:publicId',authMiddleware, adminMiddleware, examController.delet
 
 
 router.post('/attempts',authMiddlewareWithoutError, examController.submitExamAttempt);
-router.get('/attempts/result/:publicId',authMiddlewareWithoutError, examController.getExamResult);
+router.get('/attempts/result/:attemptPublicId',authMiddlewareWithoutError, examController.getExamResult);
 
 
 export default router;

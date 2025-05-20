@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/',authMiddleware, programController.getPaginatedPrograms);
 router.get('/status',authMiddleware, programController.getAllProgramsWithStatus);
 router.get('/:public_id',authMiddleware, programController.getProgramDetail);
+router.get('/:public_id/progress',authMiddleware, programController.getProgramDetailWithProgress);
 
 router.post('/', authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), programController.createProgram);
 

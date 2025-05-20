@@ -146,6 +146,7 @@ const ExerciseCard = ({
             variant="outlined"
             onClick={() => {
               const utterance = new SpeechSynthesisUtterance(exercise.record);
+              utterance.volume = 1; // Tăng âm lượng lên mức tối đa (1 là max)
               speechSynthesis.speak(utterance);
             }}
             sx={{ mb: 2, display: 'block', }}
@@ -165,9 +166,9 @@ const ExerciseCard = ({
 
         {showResult && (
           <>
-            <Alert severity={isCorrect ? 'success' : 'error'} sx={{ mt: 2 }}>
+            {exercise.type != 'speaking' &&<Alert severity={isCorrect ? 'success' : 'error'} sx={{ mt: 2 }}>
               {isCorrect ? '✅ Correct!' : '❌ Incorrect!'}
-            </Alert>
+            </Alert>}
             {exercise.explanation && (
               <Alert severity="info" sx={{ mt: 2 }}>
                 📘 Explanation: {exercise.explanation}

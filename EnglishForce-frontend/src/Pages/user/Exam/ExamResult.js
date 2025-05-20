@@ -15,7 +15,7 @@ import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
 
 const ExamResultPage = () => {
-  const { publicId } = useParams();
+  const { attemptPublicId } = useParams();
   const location = useLocation();
   const selectedAnswers = location.state?.selectedAnswers || [];
 
@@ -23,10 +23,10 @@ const ExamResultPage = () => {
 
   useEffect(() => {
     axiosInstance
-      .get(`/exams/attempts/result/${publicId}`)
+      .get(`/exams/attempts/result/${attemptPublicId}`)
       .then(res => setResult(res.data))
       .catch(err => console.error('Error fetching result', err));
-  }, [publicId]);
+  }, [attemptPublicId]);
 
   if (!result) return <CircularLoading />;
 

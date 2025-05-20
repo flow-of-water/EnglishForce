@@ -37,6 +37,24 @@ export const getProgramDetail = async (req, res) => {
 };
 
 
+export const getProgramDetailWithProgress = async (req, res) => {
+  try {
+    const userId = req.user.id; 
+    const programPublicId = req.params.public_id;
+
+    const programDetail = await programService.getProgramWithProgress(programPublicId, userId);
+    if (!programDetail) {
+      return res.status(404).json({ message: 'Program not found' });
+    }
+
+    return res.json(programDetail);
+  } catch (error) {
+    console.error('❌ Error in getProgramDetail:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
 export const deleteProgramByPublicId = async (req, res) => {
   const { publicId } = req.params;
   try {

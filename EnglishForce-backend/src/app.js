@@ -15,6 +15,7 @@ import courseSectionRoutes from "./routes/course/courseSectionRoutes.js"
 import paymentRoutes from "./routes/course/paymentRoutes.js"
 import userCourseRoutes from './routes/course/userCourseRoutes.js';
 import commentRoutes from './routes/course/commentRoutes.js';
+import interactionRoutes from './routes/course/interactionRoutes.js';
 // Stripe webhook
 import stripeRoutes from "./routes/course/stripeRoutes.js"
 // exam
@@ -63,6 +64,7 @@ app.use("/api/course_sections" , courseSectionRoutes) ;
 app.use('/api/payments', paymentRoutes);
 app.use('/api/user-course', userCourseRoutes);
 app.use('/api/comments', commentRoutes) ;
+app.use('/api/interactions',interactionRoutes) ;
 // Exam
 app.use("/api/exams" , examRoutes) ;
 app.use("/api/exam-parts" , examPartRoutes) ;

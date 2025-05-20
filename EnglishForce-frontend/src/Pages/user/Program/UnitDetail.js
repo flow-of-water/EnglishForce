@@ -62,7 +62,7 @@ const UnitDetailPage = () => {
               <React.Fragment key={lesson.public_id}>
                 <ListItem
                   component={Link}
-                  to={`/lessons/${lesson.public_id}/start`}
+                  to={`/units/${unitPublicId}/lessons/${lesson.public_id}/start`}
                   button
                 >
                   <ListItemText

@@ -163,25 +163,28 @@ export const submitExamAttempt = async (body, userId) => {
   const score = (correct / total) * 100;
   const now = new Date();
 
-  await ExamAttempt.create({
+  const attempt = await ExamAttempt.create({
     exam_id: exam.id,
     user_id: userId,
     start: now,
     end: now,
     score
   });
+
+  return attempt.public_id;
 };
 
-export const getExamResult = async (publicId, userId) => {
-  const exam = await Exam.findOne({ where: { public_id: publicId } });
-
-  const attempt = await ExamAttempt.findOne({
-    where: { exam_id: exam.id, user_id: userId },
-    order: [['created_at', 'DESC']]
+export const getExamResult = async (attemptPublicId) => {
+  const attempt = await db.ExamAttempt.findOne({
+    where: { public_id: attemptPublicId },
   });
-  if (!attempt) throw new Error('No attempt');
 
-  const examInfor = await getExamWithFullHierarchy(publicId, true); // lấy đáp án đúng thôi
+  if (!attempt) throw new Error('Attempt not found');
+
+  const exam = await db.Exam.findByPk(attempt.exam_id);
+  if (!exam) throw new Error('Exam not found for this attempt');
+
+  const examInfor = await getExamWithFullHierarchy(exam.public_id, true); // lấy đáp án đúng thôi
 
   return {
     ...examInfor,

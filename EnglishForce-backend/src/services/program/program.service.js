@@ -1,5 +1,5 @@
 import db from "../../sequelize/models/index.js";
-const { Program, Unit } = db;
+const { Program, Unit, Lesson, UserProgress } = db;
 
 import { Sequelize } from 'sequelize';
 
@@ -90,6 +90,49 @@ export const getProgramByPublicId = async (public_id) => {
 
   return program;
 };
+
+export const getProgramWithProgress = async (programPublicId, userId) => {
+  const program = await Program.findOne({
+    where: { public_id: programPublicId },
+    include: [
+      {
+        model: Unit,
+        include: [{ model: Lesson }],
+        order: [['order_index', 'ASC']],
+      }
+    ]
+  });
+
+  if (!program) return null;
+
+  // Tính tiến độ từng Unit
+  for (const unit of program.Units) {
+    const lessonIds = unit.Lessons.map(lesson => lesson.id);
+    const totalLessons = lessonIds.length;
+
+    let completedCount = 0;
+    if (totalLessons > 0) {
+      completedCount = await UserProgress.count({
+        where: {
+          user_id: userId,
+          lesson_id: lessonIds,
+          program_id: program.id
+        }
+      });
+    }
+
+    let progressStatus = 'not_started';
+    if (completedCount === 0) progressStatus = 'not_started';
+    else if (completedCount === totalLessons) progressStatus = 'completed';
+    else progressStatus = 'in_progress';
+
+    unit.dataValues.progressStatus = progressStatus;
+    unit.dataValues.progressPercent = totalLessons === 0 ? 0 : Math.round((completedCount / totalLessons) * 100);
+  }
+
+  return program;
+};
+
 
 
 

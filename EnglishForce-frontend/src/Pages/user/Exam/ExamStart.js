@@ -92,7 +92,7 @@ const ExamStartPage = () => {
         }))
       };
       // console.log("payload : ",payload) ;
-      await axiosInstance.post('/exams/attempts', payload);
+      const Response = await axiosInstance.post('/exams/attempts', payload);
 
       // Build selected answer content
       const selectedAnswerContents = [];
@@ -119,7 +119,7 @@ const ExamStartPage = () => {
       });
 
       // console.log(selectedAnswerContents);
-      navigate(`/exams/${publicId}/result`, {
+      navigate(`/exams/${publicId}/result/${Response.data.attemptPublicId}`, {
         state: { selectedAnswers: selectedAnswerContents }
       });
     } catch (err) {

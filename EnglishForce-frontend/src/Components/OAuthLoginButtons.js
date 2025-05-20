@@ -16,29 +16,36 @@ const GoogleLoginButton = () => {
       variant="contained"
       startIcon={<GoogleIcon />}
       onClick={handleLogin}
+            fullWidth
+      sx={{
+        minWidth: 200,
+        fontWeight: 500,
+        paddingY: 1.2,
+        boxShadow: 2,
+      }}
     >
-      Google
+      Continue with Google
     </Button>
   );
 };
 
-const FacebookLoginButton = () => {
-  const handleLogin = () => {
-    // Redirect user đến backend để login
-    window.location.href = process.env.REACT_APP_BACKEND_URL+'/api/auth_facebook/facebook';
-    // window.location.href = 'http://localhost:5000/api/auth/google';
-  };
+// const FacebookLoginButton = () => {
+//   const handleLogin = () => {
+//     // Redirect user đến backend để login
+//     window.location.href = process.env.REACT_APP_BACKEND_URL+'/api/auth_facebook/facebook';
+//     // window.location.href = 'http://localhost:5000/api/auth/google';
+//   };
 
-  return (
-    <Button
-      variant="contained"
-      startIcon={<FacebookIcon />}
-      onClick={handleLogin}
-    >
-      Facebook
-    </Button>
-  );
-};
+//   return (
+//     <Button
+//       variant="contained"
+//       startIcon={<FacebookIcon />}
+//       onClick={handleLogin}
+//     >
+//       Facebook
+//     </Button>
+//   );
+// };
 
 
 const OAuthLoginButtons = () => {
@@ -47,7 +54,7 @@ const OAuthLoginButtons = () => {
   return (
     <Stack direction="row" spacing={3} justifyContent="center">
       <GoogleLoginButton />
-      <FacebookLoginButton />
+      {/* <FacebookLoginButton /> */}
     </Stack>
   );
 };

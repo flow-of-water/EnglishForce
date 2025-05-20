@@ -1,7 +1,7 @@
 // data/programData.cjs
 'use strict';
 
-module.exports =  {
+module.exports = {
   name: "Section 1: English Starter Program",
   description: "A beginner-level English program.",
   thumbnail: "https://example.com/thumb.jpg",
@@ -112,7 +112,7 @@ module.exports =  {
               ],
               explanation: "Từ 'Please' (hoặc 'Làm ơn') được sử dụng phổ biến để thể hiện sự lịch sự khi đưa ra một lời yêu cầu hoặc đề nghị."
             },
-          ],          
+          ],
         },
         {
           name: "Lesson 2",
@@ -140,7 +140,7 @@ module.exports =  {
               type: "writing",
               order_index: 2,
               answers: [],
-              explanation:"Trà hay Cà phê ?",
+              explanation: "Trà hay Cà phê ?",
             },
             {
               question: `Complete the conversation: 
@@ -163,7 +163,7 @@ module.exports =  {
                 { content: "Yes, with tea!", is_correct: false },
                 { content: "Yes, with milk!", is_correct: true },
               ],
-              explanation:"The speaker clearly says 'Yes, with milk!'",
+              explanation: "The speaker clearly says 'Yes, with milk!'",
             },
             {
               question: "Coffee and water",
@@ -180,7 +180,7 @@ module.exports =  {
                 { content: "My", is_correct: true },
                 { content: "By", is_correct: false },
               ],
-              explanation:"The speaker clearly says 'My'",
+              explanation: "The speaker clearly says 'My'",
             },
             {
               question: "What did you hear? (Bạn đã nghe thấy gì?)",
@@ -192,7 +192,7 @@ module.exports =  {
                 { content: "No thanks to you.", is_correct: false },
                 { content: "No tanks, Duo.", is_correct: false },
               ],
-              explanation:"The speaker clearly says 'No, thanks, Duo.'",
+              explanation: "The speaker clearly says 'No, thanks, Duo.'",
             },
             {
               question: "What did you hear? (Bạn đã nghe thấy gì?)",
@@ -203,7 +203,7 @@ module.exports =  {
                 { content: "For", is_correct: true },
                 { content: "Far", is_correct: false },
               ],
-              explanation:"The speaker clearly says 'For'",
+              explanation: "The speaker clearly says 'For'",
             },
             {
               question: "Vui lòng",
@@ -240,7 +240,7 @@ module.exports =  {
                 { content: "Look", is_correct: true },
                 { content: "Like", is_correct: false },
               ],
-              explanation:"The speaker clearly says 'Look'",
+              explanation: "The speaker clearly says 'Look'",
             },
             {
               question: "What did you hear? (Bạn đã nghe thấy gì?)",
@@ -251,14 +251,14 @@ module.exports =  {
                 { content: "Go", is_correct: true },
                 { content: "Got", is_correct: false },
               ],
-              explanation:"The speaker clearly says 'Go'",
+              explanation: "The speaker clearly says 'Go'",
             },
             {
               question: "Write in English: 'Không, với đường, cảm ơn'",
               type: "writing",
               order_index: 3,
               answers: [],
-              explanation:"No, with sugar, thanks",
+              explanation: "No, with sugar, thanks",
             },
             {
               question: "Nhập từ còn thiếu: 'Yes, tea, ______'",
@@ -269,7 +269,7 @@ module.exports =  {
                 { content: "Peace", is_correct: false },
                 { content: "Please", is_correct: true },
               ],
-              explanation:"The speaker clearly says 'Please'",
+              explanation: "The speaker clearly says 'Please'",
             },
             {
               question: "What did you hear? (Bạn đã nghe thấy gì?)",
@@ -280,7 +280,7 @@ module.exports =  {
                 { content: "Coffee or water", is_correct: true },
                 { content: "Coffee and water", is_correct: false },
               ],
-              explanation:"The speaker clearly says 'Coffee or water'",
+              explanation: "The speaker clearly says 'Coffee or water'",
             },
             {
               question: "Hello, coffee, please!",
@@ -288,7 +288,48 @@ module.exports =  {
               order_index: 6,
               answers: []
             },
-          ],          
+            {
+              question: "Nghĩa trong tiếng việt: 'Good evening, Lisa'",
+              type: "single_choice",
+              order_index: 7,
+              answers: [
+                { content: "Chào buổi tối,Lisa", is_correct: true },
+                { content: "Xin chào, Lisa", is_correct: false }
+              ],
+            },
+            {
+              question: "Coffee, tea",
+              type: "speaking",
+              order_index: 8,
+              answers: []
+            },
+
+          ],
+        },
+        {
+          name: "Lesson 4",
+          order_index: 3,
+          exercises: [
+            {
+              question: "What did you hear? (Bạn đã nghe thấy gì?)",
+              record: "Hello, Ben and Lisa",
+              type: "single_choice",
+              order_index: 0,
+              answers: [
+                { content: "Hello, Ben and Lisa", is_correct: true },
+                { content: "Hello, Pam and Lisa", is_correct: false },
+                { content: "Hello, Dan and Lisa", is_correct: false },
+              ],
+              explanation: "The speaker clearly says 'Hello, Ben and Lisa'",
+            },
+            {
+              question: "Water and tea",
+              type: "speaking",
+              order_index: 1,
+              answers: []
+            },
+
+          ],
         },
       ]
     }

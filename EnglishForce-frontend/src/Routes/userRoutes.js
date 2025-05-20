@@ -50,13 +50,13 @@ export const UserRoutes = () => (
     <Route path="/exams" element={<UserLayout><ExamPage /></UserLayout>} />
     <Route path="/exams/:publicId" element={<UserLayout><ExamDetailPage /></UserLayout>} />
     <Route path="/exams/:publicId/start" element={<UserLayout><ExamStartPage /></UserLayout>} />
-    <Route path="/exams/:publicId/result" element={<UserLayout><ExamResultPage /></UserLayout>} />
+    <Route path="/exams/:publicId/result/:attemptPublicId" element={<UserLayout><ExamResultPage /></UserLayout>} />
 
     {/* program feature  */}
     <Route path="/programs" element={<UserLayout><ProgramPage /></UserLayout>} />
     <Route path="/programs/:programPublicId" element={<UserLayout><ProgramDetailPage /></UserLayout>} />
-    <Route path="/programs/:programPublicId/units/:unitPublicId" element={<UserLayout><UnitDetailPage /></UserLayout>} />
-    <Route path="lessons/:lessonPublicId/start" element={<UserLayout><LessonStartPage /></UserLayout>} />
+    <Route path="/units/:unitPublicId" element={<UserLayout><UnitDetailPage /></UserLayout>} />
+    <Route path="/units/:unitPublicId/lessons/:lessonPublicId/start" element={<UserLayout><LessonStartPage /></UserLayout>} />
 
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />
