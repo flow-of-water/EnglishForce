@@ -1,0 +1,8 @@
+1. Coursera Courses Dataset 2021
+https://www.kaggle.com/datasets/khusheekapoor/coursera-courses-dataset-2021
+
+2. Online Courses
+https://www.kaggle.com/datasets/khaledatef1/online-courses
+
+3. Udemy Courses
+https://www.kaggle.com/datasets/andrewmvd/udemy-courses
