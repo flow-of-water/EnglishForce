@@ -2,12 +2,25 @@ import * as interactionService from '../../services/interaction.service.js' ;
 
 export const createInteraction = async (req, res) => {
   try {
-    const interaction = await interactionService.createInteraction(req.body);
+    const userId = req.user?.id;
+    const { course_public_id, score = 1 } = req.body;
+
+    if (!userId) return res.status(200).json({ skipped: true, message: "No user - interaction not recorded" });
+    
+
+    const interaction = await interactionService.createInteraction({
+      user_id: userId,
+      coursePublicId: course_public_id,
+      score,
+    });
+
     res.status(201).json(interaction);
   } catch (err) {
+    console.error("Create interaction failed:", err);
     res.status(400).json({ message: err.message });
   }
 };
+
 
 export const getAllInteractions = async (req, res) => {
   try {

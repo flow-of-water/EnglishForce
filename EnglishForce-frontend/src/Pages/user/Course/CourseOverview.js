@@ -112,6 +112,17 @@ const CourseOverview = () => {
     fetchCourseDetails();
   }, [publicId, myRating, myComment]);
 
+  useEffect(() => {
+  if (publicId) {
+    axiosInstance.post('/interactions', {
+      course_public_id: publicId,
+      score:1 ,
+    }).catch((err) => {
+      console.warn("Failed to log interaction:", err);
+    });
+  }
+}, [publicId]);  
+
 
   if (loading) return <CircularLoading />;
   if (error) return <Container sx={{ textAlign: "center", mt: 4 }}><Alert severity="error">{error}</Alert></Container>;

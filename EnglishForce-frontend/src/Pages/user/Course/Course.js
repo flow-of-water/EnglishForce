@@ -9,6 +9,8 @@ import {
   Container,
   CircularProgress,
   Pagination,
+  Tabs, Tab,
+  Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosInstance";
@@ -16,15 +18,21 @@ import CourseCard from "../../../Components/user/CourseCard";
 import { CartContext } from "../../../Context/CartContext";
 import { useSearch, SearchContext } from "../../../Context/SearchContext";
 import CircularLoading from "../../../Components/Loading";
+import RecommendedCourses from "../../../Components/user/RecommendedCourses";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [pageCount, setPageCount] = useState(1);
+  const [tabValue, setTabValue] = useState(0);
   // const { searchQuery } = useSearch();
-  const {searchQuery, currentPage, updatePage} = useContext(SearchContext) ;
+  const { searchQuery, currentPage, updatePage } = useContext(SearchContext);
   const { addToCart } = useContext(CartContext);
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -44,7 +52,7 @@ const CoursesPage = () => {
     };
 
     fetchCourses();
-  }, [currentPage,searchQuery]);
+  }, [currentPage, searchQuery]);
 
   const handlePageChange = (event, value) => {
     updatePage(value);
@@ -67,23 +75,34 @@ const CoursesPage = () => {
       <Typography variant="h4" textAlign="center" gutterBottom>
         Available Courses
       </Typography>
-      <Grid container spacing={3}>
-        {courses.map((course) => (
-          <Grid item xs={12} sm={6} md={4} key={course.id}>
-            <CourseCard course={course} />
-          </Grid>
-        ))}
-      </Grid>
 
-      {courses.length != 0 &&
-        <Pagination
-          count={pageCount}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-          sx={{ display: "flex", justifyContent: "center", mt: 4 }}
-        />
-      }
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+        <Tabs value={tabValue} onChange={handleTabChange} aria-label="course category tabs">
+          <Tab label="General" />
+          <Tab label="For you" />
+        </Tabs>
+      </Box>
+      {tabValue === 0 ? (<>
+        <Grid container spacing={3}>
+          {courses.map((course) => (
+            <Grid item xs={12} sm={6} md={4} key={course.id}>
+              <CourseCard course={course} />
+            </Grid>
+          ))}
+        </Grid>
+
+        {courses.length != 0 &&
+          <Pagination
+            count={pageCount}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            sx={{ display: "flex", justifyContent: "center", mt: 4 }}
+          />
+        }
+      </>) : (
+        <RecommendedCourses />
+      )}
     </Container>
   );
 };
