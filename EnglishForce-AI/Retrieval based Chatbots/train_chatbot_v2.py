@@ -69,5 +69,5 @@ model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy
 hist = model.fit(X, y, epochs=200, batch_size=5, verbose=1)
 
 # Lưu model
-model.save("chatbot_model.h5")
-print("✅ Mô hình đã được huấn luyện và lưu lại thành chatbot_model.h5")
+model.save("chatbot_model_v2.h5")
+print("✅ Mô hình đã được huấn luyện và lưu lại thành chatbot_model_v2.h5")

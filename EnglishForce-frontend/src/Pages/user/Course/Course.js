@@ -78,8 +78,8 @@ const CoursesPage = () => {
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label="course category tabs">
-          <Tab label="General" />
-          <Tab label="For you" />
+          <Tab label="General" value={0}/>
+          <Tab label="For you" value={1} />
         </Tabs>
       </Box>
       {tabValue === 0 ? (<>
@@ -101,7 +101,7 @@ const CoursesPage = () => {
           />
         }
       </>) : (
-        <RecommendedCourses />
+        <RecommendedCourses active={tabValue === 1} />
       )}
     </Container>
   );

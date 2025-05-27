@@ -6,7 +6,7 @@ import CircularLoading from '../Loading';
 
 const ITEMS_PER_PAGE = 6;
 
-const RecommendedCourses = () => {
+const RecommendedCourses = ({ active }) => {
   const [allCourses, setAllCourses] = useState([]);
   const [displayedCourses, setDisplayedCourses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,8 +15,10 @@ const RecommendedCourses = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const res = await axiosInstance.get('/courses/recommend');
-        const courses = res.data.courses || [];
+        const res = await axiosInstance.post('/AI/recommendations', {
+          n_recommendations: 18
+        });
+        const courses = res.data?.recommendations || [];
         setAllCourses(courses);
         setCurrentPage(1); // Reset về trang đầu
         setLoading(false);
@@ -27,7 +29,7 @@ const RecommendedCourses = () => {
     };
 
     fetchRecommendations();
-  }, []);
+  }, [active]);
 
   useEffect(() => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;

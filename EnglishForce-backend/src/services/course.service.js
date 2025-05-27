@@ -177,3 +177,25 @@ export const getTotalPriceByCourseIds = async (courseIds) => {
 
   return parseFloat(result.total_price) || 0;
 };
+
+export const getTopRatedCourses = async (k = 5) => {
+  const courses = await Course.findAll({
+    attributes: {
+      include: [
+        [fn('AVG', col('UserCourses.rating')), 'average_rating'],
+        [fn('COUNT', col('UserCourses.rating')), 'rating_count']
+      ]
+    },
+    include: [
+      {
+        model: UserCourse,
+        attributes: [],
+      }
+    ],
+    group: ['Course.id'],
+    order: [[literal('average_rating'), 'DESC']],
+    limit: k,
+  });
+
+  return courses;
+};

@@ -1,6 +1,6 @@
 // controllers/geminiController.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { searchCourseInSentences } from '../services/course.service.js';
+import { searchCourseInSentences, getTopRatedCourses } from '../services/course.service.js';
 import axios from "axios";
 
 const FASTAPI_CHATBOT_URL = process.env.FASTAPI_CHATBOT_URL;
@@ -41,11 +41,11 @@ function detectIntent(userInput) {
 async function getCourseInfo(prompt, intent) {
   var course = await searchCourseInSentences(prompt, 1);
   if (!course || course.length == 0) return null;
-  course=course[0]
+  course = course[0]
 
   const MAX_LENGTH = 200; // Độ dài tối đa cho phép
   const SUFFIX = '...'; // Hậu tố thêm vào cuối chuỗi nếu bị cắt
-  if (course.description && course.description.length > MAX_LENGTH) 
+  if (course.description && course.description.length > MAX_LENGTH)
     course.description = course.description.slice(0, MAX_LENGTH - SUFFIX.length) + SUFFIX;
 
   switch (intent) {
@@ -118,3 +118,32 @@ export const myChatbotController = async (req, res) => {
     res.status(500).json({ error: 'Chatbot API error', details: error.message });
   }
 };
+
+
+
+// Recommend system 
+export const getCourseRecommendations = async (req, res) => {
+  const user_id = req?.user?.id;
+
+  if (!user_id) {
+    const topCourses = await getTopRatedCourses(18);
+    return res.status(200).json(topCourses);
+  }
+
+  const { n_recommendations = 5 } = req.body;
+
+  try {
+    const response = await axios.post(`${FASTAPI_CHATBOT_URL}/recommendations`, {
+      user_id,
+      n_recommendations,
+    });
+
+    return res.status(200).json(response.data);
+  } catch (err) {
+    console.error('AI Server Error:', err.message);
+    const status = err.response?.status || 500;
+    const message = err.response?.data?.detail || 'Error fetching recommendations from AI server';
+    return res.status(status).json({ error: message });
+  }
+};
+
