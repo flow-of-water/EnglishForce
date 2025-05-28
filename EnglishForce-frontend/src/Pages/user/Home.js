@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Toolbar, Typography, Button, Container, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Typography, Container, Box } from "@mui/material";
 import axiosInstance from "../../Api/axiosInstance";
 import CourseCard from "../../Components/user/CourseCard";
 import { HomeFeatures } from "../../Components/user/HomeFeatures";

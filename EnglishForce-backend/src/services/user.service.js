@@ -39,6 +39,22 @@ export const getUserById = async (id) => {
   return await User.findByPk(id);
 };
 
+export const getUserProfileWithStats = async (userId) => {
+  const user = await getUserById(userId);
+
+  const programsCount = await db.UserProgress.count({ where: { user_id: userId } });
+  const examsCount = await db.ExamAttempt.count({ where: { user_id: userId } });
+  const coursesCount = await db.UserCourse.count({ where: { user_id: userId } });
+
+  return {
+    ...user.toJSON(),
+    stats: {
+      programsCount,
+      examsCount,
+      coursesCount
+    }
+  };
+};
 
 export const updateUserPassword = async (id, hashedPassword) => {
   return await User.update(

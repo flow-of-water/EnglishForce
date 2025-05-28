@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Container, Typography, Button, Box, CircularProgress } from '@mui/material';
+import { Container, Typography, Button, Box, CircularProgress, TextField } from '@mui/material';
 import axiosInstance from '../../../Api/axiosInstance';
 import { CartContext } from "../../../Context/CartContext.js"
 
 const PaymentForm = ({ totalAmount, courseIds }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [nameOnCard, setNameOnCard] = useState('');
+  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const { clearCart } = useContext(CartContext);
@@ -78,18 +80,37 @@ const PaymentForm = ({ totalAmount, courseIds }) => {
           {totalAmount > 0 && <Box mb={2} p={2}
             sx={{ border: '1px solid #ccc', borderRadius: 1 }}
           >
-            <CardElement
-              options={{
-                style: {
-                  base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': { color: '#aab7c4' },
-                  },
-                  invalid: { color: '#9e2146' },
-                },
-              }}
+            <TextField
+              label="Name on Card"
+              value={nameOnCard}
+              onChange={(e) => setNameOnCard(e.target.value)}
+              required
+              fullWidth
+              margin="normal"
             />
+            <TextField
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              fullWidth
+              margin="normal"
+            />
+            <Box mb={2} p={2} sx={{ border: '1px solid #ccc', borderRadius: 1, mt: 2 }}>
+              <CardElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      color: '#424770',
+                      '::placeholder': { color: '#aab7c4' },
+                    },
+                    invalid: { color: '#9e2146' },
+                  },
+                }}
+              />
+            </Box>
           </Box>}
           <Button
             variant="contained"

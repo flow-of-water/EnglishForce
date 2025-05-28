@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, CircularProgress, Paper, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
 
@@ -42,7 +43,7 @@ const ChangePassword = () => {
           required
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-          sx={{mt:1}}
+          sx={{ mt: 1 }}
         />
         <TextField
           label="New Password"
@@ -52,7 +53,7 @@ const ChangePassword = () => {
           required
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          sx={{mt:1}}
+          sx={{ mt: 1 }}
         />
         <TextField
           label="Confirm New Password"
@@ -62,9 +63,9 @@ const ChangePassword = () => {
           required
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          sx={{mt:1}}
+          sx={{ mt: 1 }}
         />
-        <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{mt:1}}>
+        <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ mt: 1 }}>
           {loading ? 'Processing...' : 'Change Password'}
         </Button>
       </form>
@@ -82,9 +83,15 @@ const Profile = () => {
 
   useEffect(() => {
     async function Fetch() {
-      const response = await axiosInstance(`/users/profile`);
-      setUser(response.data);
-      setLoading(false);
+      try {
+        const response = await axiosInstance.get('/users/profile');
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        // Có thể hiển thị message lỗi hoặc set trạng thái lỗi
+      } finally {
+        setLoading(false);
+      }
     }
     Fetch();
   }, []);
@@ -98,8 +105,13 @@ const Profile = () => {
   };
 
   if (loading) {
-    return CircularLoading;
+    return <CircularLoading />;
   }
+  const data = [
+    { name: 'Programs', value: user.stats?.programsCount || 0 },
+    { name: 'Exams', value: user.stats?.examsCount || 0 },
+    { name: 'Courses', value: user.stats?.coursesCount || 0 }
+  ];
 
   return (
     <Container>
@@ -109,9 +121,23 @@ const Profile = () => {
           <Typography variant="h6">Username: {user.username}</Typography>
           <Typography variant="h6">Role: {user.role}</Typography>
 
-          <Button variant="contained" color="primary" onClick={handleDialogOpen} sx={{mt:3}}>
+          <Button variant="contained" color="primary" onClick={handleDialogOpen} sx={{ mt: 3 }}>
             Change Password
           </Button>
+
+          <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
+            Your Learning Statistics
+          </Typography>
+          <ResponsiveContainer width="100%" height={250}>
+            <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="value" fill="#1976d2" />
+            </BarChart>
+          </ResponsiveContainer>
 
           {/* Dialog for Change Password */}
           <Dialog open={openDialog} onClose={handleDialogClose}>
