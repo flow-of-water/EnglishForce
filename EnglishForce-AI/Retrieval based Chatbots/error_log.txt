@@ -1,0 +1,135 @@
+Input: Is anyone there?
+ True: greeting_en
+ Model1 pred: greeting_en
+ Model2 pred: chatbot_ability_en
+-----
+Input: Rất vui được gặp bạn lầu đầu
+ True: greeting_vi
+ Model1 pred: goodbye_vi
+ Model2 pred: goodbye_vi
+-----
+Input: What can I do here?
+ True: web_feature_en
+ Model1 pred: web_feature_en
+ Model2 pred: chatbot_ability_en
+-----
+Input: Give me some tips to learn English.
+ True: learning_tips_en
+ Model1 pred: learning_tips_en
+ Model2 pred: why_learn_english_en
+-----
+Input: How can I study English more efficiently?
+ True: learning_tips_en
+ Model1 pred: chatbot_ability_en
+ Model2 pred: learning_tips_en
+-----
+Input: Bạn có thể gợi ý sách học tiếng Anh không?
+ True: book_recommendation_vi
+ Model1 pred: learning_tips_vi
+ Model2 pred: book_recommendation_vi
+-----
+Input: Có sách nào giúp tôi học tiếng Anh hiệu quả không?
+ True: book_recommendation_vi
+ Model1 pred: learning_tips_vi
+ Model2 pred: learning_tips_vi
+-----
+Input: What English tests are good for job applications?
+ True: exam_recommendation_en
+ Model1 pred: exam_recommendation_en
+ Model2 pred: learning_tips_en
+-----
+Input: Học tiếng Anh để làm gì?
+ True: why_learn_english_vi
+ Model1 pred: learning_tips_vi
+ Model2 pred: learning_tips_vi
+-----
+Input: I need some inspiration to keep learning.
+ True: motivational_quote_en
+ Model1 pred: motivational_quote_en
+ Model2 pred: #en_learning_progress
+-----
+Input: Can you recommend me an English course?
+ True: #en_course_recommendation
+ Model1 pred: #en_course_recommendation
+ Model2 pred: learning_tips_en
+-----
+Input: Which course is best for beginners?
+ True: #en_course_recommendation
+ Model1 pred: #en_course_recommendation
+ Model2 pred: #en_learning_progress
+-----
+Input: What course should I take to improve my English?
+ True: #en_course_recommendation
+ Model1 pred: #en_course_recommendation
+ Model2 pred: exam_recommendation_en
+-----
+Input: Tell me more about this course.
+ True: #en_course_info
+ Model1 pred: web_feature_en
+ Model2 pred: #en_course_info
+-----
+Input: What will I learn in this course?
+ True: #en_course_info
+ Model1 pred: #en_course_recommendation
+ Model2 pred: why_learn_english_en
+-----
+Input: Can you give me an overview of this course?
+ True: #en_course_info
+ Model1 pred: #en_course_recommendation
+ Model2 pred: #en_course_info
+-----
+Input: Khoá học này dạy những gì?
+ True: #vi_course_info
+ Model1 pred: web_feature_vi
+ Model2 pred: #vi_course_info
+-----
+Input: Cho tôi biết tổng quan của khóa học này
+ True: #vi_course_info
+ Model1 pred: #vi_course_recommendation
+ Model2 pred: #vi_user_info
+-----
+Input: Bạn cho tôi biết thêm về khoá học này được không?
+ True: #vi_course_info
+ Model1 pred: #vi_course_recommendation
+ Model2 pred: #vi_user_info
+-----
+Input: Can you tell me more about the exam?
+ True: #en_exam_info
+ Model1 pred: exam_recommendation_en
+ Model2 pred: exam_recommendation_en
+-----
+Input: Give me information about this exam
+ True: #en_exam_info
+ Model1 pred: web_feature_en
+ Model2 pred: #en_exam_info
+-----
+Input: What is the duration of the exam?
+ True: #en_exam_info
+ Model1 pred: exam_recommendation_en
+ Model2 pred: exam_recommendation_en
+-----
+Input: Nói cho tôi những gì bạn biết về kì thi?
+ True: #vi_exam_info
+ Model1 pred: web_feature_vi
+ Model2 pred: #vi_user_info
+-----
+Input: Bạn có thể cho tôi biết thêm thông tin về kỳ thi không?
+ True: #vi_exam_info
+ Model1 pred: #vi_user_info
+ Model2 pred: #vi_user_info
+-----
+Input: Kỳ thi này có những thông tin gì?
+ True: #vi_exam_info
+ Model1 pred: #vi_exam_info
+ Model2 pred: #vi_user_info
+-----
+Input: Can you show me my English learning status?
+ True: #en_learning_progress
+ Model1 pred: #en_learning_progress
+ Model2 pred: learning_tips_en
+-----
+Input: How much have I completed in program?
+ True: #en_learning_progress
+ Model1 pred: #en_learning_progress
+ Model2 pred: web_feature_en
+-----

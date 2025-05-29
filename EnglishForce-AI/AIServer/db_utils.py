@@ -92,5 +92,47 @@ def query_db_for_info(intent, user_input):
             if intent == "#en_user_info"
             else f"Người dùng: {result[0]}, email: {result[1]}"
         )
+    elif intent in ["#vi_learning_progress", "#en_learning_progress"]:
+        username = extract_name(user_input)
+        # Lấy user id
+        cur.execute("SELECT id FROM users WHERE username = %s", (username,))
+        user_row = cur.fetchone()
+        if not user_row:
+            return "Không tìm thấy người dùng." if intent == "#vi_learning_progress" else "No users found."
+        user_id = user_row[0]
+
+        # Query tiến độ học tập: liên kết user_progresses - lessons - programs
+        cur.execute("""
+            SELECT l.name AS lesson_name, p.name AS program_name, up.score, up.completed_at
+            FROM user_progresses up
+            LEFT JOIN lessons l ON up.lesson_id = l.id
+            LEFT JOIN programs p ON up.program_id = p.id
+            WHERE up.user_id = %s
+            ORDER BY up.completed_at DESC NULLS LAST
+            LIMIT 20
+        """, (user_id,))
+
+        progresses = cur.fetchall()
+        if not progresses:
+            return ("Người dùng chưa có tiến độ học tập nào." if intent == "#vi_learning_progress"
+                    else "User has no learning progress yet.")
+
+        lines = []
+        for lesson_name, program_name, score, completed_at in progresses:
+            lesson_name = lesson_name or "Bài học chưa rõ" if intent == "#vi_learning_progress" else "Unknown Lesson"
+            program_name = program_name or "Chương trình chưa rõ" if intent == "#vi_learning_progress" else "Unknown Program"
+            score_str = str(score) if score is not None else "N/A"
+            if completed_at:
+                completed_str = completed_at.strftime("%d-%m-%Y") if intent == "#vi_learning_progress" else completed_at.strftime("%Y-%m-%d")
+            else:
+                completed_str = "Chưa hoàn thành" if intent == "#vi_learning_progress" else "Not completed"
+
+            if intent == "#vi_learning_progress":
+                line = f"Bài học: {lesson_name} ({program_name}), Điểm: {score_str}, Hoàn thành: {completed_str}"
+            else:
+                line = f"Lesson: {lesson_name} ({program_name}), Score: {score_str}, Completed: {completed_str}"
+            lines.append(line)
+
+        return "\n".join(lines)
 
     return "I couldn't find the information you're looking for."

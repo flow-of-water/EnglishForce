@@ -45,7 +45,9 @@
         "Thank you",
         "That's helpful",
         "Awesome, thanks",
-        "Thanks for helping me"
+        "Thanks for helping me",
+        "I’m very grateful for your assistance.",
+        "You help me a lot."
       ],
       "responses": [
         "Happy to help!",
@@ -79,7 +81,8 @@
       "patterns": [
         "Tell me about the learning program",
         "What features are available on this website?",
-        "What can I do here?"
+        "What can I do here?",
+        "Provide details about this platform."
       ],
       "responses": [
         "Our website offers a free **learning program** that is designed to help you improve your English skills step-by-step. It includes lessons, quizzes, and progress tracking to ensure you are advancing in your learning journey.",
@@ -202,7 +205,9 @@
         "The videos are not playing",
         "I'm experiencing a technical issue",
         "I have a problem with the website",
-        "I need technical support"
+        "I need technical support",
+        "The app is not working",
+        "How can I report a technical issue"
       ],
       "responses": [
         "Please email us at support@englishforce.com for further assistance.",

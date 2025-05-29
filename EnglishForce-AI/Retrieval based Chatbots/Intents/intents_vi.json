@@ -29,7 +29,9 @@
         "Cảm ơn bạn",
         "Điều này hữu ích",
         "Tuyệt vời, cảm ơn",
-        "Cảm ơn vì đã giúp tôi"
+        "Cảm ơn vì đã giúp tôi",
+        "Bạn đã hỗ trợ tôi vô cùng tận tình.",
+        "Bạn đã giúp tôi vượt qua nhiều khó khăn."
       ],
       "responses": [
         "Rất vui được giúp đỡ!",
@@ -55,7 +57,8 @@
         "Cho tôi biết về chương trình học",
         "Trang web này có những tính năng gì?",
         "Tôi có thể làm gì ở đây?",
-        "Chức năng trang web"
+        "Chức năng trang web",
+        "Hãy cho tôi biết về nền tảng này."
       ],
       "responses": [
         "Trang web của chúng tôi cung cấp một **chương trình học miễn phí** được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh từng bước. Chương trình bao gồm các bài học, bài kiểm tra, và theo dõi tiến độ để đảm bảo bạn đang tiến bộ trong hành trình học tập.",
@@ -178,7 +181,9 @@
         "Video không thể phát",
         "Tôi gặp sự cố kỹ thuật",
         "Tôi có vấn đề với trang web",
-        "Tôi cần hỗ trợ kĩ thuật"
+        "Tôi cần hỗ trợ kĩ thuật",
+        "Ứng dụng gặp lỗi",
+        "Tôi muốn báo lỗi kỹ thuật"
       ],
       "responses": [
         "Vui lòng gửi email cho chúng tôi tại support@englishforce.com để được hỗ trợ thêm.",

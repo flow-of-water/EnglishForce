@@ -1,6 +1,5 @@
 import { Route } from 'react-router-dom';
 import UserLayout from '../Layouts/UserLayout';
-import HomePageLayout from '../Layouts/HomePageLayout';
 
 import OAuthLoginSuccess from '../Pages/user/OAuth/OAuthLoginSuccess'; // OAuth
 
@@ -33,7 +32,7 @@ import LessonStartPage from '../Pages/user/Program/LessonStart';
 
 export const UserRoutes = () => (
   <>
-    <Route path="/" element={<HomePageLayout><HomePage /></HomePageLayout>} />
+    <Route path="/" element={<UserLayout isHomePage={true}><HomePage /></UserLayout>} />
     <Route path="/login" element={<UserLayout><LoginPage /></UserLayout>} />
     <Route path="/register" element={<UserLayout><RegisterPage /></UserLayout>} />
     <Route path="/profile" element={<UserLayout><ProfilePage /></UserLayout>} />

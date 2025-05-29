@@ -1,86 +1,57 @@
-# Elearning - Full-Stack Online Learning Platform
+# English Force
 
-🚀 **Elearning** is a modern, full-stack online learning platform built using **React, Node.js, Express, and PostgreSQL**. This project provides an intuitive and engaging environment for students and instructors, enabling seamless course management, interactive learning, and real-time assessments.
+**This project is my Graduation Project in University (Final Year Project) focused on developing an online English learning platform.**
 
----
-
-## **🛠️ Tech Stack**
-- **Frontend:** React.js (with Material UI for UI components)
-- **Backend:** Node.js + Express.js
-- **Database:** PostgreSQL
-- **Authentication:** JWT (JSON Web Token)
-- **State Management:** React Context 
+English Force is an online English learning platform that helps users study effectively through diverse courses, lessons, exercises, and exams. The project consists of three main parts: a React frontend and a Node.js backend with PostgreSQL database and a FastAI backend that run my AI models.
 
 ---
 
-## **🌟 Features**
-✅ **User Authentication:** Secure login/register with JWT  
-✅ **Role-based Access:** Separate roles for students & instructors  
-✅ **Course Management:** Create, edit, delete, and enroll in courses   
-✅ **Ratings & Reviews:** Users can rate and comment on courses    
-✅ **Secure API:** Built with Express and PostgreSQL  
+## Introduction
+
+English Force provides a comprehensive English course management system, including:
+
+- Management of courses, learning programs, units, lessons, and exercises.
+- Exams with multiple parts, questions, and answers.
+- User system with role-based access control.
+- Media upload and storage for videos, images, and audio recordings via Cloudinary.
+- Tracking users’ learning progress.
+- AI backend built with FastAPI that powers a retrieval-based chatbot and a hybrid recommendation system to enhance personalized learning experiences.
 
 ---
 
-## **📦 Installation & Setup**
+## Key Features
 
-### **1️⃣ Clone the repository**
-```bash
-git clone https://github.com/yourusername/elearning.git
-cd elearning
-```
-
-### **2️⃣ Install dependencies**
-#### **Backend**
-```bash
-cd elearning-backend
-npm install
-```
-#### **Frontend**
-```bash
-cd ../elearning-frontend
-npm install
-```
-
-### **3️⃣ Setup environment variables**
-Create `.env` files in both `elearning-frontend/` and `elearning-backend/` with the necessary configurations.
-
-Example for **backend (`.env`)**:
-```bash
-DB_USER=postgres
-DB_HOST=localhost
-DB_NAME=elearning
-DB_PASSWORD=your_db_password
-DB_PORT=5432
-JWT_SECRET=your_jwt_secret
-STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
-STRIPE_SECRET_KEY=your_stripe_secret_key
-GEMINI_API_KEY=your_gemini_api_key
-```
-
-Example for **frontend (`.env`)**:
-```bash
-REACT_APP_STRIPE_TEST_KEY=your_stripe_test_key
-```
-
-### **4️⃣ Run the application**
-#### **Backend**
-```bash
-cd elearning-backend
-npm start
-```
-#### **Frontend**
-```bash
-cd ../elearning-frontend
-npm start
-```
-
-🚀 The app should now be running at **`http://localhost:3000`**!
+- Course and program management: Create, update, delete courses, programs, units, and lessons.
+- Exercises and exams: Support various exercise types such as multiple-choice, speaking, writing; create exams with multiple parts and questions.
+- User management: Registration, login, role management, and progress tracking.
+- Media management: Upload images, videos, and audio files with Cloudinary.
+- Comments: Users can comment on courses.
+- Progress tracking: Store and display progress and scores for lessons and courses.
+- AI-powered chatbot: Retrieval-based chatbot providing intelligent conversation and support for learners.
+- Hybrid recommendation system: Personalized course recommendations combining multiple algorithms to enhance learning outcomes.
 
 ---
 
-## **🔗 API Documentation**
-The backend API provides RESTful endpoints for user authentication, course management, and interactions.  
-For full API documentation, check the `README.md` inside `elearning-backend/` or visit the API docs (if hosted).
+## Technologies Used
+
+- Frontend: React.js, Material-UI (MUI), Zustand
+- Backend: Node.js, Express.js, Sequelize ORM
+- Database: PostgreSQL
+- Media Storage: Cloudinary
+- Authentication: JSON Web Token (JWT)
+- Other libraries: multer (file upload), dotenv (environment variables), etc.
+
+---
+
+## System Architecture
+
+- Frontend: React single-page application (SPA) communicating via REST API.
+- Main Backend: REST API using Express with Sequelize ORM to connect to PostgreSQL.
+- Models include User, Course, CourseSection, Comment, Program, Unit, Lesson, Exercise, ExerciseAnswer, Exam, ExamPart, Question, Answer, ExamAttempt, UserCourse, UserProgress.
+- Media uploads handled with Cloudinary for videos, images, and audio.
+- Authentication and authorization based on JWT tokens and user roles (admin, user).
+- A FastAPI service running machine learning models for a retrieval-based chatbot and a hybrid recommendation system, which provide intelligent interactions and personalized course suggestions.
+
+
 
 

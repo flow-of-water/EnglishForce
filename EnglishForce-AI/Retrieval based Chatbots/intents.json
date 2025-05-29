@@ -45,7 +45,9 @@
                 "Thank you",
                 "That's helpful",
                 "Awesome, thanks",
-                "Thanks for helping me"
+                "Thanks for helping me",
+                "I’m very grateful for your assistance.",
+                "You help me a lot."
             ],
             "responses": [
                 "Happy to help!",
@@ -79,7 +81,8 @@
             "patterns": [
                 "Tell me about the learning program",
                 "What features are available on this website?",
-                "What can I do here?"
+                "What can I do here?",
+                "Provide details about this platform."
             ],
             "responses": [
                 "Our website offers a free **learning program** that is designed to help you improve your English skills step-by-step. It includes lessons, quizzes, and progress tracking to ensure you are advancing in your learning journey.",
@@ -211,7 +214,9 @@
                 "The videos are not playing",
                 "I'm experiencing a technical issue",
                 "I have a problem with the website",
-                "I need technical support"
+                "I need technical support",
+                "The app is not working",
+                "How can I report a technical issue"
             ],
             "responses": [
                 "Please email us at support@englishforce.com for further assistance.",
@@ -235,7 +240,7 @@
             ]
         },
         {
-            "tag": "greeting_vi_vi",
+            "tag": "greeting_vi",
             "patterns": [
                 "Chào bạn",
                 "Xin chào",
@@ -251,7 +256,7 @@
             ]
         },
         {
-            "tag": "goodbye_vi_vi",
+            "tag": "goodbye_vi",
             "patterns": [
                 "Tạm biệt",
                 "Hẹn gặp lại",
@@ -275,7 +280,9 @@
                 "Cảm ơn bạn",
                 "Điều này hữu ích",
                 "Tuyệt vời, cảm ơn",
-                "Cảm ơn vì đã giúp tôi"
+                "Cảm ơn vì đã giúp tôi",
+                "Bạn đã hỗ trợ tôi vô cùng tận tình.",
+                "Bạn đã giúp tôi vượt qua nhiều khó khăn."
             ],
             "responses": [
                 "Rất vui được giúp đỡ!",
@@ -286,7 +293,7 @@
             ]
         },
         {
-            "tag": "learning_tips_vi_vi",
+            "tag": "learning_tips_vi",
             "patterns": [
                 "Làm sao để học tiếng Anh nhanh?",
                 "Có mẹo học tiếng Anh nào không?",
@@ -309,7 +316,8 @@
                 "Cho tôi biết về chương trình học",
                 "Trang web này có những tính năng gì?",
                 "Tôi có thể làm gì ở đây?",
-                "Chức năng trang web"
+                "Chức năng trang web",
+                "Hãy cho tôi biết về nền tảng này."
             ],
             "responses": [
                 "Trang web của chúng tôi cung cấp một **chương trình học miễn phí** được thiết kế để giúp bạn cải thiện kỹ năng tiếng Anh từng bước. Chương trình bao gồm các bài học, bài kiểm tra, và theo dõi tiến độ để đảm bảo bạn đang tiến bộ trong hành trình học tập.",
@@ -440,7 +448,9 @@
                 "Video không thể phát",
                 "Tôi gặp sự cố kỹ thuật",
                 "Tôi có vấn đề với trang web",
-                "Tôi cần hỗ trợ kĩ thuật"
+                "Tôi cần hỗ trợ kĩ thuật",
+                "Ứng dụng gặp lỗi",
+                "Tôi muốn báo lỗi kỹ thuật"
             ],
             "responses": [
                 "Vui lòng gửi email cho chúng tôi tại support@englishforce.com để được hỗ trợ thêm.",
@@ -532,7 +542,8 @@
                 "Bạn có thể đề xuất một số khóa học cho tôi không?",
                 "Tôi nên học khóa học nào tiếp theo?",
                 "Tôi cần các gợi ý khóa học.",
-                "Khóa học nào phù hợp với trình độ của tôi?"
+                "Khóa học nào phù hợp với trình độ của tôi?",
+                "Tôi nên học khoá nào?"
             ],
             "responses": [],
             "context": [

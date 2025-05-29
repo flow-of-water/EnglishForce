@@ -25,20 +25,20 @@ test_dataset = [
     ("Cảm ơn vì đã hỗ trợ tôi", "thanks_vi"),
 
     # 🌐 web_feature
-    ("Tell me about this platform", "web_feature"),
-    ("What features are available on this website?", "web_feature"),
-    ("What can I do here?", "web_feature"),
-    ("Hãy cho tôi biết về nền tảng này", "web_feature"),
-    ("Trang web này có những chức năng gì vậy?", "web_feature"),
-    ("Tôi có thể làm gì khi sử dụng hệ thống này?", "web_feature"),
+    ("Tell me about this platform", "web_feature_en"),
+    ("What features are available on this website?", "web_feature_en"),
+    ("What can I do here?", "web_feature_en"),
+    ("Hãy cho tôi biết về nền tảng này", "web_feature_vi"),
+    ("Trang web này có những chức năng gì vậy?", "web_feature_vi"),
+    ("Tôi có thể làm gì khi sử dụng hệ thống này?", "web_feature_vi"),
 
     # 🤖 chatbot_ability
-    ("What can you do?", "chatbot_ability"),
-    ("What are your abilities?", "chatbot_ability"),
-    ("How can you assist in learning English?", "chatbot_ability"),
-    ("Bạn có thể làm gì?", "chatbot_ability"),
-    ("Bạn giúp tôi học tiếng Anh như thế nào?", "chatbot_ability"),
-    ("Khả năng của bạn là gì vậy?", "chatbot_ability"),
+    ("What can you do?", "chatbot_ability_en"),
+    ("What are your abilities?", "chatbot_ability_en"),
+    ("How can you assist in learning English?", "chatbot_ability_en"),
+    ("Bạn có thể làm gì?", "chatbot_ability_vi"),
+    ("Bạn giúp tôi học tiếng Anh như thế nào?", "chatbot_ability_vi"),
+    ("Khả năng của bạn là gì vậy?", "chatbot_ability_vi"),
 
     # 💡 learning_tips
     ("Give me some tips to learn English.", "learning_tips_en"),
@@ -94,35 +94,35 @@ test_dataset = [
     ###
 
     # 🎯 course_recommendation
-    ("Can you recommend me an English course?", "course_recommendation_en"),
-    ("Which course is best for beginners?", "course_recommendation_en"),
-    ("What course should I take to improve my English?", "course_recommendation_en"),
-    ("Bạn có thể gợi ý khoá học tiếng Anh cho tôi không?", "course_recommendation_vi"),
-    ("Tôi mới bắt đầu học, nên học khoá nào?", "course_recommendation_vi"),
-    ("Tôi muốn cải thiện tiếng Anh, nên học khoá nào?", "course_recommendation_vi"),
+    ("Can you recommend me an English course?", "#en_course_recommendation"),
+    ("Which course is best for beginners?", "#en_course_recommendation"),
+    ("What course should I take to improve my English?", "#en_course_recommendation"),
+    ("Bạn có thể gợi ý khoá học tiếng Anh cho tôi không?", "#vi_course_recommendation"),
+    ("Tôi mới bắt đầu học, nên học khoá nào?", "#vi_course_recommendation"),
+    ("Tôi muốn cải thiện tiếng Anh, nên học khoá nào?", "#vi_course_recommendation"),
 
     # 📘 course_info
-    ("Tell me more about this course.", "course_info_en"),
-    ("What will I learn in this course?", "course_info_en"),
-    ("Can you give me an overview of this course?", "course_info_en"),
-    ("Khoá học này dạy những gì?", "course_info_vi"),
-    ("Cho tôi biết tổng quan của khóa học này", "course_info_vi"),
-    ("Bạn cho tôi biết thêm về khoá học này được không?", "course_info_vi"),
+    ("Tell me more about this course.", "#en_course_info"),
+    ("What will I learn in this course?", "#en_course_info"),
+    ("Can you give me an overview of this course?", "#en_course_info"),
+    ("Khoá học này dạy những gì?", "#vi_course_info"),
+    ("Cho tôi biết tổng quan của khóa học này", "#vi_course_info"),
+    ("Bạn cho tôi biết thêm về khoá học này được không?", "#vi_course_info"),
 
     # 📝 exam_info
-    ("Can you tell me more about the exam?", "exam_info_en"),
-    ("Give me information about this exam", "exam_info_en"),
-    ("What is the duration of the exam?", "exam_info_en"),
-    ("Nói cho tôi những gì bạn biết về kì thi?", "exam_info_vi"),
-    ("Bạn có thể cho tôi biết thêm thông tin về kỳ thi không?", "exam_info_vi"),
-    ("Kỳ thi này có những thông tin gì?", "exam_info_vi"),
+    ("Can you tell me more about the exam?", "#en_exam_info"),
+    ("Give me information about this exam", "#en_exam_info"),
+    ("What is the duration of the exam?", "#en_exam_info"),
+    ("Nói cho tôi những gì bạn biết về kì thi?", "#vi_exam_info"),
+    ("Bạn có thể cho tôi biết thêm thông tin về kỳ thi không?", "#vi_exam_info"),
+    ("Kỳ thi này có những thông tin gì?", "#vi_exam_info"),
 
     # 📈 learning_progress
-    ("How is my learning progress?", "learning_progress_en"),
-    ("Can you show me my English learning status?", "learning_progress_en"),
-    ("How much have I completed in program?", "learning_progress_en"),
-    ("Tiến độ học của tôi thế nào rồi?", "learning_progress_vi"),
-    ("Tôi đã hoàn thành bao nhiêu phần rồi?", "learning_progress_vi"),
-    ("Bạn có thể cho tôi xem tiến trình học không?", "learning_progress_vi"),
+    ("How is my learning progress?", "#en_learning_progress"),
+    ("Can you show me my English learning status?", "#en_learning_progress"),
+    ("How much have I completed in program?", "#en_learning_progress"),
+    ("Tiến độ học của tôi thế nào rồi?", "#vi_learning_progress"),
+    ("Tôi đã hoàn thành bao nhiêu phần rồi?", "#vi_learning_progress"),
+    ("Bạn có thể cho tôi xem tiến trình học không?", "#vi_learning_progress"),
 
 ]

@@ -8,53 +8,38 @@ import { Link } from "react-router-dom";
 
 const HeroSection = () => {
     return (
-        <Box sx={{ bgcolor: '#f5f5f5', py: { xs: 6, md: 10 } }}>
-            <Container>
-                <Stack
-                    direction={{ xs: 'column', md: 'row' }}
-                    spacing={6}
-                    alignItems="center"
-                    justifyContent="space-between"
-                >
-                    {/* Left side: Text content */}
-                    <Box flex={1} textAlign={{ xs: 'center', md: 'left' }}>
-                        <Typography variant="h3" fontWeight={600} gutterBottom>
-                            Learn Anytime, Anywhere
-                        </Typography>
-                        <Typography variant="h6" color="text.secondary" mb={3}>
-                            Join thousands of learners and upgrade your English skills with AI-powered lessons.
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            component={Link}
-                            to="/courses"
-                        >
-                            Get Started
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            size="large"
-                            component={Link}
-                            to="/exams"
-                            sx={{ mx: 2 }}
-                        >
-                            Take exams
-                        </Button>
-                    </Box>
-
-                    {/* Right side: Illustration */}
-                    <Box flex={1} display="flex" justifyContent="center">
-                        <img
-                            src="English-force.png" // Bạn thay đổi thành đường dẫn ảnh thật của bạn
-                            alt="Learn English"
-                            style={{ width: '100%', maxWidth: 400, maxHeight: 400, borderRadius: '10px' }}
-                        />
-                    </Box>
-                </Stack>
-            </Container>
+  <Box sx={{ bgcolor: '#f5f5f5', py: { xs: 6, md: 10 } }}>
+    <Container>
+      <Stack
+        direction={{ xs: 'column', md: 'row' }}
+        spacing={6}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Box flex={1} textAlign={{ xs: 'center', md: 'left' }}>
+          <Typography variant="h3" fontWeight={600} gutterBottom>
+            Learn Anytime, Anywhere
+          </Typography>
+          <Typography variant="h6" color="text.secondary" mb={3}>
+            Join thousands of learners and upgrade your English skills with AI-powered lessons.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" component={Link} to="/courses">
+            Get Started
+          </Button>
+          <Button variant="outlined" size="large" component={Link} to="/exams" sx={{ mx: 2 }}>
+            Take exams
+          </Button>
         </Box>
+        <Box flex={1} display="flex" justifyContent="center">
+          <img
+            src="English-force.png"
+            alt="Learn English"
+            style={{ width: '100%', maxWidth: 400, maxHeight: 400, borderRadius: '10px' }}
+          />
+        </Box>
+      </Stack>
+    </Container>
+  </Box>
     );
 };
 

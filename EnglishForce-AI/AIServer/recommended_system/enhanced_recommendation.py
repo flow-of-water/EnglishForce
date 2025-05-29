@@ -5,6 +5,8 @@ from typing import List, Dict, Any
 from .model_manager import ModelManager
 from .recommendation_utils import RecommendationSystem
 import os
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 def clean_nan_values(obj):
     """Clean NaN values from dictionary for JSON compatibility"""
@@ -44,16 +46,17 @@ class EnhancedRecommendationSystem:
             return [{"course_id": row[0], "score": row[1]} for row in result]
 
     def get_similar_courses(self, course_ids: List[int], k: int = 5) -> List[Dict[str, Any]]:
-        """Get similar courses based on course metadata"""
+        """Get similar courses based on name, description and price"""
         # Get all courses from the model's courses_df
         all_courses = pd.read_csv(os.path.join(os.path.dirname(__file__), 'courses.csv'))
         
         # Fill NaN values with appropriate defaults
         all_courses['price'] = all_courses['price'].fillna(0)
-        all_courses['average_rating'] = all_courses['average_rating'].fillna(0)
-        all_courses['number_of_enrollments'] = all_courses['number_of_enrollments'].fillna(0)
-        all_courses['number_of_rating'] = all_courses['number_of_rating'].fillna(0)
+        all_courses['name'] = all_courses['name'].fillna('')
         all_courses['description'] = all_courses['description'].fillna('')
+        
+        # Combine name and description for text similarity
+        all_courses['text_content'] = all_courses['name'] + ' ' + all_courses['description']
         
         # Filter courses that are in the input list
         reference_courses = all_courses[all_courses['course_id'].isin(course_ids)]
@@ -61,24 +64,34 @@ class EnhancedRecommendationSystem:
         if reference_courses.empty:
             return []
             
-        # Calculate average features for reference courses
-        avg_features = reference_courses[[
-            'price', 'average_rating', 'number_of_enrollments', 'number_of_rating'
-        ]].mean()
+        # Calculate text similarity using TF-IDF
+        tfidf = TfidfVectorizer(stop_words='english')
+        tfidf_matrix = tfidf.fit_transform(all_courses['text_content'])
         
-        # Calculate similarity scores for all courses
-        def calculate_similarity(row):
-            features = row[['price', 'average_rating', 'number_of_enrollments', 'number_of_rating']]
-            # Simple Euclidean distance-based similarity
-            return -np.sqrt(((features - avg_features) ** 2).sum())
-            
-        all_courses['similarity'] = all_courses.apply(calculate_similarity, axis=1)
+        # Get the average TF-IDF vector for reference courses
+        reference_vectors = tfidf_matrix[all_courses['course_id'].isin(course_ids)]
+        avg_reference_vector = reference_vectors.mean(axis=0)
+        
+        # Calculate cosine similarity between average reference vector and all courses
+        text_similarities = cosine_similarity(tfidf_matrix, avg_reference_vector)
+        
+        # Calculate price similarity
+        avg_price = reference_courses['price'].mean()
+        price_diff = np.abs(all_courses['price'] - avg_price)
+        max_price_diff = price_diff.max() if price_diff.max() > 0 else 1
+        price_similarities = 1 - (price_diff / max_price_diff)  # Normalize to [0,1]
+        
+        # Combine similarities (70% text, 30% price)
+        final_similarities = 0.7 * text_similarities.flatten() + 0.3 * price_similarities
+        
+        # Add similarity scores to the dataframe
+        all_courses['similarity'] = final_similarities
         
         # Get top-k similar courses, excluding the input courses
         similar_courses = (
             all_courses[~all_courses['course_id'].isin(course_ids)]
             .nlargest(k, 'similarity')
-            [['course_id', 'name', 'description', 'price', 'average_rating']]
+            [['course_id', 'name', 'description', 'price']]
             .to_dict('records')
         )
         
