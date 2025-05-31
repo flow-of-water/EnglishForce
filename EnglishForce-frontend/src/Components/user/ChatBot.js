@@ -53,7 +53,7 @@ const Chatbot = () => {
             color: "white",
             boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
             "&:hover": { backgroundColor: "#0063cc" },
-            zIndex: 9999, // Chatbot phải nằm trên cùng các components
+            zIndex: 1000, // Chatbot phải nằm trên cùng các components
           }}
           onClick={() => setOpen(true)}
         >
@@ -77,7 +77,7 @@ const Chatbot = () => {
             overflow: "hidden",
             backgroundColor: "#f0f2f5",
             animation: "slideIn 0.3s ease-in-out",
-            zIndex: 9999, // Chatbot phải nằm trên cùng các components
+            zIndex: 1000, // Chatbot phải nằm trên cùng các components
           }}
         >
           {/* Header với nút đóng */}

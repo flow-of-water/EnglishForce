@@ -4,6 +4,7 @@ import axiosInstance from "../../Api/axiosInstance";
 import CourseCard from "../../Components/user/CourseCard";
 import { HomeFeatures } from "../../Components/user/HomeFeatures";
 import Slider from "react-slick"; // Import Carousel
+import { Link } from 'react-router-dom';
 
 // Import CSS cho carousel
 import "slick-carousel/slick/slick.css";
@@ -16,8 +17,8 @@ const HomePage = () => {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await axiosInstance.get("/courses");
-        setCourses(response.data.courses);
+        const response = await axiosInstance.get("/courses/top-rated");
+        setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
@@ -94,9 +95,11 @@ const HomePage = () => {
             <Typography variant="h5" paragraph>
               Your ultimate platform for effective and fun English learning.
             </Typography>
+            <Link to="/program">
             <Button variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
               Get Started
             </Button>
+            </Link>
           </Container>
         </Box>
       {/* Hero Section */}

@@ -70,6 +70,20 @@ export const getCoursesBySearch = async (req, res) => {
   }
 };
 
+// Get Top Rated Courses
+export const getTopRatedCoursesController = async (req, res) => {
+  try {
+    const k = 12 ;
+    const courses = await courseService.getTopRatedCourses(k);
+    
+    res.json(courses);
+  } catch (err) {
+    console.error('Error fetching top rated courses:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 // Cập nhật thông tin khóa học
 export const updateCourseController = async (req, res) => {
   try {

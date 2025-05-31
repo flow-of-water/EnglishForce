@@ -4,42 +4,43 @@ import QuizIcon from '@mui/icons-material/Quiz';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
     return (
-  <Box sx={{ bgcolor: '#f5f5f5', py: { xs: 6, md: 10 } }}>
-    <Container>
-      <Stack
-        direction={{ xs: 'column', md: 'row' }}
-        spacing={6}
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Box flex={1} textAlign={{ xs: 'center', md: 'left' }}>
-          <Typography variant="h3" fontWeight={600} gutterBottom>
-            Learn Anytime, Anywhere
-          </Typography>
-          <Typography variant="h6" color="text.secondary" mb={3}>
-            Join thousands of learners and upgrade your English skills with AI-powered lessons.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" component={Link} to="/courses">
-            Get Started
-          </Button>
-          <Button variant="outlined" size="large" component={Link} to="/exams" sx={{ mx: 2 }}>
-            Take exams
-          </Button>
+        <Box sx={{ bgcolor: '#f5f5f5', py: { xs: 6, md: 10 } }}>
+            <Container>
+                <Stack
+                    direction={{ xs: 'column', md: 'row' }}
+                    spacing={6}
+                    alignItems="center"
+                    justifyContent="space-between"
+                >
+                    <Box flex={1} textAlign={{ xs: 'center', md: 'left' }}>
+                        <Typography variant="h3" fontWeight={600} gutterBottom>
+                            Learn Anytime, Anywhere
+                        </Typography>
+                        <Typography variant="h6" color="text.secondary" mb={3}>
+                            Join thousands of learners and upgrade your English skills with AI-powered lessons.
+                        </Typography>
+                        <Button variant="contained" color="primary" size="large" component={Link} to="/courses">
+                            Get Started
+                        </Button>
+                        <Button variant="outlined" size="large" component={Link} to="/exams" sx={{ mx: 2 }}>
+                            Take exams
+                        </Button>
+                    </Box>
+                    <Box flex={1} display="flex" justifyContent="center">
+                        <img
+                            src="English-force.png"
+                            alt="Learn English"
+                            style={{ width: '100%', maxWidth: 400, maxHeight: 400, borderRadius: '10px' }}
+                        />
+                    </Box>
+                </Stack>
+            </Container>
         </Box>
-        <Box flex={1} display="flex" justifyContent="center">
-          <img
-            src="English-force.png"
-            alt="Learn English"
-            style={{ width: '100%', maxWidth: 400, maxHeight: 400, borderRadius: '10px' }}
-          />
-        </Box>
-      </Stack>
-    </Container>
-  </Box>
     );
 };
 
@@ -48,18 +49,23 @@ const features = [
     {
         icon: <PsychologyAltIcon sx={{ fontSize: 40, color: 'primary.main' }} />,
         title: 'AI-Powered Learning',
-        description: 'Personalized recommendations based on your progress.'
+        description: 'Smart chatbot and personalized recommendations based on your progress.'
+    },
+    {
+        icon: <AutoStoriesIcon sx={{ fontSize: 40, color: 'warning.main' }} />,
+        title: 'Free English Program',
+        description: 'A structured program to improve all 4 skills: listening, speaking, reading, and writing.'
     },
     {
         icon: <QuizIcon sx={{ fontSize: 40, color: 'secondary.main' }} />,
-        title: 'Real Exam Simulations',
-        description: 'Practice with mock tests that mimic actual TOEIC/IELTS exams.'
+        title: 'Exam Simulations',
+        description: 'Practice with mock tests that mimic actual TOEIC exams.'
     },
     {
         icon: <SchoolIcon sx={{ fontSize: 40, color: 'success.main' }} />,
-        title: 'Interactive Courses',
-        description: 'Video, audio, and quiz content combined for engaging learning.'
-    }
+        title: 'Video-based Courses',
+        description: 'Learn with engaging videos. No quizzes – just watch and absorb knowledge!'
+    },
 ];
 
 const WhyUsSection = () => {
@@ -75,7 +81,7 @@ const WhyUsSection = () => {
 
                 <Grid container spacing={4} justifyContent="center">
                     {features.map((item, index) => (
-                        <Grid item xs={12} sm={4} key={index}>
+                        <Grid item xs={12} sm={6} md={3} key={index}>
                             <Paper elevation={3} sx={{ p: 4, textAlign: 'center', height: '100%' }}>
                                 <Stack spacing={2} alignItems="center" textAlign="center">
                                     {item.icon}

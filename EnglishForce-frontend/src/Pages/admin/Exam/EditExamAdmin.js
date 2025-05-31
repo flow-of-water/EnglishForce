@@ -7,6 +7,7 @@ import {
   Button,
   Paper,
   CircularProgress,
+  MenuItem,
 } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
 
@@ -18,6 +19,7 @@ const EditExamPage = () => {
     name: "",
     description: "",
     duration: 30, // default 30 phút
+    type: "general",
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -26,12 +28,13 @@ const EditExamPage = () => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        const res = await axiosInstance.get(`/exams/${publicId}`);
+        const res = await axiosInstance.get(`/exams/${publicId}/short`);
         const data = res.data;
         setExamData({
           name: data.name || "",
           description: data.description || "",
           duration: data.duration || 30,
+          type: data.type || "general"
         });
       } catch (err) {
         console.error("Error fetching exam:", err);
@@ -108,6 +111,18 @@ const EditExamPage = () => {
             onChange={handleChange}
             required
           />
+          <TextField
+            select
+            label="Exam Type"
+            name="type"
+            fullWidth
+            margin="normal"
+            value={examData.type}
+            onChange={handleChange}
+          >
+            <MenuItem value="general">General</MenuItem>
+            <MenuItem value="toeic">TOEIC</MenuItem>
+          </TextField>
           <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
             Save Changes
           </Button>

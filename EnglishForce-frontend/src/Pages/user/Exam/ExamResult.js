@@ -49,7 +49,7 @@ const ExamResultPage = () => {
           const isCorrect =
             userAnswers.length === correctAnswers.length &&
             [...userAnswers].sort().join(',') ===
-              [...correctAnswers].sort().join(',');
+            [...correctAnswers].sort().join(',');
 
           const questionLabel = `Q${questionCounter++}`;
 
@@ -85,7 +85,10 @@ const ExamResultPage = () => {
   return (
     <Box p={4}>
       <Typography variant="h4" gutterBottom>
-        Your Score: {Number(result.score)} / 100
+        Your Score: {Number(result.score)}%
+      </Typography>
+      <Typography variant="h4" gutterBottom>
+        Description : {result.examAttemptDescription}
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
         Exam Duration: {result.duration} minutes

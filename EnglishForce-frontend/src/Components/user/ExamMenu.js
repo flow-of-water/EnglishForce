@@ -108,7 +108,7 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
             position: 'fixed',
             top: 60,
             right: 16,
-            zIndex: 1300,
+            zIndex: 9999,
             bgcolor: grey[200],
             borderRadius: '28px',
             display: 'flex',
@@ -137,7 +137,15 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
       )}
 
 
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)} PaperProps={{sx: {zIndex: 10001,}}}
+        ModalProps={{
+    keepMounted: true,
+    BackdropProps: {
+      sx: {
+        zIndex: 10001 // Quan trọng: backdrop nằm sau Paper
+      }
+    }
+  }}>
         <Box
           sx={{
             width: 300,
@@ -146,6 +154,7 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
             display: 'flex',
             flexDirection: 'column',
             p: 2,
+            zIndex: 10001,
           }}
         >
           <Box sx={{ mb: 2 }}>

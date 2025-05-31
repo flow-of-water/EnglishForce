@@ -1,5 +1,5 @@
 import express from "express";
-import { getCoursesController, getCourseByPublicIdController, updateCourseController, addCourseController, deleteCourseController, getCoursesBySearch } from "../../controllers/course/courseController.js";
+import { getCoursesController, getCourseByPublicIdController, updateCourseController, addCourseController, deleteCourseController, getCoursesBySearch, getTopRatedCoursesController } from "../../controllers/course/courseController.js";
 import { authMiddleware, adminMiddleware, authMiddlewareWithoutError } from "../../middleware/authorize.js";
 import { uploadImage, uploadVideo } from "../../config/cloudinary.config.js";
 
@@ -9,6 +9,8 @@ const router = express.Router();
 
 // Search khóa học
 router.get("/search", getCoursesBySearch);
+
+router.get('/top-rated', getTopRatedCoursesController);
 
 router.get("/", authMiddlewareWithoutError, getCoursesController);
 // Lấy thông tin khóa học theo ID

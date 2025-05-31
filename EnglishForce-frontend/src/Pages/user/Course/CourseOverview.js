@@ -182,7 +182,7 @@ const CourseOverview = () => {
            />}
           {reviews.length === 0 ? (
             <Typography variant="body2" color="text.secondary">
-              Chưa có đánh giá nào cho khóa học này.
+              The course has not received any reviews yet.
             </Typography>
           ) : (
             <List sx={{ mt: 2 }}>

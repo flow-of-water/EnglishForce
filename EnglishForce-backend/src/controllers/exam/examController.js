@@ -37,13 +37,13 @@ export const getExamShortly = async (req, res) => {
 
 export const createExam = async (req, res) => {
   try {
-    const { name, description, duration } = req.body;
+    const { name, description, duration, type } = req.body;
 
     if (!name || !duration) {
       return res.status(400).json({ message: 'Name and duration are required' });
     }
 
-    const exam = await examService.createExam({ name, description, duration });
+    const exam = await examService.createExam({ name, description, duration, type });
     res.status(201).json(exam);
   } catch (error) {
     console.error('Error creating exam:', error);
@@ -55,12 +55,13 @@ export const createExam = async (req, res) => {
 export const updateExam = async (req, res) => {
   try {
     const { publicId } = req.params;
-    const { name, description, duration } = req.body;
+    const { name, description, duration, type } = req.body;
 
     const updatedExam = await examService.updateExamByPublicId(publicId, {
       name,
       description,
-      duration
+      duration,
+      type
     });
 
     res.json({

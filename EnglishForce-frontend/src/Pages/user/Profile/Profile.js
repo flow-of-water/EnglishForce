@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, CircularProgress, Paper, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Cell } from 'recharts';
 import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
 
@@ -108,9 +108,9 @@ const Profile = () => {
     return <CircularLoading />;
   }
   const data = [
-    { name: 'Programs', value: user.stats?.programsCount || 0 },
-    { name: 'Exams', value: user.stats?.examsCount || 0 },
-    { name: 'Courses', value: user.stats?.coursesCount || 0 }
+    { name: 'Completed Program Lessons', value: user.stats?.programsCount || 0 },
+    { name: 'Exam Attempts', value: user.stats?.examAttemptsCount || 0 },
+    { name: 'Courses Purchased', value: user.stats?.coursesCount || 0 }
   ];
 
   return (
@@ -126,7 +126,7 @@ const Profile = () => {
           </Button>
 
           <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-            Your Learning Statistics
+            Your General Learning Statistics
           </Typography>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
@@ -135,9 +135,55 @@ const Profile = () => {
               <YAxis allowDecimals={false} />
               <Tooltip />
               <Legend />
-              <Bar dataKey="value" fill="#1976d2" />
+              <Bar dataKey="value">
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={['#1976d2', '#e53935', '#fbc02d'][index % 3]}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
+
+          <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
+            Average Scores
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            Program Average Score: <strong>{user.stats?.averageScoreProgram*100 || 0}%</strong>
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            Exam Average Score: <strong>{user.stats?.averageScoreExam || 0}%</strong>
+          </Typography>
+
+          {user.stats?.examScoresOverTime?.length > 0 && (
+            <>
+              <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+                Exam Score Over Time
+              </Typography>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={user.stats.examScoresOverTime}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="created_at"
+                    tickFormatter={(date) => new Date(date).toLocaleDateString()}
+                  />
+                  <YAxis domain={[0, 100]} />
+                  <Tooltip
+                    labelFormatter={(date) => new Date(date).toLocaleString()}
+                  />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="score"
+                    stroke="#82ca9d"
+                    activeDot={{ r: 8 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </>
+          )}
+
 
           {/* Dialog for Change Password */}
           <Dialog open={openDialog} onClose={handleDialogClose}>

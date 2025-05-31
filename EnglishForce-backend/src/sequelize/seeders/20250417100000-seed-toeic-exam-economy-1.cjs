@@ -70,7 +70,7 @@ async function insertPartTree({ part, examId, parentPartId, queryInterface }) {
 }
 
 async function ImportExamIntoDB(queryInterface, Sequelize,examData) {
-  const { name, description, duration, parts } = examData.exam;
+  const { name, description, duration, parts, type } = examData.exam;
 
   // Insert exam chính
   const [examResult] = await queryInterface.bulkInsert(
@@ -80,6 +80,7 @@ async function ImportExamIntoDB(queryInterface, Sequelize,examData) {
       name,
       description,
       duration,
+      type,
     }],
     { returning: true }
   );

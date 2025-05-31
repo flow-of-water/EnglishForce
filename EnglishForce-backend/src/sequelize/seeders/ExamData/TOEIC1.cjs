@@ -3,6 +3,7 @@ module.exports = {
     name: 'New Economy TOEIC Test 1',
     description: 'New Economy TOEIC Test 1 is a practice exam that simulates the real TOEIC format, covering both Listening and Reading sections to help learners assess and improve their English skills for the official test.',
     duration: 200,
+    type: "toeic",
     parts: [
       {
         name: 'Listening',

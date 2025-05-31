@@ -24,7 +24,8 @@ export default (sequelize, DataTypes) => {
       score: {
         type: DataTypes.DECIMAL(5, 2),
         allowNull: false
-      }
+      },
+      description: DataTypes.TEXT,
     }, {
       tableName: 'exam_attempts',
       timestamps: true,

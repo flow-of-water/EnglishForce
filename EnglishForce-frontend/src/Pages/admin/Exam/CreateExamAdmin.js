@@ -7,7 +7,8 @@ import {
   Box,
   Stack,
   Paper,
-  Alert
+  Alert,
+  MenuItem
 } from '@mui/material';
 import axiosInstance from '../../../Api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +17,7 @@ const ExamAdminCreate = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [duration, setDuration] = useState('');
+  const [type, setType] = useState('general');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
@@ -34,7 +36,8 @@ const ExamAdminCreate = () => {
       const res = await axiosInstance.post('/exams', {
         name,
         description,
-        duration: parseInt(duration, 10)
+        duration: parseInt(duration, 10),
+        type
       });
 
       setSuccess('Exam created successfully!');
@@ -83,6 +86,16 @@ const ExamAdminCreate = () => {
               fullWidth
               inputProps={{ min: 1 }}
             />
+            <TextField
+              select
+              label="Exam Type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              fullWidth
+            >
+              <MenuItem value="general">General</MenuItem>
+              <MenuItem value="toeic">TOEIC</MenuItem>
+            </TextField>
             <Box textAlign="right">
               <Button type="submit" variant="contained">
                 Create Exam

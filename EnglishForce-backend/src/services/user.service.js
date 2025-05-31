@@ -4,7 +4,7 @@ const { User } = db;
 export const findUserIdByPublicId = async (publicId) => {
   const user = await User.findOne({ where: { public_id: publicId } });
   if (!user) throw new Error('User not found with that public_id');
-  return user.id ;
+  return user.id;
 }
 
 // Tạo user mới
@@ -43,15 +43,38 @@ export const getUserProfileWithStats = async (userId) => {
   const user = await getUserById(userId);
 
   const programsCount = await db.UserProgress.count({ where: { user_id: userId } });
-  const examsCount = await db.ExamAttempt.count({ where: { user_id: userId } });
+  const examAttemptsCount = await db.ExamAttempt.count({ where: { user_id: userId } });
   const coursesCount = await db.UserCourse.count({ where: { user_id: userId } });
+
+  const averageScoreExamResult = await db.ExamAttempt.findOne({
+    attributes: [[db.Sequelize.fn('AVG', db.Sequelize.col('score')), 'avg']],
+    where: { user_id: userId },
+    raw: true
+  });
+  const averageScoreProgramResult = await db.UserProgress.findOne({
+    attributes: [[db.Sequelize.fn('AVG', db.Sequelize.col('score')), 'avg']],
+    where: { user_id: userId },
+    raw: true
+  });
+  const averageScoreExam = parseFloat(averageScoreExamResult?.avg || 0).toFixed(2);
+  const averageScoreProgram = parseFloat(averageScoreProgramResult?.avg || 0).toFixed(2);
+
+  const examScoresOverTime = await db.ExamAttempt.findAll({
+    where: { user_id: userId },
+    attributes: ['score', 'created_at'],
+    order: [['created_at', 'ASC']],
+    raw: true
+  });
 
   return {
     ...user.toJSON(),
     stats: {
       programsCount,
-      examsCount,
-      coursesCount
+      examAttemptsCount,
+      coursesCount,
+      examScoresOverTime,
+      averageScoreExam,
+      averageScoreProgram,
     }
   };
 };
@@ -92,7 +115,7 @@ export async function findOrCreateUser(profile) {
   const [user, created] = await User.findOrCreate({
     where: { username: email },
     defaults: {
-      email:email,
+      email: email,
       password: email,
       role: 'user'
     }

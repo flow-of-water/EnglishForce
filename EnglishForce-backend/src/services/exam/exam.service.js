@@ -38,7 +38,7 @@ function buildNestedParts(part, partMap) {
   }).filter(Boolean);
   return part;
 }
-export const getExamWithFullHierarchy = async (publicId , onlyCorrectAnswers = false) => {
+export const getExamWithFullHierarchy = async (publicId, onlyCorrectAnswers = false) => {
   const exam = await db.Exam.findOne({
     where: { public_id: publicId },
     attributes: ['id', 'public_id', 'name', 'description', 'duration'],
@@ -53,7 +53,7 @@ export const getExamWithFullHierarchy = async (publicId , onlyCorrectAnswers = f
     include: [
       {
         model: db.Question,
-        attributes: ['id', 'public_id', 'content', 'type', 'thumbnail', 'record','order_index'],
+        attributes: ['id', 'public_id', 'content', 'type', 'thumbnail', 'record', 'order_index'],
         separate: true, // ⚠️ BẮT BUỘC nếu muốn order hoạt động
         order: [['order_index', 'ASC']],
         include: [
@@ -93,6 +93,7 @@ export const getExamWithFullHierarchy = async (publicId , onlyCorrectAnswers = f
     name: exam.name,
     description: exam.description,
     duration: exam.duration,
+    type: exam.type,
     parts: rootParts
   };
 };
@@ -103,7 +104,7 @@ export const getExamWithFullHierarchy = async (publicId , onlyCorrectAnswers = f
 export const getExamShort = async (publicId) => {
   const exam = await db.Exam.findOne({
     where: { public_id: publicId },
-    attributes: ['public_id', 'name', 'description', 'duration'],
+    attributes: ['public_id', 'name', 'description', 'duration', 'type'],
   });
 
   return exam ? exam.toJSON() : null;
@@ -112,11 +113,12 @@ export const getExamShort = async (publicId) => {
 
 
 
-export const createExam = async ({ name, description, duration }) => {
+export const createExam = async ({ name, description, duration, type }) => {
   const newExam = await Exam.create({
     name,
     description: description || null,
     duration,
+    type,
   });
   return newExam;
 };
@@ -139,6 +141,61 @@ export const deleteExamByPublicId = async (publicId) => {
   await exam.destroy(); // Sequelize cascade sẽ xóa các Question vì đã set `onDelete: CASCADE`
 };
 
+/**
+ * Tính điểm TOEIC chuẩn từ số câu đúng từng phần.
+ * @param {number} correctListening - Số câu đúng phần Listening (0–100)
+ * @param {number} correctReading - Số câu đúng phần Reading (0–100)
+ * @returns {Object} - { listening_score, reading_score, total_score }
+ */
+const calculateToeicScore = (correctListening, correctReading) => {
+  console.log(correctListening , correctReading) ;
+  const clamp = (x, min, max) => Math.max(min, Math.min(max, x));
+
+  // Giả sử Linear Scale từ 5–495 như sau:
+  const mapScore = (correct) => {
+    correct = clamp(correct, 0, 100);
+    if (correct === 0 ) return 5 ;
+    else return Math.min(correct * 5, 495);
+  };
+
+  const listening_score = mapScore(correctListening);
+  const reading_score = mapScore(correctReading);
+  const total_score = listening_score + reading_score;
+
+  return {
+    listening_score,
+    reading_score,
+    total_score
+  };
+};
+// Truy ngược về phần gốc (Listening / Reading)
+const findRootPartFast = async (exam_id) => {
+  const parts = await db.ExamPart.findAll({
+    where: { exam_id },
+    attributes: ['id', 'name', 'parent_part_id']
+  });
+
+  const partMap = new Map();
+  for (const part of parts) {
+    partMap.set(part.id, part);
+  }
+
+  const rootCache = new Map();
+
+  const resolveRoot = (part_id) => {
+    let current = partMap.get(part_id);
+    while (current?.parent_part_id) {
+      current = partMap.get(current.parent_part_id);
+    }
+    return current;
+  };
+
+  for (const [id] of partMap) {
+    rootCache.set(id, resolveRoot(id));
+  }
+
+  return rootCache; // Map: exam_part_id → rootPart
+};
 
 export const submitExamAttempt = async (body, userId) => {
   const { exam_public_id, answers } = body;
@@ -146,29 +203,57 @@ export const submitExamAttempt = async (body, userId) => {
   const exam = await db.Exam.findOne({ where: { public_id: exam_public_id } });
   if (!exam) throw new Error('Exam not found');
 
-  let correct = 0;
-  const total = await Question.count({
-    where: { exam_id: exam.id }
+  const allQuestions = await db.Question.findAll({
+    where: { exam_id: exam.id },
+    include: [db.Answer, db.ExamPart]
   });
 
+  const total = allQuestions.length;
+  const questionMap = new Map();
+  for (const q of allQuestions) {
+    questionMap.set(q.public_id, q);
+  }
+
+  const rootPartMap = await findRootPartFast(exam.id);
+
+  let correct = 0;
+  let correctListening = 0;
+  let correctReading = 0;
+
   for (const { question_public_id, answer_ids } of answers) {
-    const question = await db.Question.findOne({
-      where: { public_id: question_public_id },
-      include: [db.Answer]
-    });
+    const question = questionMap.get(question_public_id);
+    if (!question) continue;
+
     const correctAnswers = question.Answers.filter(a => a.is_correct).map(a => a.public_id);
-    if (JSON.stringify(correctAnswers.sort()) === JSON.stringify(answer_ids.sort())) correct++;
+    const isCorrect = JSON.stringify(correctAnswers.sort()) === JSON.stringify(answer_ids.sort());
+
+    if (isCorrect) correct++;
+
+    if (!isCorrect || exam.type !== 'toeic') continue;
+
+    const rootPart = rootPartMap.get(question.exam_part_id);
+    const rootName = rootPart?.name?.toLowerCase() || '';
+
+    if (rootName.includes('listening')) correctListening++;
+    else if (rootName.includes('reading')) correctReading++;
   }
 
   const score = (correct / total) * 100;
   const now = new Date();
+  let description;
 
-  const attempt = await ExamAttempt.create({
+  if (exam.type === 'toeic') {
+    const { listening_score, reading_score, total_score } = calculateToeicScore(correctListening, correctReading);
+    description = `TOEIC Total Score: ${total_score}, Listening: ${listening_score}, Reading: ${reading_score}`;
+  }
+
+  const attempt = await db.ExamAttempt.create({
     exam_id: exam.id,
     user_id: userId,
     start: now,
     end: now,
-    score
+    score,
+    description,
   });
 
   return attempt.public_id;
@@ -188,6 +273,7 @@ export const getExamResult = async (attemptPublicId) => {
 
   return {
     ...examInfor,
+    examAttemptDescription : attempt.description,
     score: attempt.score,
     duration: (new Date(attempt.end) - new Date(attempt.start)) / 60000,
   };
