@@ -3,6 +3,11 @@ const { Program, Unit, Lesson, UserProgress } = db;
 
 import { Sequelize } from 'sequelize';
 
+
+export const getNumberOfPrograms = async () => {
+  return await db.Program.count();
+};
+
 export const getPaginatedPrograms = async (page = 1) => {
   const limit = 6;
   const offset = (page - 1) * limit;

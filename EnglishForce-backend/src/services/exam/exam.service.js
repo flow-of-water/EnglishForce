@@ -2,6 +2,11 @@
 import db from '../../sequelize/models/index.js';
 const { Exam, Question, Answer, ExamAttempt, ExamPart, QuestionGroup } = db;
 
+
+export const getNumberOfExams = async () => {
+  return await db.Exam.count();
+};
+
 export const findExamIdByPublicId = async (publicId) => {
   const Exam = await Exam.findOne({ where: { public_id: publicId } });
   if (!Exam) throw new Error('Exam not found with that public_id');
@@ -148,13 +153,13 @@ export const deleteExamByPublicId = async (publicId) => {
  * @returns {Object} - { listening_score, reading_score, total_score }
  */
 const calculateToeicScore = (correctListening, correctReading) => {
-  console.log(correctListening , correctReading) ;
+  console.log(correctListening, correctReading);
   const clamp = (x, min, max) => Math.max(min, Math.min(max, x));
 
   // Giả sử Linear Scale từ 5–495 như sau:
   const mapScore = (correct) => {
     correct = clamp(correct, 0, 100);
-    if (correct === 0 ) return 5 ;
+    if (correct === 0) return 5;
     else return Math.min(correct * 5, 495);
   };
 
@@ -198,7 +203,7 @@ const findRootPartFast = async (exam_id) => {
 };
 
 export const submitExamAttempt = async (body, userId) => {
-  const { exam_public_id, answers } = body;
+  const { exam_public_id, answers, start, end } = body;
 
   const exam = await db.Exam.findOne({ where: { public_id: exam_public_id } });
   if (!exam) throw new Error('Exam not found');
@@ -247,11 +252,14 @@ export const submitExamAttempt = async (body, userId) => {
     description = `TOEIC Total Score: ${total_score}, Listening: ${listening_score}, Reading: ${reading_score}`;
   }
 
+  const startTime = start ? new Date(start) : new Date();
+  const endTime = end ? new Date(end) : new Date();
+
   const attempt = await db.ExamAttempt.create({
     exam_id: exam.id,
     user_id: userId,
-    start: now,
-    end: now,
+    start: startTime,
+    end: endTime,
     score,
     description,
   });
@@ -273,8 +281,8 @@ export const getExamResult = async (attemptPublicId) => {
 
   return {
     ...examInfor,
-    examAttemptDescription : attempt.description,
+    examAttemptDescription: attempt.description,
     score: attempt.score,
-    duration: (new Date(attempt.end) - new Date(attempt.start)) / 60000,
+    attemptDuration: Number(((new Date(attempt.end) - new Date(attempt.start)) / 60000).toFixed(2)),
   };
 };

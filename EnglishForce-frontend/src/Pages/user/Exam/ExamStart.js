@@ -81,7 +81,7 @@ const ExamStartPage = () => {
   // }
 
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (start = null, end = null) => {
     try {
       setLoading(true);
       const payload = {
@@ -91,6 +91,9 @@ const ExamStartPage = () => {
           answer_ids
         }))
       };
+      if (start) payload.start = start;
+      if (end) payload.end = end;
+      
       // console.log("payload : ",payload) ;
       const Response = await axiosInstance.post('/exams/attempts', payload);
 
@@ -245,7 +248,7 @@ const ExamStartPage = () => {
         </Box>
       )}
 
-      
+
       <ExamMenu
         parts={exam.parts}
         answers={answers}             // Object: { question_public_id: [answer_id1, answer_id2] }

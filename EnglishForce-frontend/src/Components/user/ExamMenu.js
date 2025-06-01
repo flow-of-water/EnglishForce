@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, List, Button, IconButton, Drawer } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { green, grey } from '@mui/material/colors';
@@ -7,11 +7,13 @@ import { green, grey } from '@mui/material/colors';
 const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
   const [open, setOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(null);
-
+  const [start, setStart] = useState(null);
+  const intervalRef = useRef(null); // 🆕 ref lưu interval
 
   useEffect(() => {
     if (duration) {
       const startTime = new Date(); // Luôn tạo mới
+      setStart(startTime);
 
       const endTime = new Date(startTime.getTime() + duration * 60000);
 
@@ -20,12 +22,16 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
         const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
         setTimeLeft(remaining);
 
-        if (remaining === 0) onSubmit();
+        if (remaining === 0) {
+          clearInterval(intervalRef.current); // ❗ Stop timer khi hết giờ
+          onSubmit(startTime?.toISOString(), new Date().toISOString());
+        }
       };
 
       updateRemainingTime();
-      const interval = setInterval(updateRemainingTime, 1000);
-      return () => clearInterval(interval);
+      intervalRef.current = setInterval(updateRemainingTime, 1000);
+      // const interval = setInterval(updateRemainingTime, 1000);
+      return () => clearInterval(intervalRef.current);
     }
   }, [duration]);
 
@@ -46,6 +52,13 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
     const secs = (seconds % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
   };
+
+  const handleManualSubmit = () => {
+    const now = new Date();
+    clearInterval(intervalRef.current); // ❗ Stop timer khi submit
+    onSubmit(start?.toISOString(), now.toISOString());
+  };
+
 
   // 🧠 Global index counter
   let globalQuestionIndex = 1;
@@ -80,6 +93,7 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
                   justifyContent: 'center',
                   cursor: 'pointer',
                   fontWeight: 'bold',
+                  caretColor: "transparent",
                   '&:hover': {
                     bgcolor: isAnswered ? green[900] : grey[400],
                   }
@@ -137,15 +151,15 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
       )}
 
 
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)} PaperProps={{sx: {zIndex: 10001,}}}
+      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)} PaperProps={{ sx: { zIndex: 10001, } }}
         ModalProps={{
-    keepMounted: true,
-    BackdropProps: {
-      sx: {
-        zIndex: 10001 // Quan trọng: backdrop nằm sau Paper
-      }
-    }
-  }}>
+          keepMounted: true,
+          BackdropProps: {
+            sx: {
+              zIndex: 10001 // Quan trọng: backdrop nằm sau Paper
+            }
+          }
+        }}>
         <Box
           sx={{
             width: 300,
@@ -173,7 +187,7 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
 
           <Button
             variant="contained"
-            onClick={onSubmit}
+            onClick={handleManualSubmit}
             fullWidth
             size="large"
           >

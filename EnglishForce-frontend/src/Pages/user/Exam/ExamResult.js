@@ -91,7 +91,7 @@ const ExamResultPage = () => {
         Description : {result.examAttemptDescription}
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Exam Duration: {result.duration} minutes
+        Exam attempt Duration: {result.attemptDuration} minutes
       </Typography>
 
       {result.parts.map((part, idx) =>

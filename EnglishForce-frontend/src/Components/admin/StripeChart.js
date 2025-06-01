@@ -31,9 +31,9 @@ const RevenueChart = () => {
     if (error) return null;
 
     return (
-        <Box sx={{ width: "100%", maxWidth: 1200, margin: "auto", mt: 4 }}>
-            <Typography variant="h4" align="center" gutterBottom>
-                Stripe Dashboard
+        <Box sx={{mt: 4 }}>
+            <Typography variant="h4"  gutterBottom>
+                Stripe charts
             </Typography>
             <Grid container spacing={3}>
                 {/* Biểu đồ Doanh Thu */}

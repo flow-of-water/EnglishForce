@@ -1,6 +1,7 @@
 // controllers/exam.controller.js
 import * as examService from '../../services/exam/exam.service.js';
 
+
 export const getAllExams = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;

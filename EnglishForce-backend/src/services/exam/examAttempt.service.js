@@ -2,6 +2,10 @@ import { Model } from 'sequelize';
 import db from '../../sequelize/models/index.js';
 const { Exam, Question, Answer, ExamAttempt, User } = db;
 
+export const getNumberOfExamAttempts = async () => {
+  return await db.ExamAttempt.count();
+};
+
 
 export const getPaginatedAttempts = async (page = 1) => {
     const pageSize = 6;
