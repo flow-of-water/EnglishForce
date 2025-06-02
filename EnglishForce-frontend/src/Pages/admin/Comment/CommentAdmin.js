@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../Api/axiosInstance";
 import { Container, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination } from "@mui/material";
+import CircularLoading from '../../../Components/Loading';
 
 const CommentAdmin = () => {
     const [comments, setComments] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(true);
 
     async function Fetch() {
         try {
+            setLoading(true);
             const response = await axiosInstance.get(`/comments`, {
                 params: { page } // pass the page number as a query param
             });
@@ -19,7 +22,10 @@ const CommentAdmin = () => {
             if (response.data.comments.length == 0 && page > 1) setPage(page - 1);
         } catch (error) {
             console.error("Error fetching comments:", error);
+        } finally {
+            setLoading(false);
         }
+        
     }
     useEffect(() => {
         Fetch();
@@ -34,6 +40,8 @@ const CommentAdmin = () => {
         }
     };
 
+    if (loading) return <CircularLoading />;
+
     return (
         <Container sx={{ mt: 4 }}>
             <Typography variant="h4" gutterBottom>Manage Comments</Typography>
@@ -41,6 +49,7 @@ const CommentAdmin = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <TableCell>#</TableCell>
                             <TableCell>Course</TableCell>
                             <TableCell>User Name</TableCell>
                             <TableCell>Content</TableCell>
@@ -49,8 +58,9 @@ const CommentAdmin = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {comments.map((comment) => (
+                        {comments.map((comment,index) => (
                             <TableRow key={comment.id}>
+                                <TableCell>{(page - 1) * 6 + index + 1}</TableCell>
                                 <TableCell>{comment.Course.name}</TableCell>
                                 <TableCell>{comment.User.username}</TableCell>
                                 <TableCell>{comment.content}</TableCell>

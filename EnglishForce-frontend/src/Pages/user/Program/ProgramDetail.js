@@ -88,10 +88,10 @@ const ProgramDetailPage = () => {
                   <Chip
                     label={
                       unit.progressStatus === 'completed'
-                        ? '✅ Hoàn thành'
+                        ? '✅ Completed'
                         : unit.progressStatus === 'in_progress'
-                        ? '⏳ Đang học'
-                        : '📌 Chưa học'
+                        ? '⏳ In progress'
+                        : '📌 Not started'
                     }
                     color={
                       unit.progressStatus === 'completed'

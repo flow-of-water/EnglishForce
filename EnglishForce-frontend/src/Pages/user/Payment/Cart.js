@@ -25,7 +25,7 @@ const CartPage = () => {
   useEffect(() => {
     const fetchUserCourses = async () => {
       try {
-        const res = await axiosInstance.get('/user-course/user'); 
+        const res = await axiosInstance.get('/user-course/user');
         const userCourses = res.data || [];
         console.log(userCourses)
         const ownedCourseIds = userCourses.map((c) => c.public_id);
@@ -34,9 +34,9 @@ const CartPage = () => {
         const keptThings = []
         cartItems.forEach((item) => {
           if (ownedCourseIds.includes(item.public_id)) removedThings.push(item.name);
-          else keptThings.push(item) ;
+          else keptThings.push(item);
         });
-  
+
         if (removedThings.length > 0) {
           setRemovedItems(removedThings);
           setCart(keptThings);
@@ -94,6 +94,11 @@ const CartPage = () => {
                   </Button>
                 }
               >
+                <img
+                  src={item.thumbnail? item.thumbnail : "/Errores-Web-404.jpg"}
+                  alt={item.name}
+                  style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 5 , marginRight: 16, }}
+                />
                 <ListItemText
                   primary={item.name}
                   secondary={`$${item.price ? item.price : 0}`}

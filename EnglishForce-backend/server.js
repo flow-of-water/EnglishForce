@@ -7,6 +7,7 @@ const { sequelize } = db;
 
 
 const port = process.env.PORT || 5000;
+const isDevelopment = process.env.NODE_ENV == 'development';
 
 
 // Kết nối Sequelize và khởi động server
@@ -15,7 +16,7 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log('✅ Database connected successfully.');
 
-    await sequelize.sync({ alter: true }); // hoặc { alter: true }
+    await sequelize.sync(isDevelopment ? { alter: true } : undefined); 
     console.log('📦 Models synchronized with DB');
 
     app.listen(port, () => {

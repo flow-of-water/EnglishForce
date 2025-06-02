@@ -136,7 +136,7 @@ export const addCourse = async (name, instructor, description, price, thumbnail,
     description,
     price,
     thumbnail,
-    thumbnail_public_id
+    thumbnail_public_id: thumbnail_public_id || null
   });
   return course.get({ plain: true });
 };

@@ -10,7 +10,8 @@ import {
   Chip,
   CircularProgress,
   Stack,
-  Pagination
+  Pagination,
+  CardMedia,
 } from '@mui/material';
 
 const ProgramPage = () => {
@@ -42,7 +43,7 @@ const ProgramPage = () => {
         return <Chip label="⏳ In progress" color="warning" size="small" />;
       default:
         return null;
-        // return <Chip label="📌 Not started" variant="outlined" size="small" />;
+      // return <Chip label="📌 Not started" variant="outlined" size="small" />;
     }
   };
 
@@ -56,7 +57,7 @@ const ProgramPage = () => {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" textAlign="center" gutterBottom>
         Learning Programs
       </Typography>
 
@@ -68,6 +69,14 @@ const ProgramPage = () => {
               to={`/programs/${program.public_id}`}
               sx={{ textDecoration: 'none' }}
             >
+              {program.thumbnail && (
+                <CardMedia
+                  component="img"
+                  height="160"
+                  image={program.thumbnail}
+                  alt={program.name}
+                />
+              )}
               <CardContent>
                 <Typography variant="h6" gutterBottom>
                   {program.name}
@@ -77,7 +86,7 @@ const ProgramPage = () => {
                 </Typography>
                 {getChip(program.progressStatus)}
                 <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-                  {program.learnedLessons}/{program.totalLessons} {program.totalLessons>1?"lessons":"lesson"}
+                  {program.learnedLessons}/{program.totalLessons} {program.totalLessons > 1 ? "lessons" : "lesson"}
                 </Typography>
               </CardContent>
             </Card>

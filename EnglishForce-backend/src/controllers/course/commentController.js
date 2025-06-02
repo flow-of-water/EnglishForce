@@ -13,7 +13,7 @@ export const getAllCommentsController = async (req, res) => {
 
 export const getPaginatedCommentsController = async (req, res) => {
     const page = parseInt(req.query.page) || 1; 
-    const limit = 10; 
+    const limit = 6; 
     const offset = (page - 1) * limit; 
 
     try {

@@ -17,11 +17,13 @@ import {
 import { Edit, Delete, Add } from '@mui/icons-material';
 import axiosInstance from '../../../Api/axiosInstance';
 import { Link } from "react-router-dom";
+import CircularLoading from '../../../Components/Loading';
 
 const ExamAdmin = () => {
   const [exams, setExams] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchExams(page);
@@ -29,12 +31,16 @@ const ExamAdmin = () => {
 
   const fetchExams = async (page) => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get(`/exams?page=${page}`);
       setExams(res.data.exams);
       setTotalPages(res.data.totalPages);
     } catch (error) {
       console.error('Failed to fetch exams:', error);
+    } finally {
+      setLoading(false);
     }
+
   };
 
   const handleDelete = async (publicId) => {
@@ -45,6 +51,9 @@ const ExamAdmin = () => {
       console.error('Failed to delete exam:', error);
     }
   };
+
+
+  if (loading) return <CircularLoading />;
 
   return (
     <Container sx={{ mt: 4 }}>
@@ -59,6 +68,7 @@ const ExamAdmin = () => {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>#</TableCell>
               <TableCell>Exam Name</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Duration (min)</TableCell>
@@ -66,8 +76,9 @@ const ExamAdmin = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {exams.map((exam) => (
+            {exams.map((exam, index) => (
               <TableRow key={exam.public_id}>
+                <TableCell>{(page - 1) * 6 + index + 1}</TableCell>
                 <TableCell>{exam.name}</TableCell>
                 <TableCell>{exam.description}</TableCell>
                 <TableCell>{exam.duration}</TableCell>

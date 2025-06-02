@@ -1,5 +1,6 @@
 import db from "../../sequelize/models/index.js";
 const { Program, Unit, Lesson, UserProgress } = db;
+import { deleteCloudinaryFile } from "../../config/cloudinary.config.js";
 
 import { Sequelize } from 'sequelize';
 
@@ -159,4 +160,40 @@ export const createProgramService = async ({ name, description, order_index, thu
     order_index,
     thumbnail,
   });
+};
+
+
+export const updateProgramByPublicId = async (public_id, { name, description, order_index, thumbnail, isUpload }) => {
+  const program = await Program.findOne({ where: { public_id } });
+  if (!program) return null;
+
+  // Nếu là file mới upload → xoá ảnh cũ
+  if (isUpload && program.thumbnail_public_id) {
+    try {
+      await deleteCloudinaryFile(program.thumbnail_public_id, 'image');
+    } catch (err) {
+      console.warn('⚠️ Failed to delete old thumbnail:', err.message);
+    }
+  }
+
+  // Cập nhật dữ liệu
+  program.name = name ?? program.name;
+  program.description = description ?? program.description;
+  program.order_index = order_index ?? program.order_index;
+
+  if (thumbnail) {
+    program.thumbnail = thumbnail;
+
+    // Nếu là upload, trích public_id từ Cloudinary URL
+    if (isUpload && thumbnail.includes('/')) {
+      const parts = thumbnail.split('/');
+      const filename = parts.at(-1).split('.')[0];
+      program.thumbnail_public_id = `uploads/${filename}`;
+    } else {
+      program.thumbnail_public_id = null;
+    }
+  }
+
+  await program.save();
+  return program;
 };

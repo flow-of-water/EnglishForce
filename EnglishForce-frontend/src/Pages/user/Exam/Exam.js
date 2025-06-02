@@ -33,7 +33,7 @@ const ExamPage = () => {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" gutterBottom>Available Exams</Typography>
+      <Typography variant="h4" textAlign="center" gutterBottom>Available Exams</Typography>
       <List>
         {exams.map((exam) => (
           <ListItem key={exam.public_id} button component={Link} to={`/exams/${exam.public_id}`}>

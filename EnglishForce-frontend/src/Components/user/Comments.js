@@ -150,7 +150,7 @@ const Comments = ({ coursePublicId }) => {
                         {!comment.parent_comment_id && (
                           <IconButton
                             size="small"
-                            onClick={() => setReplyingCommentId(replyingCommentId?null:comment.id)}
+                            onClick={() => setReplyingCommentId(replyingCommentId ? null : comment.id)}
                           >
                             <Reply fontSize="small" />
                           </IconButton>
@@ -192,10 +192,22 @@ const Comments = ({ coursePublicId }) => {
               <Button
                 size="small"
                 variant="contained"
-                sx={{ mt: 1 }}
+                sx={{ mt: 1, mr: 1  }}
                 onClick={() => handleReplySubmit(comment.id)}
               >
                 Send Reply
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                sx={{ mt: 1 }}
+                startIcon={<Close />}
+                onClick={() => {
+                  setReplyingCommentId(null);
+                  setReplyContent('');
+                }}
+              >
+                Cancel
               </Button>
             </Box>
           )}

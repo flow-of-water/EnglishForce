@@ -48,6 +48,11 @@ const CheckoutPage = () => {
                 {cartItems.map((item, index) => (
                   <React.Fragment key={index}>
                     <ListItem>
+                      <img
+                        src={item.thumbnail ? item.thumbnail : "/Errores-Web-404.jpg"}
+                        alt={item.name}
+                        style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 5, marginRight: 16, }}
+                      />
                       <ListItemText
                         primary={item.name}
                         secondary={`Price: $${item.price || 0}`}

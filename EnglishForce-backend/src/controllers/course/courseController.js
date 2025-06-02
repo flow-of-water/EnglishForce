@@ -104,15 +104,26 @@ export const updateCourseController = async (req, res) => {
 
 // Thêm khóa học mới
 export const addCourseController = async (req, res) => {
-  const { name, instructor, description, price } = req.body;
-  const thumbnail = req.file ? req.file.path : null;
-  const thumbnailPublicId = req.file ? req.file.filename : null;
+  const { name, instructor, description, price, thumbnail: thumbnailFromBody } = req.body;
+
+  // Nếu người dùng upload file → dùng file Cloudinary
+  let thumbnail = null;
+  let thumbnailPublicId = null;
+
+  if (req.file) {
+    thumbnail = req.file.path;
+    thumbnailPublicId = req.file.filename || req.file.public_id; // fallback
+  } else if (thumbnailFromBody) {
+    // Nếu dùng link ảnh → chỉ gán link
+    thumbnail = thumbnailFromBody;
+    thumbnailPublicId = null;
+  }
 
   try {
     const newCourse = await courseService.addCourse(name, instructor, description, price, thumbnail, thumbnailPublicId);
-    res.status(201).json(newCourse);  // Trả về khóa học mới vừa được thêm
+    res.status(201).json(newCourse);
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error in addCourseController:", err);
     res.status(500).json({ message: "Error adding new course" });
   }
 };

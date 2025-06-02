@@ -4,7 +4,7 @@
 module.exports = {
   name: "Section 1: English Starter Program",
   description: "A beginner-level English program.",
-  thumbnail: "https://example.com/thumb.jpg",
+  thumbnail: "https://i.pinimg.com/736x/70/31/6a/70316a383a05be14829e51bb0b214aa7.jpg",
   order_index: 0,
   units: [
     {
@@ -331,6 +331,31 @@ module.exports = {
 
           ],
         },
+      ]
+    },
+    {
+      name: "Unit 2: Gọi 911",
+      description: "Trong bài học này, bạn sẽ học cách gọi đồ uống bằng tiếng Anh.",
+      order_index: 1,
+      lessons: [
+        {
+                    name: "Lesson 1",
+          order_index: 0,
+          exercises: [
+            {
+              question: "Xin chào",
+              type: "single_choice",
+              order_index: 0,
+              answers: [
+                { content: "Coffee", is_correct: false },
+                { content: "Tea", is_correct: false },
+                { content: "Hello", is_correct: true },
+                { content: "Water", is_correct: false }
+              ],
+              explanation: "'Xin chào' trong tiếng Anh là 'Hello'."
+            },
+          ]
+        }
       ]
     }
   ]

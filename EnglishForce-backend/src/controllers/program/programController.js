@@ -91,3 +91,36 @@ export const createProgram = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
+
+export const updateProgram = async (req, res) => {
+  try {
+    const { public_id } = req.params;
+    const { name, description, order_index } = req.body;
+
+    const isUpload = !!req.file;
+    const thumbnail = isUpload ? req.file?.path : req.body.thumbnail || null;
+
+    const updatedProgram = await programService.updateProgramByPublicId(public_id, {
+      name,
+      description,
+      order_index: parseInt(order_index) || 0,
+      thumbnail,
+      isUpload,
+    });
+
+    if (!updatedProgram) {
+      return res.status(404).json({ message: 'Program not found' });
+    }
+
+    res.status(200).json({
+      message: '✅ Program updated successfully',
+      program: updatedProgram
+    });
+  } catch (error) {
+    console.error('❌ Failed to update program:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+

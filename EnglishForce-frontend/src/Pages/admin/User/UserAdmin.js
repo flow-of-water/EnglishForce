@@ -43,16 +43,16 @@ const UserTable = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
+                            <TableCell>#</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Role</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map((user) => (
+                        {users.map((user,index) => (
                             <TableRow key={user.id}>
-                                <TableCell>{user.id}</TableCell>
+                                <TableCell>{index + 1}</TableCell> 
                                 <TableCell>{user.username}</TableCell>
                                 <TableCell>{user.role}</TableCell>
                                 <TableCell>
