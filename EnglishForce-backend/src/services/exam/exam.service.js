@@ -19,7 +19,7 @@ export const getAllExams = async (page = 1) => {
   const offset = (page - 1) * pageSize;
 
   const { count, rows } = await Exam.findAndCountAll({
-    attributes: ['public_id', 'name', 'description', 'duration'],
+    attributes: ['public_id', 'name', 'description', 'duration', 'type'],
     limit: pageSize,
     offset: offset,
     order: [['id', 'DESC']]
@@ -46,7 +46,7 @@ function buildNestedParts(part, partMap) {
 export const getExamWithFullHierarchy = async (publicId, onlyCorrectAnswers = false) => {
   const exam = await db.Exam.findOne({
     where: { public_id: publicId },
-    attributes: ['id', 'public_id', 'name', 'description', 'duration'],
+    attributes: ['id', 'public_id', 'name', 'description', 'duration', 'type'],
   });
 
   if (!exam) throw new Error('Exam not found');

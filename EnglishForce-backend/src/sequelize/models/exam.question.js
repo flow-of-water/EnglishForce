@@ -28,7 +28,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.TEXT // link file audio (nếu có)
     },
     type: {
-      type: DataTypes.ENUM('single_choice', 'multiple_choice'),
+      type: DataTypes.ENUM('single_choice', 'multiple_choice' , 'listening' , 'reading'),
       defaultValue: 'single_choice',
     },
     order_index: {

@@ -20,8 +20,21 @@ const CreateCourseAdmin = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
 
+
+  const checkPrice = (price) => {
+    const numericPrice = parseFloat(price);
+    return numericPrice === 0 || numericPrice >= 1;
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!checkPrice(price)) {
+      setSnackbarMessage("Price must be 0 (free) or greater than or equal to 1$.");
+      setOpenSnackbar(true);
+      return;
+    }
     const formData = new FormData();
     formData.append("name", name);
     formData.append("instructor", instructor);

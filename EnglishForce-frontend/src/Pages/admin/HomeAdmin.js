@@ -14,13 +14,17 @@ const AdminHome = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await axiosInstance.get("/user-course/statistics");
-      setTotalUsers(response.data.totalUsers)
-      setTotalCourses(response.data.totalCourses)
-      setTotalEnrollments(response.data.totalEnrollments)
-      setTotalPrograms(response.data.totalPrograms);
-      setTotalExams(response.data.totalExams);
-      setTotalExamAttempts(response.data.totalExamAttempts);
+      try {
+        const response = await axiosInstance.get("/user-course/statistics");
+        setTotalUsers(response.data.totalUsers)
+        setTotalCourses(response.data.totalCourses)
+        setTotalEnrollments(response.data.totalEnrollments)
+        setTotalPrograms(response.data.totalPrograms);
+        setTotalExams(response.data.totalExams);
+        setTotalExamAttempts(response.data.totalExamAttempts);
+      } catch (error) {
+        console.error("Error when fetch statistics:", error);
+      }
     }
     fetch();
   }, [])
@@ -59,38 +63,38 @@ const AdminHome = () => {
             </CardContent>
           </Card>
         </Grid>
-      
 
-      {/* Card 4 - Số chương trình học */}
-      <Grid item xs={12} md={4}>
-        <Card className="shadow-sm">
-          <CardContent>
-            <Typography variant="h6">Total Programs</Typography>
-            <Typography variant="h4">{totalPrograms}</Typography>
-          </CardContent>
-        </Card>
-      </Grid>
 
-      {/* Card 5 - Số đề thi */}
-      <Grid item xs={12} md={4}>
-        <Card className="shadow-sm">
-          <CardContent>
-            <Typography variant="h6">Total Exams</Typography>
-            <Typography variant="h4">{totalExams}</Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+        {/* Card 4 - Số chương trình học */}
+        <Grid item xs={12} md={4}>
+          <Card className="shadow-sm">
+            <CardContent>
+              <Typography variant="h6">Total Programs</Typography>
+              <Typography variant="h4">{totalPrograms}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
 
-      {/* Card 6 - Số lượt làm bài thi */}
-      <Grid item xs={12} md={4}>
-        <Card className="shadow-sm">
-          <CardContent>
-            <Typography variant="h6">Total Exam Attempts</Typography>
-            <Typography variant="h4">{totalExamAttempts}</Typography>
-          </CardContent>
-        </Card>
+        {/* Card 5 - Số đề thi */}
+        <Grid item xs={12} md={4}>
+          <Card className="shadow-sm">
+            <CardContent>
+              <Typography variant="h6">Total Exams</Typography>
+              <Typography variant="h4">{totalExams}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Card 6 - Số lượt làm bài thi */}
+        <Grid item xs={12} md={4}>
+          <Card className="shadow-sm">
+            <CardContent>
+              <Typography variant="h6">Total Exam Attempts</Typography>
+              <Typography variant="h4">{totalExamAttempts}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-</Grid>
       <StripeChart />
     </div>
   );

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Container, Typography, Card, CardContent,
   Accordion, AccordionSummary, AccordionDetails,
-  Box, CircularProgress, Button, Divider
+  Box, CircularProgress, Button, Divider, Chip,
 } from '@mui/material';
 import CircularLoading from '../../../Components/Loading';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -110,14 +110,25 @@ const DetailExamAdmin = () => {
       <Card variant="outlined" sx={{ mb: 4 }}>
         <CardContent>
           <Typography variant="h6">{exam.name}</Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-            {exam.description}
-          </Typography>
-          <Typography variant="body2" sx={{ mt: 2 }}>
+
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
             Duration: {exam.duration} minutes
           </Typography>
+
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            {exam.description}
+          </Typography>
+
+          <Box mt={2}>
+            <Chip
+              label={exam.type === 'toeic' ? 'TOEIC' : 'General'}
+              color={exam.type === 'toeic' ? 'primary' : 'default'}
+              variant="outlined"
+            />
+          </Box>
         </CardContent>
       </Card>
+
 
       <Typography variant="h5" gutterBottom>Exam Parts</Typography>
 

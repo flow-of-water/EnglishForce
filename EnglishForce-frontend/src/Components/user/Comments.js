@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Delete, Edit, Save, Close, Reply } from '@mui/icons-material';
 import axiosInstance from '../../Api/axiosInstance';
+import CircularLoading from '../Loading';
 
 const Comments = ({ coursePublicId }) => {
   const [comments, setComments] = useState([]);
@@ -21,13 +22,17 @@ const Comments = ({ coursePublicId }) => {
   const [editingContent, setEditingContent] = useState('');
   const [replyingCommentId, setReplyingCommentId] = useState(null);
   const [replyContent, setReplyContent] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const fetchComments = async () => {
     try {
+      setLoading(true);
       const response = await axiosInstance.get(`/comments/${coursePublicId}`);
       setComments(response.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,6 +105,8 @@ const Comments = ({ coursePublicId }) => {
       console.error('Error updating comment:', err);
     }
   };
+
+  if (loading) return <CircularLoading />;
 
   const renderComments = (parentId = null, level = 0) => {
     return comments
@@ -192,7 +199,7 @@ const Comments = ({ coursePublicId }) => {
               <Button
                 size="small"
                 variant="contained"
-                sx={{ mt: 1, mr: 1  }}
+                sx={{ mt: 1, mr: 1 }}
                 onClick={() => handleReplySubmit(comment.id)}
               >
                 Send Reply

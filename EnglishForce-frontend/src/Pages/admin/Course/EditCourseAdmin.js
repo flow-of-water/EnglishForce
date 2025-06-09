@@ -7,29 +7,40 @@ import {
   Button,
   Paper,
   CircularProgress,
+  InputAdornment,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Box,
   Input,
+  Snackbar, Alert,
 } from "@mui/material";
-import axiosInstance from "../../../Api/axiosInstance"; // Đảm bảo đường dẫn đúng với cấu trúc dự án
+import axiosInstance from "../../../Api/axiosInstance";
 
 const EditCourse = () => {
-  const { publicId } = useParams(); // Lấy publicId khóa học từ URL
+  const { publicId } = useParams();
   const navigate = useNavigate();
 
-  // State lưu thông tin khóa học (không bao gồm thumbnail file)
   const [courseData, setCourseData] = useState({
     name: "",
     instructor: "",
     description: "",
     price: null,
+    thumbnail: ""
   });
-  // State lưu file upload mới (nếu có)
+
   const [thumbnailFile, setThumbnailFile] = useState(null);
-  // State lưu ảnh preview dưới dạng chuỗi Base64 (để hiển thị)
+  const [thumbnailMode, setThumbnailMode] = useState("link");
   const [imagePreview, setImagePreview] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Khi component mount, fetch thông tin khóa học từ API
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -40,10 +51,10 @@ const EditCourse = () => {
           instructor: data.instructor || "",
           description: data.description || "",
           price: data.price || 0,
+          thumbnail: data.thumbnail || ""
         });
-        if (data.thumbnail) {
-          setImagePreview(data.thumbnail);
-        }
+        if (data.thumbnail) setImagePreview(data.thumbnail);
+        setThumbnailMode(data.thumbnail ? "link" : "upload");
       } catch (err) {
         console.error("Error fetching course:", err);
         setError("Error fetching course details.");
@@ -54,7 +65,6 @@ const EditCourse = () => {
     fetchCourse();
   }, [publicId]);
 
-  // Xử lý thay đổi các trường input text
   const handleChange = (e) => {
     setCourseData({
       ...courseData,
@@ -62,41 +72,61 @@ const EditCourse = () => {
     });
   };
 
-  // Xử lý upload file ảnh mới và cập nhật preview
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      try {
-        setThumbnailFile(file)
-      } catch (error) {
-        console.error("Error with image:", error);
-      }
+      setThumbnailFile(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  // Gửi dữ liệu cập nhật lên backend qua API PUT
+  const checkPrice = (price) => {
+    const numericPrice = parseFloat(price);
+    return numericPrice === 0 || numericPrice >= 1;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!checkPrice(courseData.price)) {
+      setError("Price must be 0 (free) or greater than or equal to 1$.");
+      setSnackbarMessage("Invalid price value.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("name", courseData.name);
       formData.append("instructor", courseData.instructor);
       formData.append("description", courseData.description);
       formData.append("price", courseData.price);
-      if (thumbnailFile) {
+
+      if (thumbnailMode === "link" && courseData.thumbnail) {
+        formData.append("thumbnail", courseData.thumbnail);
+      }
+
+      if (thumbnailMode === "upload" && thumbnailFile) {
         formData.append("thumbnail", thumbnailFile);
       }
+
       await axiosInstance.put(`/courses/${publicId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      navigate(`/admin/courses/${publicId}`);
+
+      setSnackbarMessage("Course updated successfully!");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+      setTimeout(() => navigate(`/admin/courses/${publicId}`), 2000);
     } catch (err) {
       console.error("Error updating course:", err);
-      setError("Error updating course.");
+      setSnackbarMessage("Error updating course.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
+
 
   if (loading) {
     return (
@@ -107,15 +137,10 @@ const EditCourse = () => {
   }
 
   return (
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Edit Course
-      </Typography>
-      {error && (
-        <Typography variant="body1" color="error">
-          {error}
-        </Typography>
-      )}
+    <Container sx={{ mt: 4 }} maxWidth="sm">
+      <Typography variant="h4" gutterBottom>Edit Course</Typography>
+      {error && <Typography color="error">{error}</Typography>}
+
       <Paper sx={{ p: 3 }}>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -157,26 +182,100 @@ const EditCourse = () => {
             value={courseData.price}
             onChange={handleChange}
             required
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
           />
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            Thumbnail:
-          </Typography>
-          {imagePreview ? (
-            <img
-              src={imagePreview}
-              alt="Course Thumbnail"
-              style={{ maxWidth: "200px", marginBottom: "10px" }}
+
+          <FormControl component="fieldset" sx={{ mt: 2 }}>
+            <FormLabel component="legend">Thumbnail Mode</FormLabel>
+            <RadioGroup
+              row
+              value={thumbnailMode}
+              onChange={(e) => {
+                setThumbnailMode(e.target.value);
+                if (e.target.value === "link") {
+                  setThumbnailFile(null);
+                  setImagePreview(courseData.thumbnail);
+                } else {
+                  setCourseData({ ...courseData, thumbnail: "" });
+                  setImagePreview("");
+                }
+              }}
+            >
+              <FormControlLabel value="link" control={<Radio />} label="Link" />
+              <FormControlLabel value="upload" control={<Radio />} label="Upload" />
+            </RadioGroup>
+          </FormControl>
+
+          {thumbnailMode === "link" ? (
+            <TextField
+              fullWidth
+              label="Thumbnail URL"
+              name="thumbnail"
+              value={courseData.thumbnail}
+              onChange={handleChange}
+              sx={{ mt: 2 }}
             />
           ) : (
-            <Typography variant="body2">No thumbnail available</Typography>
+            <Box sx={{ mt: 2 }}>
+              {thumbnailFile && (
+                <>
+                  <Typography fontStyle="italic" color="text.secondary">
+                    New Thumbnail: {thumbnailFile.name}
+                  </Typography>
+                  <img
+                    src={imagePreview}
+                    alt="preview"
+                    width="100%"
+                    style={{ marginTop: 8, borderRadius: 4 }}
+                  />
+                </>
+              )}
+              {!thumbnailFile && imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Current thumbnail"
+                  width="100%"
+                  style={{ marginTop: 8, borderRadius: 4 }}
+                />
+              )}
+              <Button variant="outlined" component="label" fullWidth sx={{ mt: 1 }}>
+                Upload Thumbnail
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </Button>
+            </Box>
+
           )}
-          <br />
-          <Input type="file" accept="image/*" onChange={handleFileChange} sx={{ mt: 2 }} />
-          <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
-            Save Changes
+
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }} disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : "Save Changes"}
           </Button>
+
         </form>
       </Paper>
+
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
     </Container>
   );
 };

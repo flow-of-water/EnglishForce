@@ -20,7 +20,8 @@ export default (sequelize, DataTypes) => {
       allowNull: false
     },
     email: DataTypes.TEXT,
-    role: DataTypes.TEXT
+    role: DataTypes.TEXT,
+    stripe_customer_id : DataTypes.TEXT ,
   }, {
     tableName: 'users',
     timestamps: false

@@ -87,9 +87,9 @@ const ExamResultPage = () => {
       <Typography variant="h4" gutterBottom>
         Your Score: {Number(result.score)}%
       </Typography>
-      <Typography variant="h4" gutterBottom>
+      {result?.examAttemptDescription && <Typography variant="h4" gutterBottom>
         Description : {result.examAttemptDescription}
-      </Typography>
+      </Typography>}
       <Typography variant="subtitle1" gutterBottom>
         Exam attempt Duration: {result.attemptDuration} minutes
       </Typography>

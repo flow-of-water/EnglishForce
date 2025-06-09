@@ -11,9 +11,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  CircularProgress,
 } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
+import CircularLoading from '../../../Components/Loading';
 
 const DetailCourseAdmin = () => {
   const { publicId } = useParams();
@@ -53,13 +53,7 @@ const DetailCourseAdmin = () => {
     }
   };
   
-  if (loading) {
-    return (
-      <Container sx={{ textAlign: "center", mt: 4 }}>
-        <CircularProgress />
-      </Container>
-    );
-  }
+  if (loading) return <CircularLoading />;
 
   if (error) {
     return (

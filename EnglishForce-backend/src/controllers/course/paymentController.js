@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
-import * as userCourseService from "../../services/userCourse.service.js"
-import * as courseService from "../../services/course.service.js"
+import * as userCourseService from "../../services/userCourse.service.js";
+import * as courseService from "../../services/course.service.js";
+import * as userService from '../../services/user.service.js';
 import moment from "moment";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -37,11 +38,27 @@ export const createPaymentIntent = async (req, res) => {
       }
     }
 
+    const user = await userService.getUserById(userId);
+    let stripeCustomerId = user.stripe_customer_id;
+    // Nếu chưa có thì tạo mới customer trên Stripe và lưu lại
+    if (!stripeCustomerId) {
+      const customer = await stripe.customers.create({
+        email: user.email,
+        name: user.username || `User_${userId}`,
+        metadata: { userId: String(userId) },
+      });
+      stripeCustomerId = customer.id;
+
+      // Cập nhật vào DB
+      await userService.updateUser(userId, { stripe_customer_id: stripeCustomerId });
+    }
+
     // Tạo PaymentIntent cho đơn hàng có giá trị
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: 'usd',
       payment_method_types: ['card'],
+      customer: stripeCustomerId,
       metadata: { userId: String(userId), courseIds: courseIds.join(',') }, // Lưu thông tin bổ sung
     });
 

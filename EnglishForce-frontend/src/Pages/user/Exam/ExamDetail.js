@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Chip } from '@mui/material';
 import CircularLoading from '../../../Components/Loading';
 
 const ExamDetailPage = () => {
@@ -24,13 +24,19 @@ const ExamDetailPage = () => {
     FetchExamAndAttempts();
   }, [publicId]);
 
-  if (!exam) return <CircularLoading/>;
+  if (!exam) return <CircularLoading />;
   return (
     <Box p={4}>
       <Typography variant="h3">{exam.name}</Typography>
       <Typography variant="subtitle1">Duration: {exam.duration} minutes</Typography>
       <Typography paragraph>{exam.description}</Typography>
-
+      <Box mb={2}>
+        <Chip
+          label={exam.type === 'toeic' ? 'TOEIC' : 'General'}
+          color={exam.type === 'toeic' ? 'primary' : 'default'}
+          variant="outlined"
+        />
+      </Box>
       <Button variant="contained" component={Link} to={`/exams/${publicId}/start`}>
         Start Exam
       </Button>

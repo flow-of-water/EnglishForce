@@ -3,21 +3,26 @@ import { Container, Typography, Button, Table, TableBody, TableCell, TableContai
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosInstance"
 import { Add } from '@mui/icons-material';
+import CircularLoading from '../../../Components/Loading';
 
 const CourseAdmin = () => {
   const [courses, setCourses] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
     async function fetchCourses() {
       try {
+        setLoading(true);
         const response = await axiosInstance.get(`/courses/?page=${page}`);
         setCourses(response.data.courses); // Gán trực tiếp dữ liệu trả về từ API
         setPageCount(response.data.totalPages)
       } catch (error) {
         console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -36,10 +41,12 @@ const CourseAdmin = () => {
     }
   };
 
+  if (loading) return <CircularLoading />;
+  
   return (
     <Container sx={{ mt: 4 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-      <Typography variant="h4" gutterBottom>Manage Courses</Typography>
+        <Typography variant="h4" gutterBottom>Manage Courses</Typography>
         <Button variant="contained" startIcon={<Add />} href="/admin/courses/create">
           Create Course
         </Button>
@@ -49,7 +56,7 @@ const CourseAdmin = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
+              <TableCell>#</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Instructor</TableCell>
               <TableCell>Description</TableCell>
@@ -57,9 +64,9 @@ const CourseAdmin = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {courses.map((course) => (
+            {courses.map((course, index) => (
               <TableRow key={course.public_id}>
-                <TableCell>{course.public_id}</TableCell>
+                <TableCell>{(page - 1) * 6 + index + 1}</TableCell>
                 <TableCell>{course.name}</TableCell>
                 <TableCell>{course.instructor}</TableCell>
                 <TableCell>{course.description}</TableCell>
