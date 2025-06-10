@@ -106,6 +106,15 @@ export const updateUserRole = async (id, role) => {
   return updatedUser || null;
 };
 
+// Update User
+export const updateUser = async (userId, updateData) => {
+  const user = await User.findByPk(userId);
+  if (!user) throw new Error('User not found');
+  await user.update(updateData);
+  return user;
+};
+
+
 // OAuth serve
 export async function findOrCreateUser(profile) {
   const email = profile.email; // Set username = email if login with Google, facebook

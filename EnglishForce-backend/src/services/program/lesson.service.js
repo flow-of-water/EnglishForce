@@ -26,16 +26,22 @@ export const getLessonByPublicId = async (publicId) => {
     });
   };
   
-
 export const createLesson = async (data) => {
-  return await Lesson.create({
+  const unit = await db.Unit.findOne({ where: { public_id: data.unit_public_id } });
+  if (!unit) {
+    throw new Error('Unit not found with that public_id');
+  }
+
+  const newLesson = await db.Lesson.create({
     name: data.name,
     description: data.description,
     order_index: data.order_index || 0,
-    unit_id: data.unit_id,
-    type: data.type || 'vocabulary',
+    unit_id: unit.id,
   });
+
+  return newLesson;
 };
+
 
 export const updateLesson = async (publicId, data) => {
   const lesson = await Lesson.findOne({ where: { public_id: publicId } });

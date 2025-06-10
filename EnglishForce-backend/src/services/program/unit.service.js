@@ -49,3 +49,27 @@ export const updateUnit = async (publicId, data) => {
   return unit;
 };
 
+
+export const createUnit = async ({ program_public_id, name, description, order_index }) => {
+  const program = await db.Program.findOne({ where: { public_id: program_public_id } });
+  if (!program) {
+    throw new Error('Program not found with that public_id');
+  }
+
+  const newUnit = await db.Unit.create({
+    program_id: program.id,
+    name,
+    description,
+    order_index,
+  });
+
+  return newUnit;
+};
+
+
+export const deleteUnit = async (publicUnitId) => {
+  const unit = await db.Unit.findOne({ where: { public_id: publicUnitId } });
+  if (!unit) throw new Error('Unit not found');
+
+  await unit.destroy(); // Sequelize sẽ xóa cascade Lesson và Exercise nếu đã khai báo onDelete
+};

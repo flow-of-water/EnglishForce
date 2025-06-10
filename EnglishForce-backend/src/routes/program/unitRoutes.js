@@ -16,4 +16,9 @@ router.get('/program/:programPublicId', unitController.getUnitsByProgramPublicId
 
 router.put('/:publicUnitId', authMiddleware, adminMiddleware, unitController.updateUnit);
 
+router.post('/', authMiddleware, adminMiddleware, unitController.createUnit);
+
+router.delete('/:publicUnitId', authMiddleware, adminMiddleware, unitController.deleteUnit);
+
+
 export default router;

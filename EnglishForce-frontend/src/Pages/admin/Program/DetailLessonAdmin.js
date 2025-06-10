@@ -13,11 +13,11 @@ import {
   Select,
   InputLabel,
   FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  FormLabel,
+  IconButton,
+  Snackbar,
+  Alert,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axiosInstance from '../../../Api/axiosInstance';
 
 const DetailLessonAdmin = () => {
@@ -30,45 +30,42 @@ const DetailLessonAdmin = () => {
     name: '',
     description: '',
     type: '',
+    order_index: 0,
   });
   const [creating, setCreating] = useState(false);
 
-  useEffect(() => {
-    const fetchLessonDetail = async () => {
-      try {
-        const res = await axiosInstance.get(`/lessons/${lessonPublicId}`);
-        setLesson(res.data);
-      } catch (err) {
-        console.error('Failed to fetch lesson detail:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
 
+  const fetchLessonDetail = async () => {
+    try {
+      const res = await axiosInstance.get(`/lessons/${lessonPublicId}`);
+      setLesson(res.data);
+    } catch (err) {
+      console.error('Failed to fetch lesson detail:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchLessonDetail();
   }, [lessonPublicId]);
 
-  const handleCreateSection = async () => {
-    if (!newSection.name.trim() || !newSection.type.trim()) {
-      alert('Please fill in name and type');
-      return;
-    }
+  const handleDeleteExercise = async (exercisePublicId, e) => {
+    e.stopPropagation();
+    if (!window.confirm("Are you sure you want to delete this exercise?")) return;
 
     try {
-      setCreating(true);
-      const res = await axiosInstance.post('/exercises', {
-        lesson_public_id: lessonPublicId,
-        ...newSection,
-      });
-
-      alert('Exercise section created!');
-      setNewSection({ name: '', description: '', type: '' });
-      // Reload or update state manually if needed
+      await axiosInstance.delete(`/exercises/${exercisePublicId}`);
+      setSnackbar({ open: true, message: "Exercise deleted successfully", severity: "success" });
+      fetchLessonDetail(); // Refresh list
     } catch (err) {
-      console.error('Failed to create section:', err);
-      alert('Error creating section');
-    } finally {
-      setCreating(false);
+      console.error("❌ Failed to delete exercise:", err);
+      setSnackbar({ open: true, message: "Delete failed", severity: "error" });
     }
   };
 
@@ -111,7 +108,7 @@ const DetailLessonAdmin = () => {
       </Typography>
 
       {/* ADD EXERCISE SECTION FORM */}
-      <Box sx={{ mb: 4, p: 2, border: '1px dashed gray', borderRadius: 2 }}>
+      <Box sx={{ mb: 4, p: 2, border: '1px solid gray', borderRadius: 2 }}>
         <Typography variant="h6" gutterBottom>
           Add Exercise
         </Typography>
@@ -122,7 +119,7 @@ const DetailLessonAdmin = () => {
           onChange={(e) => setNewSection({ ...newSection, question: e.target.value })}
           fullWidth
           multiline
-          rows={3}
+          rows={2}
           sx={{ mb: 2 }}
         />
 
@@ -139,72 +136,26 @@ const DetailLessonAdmin = () => {
           </Select>
         </FormControl>
 
-        {/* Thumbnail */}
-        <FormControl component="fieldset" margin="normal">
-          <FormLabel component="legend">Thumbnail Mode</FormLabel>
-          <RadioGroup
-            row
-            value={newSection.thumbnailMode || "link"}
-            onChange={(e) => setNewSection({ ...newSection, thumbnailMode: e.target.value })}
-          >
-            <FormControlLabel value="link" control={<Radio />} label="Link" />
-            <FormControlLabel value="upload" control={<Radio />} label="Upload" />
-          </RadioGroup>
-        </FormControl>
+        <TextField
+          label="Order Index"
+          type="number"
+          value={newSection.order_index}
+          onChange={(e) =>
+            setNewSection({ ...newSection, order_index: parseInt(e.target.value, 10) })
+          }
+          fullWidth
+          sx={{ mb: 2 }}
+        />
 
-        {newSection.thumbnailMode === "upload" ? (
-          <Box sx={{ mb: 2 }}>
-            <Button variant="outlined" component="label" fullWidth>
-              Upload Thumbnail
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={(e) => setNewSection({ ...newSection, selectedThumbnail: e.target.files[0] })}
-              />
-            </Button>
-          </Box>
-        ) : (
-          <TextField
-            fullWidth
-            label="Thumbnail URL"
-            value={newSection.thumbnailUrl || ""}
-            onChange={(e) => setNewSection({ ...newSection, thumbnailUrl: e.target.value })}
-            sx={{ mb: 2 }}
-          />
-        )}
-
-        {/* Record upload */}
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="subtitle2" gutterBottom>
-            Upload Record (optional)
-          </Typography>
-
-          {newSection.selectedRecord ? (
-            <Box sx={{ mb: 1 }}>
-              <Typography fontStyle="italic" color="text.secondary">
-                Selected File: {newSection.selectedRecord.name}
-              </Typography>
-              <audio
-                controls
-                src={URL.createObjectURL(newSection.selectedRecord)}
-                style={{ width: "100%", marginTop: 8 }}
-              />
-            </Box>
-          ) : null}
-
-          <Button variant="outlined" component="label" fullWidth>
-            {newSection.selectedRecord ? "Change Audio" : "Upload Audio"}
-            <input
-              type="file"
-              hidden
-              accept="audio/*"
-              onChange={(e) =>
-                setNewSection({ ...newSection, selectedRecord: e.target.files[0] })
-              }
-            />
-          </Button>
-        </Box>
+        <TextField
+          label="Record Text"
+          value={newSection.record || ""}
+          onChange={(e) => setNewSection({ ...newSection, record: e.target.value })}
+          fullWidth
+          multiline
+          rows={2}
+          sx={{ mb: 2 }}
+        />
 
         <Button
           variant="contained"
@@ -219,15 +170,10 @@ const DetailLessonAdmin = () => {
             formData.append("question", newSection.question);
             formData.append("type", newSection.type);
             formData.append("lesson_public_id", lessonPublicId);
+            formData.append("order_index", newSection.order_index);
 
-            if (newSection.thumbnailMode === "upload" && newSection.selectedThumbnail) {
-              formData.append("thumbnail", newSection.selectedThumbnail);
-            } else if (newSection.thumbnailMode === "link" && newSection.thumbnailUrl) {
-              formData.append("thumbnail", newSection.thumbnailUrl);
-            }
-
-            if (newSection.selectedRecord) {
-              formData.append("record", newSection.selectedRecord);
+            if (newSection.record) {
+              formData.append("record", newSection.record);
             }
 
             try {
@@ -235,11 +181,12 @@ const DetailLessonAdmin = () => {
                 headers: { "Content-Type": "multipart/form-data" },
               });
 
-              alert("Exercise created successfully!");
-              setNewSection({}); // Reset form
+              setSnackbar({ open: true, message: "Exercise created", severity: "success" });
+              setNewSection({});
+              fetchLessonDetail();
             } catch (err) {
               console.error("Create failed:", err);
-              alert("Failed to create exercise");
+              setSnackbar({ open: true, message: "Create failed", severity: "error" });
             }
           }}
         >
@@ -247,23 +194,38 @@ const DetailLessonAdmin = () => {
         </Button>
       </Box>
 
-
       {lesson.Exercises?.length > 0 ? (
         lesson.Exercises.map((ex, index) => (
           <Card
             key={ex.public_id}
-            sx={{ mb: 2, cursor: 'pointer' }}
-            onClick={() =>
-              navigate(`/admin/lessons/${lessonPublicId}/exercises/${ex.public_id}`)
-            }
+            sx={{ mb: 2 }}
           >
-            <CardContent>
-              <Typography variant="subtitle1">
-                Exercise {index + 1}: {ex.question}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                Type: {ex.type} | Order: {ex.order_index}
-              </Typography>
+            <CardContent
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                navigate(`/admin/lessons/${lessonPublicId}/exercises/${ex.public_id}`)
+              }
+            >
+              <Box>
+                <Typography variant="subtitle1">
+                  Exercise {index + 1}: {ex.question}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Type: {ex.type} | Order: {ex.order_index}
+                </Typography>
+              </Box>
+
+              <IconButton
+                onClick={(e) => handleDeleteExercise(ex.public_id, e)}
+                color="error"
+              >
+                <DeleteIcon />
+              </IconButton>
             </CardContent>
           </Card>
         ))
@@ -272,6 +234,14 @@ const DetailLessonAdmin = () => {
           No exercises available for this lesson.
         </Typography>
       )}
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+      >
+        <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
+      </Snackbar>
     </Container>
   );
 };

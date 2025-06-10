@@ -118,12 +118,12 @@ const DetailExerciseAdmin = () => {
       <Typography variant="body2" sx={{ mb: 1 }}>
         Type: <strong>{exercise.type}</strong>
       </Typography>
-      <Typography variant="body2" sx={{ mb: 2 }}>
+      <Typography variant="body2" sx={{ mb: 1 }}>
         Order Index: <strong>{exercise.order_index}</strong>
       </Typography>
 
       {exercise.thumbnail && (
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ mb: 1 }}>
           <Typography variant="body2">Thumbnail:</Typography>
           <img
             src={exercise.thumbnail}
@@ -134,10 +134,7 @@ const DetailExerciseAdmin = () => {
       )}
 
       {exercise.record && (
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="body2">Audio:</Typography>
-          <audio controls src={exercise.record} style={{ width: '100%' }} />
-        </Box>
+          <Typography variant="body2">Record: {exercise.record}</Typography>
       )}
 
 
