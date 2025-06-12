@@ -6,7 +6,7 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [])
 
   const setCart = (items) => {
-    setCartItems(items) ;
+    setCartItems(items);
   }
 
   const addToCart = (item) => {
@@ -14,7 +14,10 @@ export const CartProvider = ({ children }) => {
 
     if (!isItemInCart) {
       setCartItems([...cartItems, item]);
-    } 
+      return { success: true, message: 'Added to cart!' };
+    } else {
+      return { success: false, message: 'The course is already in your cart!' };
+    }
   };
 
   const removeFromCart = (item) => {
@@ -26,11 +29,12 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price?parseFloat(item.price):0), 0);
+    const total = cartItems.reduce((total, item) => total + (item.price ? parseFloat(item.price) : 0), 0);
+    return parseFloat(total.toFixed(2));
   };
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems)); 
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
   useEffect(() => {

@@ -8,7 +8,8 @@ import {
   Stack,
   Paper,
   Alert,
-  MenuItem
+  MenuItem,
+  Snackbar,
 } from '@mui/material';
 import axiosInstance from '../../../Api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
@@ -57,8 +58,28 @@ const ExamAdminCreate = () => {
           Create New Exam
         </Typography>
 
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+        <Snackbar
+          open={!!error}
+          autoHideDuration={4000}
+          onClose={() => setError('')}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <Alert severity="error" onClose={() => setError('')} sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={!!success}
+          autoHideDuration={3000}
+          onClose={() => setSuccess('')}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <Alert severity="success" onClose={() => setSuccess('')} sx={{ width: '100%' }}>
+            {success}
+          </Alert>
+        </Snackbar>
+
 
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>

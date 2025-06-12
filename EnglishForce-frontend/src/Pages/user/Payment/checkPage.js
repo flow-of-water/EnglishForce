@@ -1,8 +1,6 @@
-// App.js
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import PaymentForm from './paymentForm.js';
 import CheckoutPage from './Checkout.js';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_TEST_KEY);
