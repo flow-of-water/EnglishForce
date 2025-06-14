@@ -51,12 +51,12 @@ def get_response(intents_list, intents_json):
             return random.choice(intent["responses"])
     return "I couldn't find a suitable response."
 
-def chatbot_response(user_input):
+def chatbot_response(user_input, userId):
     intents_list = predict_class(user_input, model)
     if not intents_list:
         return "Sorry, I couldn't understand that."
     intent = intents_list[0]["intent"]
     print(intent)
     if intent.startswith("#"):
-        return query_db_for_info(intent, user_input)
+        return query_db_for_info(intent, user_input, userId)
     return get_response(intents_list, intents)

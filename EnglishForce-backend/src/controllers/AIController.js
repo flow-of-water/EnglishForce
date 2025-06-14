@@ -105,12 +105,21 @@ Respond ONLY with "1" or "0".
 };
 
 
+//
+// AI Backend API (FastAPI)	
+//
 // API call My chatbot (FastAPI server)
 export const myChatbotController = async (req, res) => {
   try {
     const { prompt } = req.body;
+    var userId = "";
+    if(req?.user?.id) userId = req.user.id ;
 
-    const response = await axios.post(`${FASTAPI_CHATBOT_URL}/chat`, { msg: prompt });
+    console.log("📤 Sending to chatbot:", { prompt, userId });
+
+    const response = await axios.post(`${FASTAPI_CHATBOT_URL}/chat`, { msg: prompt , userId });
+
+    console.log("📥 Chatbot response:", response.data);
 
     res.status(200).json(response.data.response);
   } catch (error) {
@@ -146,4 +155,17 @@ export const getCourseRecommendations = async (req, res) => {
     return res.status(status).json({ error: message });
   }
 };
+
+
+// Reload Recommend system
+export const reloadRecommendationModel = async (req, res) => {
+  try {
+    const response = await axios.post(`${FASTAPI_CHATBOT_URL}/reload-model`); // URL FastAPI
+    res.status(200).json({ success: true, message: 'Model reloaded', detail: response.data });
+  } catch (error) {
+    console.error('❌ Error calling FastAPI:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to reload model', error: error.message });
+  }
+};
+
 

@@ -19,8 +19,8 @@ export const getPaginatedAttempts = async (req, res) => {
 export const getUserExamAttempts = async (req, res) => {
     try {
       const { publicId } = req.params;
-      const userId = req.user.id;
-      if(!userId || !publicId) res.status(400).json({message: "Not found UserId or examPublicId"});
+      const userId = req?.user?.id;
+      if(!userId || !publicId) return res.status(400).json({message: "Not found UserId or examPublicId"});
     
       const attempts = await examAttemptService.getExamAttemptByUserId(publicId, userId);
   

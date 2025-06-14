@@ -12,10 +12,11 @@ import QuizIcon from '@mui/icons-material/Quiz';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import TaskIcon from '@mui/icons-material/Task';
 
-import MenuBookIcon from '@mui/icons-material/MenuBook'; 
-import ViewModuleIcon from '@mui/icons-material/ViewModule'; 
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'; 
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'; 
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PsychologyIcon from '@mui/icons-material/Psychology'; // cho Chatbot
 
 const AdminSidebar = ({ isOpen, toggleSidebar }) => {
   return (
@@ -102,6 +103,18 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
 
         <Divider />
 
+        <List
+          subheader={<ListSubheader component="div">AI Management</ListSubheader>}
+        >
+          <ListItem button component={Link} to="/admin/ai">
+            <ListItemIcon><PsychologyIcon /></ListItemIcon>
+            <ListItemText primary="Chatbot & Recommend system" />
+          </ListItem>
+        </List>
+
+
+        <Divider />
+
         <List>
           <ListItem button component={Link} to="/">
             <ListItemIcon>
@@ -110,6 +123,7 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
             <ListItemText primary="Home" />
           </ListItem>
         </List>
+
       </div>
     </Drawer>
   );

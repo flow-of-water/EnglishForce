@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Union
 from datetime import datetime
 import logging
 import json
@@ -39,6 +39,7 @@ def read_root():
 
 class Message(BaseModel):
     msg: str
+    userId: Union[str, int]  
 
 class RecommendationRequest(BaseModel):
     user_id: int
@@ -49,7 +50,7 @@ class RecommendationRequest(BaseModel):
 def chat(message: Message):
     """Chat with the AI assistant"""
     try:
-        response = chatbot_response(message.msg)
+        response = chatbot_response(message.msg, message.userId)
         return {"response": response}
     except Exception as e:
         logging.error(f"Chatbot error: {str(e)}")

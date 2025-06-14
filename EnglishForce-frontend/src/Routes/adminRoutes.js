@@ -39,6 +39,8 @@ import DetailExerciseAdmin from '../Pages/admin/Program/DetailExerciseAdmin';
 import EditExerciseAdmin from '../Pages/admin/Program/EditExercise';
 import EditExerciseAnswerAdmin from '../Pages/admin/Program/EditExerciseAnswerAdmin';
 
+// AI feature 
+import AIAdmin from '../Pages/admin/AI/AIAdmin';
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
     <Route path="/admin" element={<AdminLayout><AdminHome /></AdminLayout>} />
@@ -79,6 +81,8 @@ export const AdminRoutes = () => (
     <Route path="/admin/exercises/:exercisePublicId/edit" element={<AdminLayout><EditExerciseAdmin /></AdminLayout>} />
     <Route path="/admin/exercises/:exercisePublicId/answer/:answerPublicId" element={<AdminLayout><EditExerciseAnswerAdmin /></AdminLayout>} />
 
+    {/* AI  */}
+    <Route path="/admin/ai" element={<AdminLayout><AIAdmin /></AdminLayout>} />
 
   </Route>
 );

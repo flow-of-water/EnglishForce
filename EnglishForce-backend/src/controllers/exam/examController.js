@@ -89,7 +89,7 @@ export const deleteExam = async (req, res) => {
 
 export const submitExamAttempt = async (req, res) => {
   try {
-    const userId = req?.user?.id;
+    var userId = req?.user?.id ?? null;
     if(!userId) userId=null;
     const attemptPublicId = await examService.submitExamAttempt(req.body,userId);
     res.status(201).json({ attemptPublicId: attemptPublicId });
