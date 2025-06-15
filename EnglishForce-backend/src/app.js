@@ -42,13 +42,13 @@ app.use(passport.initialize());
 
 
 
-app.get("/",(req,res)=> {
+app.get("/api",(req,res)=> {
   res.send("Backend of The Last Water Bender is working. I'll teach you anything you want !") ;
 })
 
 // ***** WEBHOOK *****
 // Payment Stripe webhook
-app.use('/webhook',stripeRoutes);
+app.use('/api/webhook',stripeRoutes);
 
 // ***** API *****
 app.use("/api/auth", authRoutes);
