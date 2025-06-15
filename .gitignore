@@ -9,8 +9,6 @@ node_modules/
 venv/
 # Ignore Python cache & compiled files
 __pycache__/ 
-# Ignore model & large data files (optional)
-*.h5
 # Ignore IDE/editor folders (optional)
 .vscode/
 .idea/
