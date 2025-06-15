@@ -65,7 +65,9 @@ const ExerciseCard = ({
         if (isCorrect) onAnswerChecked(isCorrect);
       } catch (error) {
         console.error("Gemini API error:", error);
-        alert("An error occurred while grading. Please try again.");
+        alert("An error occurred while grading.");
+        setIsCorrect(false);
+        setShowResult(true);
       }
 
       return;
@@ -166,7 +168,7 @@ const ExerciseCard = ({
 
         {showResult && (
           <>
-            {exercise.type != 'speaking' &&<Alert severity={isCorrect ? 'success' : 'error'} sx={{ mt: 2 }}>
+            {exercise.type != 'speaking' && <Alert severity={isCorrect ? 'success' : 'error'} sx={{ mt: 2 }}>
               {isCorrect ? '✅ Correct!' : '❌ Incorrect!'}
             </Alert>}
             {exercise.explanation && (
