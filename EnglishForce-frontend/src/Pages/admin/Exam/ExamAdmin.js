@@ -18,6 +18,7 @@ import { Edit, Delete, Add } from '@mui/icons-material';
 import axiosInstance from '../../../Api/axiosInstance';
 import { Link } from "react-router-dom";
 import CircularLoading from '../../../Components/Loading';
+import GradientTitle from '../../../Components/GradientTitle';
 
 const ExamAdmin = () => {
   const [exams, setExams] = useState([]);
@@ -58,7 +59,7 @@ const ExamAdmin = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h4">Exam Management</Typography>
+        <GradientTitle>Exam Management</GradientTitle>
         <Button variant="contained" startIcon={<Add />} href="/admin/exams/create">
           Create Exam
         </Button>

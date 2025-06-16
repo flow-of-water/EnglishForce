@@ -19,6 +19,7 @@ import { CartContext } from "../../../Context/CartContext";
 import { useSearch, SearchContext } from "../../../Context/SearchContext";
 import CircularLoading from "../../../Components/Loading";
 import RecommendedCourses from "../../../Components/user/RecommendedCourses";
+import GradientTitle from "../../../Components/GradientTitle";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -72,9 +73,7 @@ const CoursesPage = () => {
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" textAlign="center" gutterBottom>
-        Available Courses
-      </Typography>
+      <GradientTitle>Available Courses</GradientTitle>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label="course category tabs">

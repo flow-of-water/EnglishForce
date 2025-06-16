@@ -8,7 +8,7 @@ const CircularLoading = () => {
         width: "100%",
         height: "80vh"
     }}>
-        <CircularProgress />
+        <CircularProgress size={50} thickness={5}/>
     </Box>
 }
 

@@ -3,7 +3,7 @@ import { Container, Typography, CircularProgress, Paper, Button, Dialog, DialogC
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Cell } from 'recharts';
 import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
-
+import GradientTitle from '../../../Components/GradientTitle';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -117,7 +117,7 @@ const Profile = () => {
     <Container>
       {user ? (
         <Paper style={{ padding: '20px' }}>
-          <Typography variant="h4" gutterBottom>Profile</Typography>
+          <GradientTitle align='left'>Profile</GradientTitle>
           <Typography variant="h6">Username: {user.username}</Typography>
           <Typography variant="h6">Role: {user.role}</Typography>
 

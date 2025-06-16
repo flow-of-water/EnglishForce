@@ -16,7 +16,7 @@ import {
   Checkbox,
   Radio,
   FormControlLabel,
-  CircularProgress,
+  CircularProgress, Stack,
 } from '@mui/material';
 import ExamMenu from '../../../Components/user/ExamMenu';
 import CircularLoading from '../../../Components/Loading';
@@ -138,7 +138,7 @@ const ExamStartPage = () => {
 
   const renderPartRecursively = (part, indexPath = '') => (
     <Box key={part.public_id} mb={5}>
-      <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
+      <Typography variant="h5" sx={{ mt: 4, mb: 2 }} fontWeight={700} >
         Exam Part {indexPath}: {part.name}
       </Typography>
 
@@ -164,8 +164,8 @@ const ExamStartPage = () => {
 
       {part.Questions?.map((question) => {
         const rendered = (
-          <Paper key={question.public_id} sx={{ p: 3, my: 3 }} id={question.public_id} elevation={3}>
-            <Typography variant="h6" gutterBottom>
+          <Paper key={question.public_id} id={question.public_id} elevation={3} sx={{ p: 3, my: 3, borderLeft: '6px solid #1976d2' }}>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
               Question {globalQuestionIndex}
             </Typography>
             <Typography variant="body1" gutterBottom>{question.content}</Typography>
@@ -256,15 +256,11 @@ const ExamStartPage = () => {
         onSubmit={handleSubmit}
       />
 
-      <Typography variant="h3" gutterBottom>
-        {exam.name}
-      </Typography>
-      <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-        Duration: {exam.duration} minutes
-      </Typography>
-      <Typography variant="body1" paragraph>
-        {exam.description}
-      </Typography>
+      <Stack spacing={2}>
+        <Typography variant="h3" fontWeight={800} color="primary">{exam.name}</Typography>
+        <Typography variant="subtitle1" color="text.secondary">Duration: {exam.duration} minutes</Typography>
+        <Typography variant="body1" maxWidth={800}>{exam.description}</Typography>
+      </Stack>
 
       {exam.parts.map((part, index) =>
         renderPartRecursively(part, `${index + 1}`)

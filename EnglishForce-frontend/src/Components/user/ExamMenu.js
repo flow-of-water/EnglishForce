@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Typography, List, Button, IconButton, Drawer } from '@mui/material';
+import { Box, Typography, List, Button, IconButton, Drawer, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { green, grey } from '@mui/material/colors';
 
@@ -66,7 +66,7 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
   const renderPartsAndQuestions = (parts) => {
     return parts.map((part) => (
       <Box key={part.public_id} sx={{ mb: 2 }}>
-        <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: 'primary.main' }}>
           📚 {part.name}
         </Typography>
 
@@ -76,31 +76,32 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
             const questionNumber = globalQuestionIndex++; // Tăng liên tục không reset
 
             return (
-              <Box
-                key={question.public_id}
-                onClick={() => {
-                  handleNavigateToQuestion(question.public_id);
-                  setOpen(false);
-                }}
-                sx={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: '50%',
-                  bgcolor: isAnswered ? green[700] : grey[300],
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  fontWeight: 'bold',
-                  caretColor: "transparent",
-                  '&:hover': {
-                    bgcolor: isAnswered ? green[900] : grey[400],
-                  }
-                }}
-              >
-                {questionNumber}
-              </Box>
+              <Tooltip key={question.public_id} title={`Question ${questionNumber}`} arrow>
+                <Box
+                  onClick={() => {
+                    handleNavigateToQuestion(question.public_id);
+                    setOpen(false);
+                  }}
+                  sx={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: '50%',
+                    bgcolor: isAnswered ? green[700] : grey[300],
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                    caretColor: "transparent",
+                    '&:hover': {
+                      bgcolor: isAnswered ? green[900] : grey[400],
+                    }
+                  }}
+                >
+                  {questionNumber}
+                </Box>
+              </Tooltip>
             );
           })}
         </Box>
@@ -120,31 +121,24 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
         <Box
           sx={{
             position: 'fixed',
-            top: 60,
-            right: 16,
-            zIndex: 9999,
-            bgcolor: grey[200],
-            borderRadius: '28px',
+            top: 64,
+            right: 20,
+            zIndex: 1300,
+            bgcolor: '#ffffffcc',
+            borderRadius: '32px',
+            boxShadow: 3,
+            px: 2,
+            py: 1,
             display: 'flex',
             alignItems: 'center',
-            padding: '0 12px',
-            height: 56,
-            boxShadow: 3,
-            '&:hover': {
-              bgcolor: grey[300],
-            },
+            backdropFilter: 'blur(6px)',
             caretColor: "transparent",
           }}
         >
-          <IconButton
-            onClick={toggleDrawer(true)}
-            sx={{
-              color: 'inherit',
-            }}
-          >
-            <MenuIcon sx={{ fontSize: 32 }} />
+          <IconButton onClick={toggleDrawer(true)}>
+            <MenuIcon fontSize="large" />
           </IconButton>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold', ml: 1 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 600, ml: 1 }}>
             {formatTimeLeft(timeLeft)}
           </Typography>
         </Box>
@@ -172,14 +166,19 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
           }}
         >
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">⏳ Time Left</Typography>
-            <Typography variant="h4" color={timeLeft <= 60 ? 'error.main' : 'text.primary'}>
+            <Typography variant="h5" fontWeight={700} gutterBottom>⏳ Time Remaining</Typography>
+            <Typography
+              variant="h3"
+              color={timeLeft <= 60 ? 'error.main' : 'primary.main'}
+              fontWeight={800}
+              mb={2}
+            >
               {formatTimeLeft(timeLeft)}
             </Typography>
           </Box>
 
           <Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2 }}>
-            <Typography variant="h6" sx={{ mb: 1 }}>
+            <Typography variant="h6" fontWeight={700} mb={1}>
               📝 Questions
             </Typography>
             {renderPartsAndQuestions(parts)}
@@ -187,11 +186,13 @@ const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
 
           <Button
             variant="contained"
-            onClick={handleManualSubmit}
-            fullWidth
+            color="error"
             size="large"
+            fullWidth
+            onClick={handleManualSubmit}
+            sx={{ mt: 3, fontWeight: 700 }}
           >
-            Submit Exam
+            ✔ Submit Exam
           </Button>
         </Box>
       </Drawer>

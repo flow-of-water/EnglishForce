@@ -7,6 +7,7 @@ import HomePage from '../Pages/user/Home';
 import LoginPage from '../Pages/user/Login';
 import RegisterPage from '../Pages/user/Register';
 import ProfilePage from '../Pages/user/Profile/Profile';
+import TestPage from '../Pages/user/Test';
 
 // ***** Course feature *****
 import CoursesPage from '../Pages/user/Course/Course';
@@ -36,6 +37,7 @@ export const UserRoutes = () => (
     <Route path="/login" element={<UserLayout><LoginPage /></UserLayout>} />
     <Route path="/register" element={<UserLayout><RegisterPage /></UserLayout>} />
     <Route path="/profile" element={<UserLayout><ProfilePage /></UserLayout>} />
+    <Route path="/test" element={<UserLayout><TestPage /></UserLayout>} />
 
     {/* course feature */}
     <Route path="/courses" element={<UserLayout><CoursesPage /></UserLayout>} />

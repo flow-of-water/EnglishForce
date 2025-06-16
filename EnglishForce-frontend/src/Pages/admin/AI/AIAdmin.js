@@ -5,6 +5,7 @@ import {
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import axiosInstance from '../../../Api/axiosInstance';
+import GradientTitle from '../../../Components/GradientTitle';
 
 const AdminAIPage = () => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const AdminAIPage = () => {
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>AI Management</Typography>
+      <GradientTitle align='left'>AI Management</GradientTitle>
 
       {/* Chatbot Section */}
       <Card sx={{ mb: 4 }}>

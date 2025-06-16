@@ -13,6 +13,7 @@ import axiosInstance from "../../../Api/axiosInstance"
 import CourseImage from "../../../Components/user/CourseImage";
 import { CartContext } from "../../../Context/CartContext";
 import CircularLoading from "../../../Components/Loading";
+import GradientTitle from "../../../Components/GradientTitle";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -52,18 +53,14 @@ const CoursesPage = () => {
   if (courses.length === 0) {
     return (
       <Container sx={{ textAlign: "center", mt: 4 }}>
-        <Typography variant="h6" color="text.secondary">
-          You have not enrolled in any courses yet.
-        </Typography>
+        <GradientTitle>You have not enrolled in any courses yet.</GradientTitle>
       </Container>
     );
   }
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" textAlign="center" gutterBottom>
-        My learning
-      </Typography>
+      <GradientTitle>My learning</GradientTitle>
       <Grid container spacing={3}>
         {courses.map((course) => (
           <Grid item xs={12} sm={6} md={4} key={course.public_id}>

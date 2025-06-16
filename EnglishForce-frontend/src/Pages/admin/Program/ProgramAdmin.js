@@ -6,6 +6,7 @@ import {
 import { Add, Edit, Delete } from '@mui/icons-material';
 import axiosInstance from '../../../Api/axiosInstance';
 import { useNavigate, Link } from 'react-router-dom';
+import GradientTitle from '../../../Components/GradientTitle';
 
 const ProgramList = () => {
   const [programs, setPrograms] = useState([]);
@@ -37,7 +38,7 @@ const ProgramList = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h4">Learning Programs</Typography>
+        <GradientTitle align='left'>Learning Programs</GradientTitle>
         <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/admin/programs/create')}>
           Add Program
         </Button>

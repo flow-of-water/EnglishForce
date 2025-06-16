@@ -6,6 +6,7 @@ import {
     Container
 } from '@mui/material';
 import axiosInstance from '../../../Api/axiosInstance';
+import GradientTitle from '../../../Components/GradientTitle';
 
 const UserTable = () => {
     const [users, setUsers] = useState([]);
@@ -38,7 +39,7 @@ const UserTable = () => {
 
     return (
         <Container sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom>Manage Users</Typography>
+            <GradientTitle align='left'>Manage Users</GradientTitle>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>

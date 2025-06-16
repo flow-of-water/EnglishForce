@@ -12,6 +12,7 @@ import {
 import { MdShoppingCart } from 'react-icons/md';
 import { CartContext } from '../../../Context/CartContext';
 import PaymentForm from './paymentForm';
+import GradientTitle from '../../../Components/GradientTitle';
 
 const CheckoutPage = () => {
   const { getCartTotal } = useContext(CartContext);
@@ -32,9 +33,7 @@ const CheckoutPage = () => {
   return (
     <Container>
       <Box mt={4}>
-        <Typography variant="h4" gutterBottom align="center" sx={{caretColor: "transparent",}}>
-          Checkout
-        </Typography>
+        <GradientTitle>Checkout</GradientTitle>
         {cartItems.length === 0 ? (
           <Typography variant="body1">Your cart is empty.</Typography>
         ) : (

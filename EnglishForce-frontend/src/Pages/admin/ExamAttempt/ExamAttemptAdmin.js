@@ -13,6 +13,7 @@ import {
 import Pagination from '@mui/material/Pagination';
 import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
+import GradientTitle from '../../../Components/GradientTitle';
 
 const ExamAttemptAdmin = () => {
   const [attempts, setAttempts] = useState([]);
@@ -39,7 +40,7 @@ const ExamAttemptAdmin = () => {
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>Exam Attempts</Typography>
+      <GradientTitle align='left'>Exam Attempts</GradientTitle>
 
       {loading ? (
         <CircularLoading />

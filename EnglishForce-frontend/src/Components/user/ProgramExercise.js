@@ -11,6 +11,9 @@ import {
   CardContent,
   TextField,
   Chip,
+  Box,
+  Stack,
+  Paper
 } from '@mui/material';
 import axiosInstance from '../../Api/axiosInstance';
 import SpeakingExercise from './SpeakingExercise';
@@ -25,7 +28,6 @@ const ExerciseCard = ({
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
   const [selectedAnswerId, setSelectedAnswerId] = useState(null);
-  // useState for speaking and Writing exercise
   const [userText, setUserText] = useState('');
   const [speakingResult, setSpeakingResult] = useState(null);
 
@@ -37,7 +39,6 @@ const ExerciseCard = ({
     setShowResult(false);
   }, [exercise]);
 
-
   const handleCheckAnswer = async () => {
     if (!exercise) return;
 
@@ -48,7 +49,6 @@ const ExerciseCard = ({
       setIsCorrect(answer.is_correct);
       setShowResult(true);
       if (answer.is_correct) onAnswerChecked(answer.is_correct);
-      return;
     }
 
     else if (exercise.type === 'writing') {
@@ -58,8 +58,7 @@ const ExerciseCard = ({
           question: exercise.question,
           userAnswer: userText
         });
-
-        const isCorrect = res.data === 1; // hoặc res.data.isCorrect nếu bạn trả về JSON
+        const isCorrect = res.data === 1;
         setIsCorrect(isCorrect);
         setShowResult(true);
         if (isCorrect) onAnswerChecked(isCorrect);
@@ -69,8 +68,6 @@ const ExerciseCard = ({
         setIsCorrect(false);
         setShowResult(true);
       }
-
-      return;
     }
 
     else if (exercise.type === 'speaking') {
@@ -78,7 +75,6 @@ const ExerciseCard = ({
       setIsCorrect(speakingResult.isCorrect);
       setShowResult(true);
       if (speakingResult.isCorrect) onAnswerChecked(speakingResult.isCorrect);
-      return;
     }
   };
 
@@ -86,20 +82,34 @@ const ExerciseCard = ({
     switch (exercise.type) {
       case 'single_choice':
         return (
-          <RadioGroup
-            value={selectedAnswerId}
-            onChange={(e) => setSelectedAnswerId(parseInt(e.target.value))}
-          >
-            {exercise.ExerciseAnswers.map((ans) => (
-              <FormControlLabel
-                key={ans.id}
-                value={ans.id}
-                control={<Radio />}
-                label={ans.content}
-                disabled={showResult}
-              />
-            ))}
-          </RadioGroup>
+          <Stack spacing={1} mt={2}>
+            <RadioGroup
+              value={selectedAnswerId}
+              onChange={(e) => setSelectedAnswerId(parseInt(e.target.value))}
+            >
+              {exercise.ExerciseAnswers.map((ans) => (
+                <Paper
+                  key={ans.id}
+                  elevation={selectedAnswerId === ans.id ? 4 : 1}
+                  sx={{
+                    p: 1.5,
+                    mb: 1,
+                    borderRadius: 2,
+                    transition: '0.2s',
+                    bgcolor: showResult && ans.is_correct ? '#d0f0c0' : 'white'
+                  }}
+                >
+                  <FormControlLabel
+                    value={ans.id}
+                    control={<Radio />}
+                    label={ans.content}
+                    disabled={showResult}
+                    sx={{ width: '100%', ml: 1 }}
+                  />
+                </Paper>
+              ))}
+            </RadioGroup>
+          </Stack>
         );
       case 'writing':
         return (
@@ -111,93 +121,122 @@ const ExerciseCard = ({
             value={userText}
             onChange={(e) => setUserText(e.target.value)}
             disabled={showResult}
+            sx={{ mt: 2 }}
           />
         );
       case 'speaking':
         return (
-          <SpeakingExercise
-            expectedText={exercise.question}
-            onResult={setSpeakingResult}
-          />
+          <Box mt={2}>
+            <SpeakingExercise
+              expectedText={exercise.question}
+              onResult={setSpeakingResult}
+            />
+          </Box>
         );
       default:
         return <Typography color="error">Unsupported exercise type.</Typography>;
     }
   };
 
-
-
   return (
-    <Card>
+    <Card
+      elevation={6}
+      sx={{
+        borderRadius: 4,
+        p: 3,
+        mb: 4,
+        background: 'linear-gradient(to right, #fdfbfb, #ebedee)',
+      }}
+    >
       <CardContent>
-        <Typography variant="h6" sx={{ mb: 1, whiteSpace: 'pre-line' }}>
-          Question {index + 1}: {exercise.question}
-        </Typography>
+        <Stack spacing={2}>
+          <Typography variant="h5" fontWeight="bold">
+            🧠 Question {index + 1}
+          </Typography>
 
-        {exercise.thumbnail && (
-          <Avatar
-            variant="rounded"
-            src={exercise.thumbnail}
-            alt="thumbnail"
-            sx={{ width: 120, height: 120, my: 2 }}
+          <Typography sx={{ whiteSpace: 'pre-line', fontSize: '1.1rem' }}>
+            {exercise.question}
+          </Typography>
+
+          {exercise.thumbnail && (
+            <Avatar
+              variant="rounded"
+              src={exercise.thumbnail}
+              alt="thumbnail"
+              sx={{ width: 140, height: 140, alignSelf: 'center', my: 2 }}
+            />
+          )}
+
+          {exercise.record && (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                const utterance = new SpeechSynthesisUtterance(exercise.record);
+                utterance.volume = 1;
+                speechSynthesis.speak(utterance);
+              }}
+              sx={{
+                maxWidth: 200,
+                alignSelf: 'left',
+                px: 2,
+                py: 1,
+                borderRadius: 3,
+                textTransform: 'none',
+              }}
+            >
+              🔊 Listen
+            </Button>
+          )}
+
+          <Chip
+            label={exercise.type.replace('_', ' ').toUpperCase()}
+            color="primary"
+            size="medium"
+            sx={{ width: 'fit-content', alignSelf: 'flex-start' }}
           />
-        )}
 
-        {exercise.record && (
-          <Button
-            variant="outlined"
-            onClick={() => {
-              const utterance = new SpeechSynthesisUtterance(exercise.record);
-              utterance.volume = 1; // Tăng âm lượng lên mức tối đa (1 là max)
-              speechSynthesis.speak(utterance);
-            }}
-            sx={{ mb: 2, display: 'block', }}
-          >
-            🔊 Read Aloud
-          </Button>
-        )}
+          {renderAnswerSection()}
 
-        <Chip
-          label={exercise.type.replace('_', ' ').toUpperCase()}
-          color="primary"
-          size="small"
-          sx={{ mb: 2 }}
-        />
+          {showResult && (
+            <>
+              {exercise.type !== 'speaking' && (
+                <Alert severity={isCorrect ? 'success' : 'error'}>
+                  {isCorrect ? '🎉 Correct!' : '❌ Incorrect!'}
+                </Alert>
+              )}
+              {exercise.explanation && (
+                <Alert severity="info">
+                  📘 Explanation: {exercise.explanation}
+                </Alert>
+              )}
+            </>
+          )}
 
-        {renderAnswerSection()}
-
-        {showResult && (
-          <>
-            {exercise.type != 'speaking' && <Alert severity={isCorrect ? 'success' : 'error'} sx={{ mt: 2 }}>
-              {isCorrect ? '✅ Correct!' : '❌ Incorrect!'}
-            </Alert>}
-            {exercise.explanation && (
-              <Alert severity="info" sx={{ mt: 2 }}>
-                📘 Explanation: {exercise.explanation}
-              </Alert>
-            )}
-          </>
-        )}
-
-        {!showResult ? (
-          <Button
-            variant="contained"
-            onClick={handleCheckAnswer}
-            sx={{ mt: 2 }}
-            disabled={
-              exercise.type === 'single_choice' ? selectedAnswerId === null :
-                exercise.type === 'writing' ? userText.trim() === '' :
-                  exercise.type === 'speaking' ? speakingResult === null :
-                    false
-            }
-          >
-            OK
-          </Button>
-        ) : (
-          <Button variant="outlined" onClick={handleNext} sx={{ mt: 2 }}>
-            {isLast ? 'End Lesson' : 'Next'}
-          </Button>
-        )}
+          {!showResult ? (
+            <Button
+              variant="contained"
+              onClick={handleCheckAnswer}
+              disabled={
+                exercise.type === 'single_choice' ? selectedAnswerId === null :
+                  exercise.type === 'writing' ? userText.trim() === '' :
+                    exercise.type === 'speaking' ? speakingResult === null :
+                      false
+              }
+              sx={{ alignSelf: 'flex-end' }}
+            >
+              ✅ Submit
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              onClick={handleNext}
+              sx={{ alignSelf: 'flex-end' }}
+            >
+              {isLast ? '🏁 End Lesson' : '➡️ Next'}
+            </Button>
+          )}
+        </Stack>
       </CardContent>
     </Card>
   );

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosInstance"
 import { Add } from '@mui/icons-material';
 import CircularLoading from '../../../Components/Loading';
+import GradientTitle from "../../../Components/GradientTitle";
 
 const CourseAdmin = () => {
   const [courses, setCourses] = useState([]);
@@ -46,7 +47,7 @@ const CourseAdmin = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h4" gutterBottom>Manage Courses</Typography>
+        <GradientTitle align='left'>Manage Courses</GradientTitle>
         <Button variant="contained" startIcon={<Add />} href="/admin/courses/create">
           Create Course
         </Button>

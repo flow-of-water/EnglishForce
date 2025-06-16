@@ -5,38 +5,141 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import GradientTitle from "../GradientTitle";
+
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
     return (
-        <Box sx={{ bgcolor: '#f5f5f5', py: { xs: 6, md: 10 } }}>
-            <Container>
+        <Box
+            sx={{
+                backgroundColor: '#ffffff',
+                py: { xs: 10, md: 14 },
+                position: 'relative',
+                zIndex: 1,
+            }}
+        >
+            {/* Glow Gradient Background Blob */}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    width: 250,
+                    height: 250,
+                    background: 'radial-gradient(circle, rgba(25,118,210,0.15), transparent)',
+                    borderRadius: '50%',
+                    top: 0,
+                    left: -80,
+                    zIndex: 0,
+                    filter: 'blur(60px)',
+                }}
+            />
+            <Box
+                sx={{
+                    position: 'absolute',
+                    width: 250,
+                    height: 250,
+                    background: 'radial-gradient(circle, rgba(126,87,194,0.15), transparent)',
+                    borderRadius: '50%',
+                    bottom: 0,
+                    right: -80,
+                    zIndex: 0,
+                    filter: 'blur(60px)',
+                }}
+            />
+
+            <Container sx={{ position: 'relative', zIndex: 1 }}>
                 <Stack
-                    direction={{ xs: 'column', md: 'row' }}
+                    direction={{ xs: 'column-reverse', md: 'row' }}
                     spacing={6}
                     alignItems="center"
-                    justifyContent="space-between"
                 >
-                    <Box flex={1} textAlign={{ xs: 'center', md: 'left' }}>
-                        <Typography variant="h3" fontWeight={600} gutterBottom>
+                    {/* Image section */}
+                    <Box flex={1} display="flex" justifyContent="center">
+                        <Box
+                            component="img"
+                            src="https://storage.googleapis.com/schoolnet-content/blog/wp-content/uploads/2022/07/How-to-Learn-English-Speaking-at-Home.jpg"
+                            alt="Learning English"
+                            sx={{
+                                width: '100%',
+                                maxWidth: 420,
+                                borderRadius: '20px',
+                                boxShadow: '0 10px 30px rgba(25, 118, 210, 0.2)',
+                                transition: 'transform 0.4s ease-in-out',
+                                '&:hover': {
+                                    transform: 'scale(1.03)',
+                                },
+                            }}
+                        />
+                    </Box>
+
+                    {/* Text section */}
+                    <Box flex={1}>
+                        <Typography
+                            variant="h3"
+                            fontWeight={800}
+                            sx={{
+                                mb: 2,
+                                background: 'linear-gradient(to right, #1976d2, #7e57c2)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                            }}
+                        >
                             Learn Anytime, Anywhere
                         </Typography>
-                        <Typography variant="h6" color="text.secondary" mb={3}>
-                            Join thousands of learners and upgrade your English skills with AI-powered lessons.
+
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                color: 'text.secondary',
+                                maxWidth: 520,
+                                mb: 4,
+                            }}
+                        >
+                            Unlock your potential with personalized English learning powered by smart algorithms,
+                            interactive courses, and real-world simulations. Study from anywhere, anytime.
                         </Typography>
-                        <Button variant="contained" color="primary" size="large" component={Link} to="/courses">
-                            Get Started
-                        </Button>
-                        <Button variant="outlined" size="large" component={Link} to="/exams" sx={{ mx: 2 }}>
-                            Take exams
-                        </Button>
-                    </Box>
-                    <Box flex={1} display="flex" justifyContent="center">
-                        <img
-                            src="English-force.png"
-                            alt="Learn English"
-                            style={{ width: '100%', maxWidth: 400, maxHeight: 400, borderRadius: '10px' }}
-                        />
+
+                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                            <Button
+                                component={Link}
+                                to="/courses"
+                                size="large"
+                                sx={{
+                                    px: 5,
+                                    py: 1.5,
+                                    fontWeight: 800,
+                                    fontSize: '1rem',
+                                    background: 'linear-gradient(to right, #1976d2, #00c6ff)',
+                                    color: 'white',
+                                    boxShadow: '0 0 15px rgba(25, 118, 210, 0.4)',
+                                    '&:hover': {
+                                        background: 'linear-gradient(to right, #1565c0, #00bcd4)',
+                                        transform: 'translateY(-2px)',
+                                    },
+                                }}
+                            >
+                                Explore Courses
+                            </Button>
+                            <Button
+                                component={Link}
+                                to="/exams"
+                                size="large"
+                                variant="outlined"
+                                sx={{
+                                    px: 5,
+                                    py: 1.5,
+                                    fontWeight: 700,
+                                    borderColor: '#1976d2',
+                                    color: '#1976d2',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(25, 118, 210, 0.05)',
+                                        borderColor: '#1565c0',
+                                    },
+                                }}
+                            >
+                                Simulate Exam
+                            </Button>
+                        </Stack>
                     </Box>
                 </Stack>
             </Container>
@@ -70,25 +173,52 @@ const features = [
 
 const WhyUsSection = () => {
     return (
-        <Box sx={{ bgcolor: "#ffffff", py: 8 }}>
-            <Container>
-                <Typography variant="h4" align="center" gutterBottom>
-                    Why Choose EnglishForce?
-                </Typography>
-                <Typography variant="body1" align="center" color="text.secondary" maxWidth="md" sx={{ mx: 'auto', mb: 6 }}>
+        <Box sx={{ backgroundColor: "#ffffff", py: 10 }}>
+            <Container maxWidth="lg">
+                <GradientTitle>Why Choose EnglishForce?</GradientTitle>
+                <Typography
+                    variant="h6"
+                    align="center"
+                    color="text.secondary"
+                    sx={{ mb: 6, maxWidth: 700, mx: 'auto' }}
+                >
                     We blend smart technology and proven methods to deliver an online learning experience that feels personal, structured, and effective.
                 </Typography>
 
-                <Grid container spacing={4} justifyContent="center">
-                    {features.map((item, index) => (
-                        <Grid item xs={12} sm={6} md={3} key={index}>
-                            <Paper elevation={3} sx={{ p: 4, textAlign: 'center', height: '100%' }}>
-                                <Stack spacing={2} alignItems="center" textAlign="center">
-                                    {item.icon}
-                                    <Typography variant="h6">{item.title}</Typography>
-                                    <Divider sx={{ width: 40, bgcolor: 'primary.main' }} />
-                                    <Typography variant="body2" color="text.secondary">{item.description}</Typography>
-                                </Stack>
+                <Grid container spacing={4}>
+                    {features.map((feature, index) => (
+                        <Grid key={index} item xs={12} sm={6} md={3}>
+                            <Paper
+                                elevation={4}
+                                sx={{
+                                    p: 3,
+                                    height: '100%',
+                                    background: '#ffffff',
+                                    borderRadius: 3,
+                                    border: '2px solid transparent',
+                                    backgroundImage: `linear-gradient(#ffffff, #ffffff), 
+                                    linear-gradient(135deg, #1976d2, #7e57c2)`,
+                                    backgroundOrigin: 'border-box',
+                                    backgroundClip: 'padding-box, border-box',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    textAlign: 'center',
+                                    color: '#1e1e2f',
+                                    transition: 'transform 0.3s, box-shadow 0.3s',
+                                    '&:hover': {
+                                        transform: 'translateY(-5px) scale(1.02)',
+                                        boxShadow: '0 0 20px rgba(25, 118, 210, 0.2)',
+                                    },
+                                }}
+                            >
+                                <Box>{feature.icon}</Box>
+                                <Typography variant="h6" fontWeight={700} sx={{ my: 2 }}>
+                                    {feature.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {feature.description}
+                                </Typography>
                             </Paper>
                         </Grid>
                     ))}

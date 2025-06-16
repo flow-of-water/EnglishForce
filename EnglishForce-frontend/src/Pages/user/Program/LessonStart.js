@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import {
-  Box, Typography, Divider, Button,Paper, Stack
+  Box, Typography, Divider, Button, Paper, Stack, Fade,
 } from '@mui/material';
 import ExerciseCard from '../../../Components/user/ProgramExercise';
 import CircularLoading from '../../../Components/Loading';
@@ -11,51 +11,52 @@ const LessonCompleted = ({ score, exercises }) => {
   const navigate = useNavigate();
 
   return (
-    <Box 
-      sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        minHeight: '60vh', 
-        p: 2 
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '60vh',
+        p: 2
       }}
     >
-      <Paper 
+      <Paper
         elevation={4}
-        sx={{ 
-          p: 4, 
-          maxWidth: 500, 
-          textAlign: 'center', 
-          borderRadius: 4 
+        sx={{
+          p: 4,
+          maxWidth: 500,
+          textAlign: 'center',
+          borderRadius: 4
         }}
       >
         <Stack spacing={3}>
-        <Box
+          <Box
             component="img"
-            src="/LessonCompleted/download.jpg" 
+            src="/LessonCompleted/download.jpg"
             alt="Lesson Completed"
             sx={{
               width: '100%',
               maxHeight: 300,
               objectFit: 'contain',
-              borderRadius: 2,
+              borderRadius: 4,
               mx: 'auto',
               caretColor: "transparent",
+
             }}
           />
-          <Typography variant="h4" fontWeight="bold">
-          🎉 Lesson Completed!
-          </Typography>
+            <Typography variant="h4" fontWeight={800} sx={{ color: '#1976d2' }}>
+              🎉 Lesson Completed!
+            </Typography>
 
           <Typography variant="h6">
             You answered <b>{score}</b> out of <b>{exercises.length}</b> questions correctly.
           </Typography>
 
-          <Button 
-            variant="contained" 
-            size="large" 
+          <Button
+            variant="contained"
+            size="large"
             sx={{ borderRadius: 3 }}
-            onClick={() => navigate(-1)} 
+            onClick={() => navigate(-1)}
           >
             🔙 Back to Unit
           </Button>
@@ -93,7 +94,7 @@ const LessonStartPage = () => {
   }, [lessonPublicId]);
 
   const currentExercise = exercises[currentIndex];
-  
+
 
   const handleNext = async () => {
     const isLast = currentIndex === exercises.length - 1;
@@ -102,7 +103,7 @@ const LessonStartPage = () => {
       try {
         await axiosInstance.post('/user-progresses', {
           lessonPublicId: lesson.public_id,
-          score : (Number(score) / Number(exercises.length)).toFixed(2),
+          score: (Number(score) / Number(exercises.length)).toFixed(2),
         });
       } catch (error) {
         console.error('Failed to save progress:', error);
@@ -134,8 +135,26 @@ const LessonStartPage = () => {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom>{lesson.name}</Typography>
-      <Typography variant="body1" sx={{ mb: 2 }}>{lesson.description}</Typography>
+      <Typography
+        variant="h3"
+        fontWeight={700}
+        textAlign="center"
+        sx={{
+          background: 'linear-gradient(to right, #1976d2, #d81b60)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          mb: 2
+        }}
+      >
+        {lesson.name}
+      </Typography>
+      <Typography
+        variant="body1"
+        textAlign="center"
+        sx={{ mb: 4, color: 'text.secondary' }}
+      >
+        {lesson.description}
+      </Typography>
 
       <Divider sx={{ my: 3 }} />
 

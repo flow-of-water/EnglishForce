@@ -1,102 +1,110 @@
-import React from "react";
-import { Card, CardContent, Typography, Grid } from "@mui/material";
-import { useEffect, useState } from "react";
-import StripeChart from "../../Components/admin/StripeChart.js"
+import React, { useEffect, useState } from "react";
+import {
+  Typography,
+  Card,
+  CardContent,
+  Grid,
+  Box
+} from "@mui/material";
+import { Group, MenuBook, HowToReg, Apps, Assignment, DoneAll } from "@mui/icons-material";
 import axiosInstance from "../../Api/axiosInstance";
+import GradientTitle from "../../Components/GradientTitle";
+import StripeChart from "../../Components/admin/StripeChart";
+
+const statsConfig = [
+  {
+    key: "totalUsers",
+    label: "Total Users",
+    icon: <Group fontSize="large" />,
+    color: ["#42a5f5", "#478ed1"]
+  },
+  {
+    key: "totalCourses",
+    label: "Total Courses",
+    icon: <MenuBook fontSize="large" />,
+    color: ["#66bb6a", "#43a047"]
+  },
+  {
+    key: "totalEnrollments",
+    label: "Total Enrollments",
+    icon: <HowToReg fontSize="large" />,
+    color: ["#ffa726", "#fb8c00"]
+  },
+  {
+    key: "totalPrograms",
+    label: "Total Programs",
+    icon: <Apps fontSize="large" />,
+    color: ["#ab47bc", "#8e24aa"]
+  },
+  {
+    key: "totalExams",
+    label: "Total Exams",
+    icon: <Assignment fontSize="large" />,
+    color: ["#ec407a", "#d81b60"]
+  },
+  {
+    key: "totalExamAttempts",
+    label: "Total Exam Attempts",
+    icon: <DoneAll fontSize="large" />,
+    color: ["#ff7043", "#f4511e"]
+  }
+];
 
 const AdminHome = () => {
-  const [totalUsers, setTotalUsers] = useState(0);
-  const [totalCourses, setTotalCourses] = useState(0);
-  const [totalEnrollments, setTotalEnrollments] = useState(0);
-  const [totalPrograms, setTotalPrograms] = useState(0);
-  const [totalExams, setTotalExams] = useState(0);
-  const [totalExamAttempts, setTotalExamAttempts] = useState(0);
+  const [stats, setStats] = useState({});
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchStats = async () => {
       try {
-        const response = await axiosInstance.get("/user-course/statistics");
-        setTotalUsers(response.data.totalUsers)
-        setTotalCourses(response.data.totalCourses)
-        setTotalEnrollments(response.data.totalEnrollments)
-        setTotalPrograms(response.data.totalPrograms);
-        setTotalExams(response.data.totalExams);
-        setTotalExamAttempts(response.data.totalExamAttempts);
+        const res = await axiosInstance.get("/user-course/statistics");
+        setStats(res.data);
       } catch (error) {
-        console.error("Error when fetch statistics:", error);
+        console.error("Failed to fetch admin stats:", error);
       }
-    }
-    fetch();
-  }, [])
+    };
+    fetchStats();
+  }, []);
+
   return (
-    <div className="container mt-4">
-      <Typography variant="h4" gutterBottom>
-        Admin Dashboard
-      </Typography>
+    <Box p={4}>
+      <GradientTitle align='left'>Admin Dashboard</GradientTitle>
+
       <Grid container spacing={3}>
-        {/* Card 1 - Số lượng người dùng */}
-        <Grid item xs={12} md={4}>
-          <Card className="shadow-sm">
-            <CardContent>
-              <Typography variant="h6">Total Users</Typography>
-              <Typography variant="h4">{totalUsers}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Card 2 - Số khóa học */}
-        <Grid item xs={12} md={4}>
-          <Card className="shadow-sm">
-            <CardContent>
-              <Typography variant="h6">Total Courses</Typography>
-              <Typography variant="h4">{totalCourses}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Card 3 - Số lượt đăng ký */}
-        <Grid item xs={12} md={4}>
-          <Card className="shadow-sm">
-            <CardContent>
-              <Typography variant="h6">Total Enrollments</Typography>
-              <Typography variant="h4">{totalEnrollments}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-
-        {/* Card 4 - Số chương trình học */}
-        <Grid item xs={12} md={4}>
-          <Card className="shadow-sm">
-            <CardContent>
-              <Typography variant="h6">Total Programs</Typography>
-              <Typography variant="h4">{totalPrograms}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Card 5 - Số đề thi */}
-        <Grid item xs={12} md={4}>
-          <Card className="shadow-sm">
-            <CardContent>
-              <Typography variant="h6">Total Exams</Typography>
-              <Typography variant="h4">{totalExams}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Card 6 - Số lượt làm bài thi */}
-        <Grid item xs={12} md={4}>
-          <Card className="shadow-sm">
-            <CardContent>
-              <Typography variant="h6">Total Exam Attempts</Typography>
-              <Typography variant="h4">{totalExamAttempts}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+        {statsConfig.map(({ key, label, icon, color }) => (
+          <Grid item xs={12} sm={6} md={4} key={key}>
+            <Card
+              sx={{
+                background: `linear-gradient(135deg, ${color[0]}, ${color[1]})`,
+                color: "white",
+                borderRadius: 3,
+                boxShadow: 6,
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                '&:hover': {
+                  transform: 'scale(1.03)',
+                  boxShadow: 10
+                }
+              }}
+            >
+              <CardContent>
+                <Box display="flex" alignItems="center" gap={2}>
+                  {icon}
+                  <Box>
+                    <Typography variant="body1">{label}</Typography>
+                    <Typography variant="h4">
+                      {stats[key] !== undefined ? stats[key] : "..."}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
-      <StripeChart />
-    </div>
+
+      <Box mt={5}>
+        <StripeChart />
+      </Box>
+    </Box>
   );
 };
 

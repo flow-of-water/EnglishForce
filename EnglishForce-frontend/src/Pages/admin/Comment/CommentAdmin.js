@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../Api/axiosInstance";
 import { Container, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination } from "@mui/material";
 import CircularLoading from '../../../Components/Loading';
+import GradientTitle from "../../../Components/GradientTitle";
 
 const CommentAdmin = () => {
     const [comments, setComments] = useState([]);
@@ -44,7 +45,7 @@ const CommentAdmin = () => {
 
     return (
         <Container sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom>Manage Comments</Typography>
+            <GradientTitle align='left'>Manage Comments</GradientTitle>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
