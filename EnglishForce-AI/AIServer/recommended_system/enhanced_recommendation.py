@@ -47,7 +47,7 @@ class EnhancedRecommendationSystem:
 
     def get_all_courses_from_db(self) -> pd.DataFrame:
         query = text("""
-            SELECT * FROM courses LIMIT 2000
+            SELECT id as course_id, name, description, price FROM courses LIMIT 2000
         """)
         with self.engine.connect() as conn:
             df = pd.read_sql(query, conn)
