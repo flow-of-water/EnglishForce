@@ -107,6 +107,7 @@ const HomePage = () => {
             sx={{
               px: 5,
               py: 1.5,
+              mt:1,
               fontWeight: 700,
               fontSize: "1.1rem",
               background: "linear-gradient(to right, #1976d2, #64b5f6)",

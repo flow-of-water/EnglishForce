@@ -20,7 +20,7 @@ module.exports = {
                 order_index: 1,
                 content: 'Look at the picture marked number 1 in your test book.',
                 type: 'listening',
-                thumnail: 'https://s4-media1.study4.com/media/tez_media/img/eco_toeic_1000_test_1_eco_toeic_1000_test_1_1.png',
+                thumbnail: 'https://s4-media1.study4.com/media/tez_media/img/eco_toeic_1000_test_1_eco_toeic_1000_test_1_1.png',
                 answers: [
                   { content: 'A', is_correct: true },
                   { content: 'B', is_correct: false },

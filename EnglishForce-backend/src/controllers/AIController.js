@@ -1,6 +1,6 @@
 // controllers/geminiController.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { searchCourseInSentences, getTopRatedCourses } from '../services/course.service.js';
+import { searchCourseInSentences, getTopRatedCourses , mappingRecommendList} from '../services/course.service.js';
 import axios from "axios";
 
 const FASTAPI_CHATBOT_URL = process.env.FASTAPI_CHATBOT_URL;
@@ -113,11 +113,11 @@ export const myChatbotController = async (req, res) => {
   try {
     const { prompt } = req.body;
     var userId = "";
-    if(req?.user?.id) userId = req.user.id ;
+    if (req?.user?.id) userId = req.user.id;
 
     console.log("📤 Sending to chatbot:", { prompt, userId });
 
-    const response = await axios.post(`${FASTAPI_CHATBOT_URL}/chat`, { msg: prompt , userId });
+    const response = await axios.post(`${FASTAPI_CHATBOT_URL}/chat`, { msg: prompt, userId });
 
     console.log("📥 Chatbot response:", response.data);
 
@@ -136,7 +136,7 @@ export const getCourseRecommendations = async (req, res) => {
 
   if (!user_id) {
     const topCourses = await getTopRatedCourses(18);
-    return res.status(200).json(topCourses);
+    return res.status(200).json({ recommendations: topCourses });
   }
 
   const { n_recommendations = 5 } = req.body;
@@ -146,13 +146,24 @@ export const getCourseRecommendations = async (req, res) => {
       user_id,
       n_recommendations,
     });
+    console.log(response.data)
+    let recommendedCourseIds = response.data.recommendations.map(item => item.course_id);
+    const detailedCourses = await mappingRecommendList(recommendedCourseIds, user_id ?? -1);
 
-    return res.status(200).json(response.data);
+    return res.status(200).json({ recommendations: detailedCourses });
   } catch (err) {
     console.error('AI Server Error:', err.message);
     const status = err.response?.status || 500;
     const message = err.response?.data?.detail || 'Error fetching recommendations from AI server';
-    return res.status(status).json({ error: message });
+
+    try {
+      const topCourses = await getTopRatedCourses(18);
+      return res.status(200).json({ recommendations: topCourses, error: message });
+    } catch (fallbackErr) {
+      console.error('Fallback Error:', fallbackErr.message);
+      return res.status(status).json({ error: message });
+    }
+
   }
 };
 

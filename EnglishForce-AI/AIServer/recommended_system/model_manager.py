@@ -33,7 +33,11 @@ class ModelManager:
         """Force reload the model immediately and return status"""
         try:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            model_path = os.path.join(current_dir, 'recommend_model.h5')
+            model_path = os.path.join(current_dir, 'recommend_model.keras')
+            
+            # Check if .keras model exists, otherwise fallback to .h5
+            if not os.path.exists(model_path):
+                model_path = os.path.join(current_dir, 'recommend_model.h5')
             
             if not os.path.exists(model_path):
                 return {"success": False, "message": "Model file not found"}
@@ -56,7 +60,11 @@ class ModelManager:
         """Load the latest model and its components"""
         try:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            model_path = os.path.join(current_dir, 'recommend_model.h5')
+            model_path = os.path.join(current_dir, 'recommend_model.keras')
+            
+            # Check if .keras model exists, otherwise fallback to .h5
+            if not os.path.exists(model_path):
+                model_path = os.path.join(current_dir, 'recommend_model.h5')
             
             # Check if model file exists and has been modified
             if not os.path.exists(model_path):
@@ -70,6 +78,11 @@ class ModelManager:
             # Load new model and components
             with self._lock:
                 self.current_model = load_model(model_path)
+                # Compile model if not compiled
+                if not hasattr(self.current_model, 'optimizer') or self.current_model.optimizer is None:
+                    from tensorflow.keras.optimizers import Adam
+                    self.current_model.compile(optimizer=Adam(1e-3), loss='mse', metrics=['mae'])
+                    
                 with open(os.path.join(current_dir, 'user_encoder.pkl'), 'rb') as f:
                     self.current_user_encoder = pickle.load(f)
                 with open(os.path.join(current_dir, 'course_encoder.pkl'), 'rb') as f:

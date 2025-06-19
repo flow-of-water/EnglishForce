@@ -11,7 +11,17 @@ class RecommendationSystem:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         
         # Load model và các preprocessing tools
-        self.model = load_model(os.path.join(current_dir, 'recommend_model.h5'))
+        model_path = os.path.join(current_dir, 'recommend_model.keras')
+        if not os.path.exists(model_path):
+            # Fallback to .h5 if .keras doesn't exist
+            model_path = os.path.join(current_dir, 'recommend_model.h5')
+        
+        self.model = load_model(model_path)
+        # Compile model if not compiled
+        if not hasattr(self.model, 'optimizer') or self.model.optimizer is None:
+            from tensorflow.keras.optimizers import Adam
+            self.model.compile(optimizer=Adam(1e-3), loss='mse', metrics=['mae'])
+            
         with open(os.path.join(current_dir, 'user_encoder.pkl'), 'rb') as f:
             self.user_encoder = pickle.load(f)
         with open(os.path.join(current_dir, 'course_encoder.pkl'), 'rb') as f:
@@ -66,7 +76,7 @@ class RecommendationSystem:
                 # scale features
                 scaled = self.scaler.transform([[0, row['price'], row['average_rating'], 
                                               row['number_of_enrollments'], row['number_of_rating']]])[0][1:]
-                tfidf_vec = self.tfidf.transform([row['description'] if pd.notna(row['description']) else '']).toarray()[0]
+                tfidf_vec = np.asarray(self.tfidf.transform([row['description'] if pd.notna(row['description']) else '']).toarray()[0])
 
                 user_input.append(user_encoded)
                 course_input.append(course_encoded)
@@ -84,9 +94,29 @@ class RecommendationSystem:
             ])
 
             # Lấy top-k
-            top_indices = predictions.flatten().argsort()[-k:][::-1]
+            predictions_array = np.asarray(predictions).flatten()
+            
+            # Debug logging
+            print(f"Debug: Total courses in courses_df: {len(self.courses_df)}")
+            print(f"Debug: Total predictions: {len(predictions_array)}")
+            print(f"Debug: Requested k: {k}")
+            
+            # Đảm bảo k không vượt quá số lượng predictions
+            actual_k = min(k, len(predictions_array))
+            if actual_k == 0:
+                print("Debug: No predictions available")
+                return []  # Không có predictions nào
+                
+            # print(f"Debug: Actual k to return: {actual_k}")
+            top_indices = predictions_array.argsort()[-actual_k:][::-1]
+            # print(f"Debug: Top indices: {top_indices}")
+            
+            # Lọc courses_df để chỉ lấy những courses đã được predict
+            valid_courses_df = self.courses_df.iloc[:len(predictions_array)]
+            # print(f"Debug: Valid courses df length: {len(valid_courses_df)}")
+            
             # Chỉ lấy các trường cần thiết và chuyển NaN thành None
-            top_courses = self.courses_df.iloc[top_indices][['course_id', 'name', 'description', 'price', 'average_rating', 'number_of_enrollments', 'number_of_rating']]
+            top_courses = valid_courses_df.iloc[top_indices][['course_id', 'name', 'description', 'price', 'average_rating', 'number_of_enrollments', 'number_of_rating']]
             
             # Convert to list of dictionaries và xử lý NaN
             result = []

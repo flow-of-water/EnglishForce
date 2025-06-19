@@ -32,7 +32,7 @@ data[['average_score_in_exams', 'price', 'average_rating', 'number_of_enrollment
 
 # TF-IDF cho description
 tfidf = TfidfVectorizer(max_features=100)
-desc_tfidf = tfidf.fit_transform(data['description'].fillna('')).toarray()
+desc_tfidf = np.asarray(tfidf.fit_transform(data['description'].fillna('')).toarray())
 
 # Lưu các encoder và vectorizer
 with open(os.path.join(current_dir, 'user_encoder.pkl'), 'wb') as f: pickle.dump(user_encoder, f)

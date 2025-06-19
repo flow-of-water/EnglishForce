@@ -42,7 +42,7 @@ def recommend_top_k_courses(user_id, k=5):
 
         # scale features
         scaled = scaler.transform([[0, row['price'], row['average_rating'], row['number_of_enrollments'], row['number_of_rating']]])[0][1:]
-        tfidf_vec = tfidf.transform([row['description'] if pd.notna(row['description']) else '']).toarray()[0]
+        tfidf_vec = np.asarray(tfidf.transform([row['description'] if pd.notna(row['description']) else '']).toarray()[0])
 
         user_input.append(user_encoded)
         course_input.append(course_encoded)

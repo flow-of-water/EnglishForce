@@ -57,4 +57,4 @@ model.fit(
 )
 
 # Lưu model
-model.save(os.path.join(current_dir, 'recommend_model.h5'), include_optimizer=False)
+model.save(os.path.join(current_dir, 'recommend_model.keras'), include_optimizer=False)

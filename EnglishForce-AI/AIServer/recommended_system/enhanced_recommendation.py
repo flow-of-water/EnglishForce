@@ -45,10 +45,19 @@ class EnhancedRecommendationSystem:
             result = conn.execute(query, {"user_id": user_id, "limit": limit})
             return [{"course_id": row[0], "score": row[1]} for row in result]
 
+    def get_all_courses_from_db(self) -> pd.DataFrame:
+        query = text("""
+            SELECT * FROM courses LIMIT 2000
+        """)
+        with self.engine.connect() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+
     def get_similar_courses(self, course_ids: List[int], k: int = 5) -> List[Dict[str, Any]]:
+        print("course_ids", course_ids)
         """Get similar courses based on name, description and price"""
         # Get all courses from the model's courses_df
-        all_courses = pd.read_csv(os.path.join(os.path.dirname(__file__), 'courses.csv'))
+        all_courses = self.get_all_courses_from_db()
         
         # Fill NaN values with appropriate defaults
         all_courses['price'] = all_courses['price'].fillna(0)
@@ -70,10 +79,10 @@ class EnhancedRecommendationSystem:
         
         # Get the average TF-IDF vector for reference courses
         reference_vectors = tfidf_matrix[all_courses['course_id'].isin(course_ids)]
-        avg_reference_vector = reference_vectors.mean(axis=0)
+        avg_reference_vector = np.asarray(reference_vectors.mean(axis=0))
         
         # Calculate cosine similarity between average reference vector and all courses
-        text_similarities = cosine_similarity(tfidf_matrix, avg_reference_vector)
+        text_similarities = np.asarray(cosine_similarity(tfidf_matrix, avg_reference_vector))
         
         # Calculate price similarity
         avg_price = reference_courses['price'].mean()
@@ -82,14 +91,15 @@ class EnhancedRecommendationSystem:
         price_similarities = 1 - (price_diff / max_price_diff)  # Normalize to [0,1]
         
         # Combine similarities (70% text, 30% price)
-        final_similarities = 0.7 * text_similarities.flatten() + 0.3 * price_similarities
+        final_similarities = np.asarray(0.7 * text_similarities.flatten() + 0.3 * price_similarities)
         
         # Add similarity scores to the dataframe
         all_courses['similarity'] = final_similarities
         
         # Get top-k similar courses, excluding the input courses
         similar_courses = (
-            all_courses[~all_courses['course_id'].isin(course_ids)]
+            #all_courses[~all_courses['course_id'].isin(course_ids)]  # Code này loại bỏ chính các khóa học đã tương tác, chỉ lấy các khóa học tương tự
+            all_courses    # Code này lấy luôn các khóa học đã tương tác
             .nlargest(k, 'similarity')
             [['course_id', 'name', 'description', 'price']]
             .to_dict('records')
@@ -118,18 +128,29 @@ class EnhancedRecommendationSystem:
         except Exception as e:
             raise Exception(f"Error in model recommendations: {str(e)}")
 
+    def get_purchased_courses(self, user_id: int) -> set:
+        """Lấy danh sách course_id mà user đã mua từ bảng user_course"""
+        query = text("""
+            SELECT course_id FROM user_courses WHERE user_id = :user_id
+        """)
+        with self.engine.connect() as conn:
+            result = conn.execute(query, {"user_id": user_id})
+            return set(row[0] for row in result)
+
     def get_enhanced_recommendations(self, user_id: int, k: int = 5) -> List[Dict[str, Any]]:
         """Get enhanced course recommendations combining recent interactions and model predictions"""
         try:
+            # Lấy danh sách các khóa học đã mua
+            purchased_courses = self.get_purchased_courses(user_id)
             # Get recent interactions
             recent_interactions = self.get_recent_interactions(user_id)
-            
+            print("recent_interactions", recent_interactions)
             recommendations = []
             
             if recent_interactions:
                 # Get similar courses based on recent interactions
                 interaction_course_ids = [int(interaction['course_id']) for interaction in recent_interactions]
-                similar_courses = self.get_similar_courses(interaction_course_ids, k=k)
+                similar_courses = self.get_similar_courses(interaction_course_ids, k=12)
                 
                 # Weight recommendations by interaction scores
                 for course in similar_courses:
@@ -146,12 +167,12 @@ class EnhancedRecommendationSystem:
                 # User not in model training data, continue with only interaction-based recommendations
                 pass
 
-            # Remove duplicates (prefer interaction-based if duplicate)
+            # Remove duplicates (prefer interaction-based if duplicate) và loại bỏ các khóa học đã mua
             seen_courses = set()
             unique_recommendations = []
             for rec in recommendations:
                 course_id = rec['course_id']
-                if course_id not in seen_courses:
+                if course_id not in seen_courses and course_id not in purchased_courses:
                     seen_courses.add(course_id)
                     unique_recommendations.append(rec)
 

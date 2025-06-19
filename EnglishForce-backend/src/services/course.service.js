@@ -2,6 +2,7 @@ import db from '../sequelize/models/index.js';
 const { Course, UserCourse, CourseSection } = db;
 const { Op, fn, col, literal } = db.Sequelize;
 import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
+import * as userCourseService from './userCourse.service.js'; // 
 
 export const findCourseIdByPublicId = async (publicId) => {
   const course = await Course.findOne({ where: { public_id: publicId } });
@@ -189,7 +190,7 @@ export const getTopRatedCourses = async (k = 5) => {
         ],
         [
           fn('COUNT', col('UserCourses.rating')),
-          'rating_count'
+          'total_rating'
         ]
       ]
     },
@@ -207,4 +208,41 @@ export const getTopRatedCourses = async (k = 5) => {
   });
 
   return courses;
+};
+
+
+// Hàm để Map Recommend List -> Course List với đầy đủ các trường 
+export const mappingRecommendList = async (courseIds, userId) => {
+  const courses = await db.Course.findAll({
+    where: { id: courseIds },
+    include: [
+      {
+        model: db.UserCourse,
+        where: { user_id: userId },
+        required: false, // để xác định is_purchased
+      },
+    ],
+  });
+
+  const results = [];
+
+  for (const course of courses) {
+    const overview = await userCourseService.getOverviewRatingByCourseId(course.id);
+
+    results.push({
+      id: course.id,
+      public_id: course.public_id,
+      name: course.name,
+      instructor: course.instructor,
+      description: course.description,
+      thumbnail: course.thumbnail,
+      thumbnail_public_id: course.thumbnail_public_id,
+      price: course.price,
+      is_purchased: course.UserCourses.length > 0,
+      average_rating: overview?.average_rating ?? null,
+      total_rating: overview?.total_rating ?? 0,
+    });
+  }
+
+  return results;
 };

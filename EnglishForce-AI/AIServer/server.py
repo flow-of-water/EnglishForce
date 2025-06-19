@@ -10,9 +10,22 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from config import DATABASE_URL, HOST, PORT
 
+import os
+import warnings
+from sklearn.exceptions import DataConversionWarning
+
+# Tắt log từ TensorFlow
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
+# Tắt warning từ sklearn
+warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
+
+
 # Import AI models and utilities
 from chatbot.chatbot_utils import chatbot_response
 from recommended_system.enhanced_recommendation import EnhancedRecommendationSystem
+from recommended_system.training_pipeline import TrainingPipeline
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -24,6 +37,9 @@ app = FastAPI(
 # Initialize recommendation system
 recommendation_system = EnhancedRecommendationSystem(DATABASE_URL)
 
+# Initialize training pipeline
+training_pipeline = TrainingPipeline(DATABASE_URL)
+
 # Root endpoint
 @app.get("/")
 def read_root():
@@ -33,7 +49,7 @@ def read_root():
         "endpoints": {
             "/chat": "Chat with AI assistant",
             "/recommendations": "Get course recommendations for a user",
-            "/reload-model": "Force reload the recommendation model"
+            "/reload-model": "Train and reload the recommendation model"
         }
     }
 
@@ -74,16 +90,35 @@ def get_course_recommendations(request: RecommendationRequest):
 
 @app.post("/reload-model")
 def reload_model():
-    """Force reload the recommendation model"""
+    """Train and reload the recommendation model using existing scripts"""
     try:
-        result = recommendation_system.model_manager.force_reload_model()
-        if result["success"]:
-            return result
-        else:
-            raise HTTPException(status_code=500, detail=result["message"])
+        # Step 1: Run complete training pipeline using existing scripts
+        logging.info("Starting model training using existing scripts...")
+        training_result = training_pipeline.train_and_save_model()
+        
+        if not training_result["success"]:
+            raise HTTPException(status_code=500, detail=training_result["message"])
+        
+        # Step 2: Force reload the newly trained model
+        logging.info("Reloading the newly trained model...")
+        reload_result = recommendation_system.model_manager.force_reload_model()
+        
+        if not reload_result["success"]:
+            raise HTTPException(status_code=500, detail=reload_result["message"])
+        
+        # Step 3: Return combined results
+        return {
+            "success": True,
+            "message": "Model trained and reloaded successfully using existing scripts",
+            "training_info": training_result,
+            "reload_info": reload_result
+        }
+        
+    except HTTPException:
+        raise
     except Exception as e:
-        logging.error(f"Model reload error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error reloading model: {str(e)}")
+        logging.error(f"Model training and reload error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error training and reloading model: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
