@@ -51,7 +51,7 @@ model.compile(optimizer=Adam(1e-3), loss='mse', metrics=['mae'])
 model.fit(
     [X['user'], X['course'], X['user_score'], X['course_features'], X['desc_tfidf']],
     y,
-    batch_size=32,
+    batch_size=4,
     epochs=10,
     validation_split=0.1
 )
