@@ -5,7 +5,8 @@ import * as examService from '../../services/exam/exam.service.js';
 export const getAllExams = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const exams = await examService.getAllExams(page);
+    const q = req.query.q || '';
+    const exams = await examService.getAllExams(page,q);
     res.json(exams);
   } catch (error) {
     console.error(error);

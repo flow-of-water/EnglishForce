@@ -161,6 +161,7 @@ const LessonStartPage = () => {
       <ExerciseCard
         exercise={currentExercise}
         index={currentIndex}
+        total={exercises.length} 
         handleNext={handleNext}
         isLast={currentIndex === exercises.length - 1}
         onAnswerChecked={(isCorrect) => {

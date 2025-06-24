@@ -6,8 +6,9 @@ import CircularLoading from '../Loading';
 
 const ITEMS_PER_PAGE = 6;
 
-const RecommendedCourses = ({ active }) => {
+const RecommendedCourses = ({ active, query }) => {
   const [allCourses, setAllCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
   const [displayedCourses, setDisplayedCourses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -20,7 +21,7 @@ const RecommendedCourses = ({ active }) => {
         });
         const courses = res.data?.recommendations || [];
         setAllCourses(courses);
-        setCurrentPage(1); // Reset về trang đầu
+        setCurrentPage(1); // Reset to first page
         setLoading(false);
       } catch (err) {
         console.error('Failed to load recommended courses:', err);
@@ -32,9 +33,22 @@ const RecommendedCourses = ({ active }) => {
   }, [active]);
 
   useEffect(() => {
+    const lower = query?.toLowerCase().trim();
+    const filtered = lower
+      ? allCourses.filter(course =>
+          course.name?.toLowerCase().includes(lower) ||
+          course.instructor?.toLowerCase().includes(lower)
+        )
+      : allCourses;
+
+    setFilteredCourses(filtered);
+    setCurrentPage(1); // Reset page when search
+  }, [query, allCourses]);
+
+  useEffect(() => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    setDisplayedCourses(allCourses.slice(start, start + ITEMS_PER_PAGE));
-  }, [currentPage, allCourses]);
+    setDisplayedCourses(filteredCourses.slice(start, start + ITEMS_PER_PAGE));
+  }, [currentPage, filteredCourses]);
 
   const handlePageChange = (e, value) => {
     setCurrentPage(value);
@@ -44,7 +58,7 @@ const RecommendedCourses = ({ active }) => {
 
   return (
     <>
-      {allCourses.length === 0 ? (
+      {filteredCourses.length === 0 ? (
         <Typography variant="body1" sx={{ textAlign: 'center', mt: 4 }}>
           No recommended courses available.
         </Typography>
@@ -59,7 +73,7 @@ const RecommendedCourses = ({ active }) => {
           </Grid>
 
           <Pagination
-            count={Math.ceil(allCourses.length / ITEMS_PER_PAGE)}
+            count={Math.ceil(filteredCourses.length / ITEMS_PER_PAGE)}
             page={currentPage}
             onChange={handlePageChange}
             color="primary"

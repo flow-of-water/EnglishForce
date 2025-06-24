@@ -38,7 +38,7 @@ const ProgramList = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <GradientTitle align='left'>Learning Programs</GradientTitle>
+        <GradientTitle align='left'>Learning Programs Management</GradientTitle>
         <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/admin/programs/create')}>
           Add Program
         </Button>

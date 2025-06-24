@@ -40,7 +40,7 @@ const ExamAttemptAdmin = () => {
 
   return (
     <Container sx={{ mt: 4 }}>
-      <GradientTitle align='left'>Exam Attempts</GradientTitle>
+      <GradientTitle align='left'>Exam Attempts Management</GradientTitle>
 
       {loading ? (
         <CircularLoading />

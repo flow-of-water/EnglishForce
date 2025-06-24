@@ -73,7 +73,7 @@ const ExamAdmin = () => {
               <TableCell>Exam Name</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Duration (min)</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -83,7 +83,7 @@ const ExamAdmin = () => {
                 <TableCell>{exam.name}</TableCell>
                 <TableCell>{exam.description}</TableCell>
                 <TableCell>{exam.duration}</TableCell>
-                <TableCell align="right">
+                <TableCell>
                   <Button color="primary" component={Link} to={`/admin/exams/${exam.public_id}`}>Detail</Button>
                   <Button color="error" onClick={() => handleDelete(exam.public_id)}>Delete</Button>
                 </TableCell>

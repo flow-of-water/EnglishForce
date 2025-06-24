@@ -47,7 +47,7 @@ const CourseAdmin = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-        <GradientTitle align='left'>Manage Courses</GradientTitle>
+        <GradientTitle align='left'>Courses Management</GradientTitle>
         <Button variant="contained" startIcon={<Add />} href="/admin/courses/create">
           Create Course
         </Button>

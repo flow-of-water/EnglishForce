@@ -1,5 +1,6 @@
 // services/exam.service.js
 import db from '../../sequelize/models/index.js';
+import { Op } from 'sequelize';
 const { Exam, Question, Answer, ExamAttempt, ExamPart, QuestionGroup } = db;
 
 
@@ -14,11 +15,20 @@ export const findExamIdByPublicId = async (publicId) => {
 }
 
 
-export const getAllExams = async (page = 1) => {
+export const getAllExams = async (page = 1, query = '') => {
   const pageSize = 6;
   const offset = (page - 1) * pageSize;
 
+  const whereClause = query
+    ? {
+        name: {
+          [Op.iLike]: `%${query}%` // PostgreSQL: không phân biệt hoa thường
+        }
+      }
+    : {};
+
   const { count, rows } = await Exam.findAndCountAll({
+    where: whereClause,
     attributes: ['public_id', 'name', 'description', 'duration', 'type'],
     limit: pageSize,
     offset: offset,
@@ -32,6 +42,7 @@ export const getAllExams = async (page = 1) => {
     exams: rows
   };
 };
+
 
 
 

@@ -23,6 +23,26 @@ export const getAllUsers = async () => {
   return users;
 };
 
+
+export const getPagingUsers = async (page = 1, limit = 10) => {
+  const offset = (page - 1) * limit;
+
+  const { rows: users, count: totalItems } = await User.findAndCountAll({
+    order: [['id', 'ASC']],
+    offset,
+    limit,
+  });
+
+  return {
+    users,
+    totalItems,
+    totalPages: Math.ceil(totalItems / limit),
+    currentPage: page,
+  };
+};
+
+
+
 export const getNumberOfUsers = async () => {
   const count = await User.count();
   return count;

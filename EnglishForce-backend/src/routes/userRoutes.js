@@ -1,10 +1,10 @@
 import express from "express";
-import { getAllUsersController , updateUserRoleController, getMyUserAccountController } from "../controllers/userController.js";
+import { getPagingUsersController , updateUserRoleController, getMyUserAccountController } from "../controllers/userController.js";
 import { authMiddleware, adminMiddleware } from "../middleware/authorize.js";
 
 const router = express.Router();
 
-router.get("/", getAllUsersController);
+router.get("/", getPagingUsersController);
 router.get("/profile",authMiddleware, getMyUserAccountController) ;
 
 router.patch("/:publicId",authMiddleware,adminMiddleware, updateUserRoleController ) ;

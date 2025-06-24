@@ -45,7 +45,7 @@ const CommentAdmin = () => {
 
     return (
         <Container sx={{ mt: 4 }}>
-            <GradientTitle align='left'>Manage Comments</GradientTitle>
+            <GradientTitle align='left'>Comments Management</GradientTitle>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>

@@ -57,7 +57,7 @@ const HeroSection = () => {
                     <Box flex={1} display="flex" justifyContent="center">
                         <Box
                             component="img"
-                            src="https://storage.googleapis.com/schoolnet-content/blog/wp-content/uploads/2022/07/How-to-Learn-English-Speaking-at-Home.jpg"
+                            src="english.jpg"
                             alt="Learning English"
                             sx={{
                                 width: '100%',

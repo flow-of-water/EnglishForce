@@ -13,7 +13,8 @@ import {
   Chip,
   Box,
   Stack,
-  Paper
+  Paper,
+  LinearProgress
 } from '@mui/material';
 import axiosInstance from '../../Api/axiosInstance';
 import SpeakingExercise from './SpeakingExercise';
@@ -21,6 +22,7 @@ import SpeakingExercise from './SpeakingExercise';
 const ExerciseCard = ({
   exercise,
   index,
+  total,
   onAnswerChecked,
   handleNext,
   isLast,
@@ -30,6 +32,8 @@ const ExerciseCard = ({
   const [selectedAnswerId, setSelectedAnswerId] = useState(null);
   const [userText, setUserText] = useState('');
   const [speakingResult, setSpeakingResult] = useState(null);
+  const correctSound = new Audio("/correct-sound.mp3");
+  const wrongSound = new Audio("/wrong-sound.mp3");
 
   useEffect(() => {
     setSelectedAnswerId(null);
@@ -49,6 +53,10 @@ const ExerciseCard = ({
       setIsCorrect(answer.is_correct);
       setShowResult(true);
       if (answer.is_correct) onAnswerChecked(answer.is_correct);
+
+
+      if (answer.is_correct) correctSound.play();
+      else wrongSound.play();
     }
 
     else if (exercise.type === 'writing') {
@@ -62,6 +70,9 @@ const ExerciseCard = ({
         setIsCorrect(isCorrect);
         setShowResult(true);
         if (isCorrect) onAnswerChecked(isCorrect);
+
+        if (isCorrect) correctSound.play();
+        else wrongSound.play();        
       } catch (error) {
         console.error("Gemini API error:", error);
         alert("An error occurred while grading.");
@@ -75,6 +86,9 @@ const ExerciseCard = ({
       setIsCorrect(speakingResult.isCorrect);
       setShowResult(true);
       if (speakingResult.isCorrect) onAnswerChecked(speakingResult.isCorrect);
+
+      if (speakingResult.isCorrect) correctSound.play();
+      else wrongSound.play();
     }
   };
 
@@ -148,6 +162,18 @@ const ExerciseCard = ({
         background: 'linear-gradient(to right, #fdfbfb, #ebedee)',
       }}
     >
+<Box>
+  <Typography variant="body2" fontWeight="bold">
+    Progress: {index + 1} / {total}
+  </Typography>
+  <LinearProgress
+    variant="determinate"
+    value={((index + 1) / total) * 100}
+    sx={{ height: 10, borderRadius: 5, mb: 2 }}
+  />
+</Box>
+
+
       <CardContent>
         <Stack spacing={2}>
           <Typography variant="h5" fontWeight="bold">
