@@ -121,9 +121,14 @@ def query_db_for_info(intent, user_input, userId=""):
                         else "User has no learning progress yet.")
 
             lines = []
+            if intent ==  "#vi_learning_progress":
+                lines.append("Tiến độ học tập gần đây của bạn: ")
+            else :
+                lines.append("Your recent learning progress:")
+                
             for lesson_name, program_name, score, completed_at in progresses:
-                lesson_name = lesson_name or "Bài học chưa rõ" if intent == "#vi_learning_progress" else "Unknown Lesson"
-                program_name = program_name or "Chương trình chưa rõ" if intent == "#vi_learning_progress" else "Unknown Program"
+                lesson_name = lesson_name 
+                program_name = program_name 
                 score_str = str(score) if score is not None else "N/A"
                 if completed_at:
                     completed_str = completed_at.strftime("%d-%m-%Y") if intent == "#vi_learning_progress" else completed_at.strftime("%Y-%m-%d")

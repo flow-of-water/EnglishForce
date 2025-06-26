@@ -58,7 +58,7 @@ const ExamPage = () => {
   }, [searchInput]);
 
   return (
-    <Box sx={{ py: 8, px: { xs: 2, md: 6 }, minHeight: '100vh' }}>
+    <Box sx={{ py: 4, px: { xs: 2, md: 6 }, minHeight: '100vh' }}>
       <GradientTitle>Available Exams</GradientTitle>
 
       <Typography align="center" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto', mb: 2 }}>

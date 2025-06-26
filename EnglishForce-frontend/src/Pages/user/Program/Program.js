@@ -48,8 +48,12 @@ const ProgramPage = () => {
   if (loading) return <CircularLoading />
 
   return (
-    <Box p={4}>
+    <Box sx={{ mt: 4 }}>
       <GradientTitle>Learning Programs</GradientTitle>
+
+      <Typography align="center" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto', mb: 2 }}>
+        Browse through our carefully selected learning programs aimed at enhancing your English proficiency and boosting your confidence for success.
+      </Typography>
 
       <Grid container spacing={4}>
         {programs.map((program) => (

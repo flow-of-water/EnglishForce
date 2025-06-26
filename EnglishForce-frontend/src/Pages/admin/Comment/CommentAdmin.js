@@ -85,7 +85,7 @@ const CommentAdmin = () => {
                 page={page}
                 onChange={(event, value) => setPage(value)} // Update page state on page change
                 color="primary"
-                style={{ marginTop: 20 }}
+                sx={{ display: "flex", justifyContent: "center", mt: 4 }}
             />}
         </Container>
     );
