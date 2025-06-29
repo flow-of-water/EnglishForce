@@ -1,7 +1,7 @@
 # ***** My gitignore *****
 *.env
 node_modules/
-Report/ 
+
 
 # FastAPI server gitignore 
 # Ignore virtual environment

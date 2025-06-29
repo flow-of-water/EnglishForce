@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, CircularProgress, Paper, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Container, Typography, CircularProgress, Paper, Button, Dialog, DialogContent, DialogTitle, TextField, Grid, Box, Card, CardContent, Avatar } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Cell } from 'recharts';
 import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
@@ -80,6 +80,7 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false); // For controlling Dialog visibility
+  const defaultAvatar = '/2.png';
 
   useEffect(() => {
     async function Fetch() {
@@ -117,9 +118,28 @@ const Profile = () => {
     <Container>
       {user ? (
         <Paper style={{ padding: '20px' }}>
-          <GradientTitle align='left'>Profile</GradientTitle>
-          <Typography variant="h6">Username: {user.username}</Typography>
-          <Typography variant="h6">Role: {user.role}</Typography>
+          <GradientTitle align="left">Profile</GradientTitle>
+          <Card elevation={3} sx={{ borderRadius: 3 }}>
+            <CardContent>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item>
+                  <Avatar
+                    src={user.avatar || defaultAvatar}
+                    alt="User Avatar"
+                    sx={{ width: 100, height: 100 }}
+                  />
+                </Grid>
+                <Grid item xs>
+                  <Typography variant="h6" gutterBottom>
+                    Username: <strong>{user.username}</strong>
+                  </Typography>
+                  <Typography variant="h6">
+                    Role: <strong>{user.role}</strong>
+                  </Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
 
           <Button variant="contained" color="primary" onClick={handleDialogOpen} sx={{ mt: 3 }}>
             Change Password
@@ -150,7 +170,7 @@ const Profile = () => {
             Average Scores
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            Program Average Score: <strong>{user.stats?.averageScoreProgram*100 || 0}%</strong>
+            Program Average Score: <strong>{user.stats?.averageScoreProgram * 100 || 0}%</strong>
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
             Exam Average Score: <strong>{user.stats?.averageScoreExam || 0}%</strong>

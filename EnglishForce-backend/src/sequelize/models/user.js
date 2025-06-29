@@ -21,21 +21,23 @@ export default (sequelize, DataTypes) => {
     },
     email: DataTypes.TEXT,
     role: DataTypes.TEXT,
-    stripe_customer_id : DataTypes.TEXT ,
+    stripe_customer_id: DataTypes.TEXT,
+    avatar: DataTypes.TEXT,
+    avatar_public_id: DataTypes.TEXT,
   }, {
     tableName: 'users',
     timestamps: false
   });
 
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.belongsToMany(models.Course, {
       through: models.UserCourse,
       foreignKey: 'user_id',
       otherKey: 'course_id'
     });
-    User.hasMany(models.UserCourse, { foreignKey: 'user_id' , onDelete: 'CASCADE'});
+    User.hasMany(models.UserCourse, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 
-    User.hasMany(models.Comment, { foreignKey: 'user_id' , onDelete: 'CASCADE' });
+    User.hasMany(models.Comment, { foreignKey: 'user_id', onDelete: 'CASCADE' });
   };
 
   return User;

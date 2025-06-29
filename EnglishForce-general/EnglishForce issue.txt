@@ -1,0 +1,347 @@
+____________________________________________________
+*** ENHANMENT ***
+____________________________________________________
+#1 Dùng ORM thay vì raw query với Pool
+#2 Ngoài id, có thêm public_id (UUID) để tăng độ bảo mật 
+#3 Dùng cloudinary để lưu ảnh và video 
+Trước đây, ảnh lưu dưới dạng binary trong db, video chỉ có thể gắn link 
+#4 AI (Bao gồm Retrieval-based chatbots và Hybrid Recommend System)
+
+
+_____________________________________________________
+
+*** ISSUE ***
+_____________________________________________________
+###1 Dùng Cloudinary để lưu trữ ảnh và video cho đồ án
+
+
+
+###2 Khi deploy project cần thuê máy ảo trên cloud về tự setting
+Không được ăn sẵn như Render , Vercel , Supabase 
+Azure for students 
+
+
+
+
+###3 Thực hiện PayOS ? (check keyword đúng không)
+
+###4 Recommend system AI 
+#4.1. Recommend System response wrong way 
+- When login/not login yet, reponse difference size of list 
+- Reload API not work ?
+
+###5 Chatbot AI 
+
+
+###6 Optimize 
+Load balancing (cái này chỉ dùng trong microservice hoặc các hệ thống nhiều server)
+Index 
+
+
+
+
+###7 Bug
+#7.2 Limit Price của course 
+- 0$ Free
+- Greater or equal 1$
+Why ? Stripe requires
+
+
+#7.5 Scan the project and fix any unusual issues. (09/06/2025-14/06/2025)
+- Add Order Index in Course List Admin
+- Add Loading when fetch Data
+- Try catch to avoid crash 
+- Chưa Login thì không làm bài thi được (fixed)
+Đã chọn đúng middleware authMiddlewareWithoutError, controller vẫn cố truy cập userId và nếu không có thì lỗi
+- Customer Char in Admin Dashboard 
+Lý do: Khi tạo paymentIntent, bạn có gán customer không?
+const paymentIntent = await stripe.paymentIntents.create({
+  amount: 5000,
+  currency: 'usd',
+  customer: stripeCustomerId, // <-- nếu không có dòng này thì payment không gắn với customer
+});
+
+
+
+###9 Enhancement - Feature
+#9.1.
+
+
+
+#9.5 JWT expire while using 
+Current flow : redirect to login page 
+Did it annoying
+
+
+
+
+__________________________________________________
+*** SOLVED ***
+__________________________________________________
+###1 Dùng Cloudinary để lưu trữ ảnh và video cho đồ án
+
+#1.1 (COURSE) Khi xóa ảnh, video thì cần đồng thời xóa luôn ở trên cloudinary (course feature)
+Nếu các feature khác cũng upload ảnh thì cũng cần như vậy
+- Tạo course, section mà có upload -> tự động upload và lưu URL, public_id về
+- Xóa course => Xóa ảnh , video của section trên cloudinary 
+- Sửa course => Nếu sửa ảnh => xóa ảnh cũ và up ảnh mới lên cloudinary 
+- Xóa course sections => Xóa video trên cloudinary 
+- Sửa course sections => Nếu sửa video => xóa video cũ và up video mới cloudinary 
+Test : 
+- Create course => img up cloudinary (OK)
+- Edit course => change img cloudinary (OK)
+- Create sections => video up cloudinary (OK)
+- Edit sections => change img cloudinary (OK, edit link hay file thì cũng xóa video cũ)
+- Delete course => xóa comments , user_courses, sections ; image, sections video trên cloudinary (OK)
+- Delete sections => xóa video trên cloudinary (OK)
+Warning : khi create course : thất bại với 1 số ảnh png ? Có lẽ là do trước đây ép từ wepb về png ? 
+Có vẻ không phải do code mà do ảnh 
+
+
+
+#1.2 Chúng ta đang upload video qua API, nếu video quá lớn thì sao ? 
+API tải nổi không? Hay với cloudinary thì khác? 
+Trả lời: ChatGPT:
+TH1:  frontend → backend server (Node.js) → Cloudinary
+Nếu video quá lớn (ví dụ 500MB, 1GB), thì:
+- Tốn RAM server backend vì Express và multer sẽ giữ file đó trong memory hoặc ổ đĩa tạm thời.
+- Timeout có thể xảy ra nếu server bạn config timeout thấp.
+- Tốc độ upload bị giới hạn bởi băng thông Internet của server backend. Nếu backend không mạnh (ví dụ xài VPS nhỏ), sẽ choke ngay.
+- Nếu Node backend server chết (Out of Memory - OOM) thì request lỗi luôn.
+TH2: Cloudinary thực ra có cách upload trực tiếp từ client lên Cloudinary (không qua server bạn).
+Max file upload size (tùy gói dịch vụ):
+- Unsigned upload (miễn phí): khoảng 100MB (có thể config lên 120MB)
+- Signed upload (trả phí): hỗ trợ file tới vài GB (thường ~5GB nếu đăng ký cao cấp).
+Trong trường hợp cụ thể của chúng ta:
+Client → Backend Node.js (qua multer) → Cloudinary
+- multer xử lý file từ FormData.
+- File được lưu trực tiếp lên Cloudinary nhờ cấu hình CloudinaryStorage.
+- Server không giữ file tạm trong ổ đĩa hoặc RAM, vì multer-storage-cloudinary stream file thẳng lên Cloudinary.
+Có vẻ vẫn oke nếu số lượng admin (người có thể upload tài nguyên) có số lượng khoảng 30 
+
+
+
+###2 Khi deploy project cần thuê máy ảo trên cloud về tự setting
+Không được ăn sẵn như Render , Vercel , Supabase 
+Azure for students 
+
+#2.1. Deploy Full Web trên Azure VPS (HTTP)
+Link youtube:https://www.youtube.com/watch?app=desktop&v=G2KLLwd7590&fbclid=IwY2xjawK_NAFleHRuA2FlbQIxMABicmlkETFiMzVTTExnNjg3QlVNQld2AR66XdW0EajUdgIrv1cWszBeejmqMFVHvWwB0cpcA-FNOmujk8-iS_MKnGT-fA_aem_4ymo32iRqtRXBiXky-vqnw
+B1: Chuẩn bị VPS (Azure)
+SSH vào VPS bằng .pem hoặc password
+ssh -i "C:\Users\ACER\Downloads\englishforcevps_key.pem" azureuser@20.187.151.69  (Chạy trên git bash)
+Máy ảo 2: ssh -i "C:\Users\ACER\Downloads\englishforcevps200_key.pem" azureuser@20.78.56.115
+Máy ảo 3: 
+B2: Cài đặt môi trường
+sudo apt update && sudo apt upgrade -y
+sudo apt update && sudo apt install -y git nginx
+sudo systemctl enable nginx
+B2.5 Cài nodejs npm 
+đúng version
+https://github.com/nodesource/distributions
+B3: Clone source code từ github về VPS
+B4: Cấu hình Backend
+npm install ;  cấu hình .env 
+Chạy: node server.js
+Hoặc dùng: pm2 start server.js --name backend
+B5: Cấu hình Frontend
+Chạy:
+cd frontend
+npm install
+npm run build
+B6: Cấu hình nginx
+sudo nano /etc/nginx/sites-available/default  (default hoặc 1 file mới như myserver)
+Sau đó:
+sudo nginx -t
+sudo systemctl reload nginx
+B7: Tự động chạy app khi reboot
+pm2 startup
+pm2 save
+#2.2. Lỗi khi vào web (Cụ thể là IP của VPS)
+FE: Gọi sai địa chỉ IP http://IP:5000/api/...
+-> Sửa thành: http://IP/api/...   (Không cần cổng 5000, vì NGINX đã proxy rồi, lúc truy cập vào là cổng HTTP 80)
+BE: Lỗi NGINX proxy không đúng
+nginx api/ 
+localhost:5000/
+Sửa thành:
+=>> ngix api 
+localhost:5000
+
+
+
+#2.2 HTTP -> HTTPS 
+B1: Mua domain (Bắt buộc)
+HTTPS chỉ cấp SSL cho domain, không dùng với IP như http://20.187.151.69.
+B2: Cài Certbot (Let’s Encrypt)
+Với Ubuntu:
+sudo apt update
+sudo apt install certbot python3-certbot-nginx -y
+B3: Tạo chứng chỉ SSL cho domain
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+B4: Check HTTPS và thiết lập tự gia hạn Domain
+sudo certbot renew --dry-run
+B5: Thiết lập lại nginx config 
+B6: Fix bug
+- FE env: BACKEND_URL từ VPS IP -> Domain (Vì không có SSL cert cho IP 20.187.151.69→ browser chặn (TLS handshake fail hoặc mixed content))
+
+#2.3. Deploy FastAPI backend 
+- Tạo môi trường ảo:
+python3 -m venv venv
+source venv/bin/activate
+- Install các thư viện, thêm env 
+- Chạy chương trình (chạy ngầm, kích hoạt venv)
+nohup python server.py > server.log 2>&1 &
+- Fix bug
+1. Lỗi:
+Resource wordnet not found.
+Please use the NLTK Downloader to obtain the resource:
+>>> import nltk
+>>> nltk.download('wordnet')
+=> (môi trường venv đang active) chạy lệnh: python -m nltk.downloader wordnet omw-1.4
+
+
+
+
+
+###5 Chatbot AI 
+
+#5.1 Lựa chọn Model
+Retrieval and generative AI chatbots
+=> Retrieval chatbot (Đơn giản hơn, yêu cầu ít hơn về phần cứng và data để train)
+
+
+
+###6 Optimize 
+
+#6.1 Optimize luồng Submit exam
+Hiện tại với 200 câu hỏi được chọn, từ bấm submit tới lúc có kết quả
+Timer hiện: 191:45->188:24 , hết 3 phút 21 giây
+- Xác định nguyên nhân: Số lượng truy vấn SQL trong 1 API request quá nhiều, 
+db.Question.findOne(...) → gọi 1 lần / câu hỏi
+db.ExamPart.findByPk(...) (và đệ quy để tìm rootPart Listening/Reading) →  gọi 1–n lần / câu hỏi
+=>  Với 200 câu hỏi trong exam, có thể lên tới 200–500 truy vấn DB riêng biệt!
+Giải pháp tối ưu: Tải mọi dữ liệu từ DB 1 lần 
+- (1) Tải tất cả Questions và Answers liên quan đến exam.id
+const allQuestions = await db.Question.findAll({
+  where: { exam_id: exam.id },
+  include: [db.Answer, db.ExamPart]
+});
+=> Giảm từ 200 truy vấn thành 1 truy vấn duy nhất
+Sau đó lập sẵn Map để tra cứu khi cần
+- (2) Lập sẵn Map rootPart theo exam_part_id, tránh đệ quy lặp lại
+Hàm findRootPartFast 
+Kết quả:
+=> Từ 3.5 phút xuống 5s
+
+
+
+###7 Bug
+
+#7.1. Can't delete course
+=> Trong code: trước khi xóa course thì xóa courseSections (hàm này code sai)
+solved 
+=> Thêm onDelete: cascade trong file model , để khi xóa course => tự xóa comment, course_sections, user_course
+Vậy thì không cần xóa courseSections trước nữa, model sẽ tự delete cascade 
+Đã test 
+
+
+#7.3 Exam end immediately when start
+Lý do: ExamStartPage lưu StartTime ở localStorage 
+-> Đang làm thì out , localStorage vẫn lưu 
+-> Hôm sau vào lại, lấy StartTime từ localStorage -> Hết giờ -> nộp bài
+Khắc phục: Bỏ vụ localStorage, StartTime là biến bình thường 
+Refesh thì time , các câu hỏi đã chọn bị reset (Study4 cũng giống như vậy)
+-> Thêm Pop-up cảnh báo người dùng có thật sự muốn F5 không
+
+
+#7.4 Tính điểm exam bị sai rồi ? 
+Câu đã chọn thì hiện N/A , câu chưa chọn thì tự chọn đúng luôn ? 
+Dự đoán: Này là do thứ tự sắp xếp của answer trong result bị xáo trộn thôi 
+=> Khi trả về kết quả cho người dùng đã sắp xếp các câu hỏi theo thứ tự đàng hoàng, test OK
+
+
+#8 Public Id : UUID 
+Đổi từ id -> public id hết ; ẩn id khỏi frontend để tăng độ bảo mật 
+Khá rối rắm, mình cần 1 flow có hệ thống 
+Frontend: dùng public_id , không dùng id serial nữa 
+Đổi tên URL /:id -> /:publicId
+Backend: 
+- Routes: /:id -> /:publicId
+- Controller: nhận về publicId , parse về id , gọi service xử lý 
+Ẩn id khỏi người dùng khi trả về json (chưa làm)
+- Service: giữ nguyên không cần thay đổi
+Note: 
+- Đã đổi tất cả sang dùng public_id trừ phần comment 
+Comment có phần parent_comment_id(serial) cần thiết để render ra các reply 
+- Xóa các endpoint dùng id:serial ở course, section, usercourse, user
+
+
+
+###9 Enhancement - Feature
+#9.2 Limit time for exam 
+- Dùng useState 
+(F5 là sẽ tính lại thời gian từ đầu , các câu hỏi sẽ mất, nhưng ta sẽ thêm 1 Pop-up để confirm Are you sure F5, giống web study4)
+ 
+
+
+#9.3 Cấu trúc Exam: Tham khảo 2 web Study4 và Zenlish 
+* Study4: 
+Bài thi TOEIC: Gồm 2 phần Listening và Reading 
+- Ghi âm: 1 Record cho nguyên phần Listening (45ph) , có thể pause, có thể tua đi tua lại
+- Hình ảnh: Ở bài nghe Part 3-4, chúng ta cần 1 đoạn hội thoại và 1 bức ảnh để minh họa cho 3 câu hỏi mỗi lần 
+- Phân trang theo TOEIC Parts (7 parts), không thấy gọi API khi chuyển trang, API trả về HTML 30k lines, có vẻ web load bài thi trong 1 lần
+- Ở phần đọc, Có 1 đoạn hội thoại, email,... gì đó để trả lời cho 3 câu hỏi mỗi lần, (đoạn hội thoại có xuống dòng, in đậm) 
+* Zenlish: 
+Bài thi TOEIC: Gồm 2 phần Listening và Reading 
+- Ở phần Listening không phân trang, tự chuyển trang theo record (có vẻ cũng là 1 record cho nguyên phần Listening) (Ở mỗi phần đầu Part1,2,3 có thể bấm bắt đầu để tua record tới chỗ cần tới ? thay vì nghe nó yapping)
+*General: Cần có 1 Question Menu (Sidebar), bấm vào câu nào thì đến câu đó, đánh dấu các câu đã trả lời và chưa trả lời, Hiện nút nộp bài và thời gian còn lại 
+* EnglishForce:
+- Phân trang giống Study4, ẩn đi thanh recording (Hoặc thêm option để chọn)
+- Cần thêm 2 Bảng là Parts và GroupQuestions
+Part: Listening, Reading, Part 1-2-3-4-5-6-7, lưu recording 
+GroupQuestions (children Parts): lưu ảnh, hội thoại 
+#9.3.1 Phân cấp và Paging trong ExamStart 
+Để có cấu trúc giống TOEIC: 
+- Lớp ExamPart đầu tiên (Parent Parts): Listening , Reading 
+- Lớp ExamPart thứ 2 (Children Parts): Part 1,2,3,4,5,6,7
+- Lớp ExamPart thứ 3 (Grandchildren Parts): Là QuestionGroup, lưu các hỉnh ảnh, đoạn văn đc dùng chung cho 3,4 câu hỏi
+Câu hỏi: Các câu hỏi đơn không cần QuestionGroup thì nên tạo ntn ? 
+C1: Tạo 1 Part chỉ chứa 1 câu hỏi đó (Với cách này, chúng ta cần thêm orderIndex cho ExamPart)
+C2: Tạo trực tiếp câu hỏi từ Lớp ExamPart thứ 2 (Khá khó thực hiện, không biết nên sắp xếp như thế nào với các Lớp ExamPart thứ 3)
+Kết luận: 
+- QuestionGroup sinh ra chỉ vì 1 số nhóm câu hỏi cần dùng chung Ảnh, Đoạn văn (Part 3,4,6,7)
+- 3 Part còn lại 1,2,5 chỉ chứa các câu đơn , có thể dùng C1 
+- ExamMenu nên chỉ hiện các phân cấp: Listening, Reading, Part 1,2,3,... Còn cấp QuestionGroup thì không nên hiện dễ loạn 
+
+
+#9.4 Exam Admin Structure :
+- Exam Lists: Add Exam Button, Delete Exam Button
+- Exam Detail: Edit Exam Button, Exam Infor , Exam Part Lists, Add Part Button, Delete Part Button
+- Exam Part Detail : 
+ + Exam Part Infor, Edit Part Button
+ + Children Exam Part Lists, Add Child Part Button, Delete Child Part Button, Detail Child Part Button(still redirect to Exam Part Detail)
+ + Edit Questions Button 
+- Questions list: All questions of one part
+- Question Detail: Edit question button, Answer List, Add Answer, Delete Answer Button , Edit Answer Button
+
+
+#9.6 Exam chỉ mới tính % điểm thi 
+Yêu cầu: Tính điểm TOEIC của user 
+Hướng làm: 
+- Exam thêm type (Loại kỳ thi: general, toeic) 
+- Thêm vào exam_attempt : Description string (vd: TOEIC total score 775, Listening 390, Reading 385)
+Và 1 hàm trong backend để tính điểm TOEIC 
+https://zim.vn/thang-diem-toeic
+TOEIC không có công thức tính điểm tuyến tính mà là bảng quy đổi điểm, 
+ta cứ áp dụng 1 công thức đơn giản cho rồi
+
+
+#9.7 Tailor Home Page 
+Issue: Style của userLayout cản trở việc thiết kế Home Page theo ý, không muốn thay đổi userLayout vì nó gây ảnh hưởng Page khác
+=> Tạo HomePageLayout dành riêng cho Home Page
+Mini Issue: Việc đổi từ Home Page sang trang khác reset Chatbot (ko thích)
+Đã thử: Tạo Parent Layout cho cả HomePageLayout và cả UserLayout, đặt Chatbot component ở Parent
+Vẫn bị reset Chatbot 
+=> Không tạo thêm Layout nữa , thêm điều kiện if else vào userLayout ban đầu
+
+

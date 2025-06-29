@@ -9,6 +9,7 @@ import {
   ListItemText,
   Paper,
   IconButton,
+  Avatar,
 } from '@mui/material';
 import { Delete, Edit, Save, Close, Reply } from '@mui/icons-material';
 import axiosInstance from '../../Api/axiosInstance';
@@ -114,10 +115,15 @@ const Comments = ({ coursePublicId }) => {
       .map((comment) => (
         <Box key={comment.id} sx={{ ml: level * 4 }}>
           <ListItem alignItems="flex-start">
+            <Avatar
+              src={comment.User?.avatar || '/2.png'}
+              alt={comment.User?.username}
+              sx={{ width: 40, height: 40, mr: 2, mt: 1 }}
+            />
             <ListItemText
               primary={
                 <Typography variant="body2" color="text.primary">
-                  {comment.username} — {new Date(comment.created_at).toLocaleString()}
+                  {comment.User.username} — {new Date(comment.created_at).toLocaleString()}
                 </Typography>
               }
               secondary={

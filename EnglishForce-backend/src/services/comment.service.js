@@ -88,7 +88,7 @@ export const getDetailCommentsByCourseId = async (course_id) => {
     include: [
       {
         model: User,
-        attributes: ['username']
+        attributes: ['username','avatar']
       }
     ],
     order: [['created_at', 'DESC']]
