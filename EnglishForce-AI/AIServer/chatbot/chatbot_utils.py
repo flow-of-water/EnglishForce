@@ -7,6 +7,12 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import TreebankWordTokenizer
 from keras.models import load_model
 from db_utils import query_db_for_info
+# Xóa log 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import tensorflow as tf
+tf.get_logger().setLevel('ERROR')
+
 
 lemmatizer = WordNetLemmatizer()
 tokenizer = TreebankWordTokenizer()
@@ -24,19 +30,18 @@ def clean_up_sentence(sentence):
     sentence_words = tokenizer.tokenize(sentence)
     return [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
 
-def bow(sentence, words, show_details=True):
+vocab_index = {w: i for i, w in enumerate(words)}
+def bow(sentence):
     sentence_words = clean_up_sentence(sentence)
-    bag = [0] * len(words)
-    for s in sentence_words:
-        for i, w in enumerate(words):
-            if w == s:
-                bag[i] = 1
-                if show_details:
-                    print("found in bag:", w)
-    return np.array(bag)
+    vec = np.zeros(len(vocab_index), dtype=int)
+    for word in sentence_words:
+        idx = vocab_index.get(word)
+        if idx is not None:
+            vec[idx] = 1
+    return vec
 
 def predict_class(sentence, model):
-    p = bow(sentence, words, show_details=False)
+    p = bow(sentence)
     p = np.array([p])
     res = model.predict(p).flatten()
     ERROR_THRESHOLD = 0.25
@@ -56,7 +61,7 @@ def chatbot_response(user_input, userId):
     if not intents_list:
         return "Sorry, I couldn't understand that."
     intent = intents_list[0]["intent"]
-    print(intent)
+    # print(intent)
     if intent.startswith("#"):
         return query_db_for_info(intent, user_input, userId)
     return get_response(intents_list, intents)

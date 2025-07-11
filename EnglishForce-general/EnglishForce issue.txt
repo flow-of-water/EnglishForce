@@ -24,6 +24,8 @@ Azure for students
 
 
 ###3 Thực hiện PayOS ? (check keyword đúng không)
+#3.1. Thực hiện intergate PayOS vào project 
+
 
 ###4 Recommend system AI 
 #4.1. Recommend System response wrong way 
@@ -31,6 +33,22 @@ Azure for students
 - Reload API not work ?
 
 ###5 Chatbot AI 
+#5.2. Optimize API Chatbot 
+Với RPS (request per second) peak 48.3, API chạy trung bình 2.2s (test trên VPS và local)
+Lý do: 
+1. Mỗi request phải chạy full pipeline: Tokenize, lemmatize → tạo BoW → predict bằng Keras model → chọn intent → trả lời.
+2. Hàm chatbot_response() hiện tại là hàm đồng bộ → gây block thread, hạn chế concurrency thực tế.
+3. Không preload/pin model vào memory shared (nếu deploy gunicorn + worker): Nếu chạy multi-worker, mỗi worker có thể load riêng model → tốn RAM và không dùng chung cache.
+Giải quyết:
+0. Lặt vặt: xóa print, tối ưu các hàm trong code 
+2. 
+
+
+
+
+
+
+#5.3. Chatbot khi đưa các câu trả lời liên quan đến dữ liệu => gắn link redirect vào
 
 
 ###6 Optimize 
@@ -47,19 +65,6 @@ Index
 Why ? Stripe requires
 
 
-#7.5 Scan the project and fix any unusual issues. (09/06/2025-14/06/2025)
-- Add Order Index in Course List Admin
-- Add Loading when fetch Data
-- Try catch to avoid crash 
-- Chưa Login thì không làm bài thi được (fixed)
-Đã chọn đúng middleware authMiddlewareWithoutError, controller vẫn cố truy cập userId và nếu không có thì lỗi
-- Customer Char in Admin Dashboard 
-Lý do: Khi tạo paymentIntent, bạn có gán customer không?
-const paymentIntent = await stripe.paymentIntents.create({
-  amount: 5000,
-  currency: 'usd',
-  customer: stripeCustomerId, // <-- nếu không có dòng này thì payment không gắn với customer
-});
 
 
 
@@ -73,6 +78,10 @@ Current flow : redirect to login page
 Did it annoying
 
 
+#9.8. Lưu kết quả của user lại, từ kết quả đưa ra nhận xét cho người dùng
+Nhận xét: điểm mạnh, điểm yếu, học gì để cải thiện, đưa ra bài học cần học để cải thiện
+
+#9.9. Cho phép khách hàng gửi nhận xét và góp ý về project 
 
 
 __________________________________________________
@@ -258,6 +267,21 @@ Refesh thì time , các câu hỏi đã chọn bị reset (Study4 cũng giống 
 Câu đã chọn thì hiện N/A , câu chưa chọn thì tự chọn đúng luôn ? 
 Dự đoán: Này là do thứ tự sắp xếp của answer trong result bị xáo trộn thôi 
 => Khi trả về kết quả cho người dùng đã sắp xếp các câu hỏi theo thứ tự đàng hoàng, test OK
+
+
+#7.5 Scan the project and fix any unusual issues. (09/06/2025-14/06/2025)
+- Add Order Index in Course List Admin
+- Add Loading when fetch Data
+- Try catch to avoid crash 
+- Chưa Login thì không làm bài thi được (fixed)
+Đã chọn đúng middleware authMiddlewareWithoutError, controller vẫn cố truy cập userId và nếu không có thì lỗi
+- Customer Char in Admin Dashboard 
+Lý do: Khi tạo paymentIntent, bạn có gán customer không?
+const paymentIntent = await stripe.paymentIntents.create({
+  amount: 5000,
+  currency: 'usd',
+  customer: stripeCustomerId, // <-- nếu không có dòng này thì payment không gắn với customer
+});
 
 
 #8 Public Id : UUID 

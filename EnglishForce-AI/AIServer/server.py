@@ -3,16 +3,13 @@ from pydantic import BaseModel
 from typing import List, Optional, Union
 from datetime import datetime
 import logging
-import json
-import numpy as np
-import pandas as pd
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
 from config import DATABASE_URL, HOST, PORT
 
 import os
 import warnings
-from sklearn.exceptions import DataConversionWarning
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+
 
 # Tắt log từ TensorFlow
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -61,12 +58,21 @@ class RecommendationRequest(BaseModel):
     user_id: int
     n_recommendations: Optional[int] = 5
 
+
+
+executor = ThreadPoolExecutor(max_workers=3)
+# Hàm async gọi chatbot_response trong thread riêng
+async def async_chatbot_response(prompt: str, userId: Union[str, int]):
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(executor, lambda: chatbot_response(prompt, userId))
+
+
 # Chatbot endpoint
 @app.post("/chat")
-def chat(message: Message):
+async def chat(message: Message):
     """Chat with the AI assistant"""
     try:
-        response = chatbot_response(message.msg, message.userId)
+        response = await async_chatbot_response(message.msg, message.userId)
         return {"response": response}
     except Exception as e:
         logging.error(f"Chatbot error: {str(e)}")
@@ -120,6 +126,10 @@ def reload_model():
         logging.error(f"Model training and reload error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error training and reloading model: {str(e)}")
 
+import uvicorn
+from uvicorn.config import Config
+from uvicorn.server import Server
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host=HOST, port=PORT) 
+    config = Config(app=app, host=HOST, port=PORT, log_level="warning", access_log=False)
+    server = Server(config)
+    server.run()

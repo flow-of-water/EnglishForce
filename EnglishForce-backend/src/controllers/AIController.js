@@ -115,11 +115,11 @@ export const myChatbotController = async (req, res) => {
     var userId = "";
     if (req?.user?.id) userId = req.user.id;
 
-    console.log("📤 Sending to chatbot:", { prompt, userId });
+    // console.log("📤 Sending to chatbot:", { prompt, userId });
 
     const response = await axios.post(`${FASTAPI_CHATBOT_URL}/chat`, { msg: prompt, userId });
 
-    console.log("📥 Chatbot response:", response.data);
+    // console.log("📥 Chatbot response:", response.data);
 
     res.status(200).json(response.data.response);
   } catch (error) {
