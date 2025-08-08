@@ -4,6 +4,24 @@ import * as userService from "../services/user.service.js"
 
 const saltRounds = 10;
 const jwtSecret = process.env.JWT_SECRET || "your_jwt_secret";
+const refreshSecret = process.env.REFRESH_TOKEN_SECRET || "your_refresh_secret";
+
+const generateTokens = (user) => {
+  const accessToken = jwt.sign(
+    { id: user.id, username: user.username, role: user.role },
+    jwtSecret,
+    { expiresIn: "1m" } // nên ngắn để refreshToken có ý nghĩa
+  );
+
+  const refreshToken = jwt.sign(
+    { id: user.id },
+    refreshSecret,
+    { expiresIn: "7d" } // hoặc dài hơn tùy bạn
+  );
+
+  return { accessToken, refreshToken };
+};
+
 
 // Sign up - Đăng ký
 export const register = async (req, res) => {
@@ -32,8 +50,9 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid password" });
 
-    const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, jwtSecret, { expiresIn: "48h" });
-    res.json({ token , id: user.id , role:user.role  });
+    const { accessToken, refreshToken } = generateTokens(user);
+
+    res.json({ accessToken, refreshToken , id: user.id , role:user.role  });
   } catch (error) {
     res.status(500).json({ message: "Error logging in", error });
   }
@@ -65,6 +84,41 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ message: 'Error when changing password', error });
   }
 }
+
+// refesh access token
+export const refreshToken = async (req, res) => {
+  const { refreshToken } = req.body; // ✅ đổi tên rõ ràng, trùng với FE
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: "Missing refresh token" });
+  }
+
+  try {
+    // ✅ Xác thực refresh token
+    const payload = jwt.verify(refreshToken, refreshSecret);
+
+    // ✅ Lấy lại user từ DB
+    const user = await userService.getUserById(payload.id);
+    if (!user) {
+      return res.status(403).json({ message: "User no longer exists" });
+    }
+
+    // ✅ Tạo access token mới
+    const newAccessToken = jwt.sign(
+      { id: user.id, username: user.username, role: user.role },
+      jwtSecret,
+      { expiresIn: "1m" }
+    );
+
+    res.json({ accessToken: newAccessToken });
+
+  } catch (err) {
+    return res.status(403).json({ message: "Invalid or expired refresh token" });
+  }
+};
+
+
+
 
 
 // ___ OAuth ___

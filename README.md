@@ -55,3 +55,24 @@ English Force provides a comprehensive English course management system, includi
 
 
 
+## Demo
+
+Below are some screenshots of **English Force**:
+
+### Home Page
+![Home Page](EnglishForce-general/EnglishForce-Docs/Demo/main1.png)
+![Home Page 2](EnglishForce-general/EnglishForce-Docs/Demo/main2.png)
+
+### Test Pages
+![Test Page](EnglishForce-general/EnglishForce-Docs/Demo/test1.png)
+![Test Page](EnglishForce-general/EnglishForce-Docs/Demo/test2.png)
+
+### Course Pages
+![Test Page](EnglishForce-general/EnglishForce-Docs/Demo/course1.png)
+![Payment](EnglishForce-general/EnglishForce-Docs/Demo/course2.png)
+
+### Chatbot
+![Chatbot](![Test Page](EnglishForce-general/EnglishForce-Docs/Demo/chatbot1.png)
+
+
+---

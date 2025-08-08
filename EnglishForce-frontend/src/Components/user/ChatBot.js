@@ -31,7 +31,7 @@ const Chatbot = () => {
       const response = await axiosInstance.post(endpoint, { prompt: input });
 
       const data = await response.data;
-      const botMessage = { sender: "bot", text: data };
+      const botMessage = { sender: "bot", text: renderMessageWithLinks(data) };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error("Error fetching response:", error);
@@ -39,6 +39,19 @@ const Chatbot = () => {
 
     setInput("");
   };
+
+  function renderMessageWithLinks(text) {
+    const withLinks = text.replace(
+      /(https?:\/\/[^\s]+)/g,
+      url => {
+        // Rút ngắn chỉ hiển thị phần /courses/... thay vì full URL
+        const label = url.replace(/^https?:\/\/[^\/]+/, ''); // → "/courses/overview/..."
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+      }
+    );
+    return <div dangerouslySetInnerHTML={{ __html: withLinks }} />;
+  }
+
 
   return (
     <>

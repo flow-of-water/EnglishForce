@@ -18,11 +18,14 @@ const LoginPage = () => {
         password,
       });
 
+      const { accessToken, refreshToken, id, role } = response.data;
+
       // Lưu JWT token vào localStorage
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('username', email);
-      localStorage.setItem('userId' , response.data.id) ;
-      localStorage.setItem('userRole' , response.data.role) ;
+      localStorage.setItem('userId' , id) ;
+      localStorage.setItem('userRole' , role) ;
       window.location.href = '/'; // Điều hướng sau khi đăng nhập thành công
     } catch (err) {
       setError('Invalid email or password');

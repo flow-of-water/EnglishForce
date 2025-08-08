@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Container, Typography, Card, CardMedia, CardContent, Button, Grid, Tab, Tabs, Box } from "@mui/material";
+import { Container, Typography, Card, CardMedia, CardContent, Button, Grid, Tab, Tabs, Box, TextField } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
 import CourseVideoPlayer from "../../../Components/user/CourseVideoPlayer";
 import CourseSidebar from '../../../Components/user/CourseSideBar';
 import Comments from "../../../Components/user/Comments";
 import CircularLoading from "../../../Components/Loading";
+import CourseNote from "../../../Components/user/CourseNote";
 
 function imageProgress(course) {
   return course.thumbnail ? course.thumbnail : "/Errores-Web-404.jpg"
@@ -82,6 +83,7 @@ const CourseDetail = () => {
           <Tabs value={valueTab} onChange={handleChangeTab} aria-label="custom tabs example" sx={{ mb: 2 }}>
             <Tab label="Course Sections" />
             <Tab label="Q/A" />
+            <Tab label="Your notes" />
           </Tabs>
           {/* Hiển thị các Course Sections  hoặc Q/A */}
           {valueTab == 0 && (<>
@@ -118,6 +120,7 @@ const CourseDetail = () => {
             </>)}
           </>)}
           {valueTab == 1 && <Comments coursePublicId={publicId} />}
+          {valueTab == 2 && <CourseNote/> }
 
           {/* Back Button */}
           <Button variant="contained" color="secondary" sx={{ mt: 3 }} component={Link} to="/courses">

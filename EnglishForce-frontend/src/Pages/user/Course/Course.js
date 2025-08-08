@@ -80,7 +80,6 @@ const CoursesPage = () => {
     setPage(value);
   };
 
-  if (loading && tabValue === 0) return <CircularLoading />;
 
   if (error)
     return (
@@ -125,29 +124,31 @@ const CoursesPage = () => {
         </Tabs>
       </Box>
 
-      {tabValue === 0 ? (
-        <>
-          <Grid container spacing={3}>
-            {courses.map((course) => (
-              <Grid item xs={12} sm={6} md={4} key={course.id}>
-                <CourseCard course={course} />
-              </Grid>
-            ))}
-          </Grid>
+      {loading ? <CircularLoading /> :
+        tabValue === 0 ? (
+          <>
+            <Grid container spacing={3}>
+              {courses.map((course) => (
+                <Grid item xs={12} sm={6} md={4} key={course.id}>
+                  <CourseCard course={course} />
+                </Grid>
+              ))}
+            </Grid>
 
-          {courses.length !== 0 && (
-            <Pagination
-              count={totalPages}
-              page={page}
-              onChange={handlePageChange}
-              color="primary"
-              sx={{ display: "flex", justifyContent: "center", mt: 4 }}
-            />
-          )}
-        </>
-      ) : (
-        <RecommendedCourses active={tabValue === 1} query={queryRecommended} />
-      )}
+            {courses.length !== 0 && (
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+                color="primary"
+                sx={{ display: "flex", justifyContent: "center", mt: 4 }}
+              />
+            )}
+          </>
+        ) : (
+          <RecommendedCourses active={tabValue === 1} query={queryRecommended} />
+        )
+      }
     </Container>
   );
 };

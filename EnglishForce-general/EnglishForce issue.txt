@@ -40,7 +40,7 @@ Lý do:
 2. Hàm chatbot_response() hiện tại là hàm đồng bộ → gây block thread, hạn chế concurrency thực tế.
 3. Không preload/pin model vào memory shared (nếu deploy gunicorn + worker): Nếu chạy multi-worker, mỗi worker có thể load riêng model → tốn RAM và không dùng chung cache.
 Giải quyết:
-0. Lặt vặt: xóa print, tối ưu các hàm trong code 
+0. Lặt vặt: xóa print, tối ưu các hàm trong code  -> Time giảm còn 1.8s 
 2. 
 
 
@@ -54,6 +54,8 @@ Giải quyết:
 ###6 Optimize 
 Load balancing (cái này chỉ dùng trong microservice hoặc các hệ thống nhiều server)
 Index 
+
+#6.2. Áp dụng Redis vào 
 
 
 

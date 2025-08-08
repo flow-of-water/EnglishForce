@@ -8,6 +8,7 @@ DB_HOST = os.getenv('DB_HOST')
 DB_NAME = os.getenv('DB_NAME')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
+APP_DOMAIN = os.getenv("APP_DOMAIN", "http://localhost:3000")
 
 def get_db_connection():
     return psycopg2.connect(
@@ -28,6 +29,9 @@ def extract_name(user_input):
     # Fallback nếu không match được
     return user_input.split()[-1]
 
+def generate_course_link(public_id: str) -> str:
+    return f"{APP_DOMAIN}/courses/overview/{public_id}"
+
 def query_db_for_info(intent, user_input, userId=""):
     conn = get_db_connection()
     cur = conn.cursor()
@@ -35,7 +39,7 @@ def query_db_for_info(intent, user_input, userId=""):
     try:
         if intent in ["#en_course_recommendation", "#vi_course_recommendation"]:
             cur.execute("""
-        SELECT c.name, c.description, c.instructor, COALESCE(AVG(uc.rating), 0) AS avg_rating
+        SELECT c.name, c.description, c.instructor, COALESCE(AVG(uc.rating), 0) AS avg_rating, c.public_id
         FROM courses c
         LEFT JOIN user_courses uc ON c.id = uc.course_id
         GROUP BY c.id, c.name, c.description, c.instructor
@@ -54,20 +58,22 @@ def query_db_for_info(intent, user_input, userId=""):
             for result in results:
                 if intent == "#en_course_recommendation":
                     response += f"Course: {result[0]}, Description: {result[1]}, Instructor: {result[2]}.\n"
+                    response += f"Link: {generate_course_link(result[4])}\n"
                 else:
                     response += f"Khóa học: {result[0]}, Mô tả: {result[1]}, Người hướng dẫn: {result[2]}.\n"
+                    response += f"Đường dẫn: {generate_course_link(result[4])}\n"
             return response
 
         elif intent in ["#en_course_info", "#vi_course_info"]:
             course_name = extract_name(user_input)
-            cur.execute("SELECT name, description, instructor FROM courses WHERE name ILIKE %s", (course_name,))
+            cur.execute("SELECT name, description, instructor, public_id FROM courses WHERE name ILIKE %s", (course_name,))
             result = cur.fetchone()
             if not result:
                 return "No courses found."
             return (
-                f"Course: {result[0]}, \nDescription: {result[1]}, \ninstructor: {result[2]}"
+                f"Course: {result[0]}, \nDescription: {result[1]}, \ninstructor: {result[2]}\nLink: {result[3]}"
                 if intent == "#en_course_info"
-                else f"Khóa học: {result[0]}, \nMô tả: {result[1]}, \nngười hướng dẫn: {result[2]}"
+                else f"Khóa học: {result[0]}, \nMô tả: {result[1]}, \nngười hướng dẫn: {result[2]}\Đường dẫn: {result[3]}"
             )
 
         elif intent in ["#en_exam_info", "#vi_exam_info"]:

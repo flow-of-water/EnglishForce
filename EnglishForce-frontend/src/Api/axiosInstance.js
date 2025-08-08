@@ -24,24 +24,55 @@ axiosInstance.interceptors.request.use(
 );
 
 
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response) {
-      console.error("Error from API:", error.response.data);
+// Flag để tránh vòng lặp vô hạn nếu refresh liên tục lỗi
+let isRefreshing = false;
 
-      if (error.response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/login"; 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Nếu token hết hạn và chưa từng thử refresh
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (!refreshToken) {
+        localStorage.clear();
+        window.location.href = "/login";
+        return Promise.reject(error);
       }
 
-    } else if (error.request) {
-      console.error("Không nhận được phản hồi từ server:", error.request);
-    } else {
-      console.error("Lỗi khi thiết lập request:", error.message);
+      // Tránh gọi nhiều refresh cùng lúc
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const res = await axios.post(
+            process.env.REACT_APP_BACKEND_URL + "/api/auth/refresh-token",
+            { refreshToken }
+          );
+
+          const newAccessToken = res.data.accessToken;
+          localStorage.setItem("token", newAccessToken);
+          axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          isRefreshing = false;
+
+          console.log("I get access Token again bro") ;
+          return axiosInstance(originalRequest);
+        } catch (refreshError) {
+          isRefreshing = false;
+          localStorage.clear();
+          window.location.href = "/login";
+          return Promise.reject(refreshError);
+        }
+      }
     }
+
     return Promise.reject(error);
   }
 );
