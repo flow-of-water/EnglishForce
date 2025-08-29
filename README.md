@@ -55,7 +55,7 @@ English Force provides a comprehensive English course management system, includi
 
 
 
-## Demo
+## Screenshots
 
 Below are some screenshots of **English Force**:
 
@@ -72,7 +72,68 @@ Below are some screenshots of **English Force**:
 ![Payment](EnglishForce-general/EnglishForce-Docs/Demo/course2.png)
 
 ### Chatbot
-![Chatbot](![Test Page](EnglishForce-general/EnglishForce-Docs/Demo/chatbot1.png)
+![Chatbot](EnglishForce-general/EnglishForce-Docs/Demo/chatbot1.png)
 
 
 ---
+
+
+## How to Run
+
+### 1. Run with Docker
+
+- Install Docker and Docker Compose
+- From the project root directory, run:
+```
+docker-compose up -d
+```
+
+### 2. Run without Docker
+
+#### Backend (Node.js + PostgreSQL)
+
+1. Clone repository và cài dependencies:
+   ```bash
+   git clone https://github.com/flow-of-water/english-force.git
+   cd EnglishForce/EnglishForce-backend
+   npm install
+    ```
+2. Set up PostgreSQL:
+
+   Create a database named englishforce 
+
+3. Run migrations & seeds
+
+4. Start the backend:
+   ```
+   nodemon server.js
+   ```
+   Or 
+   ```
+   node server.js
+   ```
+
+#### Frontend (React)
+
+1. Open another terminal:
+   ```
+   cd EnglishForce/EnglishForce-frontend
+   npm install
+   ```
+2. Start the frontend:
+   ```
+   npm start
+   ```
+3. If run on production, npm run build and set up nginx
+
+#### AI Service (FastAPI)
+
+1. Open another terminal:
+   ```
+   cd EnglishForce/EnglishForce-AI/AIServer
+   pip install -r requirements.txt
+   ```
+2. Run the server:
+   ```
+   python serrver.py
+   ```

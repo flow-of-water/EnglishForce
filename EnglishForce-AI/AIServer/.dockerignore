@@ -1,0 +1,46 @@
+# Python bytecode & virtual env
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+.env.*
+!.env.example
+
+# Data / models / artifacts (nếu cần thì mount volume hoặc tải lúc runtime)
+data/
+datasets/
+models/
+checkpoints/
+runs/
+wandb/
+artifacts/
+*.pt
+*.pth
+*.onnx
+*.pb
+*.tflite
+*.h5
+*.npz
+*.npy
+*.parquet
+*.csv
+*.tsv
+*.xlsx
+*.zip
+*.tar
+*.gz
+
+# Logs & cache
+logs/
+*.log
+.cache/
+*.cache
+
+# Build outputs
+dist/
+build/
+
+# Varia
+.DS_Store
+Thumbs.db

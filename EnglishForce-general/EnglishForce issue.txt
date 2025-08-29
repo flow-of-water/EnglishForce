@@ -249,20 +249,11 @@ Kết quả:
 ###7 Bug
 
 #7.1. Can't delete course
-=> Trong code: trước khi xóa course thì xóa courseSections (hàm này code sai)
-solved 
 => Thêm onDelete: cascade trong file model , để khi xóa course => tự xóa comment, course_sections, user_course
 Vậy thì không cần xóa courseSections trước nữa, model sẽ tự delete cascade 
-Đã test 
 
 
-#7.3 Exam end immediately when start
-Lý do: ExamStartPage lưu StartTime ở localStorage 
--> Đang làm thì out , localStorage vẫn lưu 
--> Hôm sau vào lại, lấy StartTime từ localStorage -> Hết giờ -> nộp bài
-Khắc phục: Bỏ vụ localStorage, StartTime là biến bình thường 
-Refesh thì time , các câu hỏi đã chọn bị reset (Study4 cũng giống như vậy)
--> Thêm Pop-up cảnh báo người dùng có thật sự muốn F5 không
+
 
 
 #7.4 Tính điểm exam bị sai rồi ? 

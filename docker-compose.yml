@@ -1,11 +1,87 @@
 services:
+  db:
+    image: postgres:15
+    container_name: englishforce_db
+    # restart: always
+    environment:
+      POSTGRES_USER: englishforce
+      POSTGRES_PASSWORD: englishforce_password
+      POSTGRES_DB: englishforce
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U englishforce -d englishforce"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   frontend:
-    build: ./frontend
+    build:
+      context: ./EnglishForce-frontend
+      dockerfile: Dockerfile
+      args:
+        # Cho build-time (Vite/CRA dùng REACT_APP_*)
+        REACT_APP_BACKEND_URL: http://localhost:5000
+        REACT_APP_AI_URL: http://localhost:8000
+    container_name: englishforce_frontend
+    restart: always
+    depends_on:
+      - backend
+      - ai
     ports:
       - "3000:3000"
+    env_file:
+      - ./EnglishForce-frontend/.env
+    volumes:
+      - ./EnglishForce-frontend:/usr/src/app
+      - /usr/src/app/node_modules
+
   backend:
-    build: ./backend
+    build:
+      context: ./EnglishForce-backend
+      dockerfile: Dockerfile
+    container_name: englishforce_backend
+    # restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./EnglishForce-backend/.env
+    environment:
+      DB_HOST: db
+      DATABASE_URL: postgres://englishforce:englishforce_password@db:5432/englishforce
+      DB_USER: englishforce
+      DB_PASSWORD: englishforce_password
+      DB_NAME: englishforce
+    volumes:
+      - ./EnglishForce-backend:/usr/src/app 
+      - /usr/src/app/node_modules
+
+
+  ai:
+    build:
+      context: ./EnglishForce-AI/AIServer
+      dockerfile: Dockerfile
+    container_name: englishforce_ai
+    restart: always
+    depends_on:
+      - backend
     ports:
       - "8000:8000"
-  database:
-    image: postgres
+    env_file:
+      - ./EnglishForce-AI/AIServer/.env
+    environment:
+      DB_HOST: db
+      DATABASE_URL: postgres://englishforce:englishforce_password@db:5432/englishforce
+      DB_USER: englishforce
+      DB_PASSWORD: englishforce_password
+      DB_NAME: englishforce
+    volumes:
+      - ./EnglishForce-AI/AIServer:/app
+      
+volumes:
+  postgres_data:
