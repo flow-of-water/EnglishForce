@@ -7,6 +7,8 @@ import {
   getCourseOverviewController,
   getStatisticsController,
   updateUserCourseRatingController,
+  updateNotes,
+  getNotesByCoursePublicId
 } from '../../controllers/course/userCourseController.js';
 import { authMiddleware , adminMiddleware, authMiddlewareWithoutError } from '../../middleware/authorize.js';
 
@@ -20,6 +22,10 @@ router.post('/cart', authMiddleware, createUserCoursesFromCartController);
 
 // GET /api/user-course/:userId - Lấy tất cả User-Course của một user
 router.get('/user', authMiddleware, getCoursesController);
+
+// User Notes 
+router.put('/notes/:coursePublicId', authMiddleware, updateNotes )
+router.get("/notes/:coursePublicId", authMiddleware, getNotesByCoursePublicId);
 
 // GET /api/user-course/statistics - Lấy thống kê hệ thống cho admin 
 router.get('/statistics',authMiddleware,adminMiddleware,getStatisticsController) ;

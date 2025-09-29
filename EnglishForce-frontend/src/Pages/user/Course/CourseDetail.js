@@ -120,7 +120,7 @@ const CourseDetail = () => {
             </>)}
           </>)}
           {valueTab == 1 && <Comments coursePublicId={publicId} />}
-          {valueTab == 2 && <CourseNote/> }
+          {valueTab == 2 && <CourseNote coursePublicId={publicId}/> }
 
           {/* Back Button */}
           <Button variant="contained" color="secondary" sx={{ mt: 3 }} component={Link} to="/courses">

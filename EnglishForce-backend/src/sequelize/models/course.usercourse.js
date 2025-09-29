@@ -9,7 +9,8 @@ export default (sequelize, DataTypes) => {
       primaryKey: true
     },
     rating: DataTypes.INTEGER,
-    comment: DataTypes.TEXT
+    comment: DataTypes.TEXT,
+    notes: DataTypes.TEXT,
   }, {
     tableName: 'user_courses',
     timestamps: false

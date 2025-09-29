@@ -10,7 +10,7 @@ const generateTokens = (user) => {
   const accessToken = jwt.sign(
     { id: user.id, username: user.username, role: user.role },
     jwtSecret,
-    { expiresIn: "1m" } // nên ngắn để refreshToken có ý nghĩa
+    { expiresIn: "5m" } // nên ngắn để refreshToken có ý nghĩa
   );
 
   const refreshToken = jwt.sign(
@@ -104,13 +104,9 @@ export const refreshToken = async (req, res) => {
     }
 
     // ✅ Tạo access token mới
-    const newAccessToken = jwt.sign(
-      { id: user.id, username: user.username, role: user.role },
-      jwtSecret,
-      { expiresIn: "1m" }
-    );
+    const {accessToken} = generateTokens(user) ;
 
-    res.json({ accessToken: newAccessToken });
+    res.json({ accessToken });
 
   } catch (err) {
     return res.status(403).json({ message: "Invalid or expired refresh token" });

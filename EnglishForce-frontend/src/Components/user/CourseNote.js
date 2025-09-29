@@ -1,21 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Box, Typography, Button, Stack } from '@mui/material';
 import axiosInstance from '../../Api/axiosInstance';
 
-const CourseNote = ({ courseSectionId }) => {
+const CourseNote = ({ coursePublicId }) => {
   const [note, setNote] = useState('');
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+
+    useEffect(() => {
+    const fetchNote = async () => {
+      try {
+        const res = await axiosInstance.get(`/user-course/notes/${coursePublicId}`);
+        setNote(res.data?.data?.notes || '');
+      } catch (err) {
+        console.error('❌ Get note failed:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (coursePublicId) fetchNote();
+    
+  }, [coursePublicId]);
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      await axiosInstance.post(`/course-notes`, {
-        section_id: courseSectionId,
-        content: note,
+      await axiosInstance.put(`/user-course/notes/${coursePublicId}`, {
+        notes: note,
       });
-      alert('✅ Ghi chú đã được lưu!');
+      alert('✅ The note has been saved!');
     } catch (err) {
-      alert('❌ Lưu ghi chú thất bại!');
+      alert('❌ Save note failed!');
       console.error(err);
     } finally {
       setSaving(false);
@@ -28,7 +45,7 @@ const CourseNote = ({ courseSectionId }) => {
         📝 Ghi chú của bạn
       </Typography>
       <TextField
-        placeholder="Ghi chú tại đây..."
+        placeholder="Note here..."
         multiline
         rows={10}
         fullWidth
@@ -39,15 +56,16 @@ const CourseNote = ({ courseSectionId }) => {
           fontSize: '1.2rem',
           backgroundColor: '#f9f9f9',
         }}
+        disabled={loading}
       />
       <Stack direction="row" justifyContent="flex-end" mt={2}>
         <Button
           onClick={handleSave}
           variant="contained"
           color="primary"
-          disabled={saving}
+          disabled={saving || loading}
         >
-          {saving ? 'Đang lưu...' : '💾 Lưu ghi chú'}
+          {saving ? 'Saving...' : '💾 Save notes'}
         </Button>
       </Stack>
     </Box>

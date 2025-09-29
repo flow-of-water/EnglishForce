@@ -194,3 +194,34 @@ export const getStatisticsController = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
+
+
+export const updateNotes = async (req, res) => {
+  try {
+    const { coursePublicId } = req.params;
+    const userId = req?.user?.id;
+    const { notes } = req.body;
+
+    if (!notes) {
+      return res.status(400).json({ message: "Notes is required" });
+    }
+
+    const updated = await userCourseService.updateUserCourseNotes(userId, coursePublicId, notes);
+    return res.json({ message: "Notes updated successfully", data: updated });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getNotesByCoursePublicId = async (req, res) => {
+  try {
+    const userId = req?.user?.id;
+    const { coursePublicId } = req.params;
+    const data = await userCourseService.getUserCourseNotesByPublicId(userId, coursePublicId);
+    return res.json({ message: "OK", data });
+  } catch (err) {
+    const msg = err?.message || "Server error";
+    const code = /not found/i.test(msg) ? 404 : 500;
+    return res.status(code).json({ message: msg });
+  }
+};

@@ -131,3 +131,42 @@ export const checkUserCourseExists = async (userId, courseId) => {
 
   return !!exists;
 };
+
+
+export const updateUserCourseNotes = async (userId, coursePublicId, notes) => {
+  // Tìm course theo public_id
+  const course = await Course.findOne({ where: { public_id: coursePublicId } });
+  if (!course) {
+    throw new Error("Course not found");
+  }
+
+  // Tìm user_course theo user_id và course_id
+  const userCourse = await UserCourse.findOne({
+    where: { user_id: userId, course_id: course.id }
+  });
+
+  if (!userCourse) {
+    throw new Error("UserCourse not found");
+  }
+
+  userCourse.notes = notes;
+  await userCourse.save();
+
+  return userCourse;
+};
+
+export const getUserCourseNotesByPublicId = async (userId, coursePublicId) => {
+  const course = await Course.findOne({ where: { public_id: coursePublicId } });
+  if (!course) throw new Error("Course not found");
+
+  const userCourse = await UserCourse.findOne({
+    where: { user_id: userId, course_id: course.id }
+  });
+  if (!userCourse) throw new Error("UserCourse not found");
+
+  return {
+    notes: userCourse.notes ?? null
+  };
+};
+
+

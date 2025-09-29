@@ -77,7 +77,13 @@ Why ? Stripe requires
 
 #9.5 JWT expire while using 
 Current flow : redirect to login page 
-Did it annoying
+Because the system has only access token (there isn't refesh token)
+=> Solution: Implement Refesh Token 
+Where to save ? HTTP only Cookie ? 
+Dùng refresh token để lấy mỗi access token, hay lấy 1 cặp access/refresh token mới ?
+Khi nào dùng refresh ? 
+Trong interceptors.response , tức là gọi API fail 401 thì lấy access Token , nhưng lúc đó API đã fail rồi, xử lý thế nào 
+
 
 
 #9.8. Lưu kết quả của user lại, từ kết quả đưa ra nhận xét cho người dùng
