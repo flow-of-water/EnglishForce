@@ -3,10 +3,12 @@ import bodyParser from "body-parser"
 import cors from "cors"
 // OAuth
 import passport from 'passport';
+
 // ***** routes *****
 import authRoutes from "./routes/auth/authRoutes.js";
 import authGoogleRoutes from './routes/auth/authGoogleRoutes.js';
 import authFacebookRoutes from './routes/auth/authFacebookRoutes.js';
+import authOtpcodeRoutes from "./routes/auth/authOtpRoutes.js"
 import AIRoutes from './routes/AIRoutes.js';
 import userRoutes from "./routes/userRoutes.js"
 // course
@@ -54,6 +56,7 @@ app.use('/api/webhook',stripeRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api/auth_google',authGoogleRoutes); 
 app.use('/api/auth_facebook',authFacebookRoutes) ;
+app.use('/api/otp',authOtpcodeRoutes) ;
 app.use("/api/users",userRoutes);
 
 app.use('/api/AI', AIRoutes) ;

@@ -1,8 +1,7 @@
-import bcrypt from "bcrypt";
+import { hashValue, verifyHash } from "../../utils/hashing.js";
 import jwt from "jsonwebtoken";
-import * as userService from "../services/user.service.js"
+import * as userService from "../../services/user.service.js"
 
-const saltRounds = 10;
 const jwtSecret = process.env.JWT_SECRET || "your_jwt_secret";
 const refreshSecret = process.env.REFRESH_TOKEN_SECRET || "your_refresh_secret";
 
@@ -10,13 +9,13 @@ const generateTokens = (user) => {
   const accessToken = jwt.sign(
     { id: user.id, username: user.username, role: user.role },
     jwtSecret,
-    { expiresIn: "5m" } // nên ngắn để refreshToken có ý nghĩa
+    { expiresIn: "20h" } 
   );
 
   const refreshToken = jwt.sign(
     { id: user.id },
     refreshSecret,
-    { expiresIn: "7d" } // hoặc dài hơn tùy bạn
+    { expiresIn: "7d" } 
   );
 
   return { accessToken, refreshToken };
@@ -31,7 +30,7 @@ export const register = async (req, res) => {
     const existingUser = await userService.getUserByUsername(username);
     if (existingUser) return res.status(409).json({ message: 'Username already taken' });
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await hashValue(password);
     const newUser = await userService.createUser(username, hashedPassword);
     res.status(201).json({ message: "User registered", user: newUser });
   } catch (error) {
@@ -47,7 +46,7 @@ export const login = async (req, res) => {
     const user = await userService.getUserByUsername(username);
     if (!user) return res.status(400).json({ message: "User not found" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await verifyHash(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid password" });
 
     const { accessToken, refreshToken } = generateTokens(user);
@@ -70,12 +69,12 @@ export const changePassword = async (req, res) => {
     }
 
     // Kiểm tra mật khẩu cũ
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    const isMatch = await verifyHash(currentPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Old password is incorrect' });
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    const hashedPassword = await hashValue(newPassword);
 
     await userService.updateUserPassword(userId, hashedPassword);
 

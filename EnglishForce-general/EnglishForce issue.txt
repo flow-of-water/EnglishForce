@@ -91,6 +91,40 @@ Nhận xét: điểm mạnh, điểm yếu, học gì để cải thiện, đưa
 
 #9.9. Cho phép khách hàng gửi nhận xét và góp ý về project 
 
+#9.10. Chức năng Reset password thông qua gửi OTP Email
+Workflow: 
+- Yêu cầu reset password
+User nhập email vào form "Forgot Password" và yêu cầu reset Password
+Quan trọng: Luôn trả về message chung chung như "Nếu email tồn tại, OTP đã được gửi" 
+(tránh lộ thông tin email có trong hệ thống hay không)
+- Generate và lưu OTP vào DB 
+Hash OTP trước khi lưu vào DB (kèm các thông tin như email, expires_at, is_used,...)
+- Gửi OTP qua email
+- Xác thực OTP
+User nhập OTP vào form xác thực
+Backend validate:
+✅ OTP chưa expire
+✅ OTP chưa được sử dụng (is_used = false)
+✅ Số lần thử < 5 lần
+✅ Hash OTP nhập vào khớp với hash trong DB
+Nếu mọi thứ OK: 
+Tạo reset token (JWT hoặc random string)
+Lưu token vào DB hoặc cache (Redis) với TTL ngắn (5-10 phút)
+Đánh dấu is_used = true cho OTP
+Trả token về frontend
+- Đặt mật khẩu mới 
+User nhập mật khẩu mới và Gửi kèm reset token
+Tổng cộng 5 bước
+Và cơ bản là cần ít nhất 3 API : 
+- Request OTP : POST /api/auth/password/reset/request   (kèm email)
+- Verify OTP: POST /api/auth/password/reset/verify-otp  (kèm email và OTP)
+- Reset Password: POST /api/auth/password/reset/confirm  (password mới và reset_token)
+
+
+
+
+
+
 
 __________________________________________________
 *** SOLVED ***
