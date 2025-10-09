@@ -4,77 +4,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
 import GradientTitle from '../../../Components/GradientTitle';
-
-const ChangePassword = () => {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (newPassword !== confirmPassword) {
-      setMessage('New password and confirmation password do not match.');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await axiosInstance.patch(`/auth/change-password`, {
-        currentPassword,
-        newPassword,
-      });
-      setMessage(response.data.message);
-    } catch (error) {
-      setMessage('Error when changing password. Current password is incorrect.');
-    }
-    setLoading(false);
-  };
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Current Password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          required
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          sx={{ mt: 1 }}
-        />
-        <TextField
-          label="New Password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          required
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          sx={{ mt: 1 }}
-        />
-        <TextField
-          label="Confirm New Password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          required
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          sx={{ mt: 1 }}
-        />
-        <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ mt: 1 }}>
-          {loading ? 'Processing...' : 'Change Password'}
-        </Button>
-      </form>
-      {message && <Typography variant="body1">{message}</Typography>}
-    </div>
-  );
-};
-
-
+import ChangePassword from './ChangePassword.component.js';
+import SetEmailWithOtp from './setEmail.component.js';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -113,6 +44,7 @@ const Profile = () => {
     { name: 'Exam Attempts', value: user.stats?.examAttemptsCount || 0 },
     { name: 'Courses Purchased', value: user.stats?.coursesCount || 0 }
   ];
+  console.log("user : ", user);
 
   return (
     <Container>
@@ -133,14 +65,16 @@ const Profile = () => {
                   <Typography variant="h6" gutterBottom>
                     Username: <strong>{user.username}</strong>
                   </Typography>
-                  <Typography variant="h6">
+                  <Typography variant="h6" gutterBottom>
                     Role: <strong>{user.role}</strong>
+                  </Typography>
+                  <Typography variant="h6">
+                    Email: <strong>{user?.email ? user.email : <em>Bro, you need an email</em>}</strong>
                   </Typography>
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
-
           <Button variant="contained" color="primary" onClick={handleDialogOpen} sx={{ mt: 3 }}>
             Change Password
           </Button>
@@ -212,6 +146,16 @@ const Profile = () => {
               <ChangePassword />
             </DialogContent>
           </Dialog>
+
+          {/* <Dialog open={openDialog} onClose={handleDialogClose}>
+            <DialogTitle>Set Email</DialogTitle>
+            <DialogContent>
+              <SetEmailWithOtp
+                defaultEmail={user?.email || ''}
+                purpose="update_email"
+              />
+            </DialogContent>
+          </Dialog> */}
         </Paper>
       ) : (
         <Typography variant="h6">No user data available</Typography>

@@ -1,11 +1,11 @@
-import jwt from "jsonwebtoken";
+import { verifyToken } from "../utils/jwt.js";
 
 export const authMiddleware = (req, res, next) => {
   const token = req.header("Authorization");
   if (!token) return res.status(401).json({ message: "Unauthorized" });
 
   try {
-    const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
+    const decoded = verifyToken(token.replace("Bearer ", ""), 'access');
     req.user = decoded;
     next();
   } catch (err) {
@@ -17,7 +17,7 @@ export const authMiddlewareWithoutError = (req, res, next) => {
   const token = req.header("Authorization");
   if (token) {
     try {
-      const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
+      const decoded = verifyToken(token.replace("Bearer ", ""), 'access');
       req.user = decoded;
     } catch (err) { }
   }

@@ -1,25 +1,7 @@
 import { hashValue, verifyHash } from "../../utils/hashing.js";
-import jwt from "jsonwebtoken";
+import { generateTokens , verifyToken } from "../../utils/jwt.js";
 import * as userService from "../../services/user.service.js"
 
-const jwtSecret = process.env.JWT_SECRET || "your_jwt_secret";
-const refreshSecret = process.env.REFRESH_TOKEN_SECRET || "your_refresh_secret";
-
-const generateTokens = (user) => {
-  const accessToken = jwt.sign(
-    { id: user.id, username: user.username, role: user.role },
-    jwtSecret,
-    { expiresIn: "20h" } 
-  );
-
-  const refreshToken = jwt.sign(
-    { id: user.id },
-    refreshSecret,
-    { expiresIn: "7d" } 
-  );
-
-  return { accessToken, refreshToken };
-};
 
 
 // Sign up - Đăng ký
@@ -86,7 +68,7 @@ export const changePassword = async (req, res) => {
 
 // refesh access token
 export const refreshToken = async (req, res) => {
-  const { refreshToken } = req.body; // ✅ đổi tên rõ ràng, trùng với FE
+  const { refreshToken } = req.body; 
 
   if (!refreshToken) {
     return res.status(401).json({ message: "Missing refresh token" });
@@ -94,16 +76,14 @@ export const refreshToken = async (req, res) => {
 
   try {
     // ✅ Xác thực refresh token
-    const payload = jwt.verify(refreshToken, refreshSecret);
+    const payload = verifyToken(refreshToken, 'refresh');
 
     // ✅ Lấy lại user từ DB
     const user = await userService.getUserById(payload.id);
-    if (!user) {
-      return res.status(403).json({ message: "User no longer exists" });
-    }
-
+    if (!user) return res.status(403).json({ message: "User no longer exists" });
+    
     // ✅ Tạo access token mới
-    const {accessToken} = generateTokens(user) ;
+    const {accessToken} = generateTokens(user , true); // true để chỉ tạo accessToken;
 
     res.json({ accessToken });
 
@@ -120,15 +100,7 @@ export const refreshToken = async (req, res) => {
 // Google and Facebook
 export const OAuthCallback = async (req, res) => {
   const user = await userService.findOrCreateUser(req.user); // req.user chính là Googleuser Hoặc Facebookuser
-  const token = jwt.sign(
-    {
-      id: user.id,
-      username: user.username,
-      role: user.role,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: '48h' }
-  );
+  const token = generateTokens(user,True).accessToken;
 
   res.redirect(process.env.FRONT_END_URL + `/login/success?token=${token}&username=${user.username}&userid=${user.id}&role=${user.role}`);
 };
