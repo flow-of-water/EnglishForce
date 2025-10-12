@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LineChart } from "@mui/x-charts/LineChart";
+import { LineChart, ResponsiveChartContainer, LinePlot, ChartsXAxis, ChartsYAxis, ChartsTooltip } from "@mui/x-charts";
 import { Box, Typography, Grid, Paper } from "@mui/material";
 import axiosInstance from "../../Api/axiosInstance";
 import CircularLoading from "../Loading";
@@ -48,12 +48,27 @@ const RevenueChart = () => {
                         >
                             📈 Daily Revenue
                         </Typography>
-                        <LineChart
-                            xAxis={[{ data: dataPayment.map(item => item.date), scaleType: "band" }]}
-                            series={[{ data: dataPayment.map(item => item.revenue), label: "Revenue ($)", color: "#1e88e5" }]}
-                            width={500}
-                            height={300}
-                        />
+                        <Box sx={{ width: "100%", height: 300 }}>
+                            <ResponsiveChartContainer
+                                series={[
+                                    {
+                                        type: "line",
+                                        label: "Revenue ($)",
+                                        data: dataPayment.map(item => item.revenue),
+                                        color: "#1e88e5",
+                                    },
+                                ]}
+                                xAxis={[
+                                    { data: dataPayment.map(item => item.date), scaleType: "band" },
+                                ]}
+                            >
+                                <LinePlot />
+                                <ChartsXAxis />
+                                <ChartsYAxis />
+                                <ChartsTooltip />
+                            </ResponsiveChartContainer>
+                        </Box>
+
                     </Paper>
                 </Grid>
 
@@ -70,12 +85,27 @@ const RevenueChart = () => {
                         >
                             📅 Daily New Customers
                         </Typography>
-                        <LineChart
-                            xAxis={[{ data: dataCustomer.map(item => item.date), scaleType: "band" }]}
-                            series={[{ data: dataCustomer.map(item => item.count), label: "New Customers", color: "#ab47bc" }]}
-                            width={500}
-                            height={300}
-                        />
+                        <Box sx={{ width: "100%", height: 300 }}>
+                            <ResponsiveChartContainer
+                                series={[
+                                    {
+                                        type: "line",
+                                        label: "New Customers",
+                                        data: dataCustomer.map(item => item.count),
+                                        color: "#ab47bc",
+                                    },
+                                ]}
+                                xAxis={[
+                                    { data: dataCustomer.map(item => item.date), scaleType: "band" },
+                                ]}
+                            >
+                                <LinePlot />
+                                <ChartsXAxis />
+                                <ChartsYAxis />
+                                <ChartsTooltip />
+                            </ResponsiveChartContainer>
+                        </Box>
+
                     </Paper>
                 </Grid>
             </Grid>

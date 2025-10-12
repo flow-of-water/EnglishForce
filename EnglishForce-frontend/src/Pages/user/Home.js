@@ -73,7 +73,7 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    <div style={{overflowX: 'hidden'}}>
       <Box
         sx={{
           height: '90vh',  // full viewport height
@@ -208,7 +208,7 @@ const HomePage = () => {
         </Slider>
       </Container>
 
-    </>
+    </div>
   );
 };
 

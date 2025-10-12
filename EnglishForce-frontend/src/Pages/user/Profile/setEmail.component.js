@@ -57,7 +57,7 @@ const SetEmailWithOtp = ({
     setLoading(true);
     try {
       // Backend gợi ý: POST /auth/otp/request  body: { email, purpose }
-      const res = await axiosInstance.post('/auth/otp/request', { email, purpose });
+      const res = await axiosInstance.post('/otp/request', { email, purpose });
       setInfo(res?.data?.message || 'OTP đã được gửi tới email.');
       setStep('otp');
       setCooldown(resendCooldownSec);

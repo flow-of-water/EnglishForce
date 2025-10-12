@@ -10,7 +10,8 @@ import SetEmailWithOtp from './setEmail.component.js';
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [openDialog, setOpenDialog] = useState(false); // For controlling Dialog visibility
+  const [openDialogPassword, setOpenDialogPassword] = useState(false); // For controlling Dialog visibility
+  const [openDialogEmailOTP, setOpenDialogEmailOTP] = useState(false); // For controlling Dialog visibility
   const defaultAvatar = '/2.png';
 
   useEffect(() => {
@@ -28,13 +29,21 @@ const Profile = () => {
     Fetch();
   }, []);
 
-  const handleDialogOpen = () => {
-    setOpenDialog(true);
+  const handleDialogOpenPassword = () => {
+    setOpenDialogPassword(true);
   };
 
-  const handleDialogClose = () => {
-    setOpenDialog(false);
+  const handleDialogClosePassword = () => {
+    setOpenDialogPassword(false);
   };
+
+  const handleDialogOpenEmailOTP = () => {
+    setOpenDialogEmailOTP(true);
+  }
+
+  const handleDialogCloseEmailOTP = () => {
+    setOpenDialogEmailOTP(false);
+  }
 
   if (loading) {
     return <CircularLoading />;
@@ -75,8 +84,11 @@ const Profile = () => {
               </Grid>
             </CardContent>
           </Card>
-          <Button variant="contained" color="primary" onClick={handleDialogOpen} sx={{ mt: 3 }}>
+          <Button variant="contained" color="primary" onClick={handleDialogOpenPassword} sx={{ mt: 3 }}>
             Change Password
+          </Button>
+          <Button variant="contained" color="primary" onClick={handleDialogOpenEmailOTP} sx={{ mt: 3, ml: 2 }}>
+            Set / Change Email
           </Button>
 
           <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
@@ -140,14 +152,14 @@ const Profile = () => {
 
 
           {/* Dialog for Change Password */}
-          <Dialog open={openDialog} onClose={handleDialogClose}>
+          <Dialog open={openDialogPassword} onClose={handleDialogClosePassword}>
             <DialogTitle>Change Password</DialogTitle>
             <DialogContent>
               <ChangePassword />
             </DialogContent>
           </Dialog>
 
-          {/* <Dialog open={openDialog} onClose={handleDialogClose}>
+          <Dialog open={openDialogEmailOTP} onClose={handleDialogCloseEmailOTP}>
             <DialogTitle>Set Email</DialogTitle>
             <DialogContent>
               <SetEmailWithOtp
@@ -155,7 +167,7 @@ const Profile = () => {
                 purpose="update_email"
               />
             </DialogContent>
-          </Dialog> */}
+          </Dialog>
         </Paper>
       ) : (
         <Typography variant="h6">No user data available</Typography>
