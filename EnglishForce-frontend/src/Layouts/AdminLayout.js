@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SecurityIcon from "@mui/icons-material/Security";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import * as Constants from "./../Constants/index.js";
 
 const AdminLayout = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -18,8 +18,8 @@ const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUsername = localStorage.getItem("username");
+    const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
+    const storedUsername = localStorage.getItem(Constants.LOCAL_STORAGE.USERNAME);
 
     if (token && storedUsername) {
       setIsLoggedIn(true);
@@ -28,8 +28,8 @@ const AdminLayout = ({ children }) => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+    localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
     setIsLoggedIn(false);
     setUsername("");
     navigate("/login");

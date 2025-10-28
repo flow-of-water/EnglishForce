@@ -3,18 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   Container, Typography, Box, TextField, Button,
-  Accordion, AccordionSummary, AccordionDetails, IconButton, Divider, Card, CardContent, CircularProgress
+  IconButton, Divider, CircularProgress
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import { Visibility, Delete } from "@mui/icons-material";
 
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const ExamPartDetailAdmin = () => {
   const { partPublicId, publicId } = useParams();

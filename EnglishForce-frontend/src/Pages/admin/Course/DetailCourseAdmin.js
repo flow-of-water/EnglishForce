@@ -25,15 +25,10 @@ const DetailCourseAdmin = () => {
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const token = localStorage.getItem("token"); // Lấy token từ localStorage
-        const response = await axiosInstance.get(`/courses/${publicId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axiosInstance.get(`/courses/${publicId}`);
         // Giả sử API trả về đối tượng course bao gồm cả mảng sections
         setCourse(response.data);
-        const response2 = await axiosInstance.get(`/course_sections/course/${publicId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response2 = await axiosInstance.get(`/course_sections/course/${publicId}`);
         setSections(response2.data)
       } catch (err) {
         console.error("Error fetching course details:", err);

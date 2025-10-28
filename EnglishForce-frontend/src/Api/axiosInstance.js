@@ -1,6 +1,6 @@
 // src/api/axiosInstance.js
 import axios from "axios";
-
+import * as Constants from "./../Constants/index.js";
 
 const axiosInstance = axios.create({
   // baseURL: "http://localhost:5000/api", 
@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
 // Tự động gắn token vào header của mỗi request
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      const refreshToken = localStorage.getItem("refreshToken");
+      const refreshToken = localStorage.getItem(Constants.LOCAL_STORAGE.REFRESH_TOKEN);
       if (!refreshToken) {
         localStorage.clear();
         window.location.href = "/login";
@@ -57,7 +57,7 @@ axiosInstance.interceptors.response.use(
           );
 
           const newAccessToken = res.data.accessToken;
-          localStorage.setItem("token", newAccessToken);
+          localStorage.setItem(Constants.LOCAL_STORAGE.TOKEN, newAccessToken);
           axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           isRefreshing = false;

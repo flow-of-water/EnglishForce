@@ -26,7 +26,6 @@ const CourseDetail = () => {
   useEffect(() => {
     const fetchCourseAndSections = async () => {
       try {
-        const token = localStorage.getItem("token"); // Lấy token từ localStorage
         // Gọi API lấy thông tin khóa học
         const courseRes = await axiosInstance.get(`/courses/${publicId}`);
         setCourse(courseRes.data);

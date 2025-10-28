@@ -13,10 +13,6 @@ import {
   useScrollTrigger,
   useMediaQuery,
   useTheme,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Drawer,
   Divider,
 } from "@mui/material";
@@ -26,6 +22,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { Link } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
+import * as Constants from "./../../Constants/index.js";
 
 function HideOnScroll({ children }) {
   const trigger = useScrollTrigger();
@@ -47,9 +44,9 @@ export default function Header() {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUsername = localStorage.getItem("username");
-    const storedRole = localStorage.getItem("userRole");
+    const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
+    const storedUsername = localStorage.getItem(Constants.LOCAL_STORAGE.USERNAME);
+    const storedRole = localStorage.getItem(Constants.LOCAL_STORAGE.USER_ROLE);
 
     if (token && storedUsername) {
       setIsLoggedIn(true);
@@ -59,9 +56,9 @@ export default function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    localStorage.removeItem("userRole");
+    localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+    localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
+    localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
     setIsLoggedIn(false);
     setUsername("");
     setRole("");
