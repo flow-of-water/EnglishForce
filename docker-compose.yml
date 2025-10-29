@@ -17,26 +17,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  frontend:
-    build:
-      context: ./EnglishForce-frontend
-      dockerfile: Dockerfile
-      args:
-        # Cho build-time (Vite/CRA dùng REACT_APP_*)
-        REACT_APP_BACKEND_URL: http://localhost:5000
-        REACT_APP_AI_URL: http://localhost:8000
-    container_name: englishforce_frontend
+  redis:
+    image: redis:7
+    container_name: englishforce_redis
     restart: always
-    depends_on:
-      - backend
-      - ai
     ports:
-      - "3000:3000"
-    env_file:
-      - ./EnglishForce-frontend/.env
-    volumes:
-      - ./EnglishForce-frontend:/usr/src/app
-      - /usr/src/app/node_modules
+      - "6379:6379"
+
 
   backend:
     build:
@@ -57,10 +44,31 @@ services:
       DB_USER: englishforce
       DB_PASSWORD: englishforce_password
       DB_NAME: englishforce
+      OS_ENV: linux
     volumes:
       - ./EnglishForce-backend:/usr/src/app 
       - /usr/src/app/node_modules
 
+  frontend:
+    build:
+      context: ./EnglishForce-frontend
+      dockerfile: Dockerfile
+      args:
+        # Cho build-time (Vite/CRA dùng REACT_APP_*)
+        REACT_APP_BACKEND_URL: http://localhost:5000
+        REACT_APP_AI_URL: http://localhost:8000
+    container_name: englishforce_frontend
+    restart: always
+    depends_on:
+      - backend
+      - ai
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./EnglishForce-frontend/.env
+    volumes:
+      - ./EnglishForce-frontend:/usr/src/app
+      - /usr/src/app/node_modules
 
   ai:
     build:

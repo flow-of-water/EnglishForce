@@ -54,6 +54,14 @@ function RatingBox({ coursePubicId, initialRating = null, initialReview = "", se
           color="primary"
           onClick={handleSubmit}
           disabled={!rating}
+          sx={{
+            px: 4,
+            py: 1,
+            textTransform: "none",
+            fontWeight: 600,
+            background: "linear-gradient(to right, #1976d2, #00c6ff)",
+            "&:hover": { background: "linear-gradient(to right, #1565c0, #00bcd4)" },
+          }}
         >
           {submitted ? "Update rating" : "Send Rating"}
         </Button>
@@ -104,7 +112,7 @@ const CourseOverview = () => {
 
       } catch (err) {
         console.error("Error fetching course:", err);
-        setError("Không tìm thấy khóa học.");
+        setError("No course found.");
       } finally {
         setLoading(false);
       }
@@ -142,13 +150,13 @@ const CourseOverview = () => {
       <Card>
         <CardMedia component="img" height="250" image={imageProgress(course)} alt={course.name} />
         <CardContent>
-          <Typography variant="h4" gutterBottom>{course.name}</Typography>
+          <Typography variant="h4" fontWeight={800} gutterBottom>{course.name}</Typography>
           <Typography variant="subtitle1" color="text.secondary">By {course.instructor}</Typography>
           <Typography variant="body1" sx={{ mt: 2 }}>{course.description}</Typography>
           <Typography variant="h5" color="primary" sx={{ mt: 2 }}>${course.price ? course.price : 0}</Typography>
 
           {/* Hiển thị Rating */}
-          <Typography variant="h6" sx={{ mt: 2 }}>
+          <Typography variant="h6" sx={{ mt: 2 }} fontWeight={500}>
             Student Ratings:
           </Typography>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

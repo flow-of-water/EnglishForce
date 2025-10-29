@@ -76,11 +76,9 @@ const HomePage = () => {
     <div style={{overflowX: 'hidden'}}>
       <Box
         sx={{
-          height: '90vh',  // full viewport height
+          height: '100vh',  // full viewport height
           width: '100%',
           position: 'relative',
-          // backgroundImage: `url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80')`,
-          // backgroundImage: `url('https://t3.ftcdn.net/jpg/03/91/46/10/360_F_391461057_5P0BOWl4lY442Zoo9rzEeJU0S2c1WDZR.jpg')`,
           backgroundImage: `url('background.jpg')`,
           // backgroundImage: `url('https://i.pinimg.com/736x/ab/68/f6/ab68f66366b2582b000aedd27f20ed70.jpg')`, 
           backgroundSize: 'cover',

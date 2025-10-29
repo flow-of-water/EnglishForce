@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import {
   Box,
@@ -20,6 +20,7 @@ const ExamDetailPage = () => {
   const { publicId } = useParams();
   const [exam, setExam] = useState(null);
   const [attempts, setAttempts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExamAndAttempts = async () => {
@@ -83,6 +84,29 @@ const ExamDetailPage = () => {
           }}
         >
           Start Exam
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate(-1)}
+          size="large"
+          sx={{
+            mt: 4,
+            ml:2,
+            px: 5,
+            py: 1.5,
+            fontWeight: 700,
+            fontSize: '1rem',
+            color: '#fff',
+            background: 'linear-gradient(to right, #9e9e9e, #bdbdbd)',
+            boxShadow: '0 0 8px rgba(158, 158, 158, 0.4)',
+            textTransform: 'none',
+            '&:hover': {
+              background: 'linear-gradient(to right, #757575, #9e9e9e)',
+              transform: 'translateY(-1px)',
+            },
+          }}
+        >
+          ← Back
         </Button>
       </Box>
 

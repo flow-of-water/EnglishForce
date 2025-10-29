@@ -18,3 +18,12 @@ dotenv.config(); // Load biến môi trường ngay từ đầu
 // Giải pháp: Tạo file cấu hình riêng để load biến môi trường
 // Để đảm bảo rằng các biến môi trường được load trước khi bất kỳ module nào khác sử dụng chúng, 
 // bạn có thể tạo một file riêng để cấu hình dotenv và import nó đầu tiên trong ứng dụng của bạn.
+
+
+const osEnv = process.env.OS_ENV || (os.platform().startsWith("win") ? "windows" : "linux");
+if (osEnv !== "windows") {
+  const { default: redisClient } = await import("./redis.config.js");
+  console.log(`✅ Redis connected on OS: ${osEnv}`);
+} else {
+  console.log("⚠️ Skip Redis connection on Windows environment");
+}

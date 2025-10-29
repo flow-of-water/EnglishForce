@@ -14,7 +14,83 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
+function EmptyCart() {
+  return (
+    <Container maxWidth="md" sx={{ mt: 10, mb: 6 }}>
+      <Paper
+        elevation={4}
+        sx={{
+          p: 5,
+          textAlign: "center",
+          borderRadius: 4,
+          background: "linear-gradient(to bottom right, #f9fbff, #ffffff)",
+          boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+            transform: "translateY(-4px)",
+          },
+        }}
+      >
+        <Box sx={{ mb: 3 }}>
+          <img
+            src="/empty_cart.png"
+            alt="Empty Cart"
+            style={{
+              width: "100%",
+              maxWidth: 220,
+              margin: "0 auto",
+              opacity: 0.9,
+            }}
+          />
+        </Box>
+
+        <Typography
+          variant="h5"
+          fontWeight={800}
+          gutterBottom
+          sx={{
+            background: "linear-gradient(to right, #1976d2, #00c6ff)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          Your Cart is Empty
+        </Typography>
+
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+          It seems you haven't added any courses yet.<br />
+          Start exploring and build your learning journey!
+        </Typography>
+
+        <Button
+          variant="contained"
+          startIcon={<ShoppingCartOutlinedIcon />}
+          component={Link}
+          to="/courses"
+          sx={{
+            textTransform: "none",
+            fontWeight: 700,
+            px: 4,
+            py: 1.2,
+            borderRadius: 3,
+            background: "linear-gradient(to right, #1976d2, #00c6ff)",
+            boxShadow: "0 4px 14px rgba(25,118,210,0.3)",
+            "&:hover": {
+              background: "linear-gradient(to right, #1565c0, #00bcd4)",
+              transform: "translateY(-2px)",
+            },
+          }}
+        >
+          Browse Courses
+        </Button>
+      </Paper>
+    </Container>
+  );
+}
 
 const CartPage = () => {
   const { cartItems, setCart, removeFromCart, clearCart, getCartTotal } = useContext(CartContext);
@@ -53,25 +129,7 @@ const CartPage = () => {
   }, [cartItems]);
 
   if (!cartItems || cartItems.length === 0) {
-    return (
-      <Container maxWidth="sm" sx={{ mt: 8 }}>
-        <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
-          <Box sx={{ mb: 2 }}>
-            <img
-              src="/empty_cart.png"
-              alt="Empty Cart"
-              style={{ width: '100%', maxWidth: 200, margin: '0 auto' }}
-            />
-          </Box>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Your cart is empty.
-          </Typography>
-          <Typography variant="body1">
-            It seems you haven't added any items to your cart yet.
-          </Typography>
-        </Paper>
-      </Container>
-    );
+    return <EmptyCart />;
   }
 
   return (
