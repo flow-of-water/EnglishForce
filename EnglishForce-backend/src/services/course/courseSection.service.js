@@ -1,6 +1,6 @@
-import db from '../sequelize/models/index.js';
+import db from '../../sequelize/models/index.js';
 const { CourseSection, Course } = db;
-import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
+import { deleteCloudinaryFile } from '../../config/cloudinary.config.js';
 
 
 export const findCourseSectionIdByPublicId = async (publicId) => {

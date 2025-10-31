@@ -1,8 +1,8 @@
-import db from '../sequelize/models/index.js';
+import db from '../../sequelize/models/index.js';
 const { Course, UserCourse, CourseSection } = db;
 const { Op, fn, col, literal } = db.Sequelize;
-import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
-import * as userCourseService from './userCourse.service.js'; // 
+import { deleteCloudinaryFile } from '../../config/cloudinary.config.js';
+import * as userCourseService from './userCourse.service.js'; 
 
 export const findCourseIdByPublicId = async (publicId) => {
   const course = await Course.findOne({ where: { public_id: publicId } });

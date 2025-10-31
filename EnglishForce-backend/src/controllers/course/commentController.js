@@ -1,5 +1,5 @@
-import * as commentService from "../../services/comment.service.js";
-import * as courseService from "../../services/course.service.js"
+import * as commentService from "../../services/course/comment.service.js";
+import * as courseService from "../../services/course/course.service.js"
 
 // Lấy tất cả bình luận
 export const getAllCommentsController = async (req, res) => {

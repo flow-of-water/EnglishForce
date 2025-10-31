@@ -2,7 +2,8 @@
 import db from '../../sequelize/models/index.js';
 import { Op } from 'sequelize';
 const { Exam, Question, Answer, ExamAttempt, ExamPart, QuestionGroup } = db;
-
+import { cacheWrapper } from '../../utils/cache.helper.js';
+import { CACHE_KEYS } from '../../constants/index.js'
 
 export const getNumberOfExams = async () => {
   return await db.Exam.count();
@@ -55,6 +56,9 @@ function buildNestedParts(part, partMap) {
   return part;
 }
 export const getExamWithFullHierarchy = async (publicId, onlyCorrectAnswers = false) => {
+  const cacheKey = `${CACHE_KEYS.EXAM.BY_ID(publicId)}:${onlyCorrectAnswers ? "correct" : "all"}`;
+  
+  return await cacheWrapper.read(cacheKey, async () => {
   const exam = await db.Exam.findOne({
     where: { public_id: publicId },
     attributes: ['id', 'public_id', 'name', 'description', 'duration', 'type'],
@@ -83,6 +87,7 @@ export const getExamWithFullHierarchy = async (publicId, onlyCorrectAnswers = fa
       }
     ]
   });
+  
   // Step 2: Convert về object thuần + chuẩn bị Map theo ID
   const partMap = {};
   allParts.forEach(part => {
@@ -112,6 +117,7 @@ export const getExamWithFullHierarchy = async (publicId, onlyCorrectAnswers = fa
     type: exam.type,
     parts: rootParts
   };
+  });
 };
 
 // ______

@@ -1,5 +1,5 @@
-import * as userCourseService from "../../services/userCourse.service.js"
-import * as courseService from "../../services/course.service.js"
+import * as userCourseService from "../../services/course/userCourse.service.js"
+import * as courseService from "../../services/course/course.service.js"
 import * as userService from "../../services/user.service.js"
 import * as programService from "../../services/program/program.service.js"
 import * as examService from "../../services/exam/exam.service.js"

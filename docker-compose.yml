@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:15
+    image: postgres:17
     container_name: englishforce_db
     # restart: always
     environment:
@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: englishforce_password
       POSTGRES_DB: englishforce
     ports:
-      - "5432:5432"
+      - "5431:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U englishforce -d englishforce"]
       interval: 5s
@@ -20,7 +20,7 @@ services:
   redis:
     image: redis:7
     container_name: englishforce_redis
-    restart: always
+    # restart: always
     ports:
       - "6379:6379"
 
@@ -44,7 +44,8 @@ services:
       DB_USER: englishforce
       DB_PASSWORD: englishforce_password
       DB_NAME: englishforce
-      OS_ENV: linux
+      USE_REDIS: true
+      FASTAPI_CHATBOT_URL: http://ai:8000
     volumes:
       - ./EnglishForce-backend:/usr/src/app 
       - /usr/src/app/node_modules
@@ -58,10 +59,9 @@ services:
         REACT_APP_BACKEND_URL: http://localhost:5000
         REACT_APP_AI_URL: http://localhost:8000
     container_name: englishforce_frontend
-    restart: always
+    # restart: always
     depends_on:
       - backend
-      - ai
     ports:
       - "3000:3000"
     env_file:
@@ -75,21 +75,21 @@ services:
       context: ./EnglishForce-AI/AIServer
       dockerfile: Dockerfile
     container_name: englishforce_ai
-    restart: always
+    # restart: always
     depends_on:
-      - backend
+      - db
     ports:
       - "8000:8000"
     env_file:
       - ./EnglishForce-AI/AIServer/.env
     environment:
       DB_HOST: db
-      DATABASE_URL: postgres://englishforce:englishforce_password@db:5432/englishforce
+      # Thư viện SQLAlchemy (Python) chỉ chấp nhận 'postgresql://', KHÔNG chấp nhận 'postgres://' trong DATABASE_URL
+      # Backend chạy bình thường vì dùng thư viện khác (Prisma/TypeORM/pg) không strict như SQLAlchemy
+      DATABASE_URL: postgresql://englishforce:englishforce_password@db:5432/englishforce
       DB_USER: englishforce
       DB_PASSWORD: englishforce_password
       DB_NAME: englishforce
-    volumes:
-      - ./EnglishForce-AI/AIServer:/app
       
 volumes:
   postgres_data:

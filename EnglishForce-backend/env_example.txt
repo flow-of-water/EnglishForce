@@ -48,3 +48,7 @@ APP_NAME=English Force
 APP_FROM_EMAIL="English Force" <youremail@gmail.com>
 OTP_TTL_MINUTES=10
 OTP_RESEND_COOLDOWN_SECONDS=60
+
+# Redis config
+REDIS_URL=redis://redis:6379
+USE_REDIS=false

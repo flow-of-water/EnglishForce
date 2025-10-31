@@ -1,3 +1,6 @@
+// CREATE ALL:  npx sequelize-cli db:seed:all
+// DELETE ALL:  npx sequelize-cli db:seed:undo:all
+
 // CREATE:  npx sequelize-cli db:seed --seed 20250417100000-seed-toeic-exam-economy-1.cjs
 // DELETE:  npx sequelize-cli db:seed:undo --seed 20250417100000-seed-toeic-exam-economy-1.cjs
 

@@ -1,4 +1,4 @@
-import db from '../sequelize/models/index.js'; // Sequelize instance
+import db from '../../sequelize/models/index.js'; // Sequelize instance
 const { Comment, User, Course } = db;
 
 

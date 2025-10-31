@@ -1,5 +1,5 @@
-import * as courseSectionService from "../../services/courseSection.service.js"
-import * as courseService from "../../services/course.service.js"
+import * as courseSectionService from "../../services/course/courseSection.service.js"
+import * as courseService from "../../services/course/course.service.js"
 
 // Tạo course section mới
 export async function createCourseSectionController(req, res) {

@@ -3,7 +3,6 @@ import CourseImage from "./CourseImage";
 import {
   CardContent,
   Typography,
-  Button,
   Card,
   Rating,
   Box,
@@ -71,12 +70,14 @@ const CourseCard = ({ course }) => {
               variant="h6"
               fontWeight={700}
               sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
                 display: "-webkit-box",
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: "vertical",
-                mb: 0.5,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                color: "text.primary",
+                transition: "color 0.3s",
+                "&:hover": { color: "primary.main" },
               }}
             >
               {course.name}
@@ -139,8 +140,17 @@ const CourseCard = ({ course }) => {
               variant="h6"
               fontWeight={700}
               color={course.price ? "primary" : "success.main"}
+              sx={{
+                color: course.price ? "primary.main" : "success.main",
+                background:
+                  (course.price && course.price>0)
+                    ? "linear-gradient(45deg, #2196f3, #21cbf3)"
+                    : "linear-gradient(45deg, #43a047, #66bb6a)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
-              {course.price ? `$${course.price}` : "Free"}
+              {(course.price && course.price>0) ? `$${course.price}` : "Free"}
             </Typography>
           </Box>
         </CardContent>

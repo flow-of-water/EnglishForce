@@ -1,3 +1,6 @@
+// CREATE ALL:  npx sequelize-cli db:seed:all
+// DELETE ALL:  npx sequelize-cli db:seed:undo:all
+
 // npx sequelize-cli db:seed --seed 20250601000000-seed-courses.cjs
 // npx sequelize-cli db:seed:undo --seed 20250601000000-seed-courses.cjs
 

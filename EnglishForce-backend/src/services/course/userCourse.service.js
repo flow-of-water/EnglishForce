@@ -1,4 +1,4 @@
-import db from '../sequelize/models/index.js';
+import db from '../../sequelize/models/index.js';
 const { UserCourse, User, Course } = db;
 
 // Tạo bản ghi mới cho bảng user_course

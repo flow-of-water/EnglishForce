@@ -1,8 +1,11 @@
 # Python bytecode & virtual env
 __pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 .venv/
+venv/
+env/
 .env
 .env.*
 !.env.example

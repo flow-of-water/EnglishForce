@@ -20,10 +20,10 @@ dotenv.config(); // Load biến môi trường ngay từ đầu
 // bạn có thể tạo một file riêng để cấu hình dotenv và import nó đầu tiên trong ứng dụng của bạn.
 
 
-const osEnv = process.env.OS_ENV || (os.platform().startsWith("win") ? "windows" : "linux");
-if (osEnv !== "windows") {
+const use_redis = (process.env.USE_REDIS === "true") || false;
+if (use_redis) {
   const { default: redisClient } = await import("./redis.config.js");
-  console.log(`✅ Redis connected on OS: ${osEnv}`);
+  console.log(`✅ Redis connected`);
 } else {
   console.log("⚠️ Skip Redis connection on Windows environment");
 }

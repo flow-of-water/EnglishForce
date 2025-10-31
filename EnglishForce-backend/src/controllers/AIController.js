@@ -1,6 +1,6 @@
 // controllers/geminiController.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { searchCourseInSentences, getTopRatedCourses , mappingRecommendList} from '../services/course.service.js';
+import { searchCourseInSentences, getTopRatedCourses , mappingRecommendList} from '../services/course/course.service.js';
 import axios from "axios";
 
 const FASTAPI_CHATBOT_URL = process.env.FASTAPI_CHATBOT_URL;

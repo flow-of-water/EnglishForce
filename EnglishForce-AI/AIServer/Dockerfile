@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Cài dependency
 COPY requirements.txt* /app/
-RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN python -m nltk.downloader -d /usr/local/share/nltk_data wordnet omw-1.4 punkt stopwords
 
 # Copy source
 COPY . .
