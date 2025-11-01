@@ -151,5 +151,5 @@ docker-compose up -d
    ```
 2. Run the server:
    ```
-   python serrver.py
+   python server.py
    ```
