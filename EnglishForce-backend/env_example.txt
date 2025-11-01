@@ -22,7 +22,6 @@ JWT_REFRESH_TOKEN_SECRET=your_refresh_token_secret
 
 # Stripe Payment
 STRIPE_WEBHOOK_SECRET=
-# STRIPE_SECRET_KEY=
 STRIPE_SECRET_KEY=
 
 

@@ -1,0 +1,19 @@
+# Database Configuration
+DB_USER=<YOUR_DB_USER>           
+DB_HOST=<YOUR_DB_HOST>           
+DB_NAME=<YOUR_DB_NAME>          
+DB_PASSWORD=<YOUR_DB_PASSWORD>   
+DB_PORT=<YOUR_DB_PORT>         
+
+DATABASE_URL=postgresql://<YOUR_DB_USER>:<YOUR_DB_PASSWORD>@<YOUR_DB_HOST>:<YOUR_DB_PORT>/<YOUR_DB_NAME>
+
+# Scheduler Configuration
+MODEL_UPDATE_INTERVAL=72
+
+# Server Configuration
+HOST=0.0.0.0
+PORT=8000
+
+
+# Main Backend 
+APP_DOMAIN=http://localhost:3000

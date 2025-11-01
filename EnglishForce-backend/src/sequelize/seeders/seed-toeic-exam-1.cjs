@@ -11,7 +11,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const [exam] = await queryInterface.bulkInsert('exams', [{
       public_id: uuidv4(),
-      name: 'TOEIC Full Practice Test',
+      name: 'TOEIC Full Practice Test Mock Exam 1',
       description: 'Complete TOEIC mock exam with Listening and Reading parts.',
       duration: 120,
     }], { returning: true });

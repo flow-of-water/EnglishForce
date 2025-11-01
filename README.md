@@ -34,12 +34,13 @@ English Force provides a comprehensive English course management system, includi
 
 ## Technologies Used
 
-- Frontend: React.js, Material-UI (MUI), Zustand
+- Frontend: React.js, Material-UI (MUI)
 - Backend: Node.js, Express.js, Sequelize ORM
 - Database: PostgreSQL
+- Caching: Redis
 - Media Storage: Cloudinary
 - Authentication: JSON Web Token (JWT)
-- Other libraries: multer (file upload), dotenv (environment variables), etc.
+- Containerization/DevOps: Docker & Docker Compose
 
 ---
 
@@ -80,6 +81,8 @@ Below are some screenshots of **English Force**:
 
 ## How to Run
 
+> **Note:**  **create `.env` file from `env_example.txt`** for each service (FE, BE, AI)
+
 ### 1. Run with Docker
 
 - Install Docker and Docker Compose
@@ -92,7 +95,7 @@ docker-compose up -d
 
 #### Backend (Node.js + PostgreSQL)
 
-1. Clone repository và cài dependencies:
+1. Clone repository and install dependencies:
    ```bash
    git clone https://github.com/flow-of-water/english-force.git
    cd EnglishForce/EnglishForce-backend
@@ -103,6 +106,19 @@ docker-compose up -d
    Create a database named englishforce 
 
 3. Run migrations & seeds
+
+   If you need sample data, run the seeds.
+   - Apply all seeds (in EnglishForce-backend folder):
+   ```
+     npx sequelize-cli db:seed:all
+   ```
+   - Undo all seeds:
+   ```
+   npx sequelize-cli db:seed:undo:all
+   ```
+
+   Login account (after seeding): username: `admin` / password: `Admin@123`
+
 
 4. Start the backend:
    ```
