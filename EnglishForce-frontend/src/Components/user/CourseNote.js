@@ -13,6 +13,7 @@ import {
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axiosInstance from '../../Api/axiosInstance';
+import { buttonStyle } from '../styles';
 
 const CourseNote = ({ coursePublicId }) => {
   const [note, setNote] = useState('');
@@ -106,12 +107,7 @@ const CourseNote = ({ coursePublicId }) => {
               py: 1.2,
               borderRadius: 3,
               textTransform: 'none',
-              fontWeight: 600,
-              background: 'linear-gradient(to right, #1976d2, #00c6ff)',
-              boxShadow: '0 4px 12px rgba(25,118,210,0.3)',
-              '&:hover': {
-                background: 'linear-gradient(to right, #1565c0, #00bcd4)',
-              },
+              ...buttonStyle,
             }}
           >
             {saving ? 'Saving...' : 'Save Notes'}

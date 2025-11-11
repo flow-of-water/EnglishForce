@@ -142,7 +142,7 @@ docker-compose up -d
    ```
 3. If run on production, npm run build and set up nginx
 
-#### AI Service (FastAPI)
+#### AI Service (FastAPI)  [Optional]
 
 1. Open another terminal:
    ```

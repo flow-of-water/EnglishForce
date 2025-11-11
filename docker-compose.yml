@@ -23,6 +23,14 @@ services:
     # restart: always
     ports:
       - "6379:6379"
+    command: [
+      "redis-server",
+      "--maxmemory", "512mb",
+      "--maxmemory-policy", "allkeys-lru",
+      "--save", "",
+      "--appendonly", "no"
+    ]
+    mem_limit: 768m    # Giới hạn RAM container, hoạt động trong Compose thường
 
 
   backend:
@@ -38,7 +46,7 @@ services:
       - "5000:5000"
     env_file:
       - ./EnglishForce-backend/.env
-    environment:
+    environment:    # => The value in `environment:` will OVERWRITE the variable of the same name from `env_file:`.
       DB_HOST: db
       DATABASE_URL: postgres://englishforce:englishforce_password@db:5432/englishforce
       DB_USER: englishforce
@@ -66,9 +74,17 @@ services:
       - "3000:3000"
     env_file:
       - ./EnglishForce-frontend/.env
+    environment:
+      # ENV for reload 
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "500"   # optional
+      WATCHPACK_POLLING: "true"
+      HOST: "0.0.0.0"
+      WDS_SOCKET_PORT: "3000"
+      WDS_SOCKET_HOST: "localhost"
     volumes:
       - ./EnglishForce-frontend:/usr/src/app
-      - /usr/src/app/node_modules
+      - fe_node_modules:/usr/src/app/node_modules
 
   ai:
     build:
@@ -93,3 +109,4 @@ services:
       
 volumes:
   postgres_data:
+  fe_node_modules:

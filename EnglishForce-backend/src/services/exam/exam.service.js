@@ -10,9 +10,9 @@ export const getNumberOfExams = async () => {
 };
 
 export const findExamIdByPublicId = async (publicId) => {
-  const Exam = await Exam.findOne({ where: { public_id: publicId } });
-  if (!Exam) throw new Error('Exam not found with that public_id');
-  return Exam.id;
+  const exam = await Exam.findOne({ where: { public_id: publicId } });
+  if (!exam) throw new Error('Exam not found with that public_id');
+  return exam.id;
 }
 
 
@@ -20,28 +20,31 @@ export const getAllExams = async (page = 1, query = '') => {
   const pageSize = 6;
   const offset = (page - 1) * pageSize;
 
+  const cacheKey = `${CACHE_KEYS.EXAM.ALL}:${query}:${page}`;
   const whereClause = query
     ? {
-        name: {
-          [Op.iLike]: `%${query}%` // PostgreSQL: không phân biệt hoa thường
-        }
+      name: {
+        [Op.iLike]: `%${query}%` // PostgreSQL: không phân biệt hoa thường
       }
+    }
     : {};
 
-  const { count, rows } = await Exam.findAndCountAll({
-    where: whereClause,
-    attributes: ['public_id', 'name', 'description', 'duration', 'type'],
-    limit: pageSize,
-    offset: offset,
-    order: [['id', 'DESC']]
-  });
+  return await cacheWrapper.read(cacheKey, async () => {
+    const { count, rows } = await Exam.findAndCountAll({
+      where: whereClause,
+      attributes: ['public_id', 'name', 'description', 'duration', 'type'],
+      limit: pageSize,
+      offset: offset,
+      order: [['id', 'DESC']]
+    });
 
-  return {
-    totalItems: count,
-    totalPages: Math.ceil(count / pageSize),
-    currentPage: page,
-    exams: rows
-  };
+    return {
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      exams: rows
+    };
+  });
 };
 
 
@@ -57,66 +60,66 @@ function buildNestedParts(part, partMap) {
 }
 export const getExamWithFullHierarchy = async (publicId, onlyCorrectAnswers = false) => {
   const cacheKey = `${CACHE_KEYS.EXAM.BY_ID(publicId)}:${onlyCorrectAnswers ? "correct" : "all"}`;
-  
+
   return await cacheWrapper.read(cacheKey, async () => {
-  const exam = await db.Exam.findOne({
-    where: { public_id: publicId },
-    attributes: ['id', 'public_id', 'name', 'description', 'duration', 'type'],
-  });
+    const exam = await db.Exam.findOne({
+      where: { public_id: publicId },
+      attributes: ['id', 'public_id', 'name', 'description', 'duration', 'type'],
+    });
 
-  if (!exam) throw new Error('Exam not found');
+    if (!exam) throw new Error('Exam not found');
 
-  // Step 1: Lấy tất cả các ExamParts của bài thi
-  const allParts = await db.ExamPart.findAll({
-    where: { exam_id: exam.id },
-    order: [['order_index', 'ASC']],
-    include: [
-      {
-        model: db.Question,
-        attributes: ['id', 'public_id', 'content', 'type', 'thumbnail', 'record', 'order_index'],
-        separate: true, // ⚠️ BẮT BUỘC nếu muốn order hoạt động
-        order: [['order_index', 'ASC']],
-        include: [
-          {
-            model: db.Answer,
-            where: onlyCorrectAnswers ? { is_correct: true } : undefined,
-            attributes: ['id', 'public_id', 'content', 'is_correct'],
-            order: [['id', 'ASC']],
-          }
-        ]
-      }
-    ]
-  });
-  
-  // Step 2: Convert về object thuần + chuẩn bị Map theo ID
-  const partMap = {};
-  allParts.forEach(part => {
-    part = part.toJSON(); // make plain
-    part.Children = [];
-    partMap[part.id] = part;
-  });
+    // Step 1: Lấy tất cả các ExamParts của bài thi
+    const allParts = await db.ExamPart.findAll({
+      where: { exam_id: exam.id },
+      order: [['order_index', 'ASC']],
+      include: [
+        {
+          model: db.Question,
+          attributes: ['id', 'public_id', 'content', 'type', 'thumbnail', 'record', 'order_index'],
+          separate: true, // ⚠️ BẮT BUỘC nếu muốn order hoạt động
+          order: [['order_index', 'ASC']],
+          include: [
+            {
+              model: db.Answer,
+              where: onlyCorrectAnswers ? { is_correct: true } : undefined,
+              attributes: ['id', 'public_id', 'content', 'is_correct'],
+              order: [['id', 'ASC']],
+            }
+          ]
+        }
+      ]
+    });
 
-  // Step 3: Gắn part con vào cha (parent_part_id)
-  // Ở đây CHildren nên chỉ gắn part.id thay vì part , để tránh trường hợp ông bà nhận thg con , sau đó thg con nhận cháu
-  // => ông bà không nhận cháu   
-  allParts.forEach(part => {
-    if (part.parent_part_id) partMap[part.parent_part_id]?.Children.push(part.id);
-  });
+    // Step 2: Convert về object thuần + chuẩn bị Map theo ID
+    const partMap = {};
+    allParts.forEach(part => {
+      part = part.toJSON(); // make plain
+      part.Children = [];
+      partMap[part.id] = part;
+    });
 
-  var rootParts = [];
-  allParts.forEach(part => {
-    if (!part.parent_part_id) rootParts.push(partMap[part.id]);
-  });
-  rootParts = rootParts.map(root => buildNestedParts(root, partMap));
+    // Step 3: Gắn part con vào cha (parent_part_id)
+    // Ở đây CHildren nên chỉ gắn part.id thay vì part , để tránh trường hợp ông bà nhận thg con , sau đó thg con nhận cháu
+    // => ông bà không nhận cháu   
+    allParts.forEach(part => {
+      if (part.parent_part_id) partMap[part.parent_part_id]?.Children.push(part.id);
+    });
 
-  return {
-    public_id: exam.public_id,
-    name: exam.name,
-    description: exam.description,
-    duration: exam.duration,
-    type: exam.type,
-    parts: rootParts
-  };
+    var rootParts = [];
+    allParts.forEach(part => {
+      if (!part.parent_part_id) rootParts.push(partMap[part.id]);
+    });
+    rootParts = rootParts.map(root => buildNestedParts(root, partMap));
+
+    return {
+      public_id: exam.public_id,
+      name: exam.name,
+      description: exam.description,
+      duration: exam.duration,
+      type: exam.type,
+      parts: rootParts
+    };
   });
 };
 
@@ -136,31 +139,37 @@ export const getExamShort = async (publicId) => {
 
 
 export const createExam = async ({ name, description, duration, type }) => {
-  const newExam = await Exam.create({
-    name,
-    description: description || null,
-    duration,
-    type,
-  });
-  return newExam;
+  await cacheWrapper.create(async () => {
+    const newExam = await Exam.create({
+      name,
+      description: description || null,
+      duration,
+      type,
+    });
+    return newExam;
+  }, [CACHE_KEYS.EXAM.PREFIX]);
 };
 
 export const updateExamByPublicId = async (publicId, updates) => {
-  const exam = await Exam.findOne({ where: { public_id: publicId } });
+  return await cacheWrapper.update(async () => {
+    const exam = await Exam.findOne({ where: { public_id: publicId } });
 
-  if (!exam) {
-    throw new Error('Exam not found');
-  }
+    if (!exam) {
+      throw new Error('Exam not found');
+    }
 
-  await exam.update(updates);
-  return exam;
+    await exam.update(updates);
+    return exam;
+  }, [CACHE_KEYS.EXAM.PREFIX]);
 };
 
 export const deleteExamByPublicId = async (publicId) => {
-  const exam = await Exam.findOne({ where: { public_id: publicId } });
-  if (!exam) throw new Error('Exam not found');
+  return await cacheWrapper.delete(async () => {
+    const exam = await Exam.findOne({ where: { public_id: publicId } });
+    if (!exam) throw new Error('Exam not found');
 
-  await exam.destroy(); // Sequelize cascade sẽ xóa các Question vì đã set `onDelete: CASCADE`
+    await exam.destroy(); // Sequelize cascade sẽ xóa các Question vì đã set `onDelete: CASCADE`
+  }, [CACHE_KEYS.EXAM.PREFIX]);
 };
 
 /**

@@ -33,7 +33,9 @@ export const delCache = async (key) => {
 
 
 // 🔥 Xóa cache theo prefix
-export const delCacheByPrefix = async (prefix) => {
+// This is not best practice for production: không nên dùng KEYS trong production. Nó duyệt toàn bộ keyspace → blocking Redis, 
+// đặc biệt khi có nhiều key hoặc đang chạy trên Redis Cluster (thậm chí KEYS còn bị hạn chế).
+export const delCacheByPrefix_DontUse = async (prefix) => {
     try {
         const keys = await redisClient.keys(`${prefix}*`);
         if (keys.length > 0) await redisClient.del(keys);
@@ -41,6 +43,29 @@ export const delCacheByPrefix = async (prefix) => {
         console.error("Redis delCacheByPrefix error:", err);
     }
 };
+
+
+// Xoá theo prefix bằng SCAN (Recommended)
+export const delCacheByPrefix = async (prefix) => {
+  try {
+    let cursor = "0";
+    const match = `${prefix}*`;
+    do {
+      const res = await redisClient.scan(cursor, { MATCH: match, COUNT: 1000 });
+      cursor = res.cursor;
+      const batch = res.keys;
+      if (batch.length) {
+        // UNLINK xóa async (ít block hơn DEL). Fallback sang DEL nếu Redis < 4.
+        if (redisClient.unlink) await redisClient.unlink(batch);
+        else await redisClient.del(batch);
+      }
+    } while (cursor !== "0");
+  } catch (e) {
+    console.error("Redis delCacheByPrefix (SCAN):", e);
+    console.log("Prefix: ", prefix);
+  }
+};
+
 
 //#############################################
 // WRAPPERS
@@ -50,36 +75,51 @@ const use_redis = (process.env.USE_REDIS === "true") || false;
 // 🧩 Wrapper CRUD 
 export const cacheWrapper = {
     async create(createFn, invalidateKeys = []) {
-        const result = await createFn();
-        // Xóa cache list, để lần sau load lại
-        if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
-        return result;
+        try {
+            const result = await createFn();
+            // Xóa cache list, để lần sau load lại
+            if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
+            return result;
+        } catch (err) {
+            console.error("❌ cacheWrapper.create error:", err);
+        }
     },
 
     async read(key, fetchFn) {
-        if (use_redis) {
-            const cached = await getCache(key);
-            if (cached) {
-                console.log("🟢 Cache hit:", key);
-                return cached;
+        try {
+            if (use_redis) {
+                const cached = await getCache(key);
+                if (cached) {
+                    // console.log("🟢 Cache hit:", key);
+                    return cached;
+                }
+                // console.log("🔵 Cache miss:", key);
             }
-            console.log("🔵 Cache miss:", key);
-        }
-        const result = await fetchFn();
-        if(use_redis) await setCache(key, result);
-        return result;
+            const result = await fetchFn();
+            if(use_redis) await setCache(key, result);
+            return result;
+        } catch (err) {
+            console.error("❌ cacheWrapper.read error:", err);
+        }        
     },
 
     async update(updateFn, invalidateKeys = []) {
-        const result = await updateFn();
-        // Xóa cache chi tiết và list liên quan
-        if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
-        return result;
+        try {
+            const result = await updateFn();
+            if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
+            return result;
+        } catch (err) {
+            console.error("❌ cacheWrapper.update error:", err);
+        }
     },
 
     async delete(deleteFn, invalidateKeys = []) {
-        const result = await deleteFn();
-        if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
-        return result;
+        try{
+            const result = await deleteFn();
+            if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
+            return result;
+        } catch (err) {
+            console.error("❌ cacheWrapper.delete error:", err);
+        }
     },
 };

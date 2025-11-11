@@ -16,6 +16,7 @@ import {
 import { Delete, Edit, Save, Close, Reply } from '@mui/icons-material';
 import axiosInstance from '../../Api/axiosInstance';
 import CircularLoading from '../Loading';
+import { buttonStyle } from '../styles';
 
 const Comments = ({ coursePublicId }) => {
   const [comments, setComments] = useState([]);
@@ -304,11 +305,7 @@ const Comments = ({ coursePublicId }) => {
             py: 1,
             textTransform: 'none',
             borderRadius: 3,
-            fontWeight: 600,
-            background: 'linear-gradient(to right, #1976d2, #00c6ff)',
-            '&:hover': {
-              background: 'linear-gradient(to right, #1565c0, #00bcd4)',
-            },
+            ...buttonStyle,
           }}
         >
           Post Comment
