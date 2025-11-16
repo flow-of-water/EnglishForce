@@ -30,7 +30,7 @@ services:
       "--save", "",
       "--appendonly", "no"
     ]
-    mem_limit: 768m    # Giới hạn RAM container, hoạt động trong Compose thường
+    mem_limit: 768m    # Giới hạn RAM container, hoạt động trong Compose thường, kill container nếu vượt ngưỡng 
 
 
   backend:

@@ -3,7 +3,7 @@ import db from '../../sequelize/models/index.js';
 import { Op } from 'sequelize';
 const { Exam, Question, Answer, ExamAttempt, ExamPart, QuestionGroup } = db;
 import { cacheWrapper } from '../../utils/cache.helper.js';
-import { CACHE_KEYS } from '../../constants/index.js'
+import { CACHE_KEYS, API_MESSAGES } from '../../constants/index.js'
 
 export const getNumberOfExams = async () => {
   return await db.Exam.count();
@@ -11,7 +11,7 @@ export const getNumberOfExams = async () => {
 
 export const findExamIdByPublicId = async (publicId) => {
   const exam = await Exam.findOne({ where: { public_id: publicId } });
-  if (!exam) throw new Error('Exam not found with that public_id');
+  if (!exam) throw new Error(API_MESSAGES.EXAM.NOT_FOUND);
   return exam.id;
 }
 
@@ -139,7 +139,7 @@ export const getExamShort = async (publicId) => {
 
 
 export const createExam = async ({ name, description, duration, type }) => {
-  await cacheWrapper.create(async () => {
+  return await cacheWrapper.create(async () => {
     const newExam = await Exam.create({
       name,
       description: description || null,
@@ -155,7 +155,7 @@ export const updateExamByPublicId = async (publicId, updates) => {
     const exam = await Exam.findOne({ where: { public_id: publicId } });
 
     if (!exam) {
-      throw new Error('Exam not found');
+      throw new Error(API_MESSAGES.EXAM.NOT_FOUND);
     }
 
     await exam.update(updates);
@@ -166,7 +166,7 @@ export const updateExamByPublicId = async (publicId, updates) => {
 export const deleteExamByPublicId = async (publicId) => {
   return await cacheWrapper.delete(async () => {
     const exam = await Exam.findOne({ where: { public_id: publicId } });
-    if (!exam) throw new Error('Exam not found');
+    if (!exam) throw new Error(API_MESSAGES.EXAM.NOT_FOUND);
 
     await exam.destroy(); // Sequelize cascade sẽ xóa các Question vì đã set `onDelete: CASCADE`
   }, [CACHE_KEYS.EXAM.PREFIX]);
@@ -232,7 +232,7 @@ export const submitExamAttempt = async (body, userId) => {
   const { exam_public_id, answers, start, end } = body;
 
   const exam = await db.Exam.findOne({ where: { public_id: exam_public_id } });
-  if (!exam) throw new Error('Exam not found');
+  if (!exam) throw new Error(API_MESSAGES.EXAM.NOT_FOUND);
 
   const allQuestions = await db.Question.findAll({
     where: { exam_id: exam.id },
@@ -298,10 +298,10 @@ export const getExamResult = async (attemptPublicId) => {
     where: { public_id: attemptPublicId },
   });
 
-  if (!attempt) throw new Error('Attempt not found');
+  if (!attempt) throw new Error(API_MESSAGES.EXAM_ATTEMPT.NOT_FOUND);
 
   const exam = await db.Exam.findByPk(attempt.exam_id);
-  if (!exam) throw new Error('Exam not found for this attempt');
+  if (!exam) throw new Error(API_MESSAGES.EXAM.NOT_FOUND);
 
   const examInfor = await getExamWithFullHierarchy(exam.public_id, true); // lấy đáp án đúng thôi
 

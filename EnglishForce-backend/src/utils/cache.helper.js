@@ -81,7 +81,7 @@ export const cacheWrapper = {
             if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
             return result;
         } catch (err) {
-            console.error("❌ cacheWrapper.create error:", err);
+            console.error("❌ cacheWrapper.create error:", err.message);  throw err;
         }
     },
 
@@ -90,7 +90,7 @@ export const cacheWrapper = {
             if (use_redis) {
                 const cached = await getCache(key);
                 if (cached) {
-                    // console.log("🟢 Cache hit:", key);
+                    console.log("🟢 Cache hit:", key);
                     return cached;
                 }
                 // console.log("🔵 Cache miss:", key);
@@ -99,7 +99,7 @@ export const cacheWrapper = {
             if(use_redis) await setCache(key, result);
             return result;
         } catch (err) {
-            console.error("❌ cacheWrapper.read error:", err);
+            console.error("❌ cacheWrapper.read error:", err.message);   throw err;
         }        
     },
 
@@ -109,7 +109,7 @@ export const cacheWrapper = {
             if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
             return result;
         } catch (err) {
-            console.error("❌ cacheWrapper.update error:", err);
+            console.error("❌ cacheWrapper.update error:", err.message);   throw err;
         }
     },
 
@@ -119,7 +119,7 @@ export const cacheWrapper = {
             if (use_redis) await Promise.all(invalidateKeys.map((k) => delCacheByPrefix(k)));
             return result;
         } catch (err) {
-            console.error("❌ cacheWrapper.delete error:", err);
+            console.error("❌ cacheWrapper.delete error:", err.message);  throw err;
         }
     },
 };
