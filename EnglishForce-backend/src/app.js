@@ -1,6 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
 import cors from "cors"
+import rateLimiter from "./middleware/rateLimit.js" ;
 // OAuth
 import passport from 'passport';
 
@@ -51,6 +52,11 @@ app.get("/api",(req,res)=> {
 // ***** WEBHOOK *****
 // Payment Stripe webhook
 app.use('/api/webhook',stripeRoutes);
+
+
+// Không nên rate-limit webhook thanh toán, Từ đây trở xuống mới áp limiter cho API
+app.use('/api', rateLimiter());
+
 
 // ***** API *****
 app.use("/api/auth", authRoutes);

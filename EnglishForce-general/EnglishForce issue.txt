@@ -55,7 +55,19 @@ Giải quyết:
 Load balancing (cái này chỉ dùng trong microservice hoặc các hệ thống nhiều server)
 Index 
 
-#6.2. Áp dụng Redis vào 
+#6.2. Áp dụng Redis Cache vào 
+Đã áp dụng Redis Cache vào route /api/exams (CRUD)
+Thực hiện load test (với cả 2 thao tác READ/WRITE): 
+- Case 1: 50 users, 0 failure (With Redis is faster than Without Redis)
+- Case 2: 150 users , ramp up speed 10 , time: 3 minutes
+  With Redis Cache: 21534 Requests, 3 Failures, Average Response Speed: 94.11ms/1 request 
+Failure Message: 	API GET	/api/exams , CatchResponseError('Deleted exam afc3c281-caa5-4e0b-8937-595eb402b4ad is still in the exam list') 
+(Có vẻ do Cache chưa kịp xóa)
+  Without Redis: 16619 Requests, 4 Failures, Average Response Speed: 423.2ms/1 request 
+Failure Message : API POST /api/auth/login, ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)
+
+# 6.2.1. Tìm hiểu nguyên nhân 2 lỗi khi xảy ra load test 
+
 
 
 
@@ -269,7 +281,7 @@ Hiện tại với 200 câu hỏi được chọn, từ bấm submit tới lúc 
 Timer hiện: 191:45->188:24 , hết 3 phút 21 giây
 - Xác định nguyên nhân: Số lượng truy vấn SQL trong 1 API request quá nhiều, 
 db.Question.findOne(...) → gọi 1 lần / câu hỏi
-db.ExamPart.findByPk(...) (và đệ quy để tìm rootPart Listening/Reading) →  gọi 1–n lần / câu hỏi
+db.ExamPart.findByPk(...) (và đệ quy để tìm rootPart Listening/Reading) →  gọi từ 1–>n lần / câu hỏi
 =>  Với 200 câu hỏi trong exam, có thể lên tới 200–500 truy vấn DB riêng biệt!
 Giải pháp tối ưu: Tải mọi dữ liệu từ DB 1 lần 
 - (1) Tải tất cả Questions và Answers liên quan đến exam.id
@@ -283,7 +295,7 @@ Sau đó lập sẵn Map để tra cứu khi cần
 Hàm findRootPartFast 
 Kết quả:
 => Từ 3.5 phút xuống 5s
-
+(N+1 Problem)
 
 
 ###7 Bug
@@ -393,12 +405,5 @@ TOEIC không có công thức tính điểm tuyến tính mà là bảng quy đ�
 ta cứ áp dụng 1 công thức đơn giản cho rồi
 
 
-#9.7 Tailor Home Page 
-Issue: Style của userLayout cản trở việc thiết kế Home Page theo ý, không muốn thay đổi userLayout vì nó gây ảnh hưởng Page khác
-=> Tạo HomePageLayout dành riêng cho Home Page
-Mini Issue: Việc đổi từ Home Page sang trang khác reset Chatbot (ko thích)
-Đã thử: Tạo Parent Layout cho cả HomePageLayout và cả UserLayout, đặt Chatbot component ở Parent
-Vẫn bị reset Chatbot 
-=> Không tạo thêm Layout nữa , thêm điều kiện if else vào userLayout ban đầu
 
 
