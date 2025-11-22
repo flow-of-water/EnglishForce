@@ -14,10 +14,9 @@ import {
   FormControlLabel,
   Radio,
   Box,
-  Input,
-  Snackbar, Alert,
 } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
+import MyAlert from "../../../Components/Alert";
 
 const EditCourse = () => {
   const { publicId } = useParams();
@@ -260,21 +259,12 @@ const EditCourse = () => {
         </form>
       </Paper>
 
-
-      <Snackbar
+      <MyAlert
         open={snackbarOpen}
-        autoHideDuration={3000}
+        message={snackbarMessage}
         onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-          sx={{ width: "100%" }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+        severity={snackbarSeverity}
+      />
 
     </Container>
   );

@@ -2,11 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   Container, Typography, Card, CardMedia, CardContent, Box, Button,
-  Alert, Rating, List, ListItem, ListItemText, Divider, Snackbar, TextField, Chip, Stack, Paper
+  Alert, Rating, List, ListItem, ListItemText, Divider, TextField, Chip, Stack, Paper
 } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
 import { CartContext } from "../../../Context/CartContext";
 import CircularLoading from "../../../Components/Loading";
+import MyAlert from "../../../Components/Alert";
 
 // ========= helpers =========
 function imageProgress(course) {
@@ -61,11 +62,12 @@ function RatingBox({ coursePubicId, initialRating = null, initialReview = "", se
           {submitted ? "Update rating" : "Send Rating"}
         </Button>
       </Box>
-      <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={() => setOpenSnackbar(false)}>
-        <Alert severity="success" onClose={() => setOpenSnackbar(false)}>
-          {submitted ? "Rating is updated!" : "Rating is sent!"}
-        </Alert>
-      </Snackbar>
+      <MyAlert
+        open={openSnackbar}
+        message={submitted ? "Rating is updated!" : "Rating is sent!"}
+        onClose={() => setOpenSnackbar(false)}
+        severity="success"
+      />
     </Paper>
   );
 }
@@ -277,14 +279,12 @@ const CourseOverview = () => {
       </Card>
 
       {/* Snackbar */}
-      <Snackbar
+      <MyAlert
         open={snackbar.open}
-        autoHideDuration={3000}
+        message={snackbar.message}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      >
-        <Alert severity={snackbar.success ? 'success' : 'warning'}>{snackbar.message}</Alert>
-      </Snackbar>
+        severity={snackbar.success ? 'success' : 'warning'}
+      />
     </Container>
   );
 };

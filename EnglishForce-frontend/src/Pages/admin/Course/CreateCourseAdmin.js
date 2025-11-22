@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Container, Typography, TextField, Button, Paper, Snackbar, Alert, InputAdornment,
+  Container, Typography, TextField, Button, Paper, InputAdornment,
   CircularProgress, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
 } from "@mui/material";
 import axiosInstance from "../../../Api/axiosInstance";
+import MyAlert from "../../../Components/Alert";
 
 const CreateCourseAdmin = () => {
   const [name, setName] = useState("");
@@ -134,11 +135,12 @@ const CreateCourseAdmin = () => {
         </form>
       </Paper>
 
-      <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={() => setOpenSnackbar(false)}>
-        <Alert onClose={() => setOpenSnackbar(false)} severity={snackbarMessage.includes("success") ? "success" : "error"}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <MyAlert
+        open={openSnackbar}
+        message={snackbarMessage}
+        onClose={() => setOpenSnackbar(false)}
+        severity={snackbarMessage.includes("success") ? "success" : "error"}
+      />
     </Container>
   );
 };

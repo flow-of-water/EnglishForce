@@ -6,14 +6,13 @@ import {
   Button,
   Stack,
   Paper,
-  Snackbar,
-  Alert,
   LinearProgress,
 } from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axiosInstance from '../../Api/axiosInstance';
 import { buttonStyle } from '../styles';
+import MyAlert from '../Alert';
 
 const CourseNote = ({ coursePublicId }) => {
   const [note, setNote] = useState('');
@@ -115,16 +114,12 @@ const CourseNote = ({ coursePublicId }) => {
         </Stack>
       </Paper>
 
-      <Snackbar
+      <MyAlert
         open={snackbar.open}
-        autoHideDuration={3000}
+        message={snackbar.message}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      >
-        <Alert severity={snackbar.success ? 'success' : 'error'}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+        severity={snackbar.success ? 'success' : 'error'}
+      />
     </Box>
   );
 };

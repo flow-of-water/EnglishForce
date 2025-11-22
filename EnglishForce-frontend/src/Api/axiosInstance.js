@@ -5,7 +5,7 @@ import * as Constants from "./../Constants/index.js";
 const axiosInstance = axios.create({
   // baseURL: "http://localhost:5000/api", 
   // baseURL: "https://elearning-be-water.onrender.com/api",
-  baseURL: process.env.REACT_APP_BACKEND_URL + "/api", 
+  baseURL: process.env.REACT_APP_BACKEND_URL + "/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -26,6 +26,17 @@ axiosInstance.interceptors.request.use(
 
 // Flag để tránh vòng lặp vô hạn nếu refresh liên tục lỗi
 let isRefreshing = false;
+let refreshPromise = null;
+let subscribers = [];  // là array chứa các callback function ; Queue các request đang chờ token mới
+
+function subscribeTokenRefresh(cb) {
+  subscribers.push(cb);
+}
+
+function notifySubscribers(newToken) { // Thông báo token mới cho tất cả request đang chờ → Trigger retry
+  subscribers.forEach((cb) => cb(newToken));
+  subscribers = [];
+}
 
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -33,11 +44,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     // Nếu token hết hạn và chưa từng thử refresh
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const refreshToken = localStorage.getItem(Constants.LOCAL_STORAGE.REFRESH_TOKEN);
@@ -47,25 +54,46 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
       }
 
-      // Tránh gọi nhiều refresh cùng lúc
-      if (!isRefreshing) {
-        isRefreshing = true;
-        try {
-          const res = await axios.post(
-            process.env.REACT_APP_BACKEND_URL + "/api/auth/refresh-token",
-            { refreshToken }
-          );
+      // ---------------------------
+      // Case 1: refresh đang chạy → request này CHỜ
+      // ---------------------------
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          subscribeTokenRefresh((newToken) => {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            resolve(axiosInstance(originalRequest));
+          });
+        });
+      }
 
+
+      // ---------------------------
+      // Case 2: chưa refresh → refresh ngay
+      // ---------------------------
+      else if (!isRefreshing) {
+        isRefreshing = true;
+        refreshPromise = axios.post(
+          process.env.REACT_APP_BACKEND_URL + "/api/auth/refresh-token",
+          { refreshToken }
+        );
+        try {
+          const res = await refreshPromise;
           const newAccessToken = res.data.accessToken;
+
           localStorage.setItem(Constants.LOCAL_STORAGE.TOKEN, newAccessToken);
           axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          isRefreshing = false;
 
-          console.log("I get access Token again bro") ;
+          // thông báo cho những request đang chờ
+          notifySubscribers(newAccessToken);
+          isRefreshing = false;
+          refreshPromise = null;
+
+          console.log("I get access Token again bro");
           return axiosInstance(originalRequest);
         } catch (refreshError) {
           isRefreshing = false;
+          refreshPromise = null;
           localStorage.clear();
           window.location.href = "/login";
           return Promise.reject(refreshError);

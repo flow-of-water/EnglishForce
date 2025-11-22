@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
-  Container, Typography, Box, Card, CardContent, Button, Divider, Snackbar, Alert
+  Container, Typography, Box, Card, CardContent, Button, Divider,
 } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import axiosInstance from '../../../Api/axiosInstance';
 import GradientTitle from '../../../Components/GradientTitle';
+import MyAlert from '../../../Components/Alert';
 
 const AdminAIPage = () => {
   const [loading, setLoading] = useState(false);
@@ -58,15 +59,12 @@ const AdminAIPage = () => {
         </CardContent>
       </Card>
 
-      <Snackbar
+      <MyAlert
         open={snackbar.open}
-        autoHideDuration={4000}
+        severity={snackbar.severity}
+        message={snackbar.message}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
-      >
-        <Alert severity={snackbar.severity} onClose={() => setSnackbar({ ...snackbar, open: false })}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+      />
     </Container>
   );
 };

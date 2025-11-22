@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  Container, Typography, TextField, Button, Paper, Snackbar, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton,
+  Container, Typography, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton,
   FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import axiosInstance from "../../../Api/axiosInstance";
-
+import MyAlert from "../../../Components/Alert";
 
 
 const AdminCourseSections = () => {
@@ -143,9 +143,12 @@ const AdminCourseSections = () => {
         </Table>
       </TableContainer>
 
-      <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={() => setOpenSnackbar(false)}>
-        <Alert onClose={() => setOpenSnackbar(false)} severity="success">{snackbarMessage}</Alert>
-      </Snackbar>
+      <MyAlert
+        open={openSnackbar}
+        message={snackbarMessage}
+        onClose={() => setOpenSnackbar(false)}
+        severity="success"
+      />
     </Container>
   );
 };
