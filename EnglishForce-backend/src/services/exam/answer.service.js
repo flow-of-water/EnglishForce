@@ -1,50 +1,47 @@
 import db from '../../sequelize/models/index.js';
 const { Exam, Question, Answer, ExamAttempt } = db;
 
-export const getAnswersByQuestionPublicId = async (questionPublicId) => {
-    const question = await Question.findOne({
-        where: { public_id: questionPublicId }
-    });
+export const getAnswersByQuestionPublicId = async questionPublicId => {
+	const question = await Question.findOne({
+		where: { public_id: questionPublicId },
+	});
 
-    if (!question) {
-        throw new Error('Question not found');
-    }
+	if (!question) {
+		throw new Error('Question not found');
+	}
 
-    const answers = await Answer.findAll({
-        where: { question_id: question.id },
-        order: [['id', 'ASC']]
-    });
+	const answers = await Answer.findAll({
+		where: { question_id: question.id },
+		order: [['id', 'ASC']],
+	});
 
-    return answers;
+	return answers;
 };
-
-
 
 export const createAnswer = async ({ question_public_id, content, is_correct }) => {
-    const question = await Question.findOne({
-        where: { public_id: question_public_id },
-    });
+	const question = await Question.findOne({
+		where: { public_id: question_public_id },
+	});
 
-    if (!question) {
-        throw new Error('Question not found');
-    }
+	if (!question) {
+		throw new Error('Question not found');
+	}
 
-    const newAnswer = await Answer.create({
-        question_id: question.id,
-        content,
-        is_correct,
-    });
+	const newAnswer = await Answer.create({
+		question_id: question.id,
+		content,
+		is_correct,
+	});
 
-    return newAnswer;
+	return newAnswer;
 };
 
+export const deleteAnswer = async publicId => {
+	const answer = await Answer.findOne({ where: { public_id: publicId } });
 
-export const deleteAnswer = async (publicId) => {
-    const answer = await Answer.findOne({ where: { public_id: publicId } });
+	if (!answer) {
+		throw new Error('Answer not found');
+	}
 
-    if (!answer) {
-        throw new Error('Answer not found');
-    }
-
-    await answer.destroy();
+	await answer.destroy();
 };

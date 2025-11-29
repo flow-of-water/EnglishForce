@@ -1,39 +1,41 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import express from "express";
+import express from 'express';
 import { OAuthCallback } from '../../controllers/auth/authController.js';
 
 // import dotenv from 'dotenv';
 // dotenv.config();
 
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // callbackURL: '/api/auth_google/google/callback'
-    callbackURL: 'https://elearning-be-water.onrender.com/api/auth_google/google/callback'
-},
-    async (accessToken, refreshToken, profile, done) => {
-        const Googleuser = {
-            id: profile.id,
-            username: profile.displayName,
-            email: profile.emails[0].value,
-            role: "user",
-        };
+passport.use(
+	new GoogleStrategy(
+		{
+			clientID: process.env.GOOGLE_CLIENT_ID,
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+			// callbackURL: '/api/auth_google/google/callback'
+			callbackURL: 'https://elearning-be-water.onrender.com/api/auth_google/google/callback',
+		},
+		async (accessToken, refreshToken, profile, done) => {
+			const Googleuser = {
+				id: profile.id,
+				username: profile.displayName,
+				email: profile.emails[0].value,
+				role: 'user',
+			};
 
-        done(null, Googleuser);
-    }
-));
-
+			done(null, Googleuser);
+		}
+	)
+);
 
 const router = express.Router();
 
-
-//OAuth 
+//OAuth
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback',
-    passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-    OAuthCallback
+router.get(
+	'/google/callback',
+	passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+	OAuthCallback
 );
 
-export default router ;
+export default router;

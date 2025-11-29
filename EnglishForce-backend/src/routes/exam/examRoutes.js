@@ -6,15 +6,13 @@ const router = express.Router();
 
 router.get('/', examController.getAllExams);
 router.post('/', authMiddleware, adminMiddleware, examController.createExam);
-router.get('/:publicId',authMiddlewareWithoutError, examController.getExamWithFullHierarchy);
-router.get('/:publicId/short',authMiddlewareWithoutError, examController.getExamShortly); 
+router.get('/:publicId', authMiddlewareWithoutError, examController.getExamWithFullHierarchy);
+router.get('/:publicId/short', authMiddlewareWithoutError, examController.getExamShortly);
 
-router.put('/:publicId',authMiddleware, adminMiddleware, examController.updateExam );
-router.delete('/:publicId',authMiddleware, adminMiddleware, examController.deleteExam);
+router.put('/:publicId', authMiddleware, adminMiddleware, examController.updateExam);
+router.delete('/:publicId', authMiddleware, adminMiddleware, examController.deleteExam);
 
-
-router.post('/attempts',authMiddlewareWithoutError, examController.submitExamAttempt);
-router.get('/attempts/result/:attemptPublicId',authMiddlewareWithoutError, examController.getExamResult);
-
+router.post('/attempts', authMiddlewareWithoutError, examController.submitExamAttempt);
+router.get('/attempts/result/:attemptPublicId', authMiddlewareWithoutError, examController.getExamResult);
 
 export default router;

@@ -3,201 +3,202 @@ import { Box, Typography, List, Button, IconButton, Drawer, Tooltip } from '@mui
 import MenuIcon from '@mui/icons-material/Menu';
 import { green, grey } from '@mui/material/colors';
 
-
 const ExamMenu = ({ parts, answers, duration, onSubmit }) => {
-  const [open, setOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(null);
-  const [start, setStart] = useState(null);
-  const intervalRef = useRef(null); // 🆕 ref lưu interval
+	const [open, setOpen] = useState(false);
+	const [timeLeft, setTimeLeft] = useState(null);
+	const [start, setStart] = useState(null);
+	const intervalRef = useRef(null); // 🆕 ref lưu interval
 
-  useEffect(() => {
-    if (duration) {
-      const startTime = new Date(); // Luôn tạo mới
-      setStart(startTime);
+	useEffect(() => {
+		if (duration) {
+			const startTime = new Date(); // Luôn tạo mới
+			setStart(startTime);
 
-      const endTime = new Date(startTime.getTime() + duration * 60000);
+			const endTime = new Date(startTime.getTime() + duration * 60000);
 
-      const updateRemainingTime = () => {
-        const now = new Date();
-        const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
-        setTimeLeft(remaining);
+			const updateRemainingTime = () => {
+				const now = new Date();
+				const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
+				setTimeLeft(remaining);
 
-        if (remaining === 0) {
-          clearInterval(intervalRef.current); // ❗ Stop timer khi hết giờ
-          onSubmit(startTime?.toISOString(), new Date().toISOString());
-        }
-      };
+				if (remaining === 0) {
+					clearInterval(intervalRef.current); // ❗ Stop timer khi hết giờ
+					onSubmit(startTime?.toISOString(), new Date().toISOString());
+				}
+			};
 
-      updateRemainingTime();
-      intervalRef.current = setInterval(updateRemainingTime, 1000);
-      // const interval = setInterval(updateRemainingTime, 1000);
-      return () => clearInterval(intervalRef.current);
-    }
-  }, [duration]);
+			updateRemainingTime();
+			intervalRef.current = setInterval(updateRemainingTime, 1000);
+			// const interval = setInterval(updateRemainingTime, 1000);
+			return () => clearInterval(intervalRef.current);
+		}
+	}, [duration]);
 
+	const toggleDrawer = state => () => {
+		setOpen(state);
+	};
 
-  const toggleDrawer = (state) => () => {
-    setOpen(state);
-  };
+	const handleNavigateToQuestion = questionId => {
+		const element = document.getElementById(`${questionId}`);
+		if (element) {
+			element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+	};
 
-  const handleNavigateToQuestion = (questionId) => {
-    const element = document.getElementById(`${questionId}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+	const formatTimeLeft = seconds => {
+		const mins = Math.floor(seconds / 60)
+			.toString()
+			.padStart(2, '0');
+		const secs = (seconds % 60).toString().padStart(2, '0');
+		return `${mins}:${secs}`;
+	};
 
-  const formatTimeLeft = (seconds) => {
-    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
-    const secs = (seconds % 60).toString().padStart(2, '0');
-    return `${mins}:${secs}`;
-  };
+	const handleManualSubmit = () => {
+		const now = new Date();
+		clearInterval(intervalRef.current); // ❗ Stop timer khi submit
+		onSubmit(start?.toISOString(), now.toISOString());
+	};
 
-  const handleManualSubmit = () => {
-    const now = new Date();
-    clearInterval(intervalRef.current); // ❗ Stop timer khi submit
-    onSubmit(start?.toISOString(), now.toISOString());
-  };
+	// 🧠 Global index counter
+	let globalQuestionIndex = 1;
 
+	const renderPartsAndQuestions = parts => {
+		return parts.map(part => (
+			<Box key={part.public_id} sx={{ mb: 2 }}>
+				<Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: 'primary.main' }}>
+					📚 {part.name}
+				</Typography>
 
-  // 🧠 Global index counter
-  let globalQuestionIndex = 1;
+				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+					{part.Questions?.map(question => {
+						const isAnswered = answers[question.public_id] !== undefined;
+						const questionNumber = globalQuestionIndex++; // Tăng liên tục không reset
 
-  const renderPartsAndQuestions = (parts) => {
-    return parts.map((part) => (
-      <Box key={part.public_id} sx={{ mb: 2 }}>
-        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: 'primary.main' }}>
-          📚 {part.name}
-        </Typography>
+						return (
+							<Tooltip key={question.public_id} title={`Question ${questionNumber}`} arrow>
+								<Box
+									onClick={() => {
+										handleNavigateToQuestion(question.public_id);
+										setOpen(false);
+									}}
+									sx={{
+										width: 36,
+										height: 36,
+										borderRadius: '50%',
+										bgcolor: isAnswered ? green[700] : grey[300],
+										color: 'white',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										cursor: 'pointer',
+										fontWeight: 'bold',
+										caretColor: 'transparent',
+										'&:hover': {
+											bgcolor: isAnswered ? green[900] : grey[400],
+										},
+									}}
+								>
+									{questionNumber}
+								</Box>
+							</Tooltip>
+						);
+					})}
+				</Box>
 
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-          {part.Questions?.map((question) => {
-            const isAnswered = answers[question.public_id] !== undefined;
-            const questionNumber = globalQuestionIndex++; // Tăng liên tục không reset
+				{part.Children?.length > 0 && <Box sx={{ pl: 2 }}>{renderPartsAndQuestions(part.Children)}</Box>}
+			</Box>
+		));
+	};
 
-            return (
-              <Tooltip key={question.public_id} title={`Question ${questionNumber}`} arrow>
-                <Box
-                  onClick={() => {
-                    handleNavigateToQuestion(question.public_id);
-                    setOpen(false);
-                  }}
-                  sx={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: '50%',
-                    bgcolor: isAnswered ? green[700] : grey[300],
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    caretColor: "transparent",
-                    '&:hover': {
-                      bgcolor: isAnswered ? green[900] : grey[400],
-                    }
-                  }}
-                >
-                  {questionNumber}
-                </Box>
-              </Tooltip>
-            );
-          })}
-        </Box>
+	return (
+		<>
+			{!open && (
+				<Box
+					sx={{
+						position: 'fixed',
+						top: 64,
+						right: 20,
+						zIndex: 1300,
+						bgcolor: '#ffffffcc',
+						borderRadius: '32px',
+						boxShadow: 3,
+						px: 2,
+						py: 1,
+						display: 'flex',
+						alignItems: 'center',
+						backdropFilter: 'blur(6px)',
+						caretColor: 'transparent',
+					}}
+				>
+					<IconButton onClick={toggleDrawer(true)}>
+						<MenuIcon fontSize="large" />
+					</IconButton>
+					<Typography variant="subtitle1" sx={{ fontWeight: 600, ml: 1 }}>
+						{formatTimeLeft(timeLeft)}
+					</Typography>
+				</Box>
+			)}
 
-        {part.Children?.length > 0 && (
-          <Box sx={{ pl: 2 }}>
-            {renderPartsAndQuestions(part.Children)}
-          </Box>
-        )}
-      </Box>
-    ));
-  };
+			<Drawer
+				anchor="right"
+				open={open}
+				onClose={toggleDrawer(false)}
+				PaperProps={{ sx: { zIndex: 10001 } }}
+				ModalProps={{
+					keepMounted: true,
+					BackdropProps: {
+						sx: {
+							zIndex: 10001, // Quan trọng: backdrop nằm sau Paper
+						},
+					},
+				}}
+			>
+				<Box
+					sx={{
+						width: 300,
+						height: '100vh',
+						bgcolor: grey[100],
+						display: 'flex',
+						flexDirection: 'column',
+						p: 2,
+						zIndex: 10001,
+					}}
+				>
+					<Box sx={{ mb: 2 }}>
+						<Typography variant="h5" fontWeight={700} gutterBottom>
+							⏳ Time Remaining
+						</Typography>
+						<Typography
+							variant="h3"
+							color={timeLeft <= 60 ? 'error.main' : 'primary.main'}
+							fontWeight={800}
+							mb={2}
+						>
+							{formatTimeLeft(timeLeft)}
+						</Typography>
+					</Box>
 
-  return (
-    <>
-      {!open && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 64,
-            right: 20,
-            zIndex: 1300,
-            bgcolor: '#ffffffcc',
-            borderRadius: '32px',
-            boxShadow: 3,
-            px: 2,
-            py: 1,
-            display: 'flex',
-            alignItems: 'center',
-            backdropFilter: 'blur(6px)',
-            caretColor: "transparent",
-          }}
-        >
-          <IconButton onClick={toggleDrawer(true)}>
-            <MenuIcon fontSize="large" />
-          </IconButton>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, ml: 1 }}>
-            {formatTimeLeft(timeLeft)}
-          </Typography>
-        </Box>
-      )}
+					<Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2 }}>
+						<Typography variant="h6" fontWeight={700} mb={1}>
+							📝 Questions
+						</Typography>
+						{renderPartsAndQuestions(parts)}
+					</Box>
 
-
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)} PaperProps={{ sx: { zIndex: 10001, } }}
-        ModalProps={{
-          keepMounted: true,
-          BackdropProps: {
-            sx: {
-              zIndex: 10001 // Quan trọng: backdrop nằm sau Paper
-            }
-          }
-        }}>
-        <Box
-          sx={{
-            width: 300,
-            height: '100vh',
-            bgcolor: grey[100],
-            display: 'flex',
-            flexDirection: 'column',
-            p: 2,
-            zIndex: 10001,
-          }}
-        >
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="h5" fontWeight={700} gutterBottom>⏳ Time Remaining</Typography>
-            <Typography
-              variant="h3"
-              color={timeLeft <= 60 ? 'error.main' : 'primary.main'}
-              fontWeight={800}
-              mb={2}
-            >
-              {formatTimeLeft(timeLeft)}
-            </Typography>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2 }}>
-            <Typography variant="h6" fontWeight={700} mb={1}>
-              📝 Questions
-            </Typography>
-            {renderPartsAndQuestions(parts)}
-          </Box>
-
-          <Button
-            variant="contained"
-            color="error"
-            size="large"
-            fullWidth
-            onClick={handleManualSubmit}
-            sx={{ mt: 3, fontWeight: 700 }}
-          >
-            ✔ Submit Exam
-          </Button>
-        </Box>
-      </Drawer>
-    </>
-  );
+					<Button
+						variant="contained"
+						color="error"
+						size="large"
+						fullWidth
+						onClick={handleManualSubmit}
+						sx={{ mt: 3, fontWeight: 700 }}
+					>
+						✔ Submit Exam
+					</Button>
+				</Box>
+			</Drawer>
+		</>
+	);
 };
 
 export default ExamMenu;

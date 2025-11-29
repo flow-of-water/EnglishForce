@@ -1,5 +1,5 @@
-import express from "express"
-import * as commentController from "../../controllers/course/commentController.js"
+import express from 'express';
+import * as commentController from '../../controllers/course/commentController.js';
 
 const router = express.Router();
 
@@ -9,5 +9,4 @@ router.post('/', commentController.createComment);
 router.delete('/:id', commentController.deleteCommentController);
 router.patch('/:commentId', commentController.editCommentController);
 
-
-export default router ;
+export default router;

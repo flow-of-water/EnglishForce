@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config(); // Load biến môi trường ngay từ đầu
 
-
 // Tôi hiểu rằng bạn đã gọi dotenv.config() trong server.js trước khi import app.js, nhưng vẫn gặp lỗi OAuth2Strategy requires a clientID option. Điều này có thể gây bối rối, nhưng nguyên nhân sâu xa liên quan đến cách JavaScript xử lý các module ES6.
 
 // ⚠️ Nguyên nhân: Hoisting của ES Modules
@@ -14,22 +13,20 @@ dotenv.config(); // Load biến môi trường ngay từ đầu
 // }));
 // Thì process.env.GOOGLE_CLIENT_ID sẽ là undefined nếu dotenv.config() chưa được gọi trước đó.
 
-
 // Giải pháp: Tạo file cấu hình riêng để load biến môi trường
-// Để đảm bảo rằng các biến môi trường được load trước khi bất kỳ module nào khác sử dụng chúng, 
+// Để đảm bảo rằng các biến môi trường được load trước khi bất kỳ module nào khác sử dụng chúng,
 // bạn có thể tạo một file riêng để cấu hình dotenv và import nó đầu tiên trong ứng dụng của bạn.
-
 
 // Hàm async để xử lý logic liên quan đến Redis
 const initializeRedisApp = async () => {
-  const use_redis = (process.env.USE_REDIS === "true"); // Kiểm tra nếu dùng Redis
+	const use_redis = process.env.USE_REDIS === 'true'; // Kiểm tra nếu dùng Redis
 
-  if (use_redis) {
-    const { default: redisClient } = await import("./redis.config.js");
-    console.log(`✅ Redis connected`);
-  } else {
-    console.log("⚠️ Skip Redis connection on Windows environment");
-  }
+	if (use_redis) {
+		const { default: redisClient } = await import('./redis.config.js');
+		console.log(`✅ Redis connected`);
+	} else {
+		console.log('⚠️ Skip Redis connection on Windows environment');
+	}
 };
 
 initializeRedisApp(); // Khởi tạo ứng dụng và kết nối Redis

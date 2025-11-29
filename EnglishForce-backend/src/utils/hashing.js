@@ -7,7 +7,7 @@ const DEFAULT_ROUNDS = Number(process.env.HASH_ROUNDS || 10);
  * chuyển giá trị gốc (như password, OTP, token) thành một chuỗi mã hoá (hash) an toàn
  */
 export async function hashValue(value, rounds = DEFAULT_ROUNDS) {
-  return bcrypt.hash(value, rounds);
+	return bcrypt.hash(value, rounds);
 }
 
 /**
@@ -15,5 +15,5 @@ export async function hashValue(value, rounds = DEFAULT_ROUNDS) {
  * kiểm tra xem giá trị người dùng nhập vào có khớp với hash đã lưu không
  */
 export async function verifyHash(value, hash) {
-  return bcrypt.compare(value, hash);
+	return bcrypt.compare(value, hash);
 }

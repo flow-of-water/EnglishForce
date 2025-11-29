@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* prettier-ignore-file */
+
 import { Route } from 'react-router-dom';
 import UserLayout from '../Layouts/UserLayout';
 
