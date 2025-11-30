@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 
 // Configuration
-const config = {
+export const config = {
 	accessSecret: process.env.JWT_ACCESS_TOKEN_SECRET || 'your_jwt_secret',
 	refreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET || 'your_refresh_secret',
 	accessTokenExpiry: '1m',
 	refreshTokenExpiry: '7d',
+	refreshTokenMaxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
 	issuer: 'EnglishForce System',
 	audience: 'EnglishForce user',
 };

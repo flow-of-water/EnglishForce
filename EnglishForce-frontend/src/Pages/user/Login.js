@@ -31,10 +31,9 @@ const LoginPage = () => {
 				password,
 			});
 
-			const { accessToken, refreshToken, id, role } = response.data;
+			const { accessToken, id, role } = response.data;
 
 			localStorage.setItem('token', accessToken);
-			localStorage.setItem('refreshToken', refreshToken);
 			localStorage.setItem('username', email);
 			localStorage.setItem('userId', id);
 			localStorage.setItem('userRole', role);

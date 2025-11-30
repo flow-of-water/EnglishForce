@@ -1,5 +1,5 @@
 import { hashValue, verifyHash } from '../../utils/hashing.js';
-import { generateTokens, verifyToken } from '../../utils/jwt.js';
+import { generateTokens, verifyToken, config } from '../../utils/jwt.js';
 import * as userService from '../../services/user.service.js';
 
 // Sign up - Đăng ký
@@ -30,10 +30,38 @@ export const login = async (req, res) => {
 		if (!isMatch) return res.status(400).json({ message: 'Invalid password' });
 
 		const { accessToken, refreshToken } = generateTokens(user);
+		
+		// 🔒 Lưu refreshToken vào HttpOnly Cookie
+		res.cookie('refreshToken', refreshToken, {
+			httpOnly: true,                          // Không thể truy cập qua JavaScript
+			secure: process.env.NODE_ENV === 'production', // Chỉ HTTPS ở production
+			sameSite: 'lax',                      // Chống CSRF
+			maxAge: config.refreshTokenMaxAge,
+			path: '/',
+		});
 
-		res.json({ accessToken, refreshToken, id: user.id, role: user.role });
+		res.json({ accessToken, id: user.id, role: user.role });
 	} catch (error) {
 		res.status(500).json({ message: 'Error logging in', error });
+	}
+};
+
+export const logout = async (req, res) => {
+	try {
+		// (Optional) Blacklist token nếu có hệ thống blacklist		
+		// Xóa cookie refreshToken
+		res.clearCookie('refreshToken', {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			path: '/' // ← Quan trọng: phải khớp với lúc set cookie
+		});
+		
+		console.log('✅ RefreshToken cookie cleared');
+		
+		res.status(200).json({ message: 'Logged out successfully', success: true});
+	} catch (error) {
+		res.status(500).json({ message: 'Error logging out', error: error.message });
 	}
 };
 
@@ -44,18 +72,12 @@ export const changePassword = async (req, res) => {
 
 	try {
 		const user = await userService.getUserById(userId);
-		if (!user) {
-			return res.status(404).json({ message: "User don't exists" });
-		}
+		if (!user) return res.status(404).json({ message: "User don't exists" });
 
-		// Kiểm tra mật khẩu cũ
 		const isMatch = await verifyHash(currentPassword, user.password);
-		if (!isMatch) {
-			return res.status(400).json({ message: 'Old password is incorrect' });
-		}
+		if (!isMatch) return res.status(400).json({ message: 'Old password is incorrect' });
 
 		const hashedPassword = await hashValue(newPassword);
-
 		await userService.updateUserPassword(userId, hashedPassword);
 
 		res.status(200).json({ message: 'Password was changed' });
@@ -66,7 +88,7 @@ export const changePassword = async (req, res) => {
 
 // refesh access token
 export const refreshToken = async (req, res) => {
-	const { refreshToken } = req.body;
+	const { refreshToken } = req.cookies;
 
 	if (!refreshToken) {
 		return res.status(401).json({ message: 'Missing refresh token' });
@@ -76,7 +98,6 @@ export const refreshToken = async (req, res) => {
 		// ✅ Xác thực refresh token
 		const payload = verifyToken(refreshToken, 'refresh');
 
-		// ✅ Lấy lại user từ DB
 		const user = await userService.getUserById(payload.id);
 		if (!user) return res.status(403).json({ message: 'User no longer exists' });
 

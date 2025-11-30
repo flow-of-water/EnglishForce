@@ -23,6 +23,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../Context/CartContext';
 import * as Constants from './../../Constants/index.js';
+import axiosInstance from '../../Api/axiosInstance.js';
 
 function HideOnScroll({ children }) {
 	const trigger = useScrollTrigger();
@@ -55,14 +56,20 @@ export default function Header() {
 		}
 	}, []);
 
-	const handleLogout = () => {
-		localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
-		localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
-		localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
-		setIsLoggedIn(false);
-		setUsername('');
-		setRole('');
-		window.location.href = '/';
+	const handleLogout = async () => {
+		try {
+			await axiosInstance.post('/auth/logout');
+		} catch (error) {
+			console.error('Error during logout:', error);
+		} finally {
+			localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+			localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
+			localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
+			setIsLoggedIn(false);
+			setUsername('');
+			setRole('');
+			window.location.href = '/';
+		}
 	};
 
 	const navLinkStyle = {

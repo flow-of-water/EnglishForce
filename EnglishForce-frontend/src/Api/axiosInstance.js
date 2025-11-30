@@ -11,9 +11,17 @@ const axiosInstance = axios.create({
 	},
 });
 
+const COOKIE_ENDPOINTS = [
+	'/auth/login',
+	'/auth/logout',
+	'/auth/refresh-token',
+];
 // Tự động gắn token vào header của mỗi request
 axiosInstance.interceptors.request.use(
 	config => {
+		const needsCookie = COOKIE_ENDPOINTS.some(e => config.url?.includes(e));
+		if (needsCookie) config.withCredentials = true; 
+	
 		const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
@@ -47,13 +55,6 @@ axiosInstance.interceptors.response.use(
 		if (error.response && error.response.status === 401 && !originalRequest._retry) {
 			originalRequest._retry = true;
 
-			const refreshToken = localStorage.getItem(Constants.LOCAL_STORAGE.REFRESH_TOKEN);
-			if (!refreshToken) {
-				localStorage.clear();
-				window.location.href = '/login';
-				return Promise.reject(error);
-			}
-
 			// ---------------------------
 			// Case 1: refresh đang chạy → request này CHỜ
 			// ---------------------------
@@ -71,9 +72,7 @@ axiosInstance.interceptors.response.use(
 			// ---------------------------
 			else if (!isRefreshing) {
 				isRefreshing = true;
-				refreshPromise = axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/refresh-token', {
-					refreshToken,
-				});
+				refreshPromise = axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/refresh-token',{},{ withCredentials: true });
 				try {
 					const res = await refreshPromise;
 					const newAccessToken = res.data.accessToken;

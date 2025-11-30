@@ -135,7 +135,8 @@ Và cơ bản là cần ít nhất 3 API :
 - Reset Password: POST /api/auth/password/reset/confirm  (password mới và reset_token)
 
 
-
+#9.11. Tìm Hiểu FE Domain là gì ? 
+API của FE được gửi từ đâu ? Browser/IP/Device của client đến BE, hay là từ Domain FE đến BE 
 
 
 

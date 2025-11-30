@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import rateLimiter from './middleware/rateLimit.js';
 // OAuth
@@ -37,7 +38,11 @@ import userProcessRoutes from './routes/program/userProgressRoutes.js';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+	origin: process.env.FRONT_END_URL || 'http://localhost:3000',
+	credentials: true // ← Bắt buộc để gửi/nhận cookies
+}));
+app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(passport.initialize());
