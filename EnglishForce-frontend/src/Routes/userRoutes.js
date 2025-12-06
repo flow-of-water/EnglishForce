@@ -12,6 +12,10 @@ import RegisterPage from '../Pages/user/Register';
 import ProfilePage from '../Pages/user/Profile/Profile';
 import TestPage from '../Pages/user/Test';
 
+// ***** OTP feature *****
+import OTPVerificationPage from '../Pages/user/OTP/OTP';
+import ResetPasswordPage from '../Pages/user/OTP/ResetPassword';
+
 // ***** Course feature *****
 import CoursesPage from '../Pages/user/Course/Course';
 import CourseOverview from '../Pages/user/Course/CourseOverview';
@@ -41,6 +45,10 @@ export const UserRoutes = () => (
     <Route path="/register" element={<UserLayout><RegisterPage /></UserLayout>} />
     <Route path="/profile" element={<UserLayout><ProfilePage /></UserLayout>} />
     <Route path="/test" element={<UserLayout><TestPage /></UserLayout>} />
+
+    {/* OTP feature */}
+    <Route path="/reset-password" element={<UserLayout><ResetPasswordPage /></UserLayout>} />
+    <Route path="/otp" element={<UserLayout><OTPVerificationPage /></UserLayout>} />
 
     {/* course feature */}
     <Route path="/courses" element={<UserLayout><CoursesPage /></UserLayout>} />

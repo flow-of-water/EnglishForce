@@ -105,7 +105,7 @@ Nhận xét: điểm mạnh, điểm yếu, học gì để cải thiện, đưa
 
 #9.9. Cho phép khách hàng gửi nhận xét và góp ý về project 
 
-#9.10. Chức năng Reset password thông qua gửi OTP Email
+#9.10. Chức năng Reset password thông qua gửi OTP Email (Forgot Password)
 Workflow: 
 - Yêu cầu reset password
 User nhập email vào form "Forgot Password" và yêu cầu reset Password

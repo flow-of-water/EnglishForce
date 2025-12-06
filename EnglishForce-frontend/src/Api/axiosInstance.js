@@ -15,6 +15,8 @@ const COOKIE_ENDPOINTS = [
 	'/auth/login',
 	'/auth/logout',
 	'/auth/refresh-token',
+	'/otp/verify',
+	'/auth/reset-password',
 ];
 // Tự động gắn token vào header của mỗi request
 axiosInstance.interceptors.request.use(

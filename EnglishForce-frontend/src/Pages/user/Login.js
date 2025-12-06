@@ -10,6 +10,7 @@ import {
 	Alert,
 	InputAdornment,
 	IconButton,
+	Link,
 } from '@mui/material';
 import { Visibility, VisibilityOff, MailOutline, LockOutlined } from '@mui/icons-material';
 import axiosInstance from '../../Api/axiosInstance';
@@ -146,6 +147,23 @@ const LoginPage = () => {
 								},
 							}}
 						/>
+
+						<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+							<Link
+								href="/otp"
+								underline="hover"
+								sx={{
+									fontSize: '0.875rem',
+									fontWeight: 600,
+									color: 'primary.main',
+									'&:hover': {
+										color: 'primary.dark',
+									},
+								}}
+							>
+								Forgot Password?
+							</Link>
+						</Box>
 
 						<Button
 							fullWidth

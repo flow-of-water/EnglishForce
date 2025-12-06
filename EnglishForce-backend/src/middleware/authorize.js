@@ -30,3 +30,17 @@ export const adminMiddleware = (req, res, next) => {
 	}
 	next();
 };
+
+export const authResetPasswordTokenMiddleware = (req, res, next) => {
+	const token = req.cookies.resetToken;
+
+	if (!token) return res.status(401).json({ message: 'Unauthorized - No token in cookie' });
+
+	try {
+		const decoded = verifyToken(token, 'access');
+		req.user = decoded;
+		next();
+	} catch (err) {
+		res.status(401).json({ message: 'Invalid or expired token' });
+	}
+};

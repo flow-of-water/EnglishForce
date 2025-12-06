@@ -2,13 +2,17 @@ import jwt from 'jsonwebtoken';
 
 // Configuration
 export const config = {
-	accessSecret: process.env.JWT_ACCESS_TOKEN_SECRET || 'your_jwt_secret',
-	refreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET || 'your_refresh_secret',
-	accessTokenExpiry: '1m',
-	refreshTokenExpiry: '7d',
-	refreshTokenMaxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
 	issuer: 'EnglishForce System',
 	audience: 'EnglishForce user',
+	ACCESS_TOKEN: {
+		secret: process.env.JWT_ACCESS_TOKEN_SECRET || 'your_jwt_secret',
+		expiry: '1m',
+	},
+	REFRESH_TOKEN: {
+		secret: process.env.JWT_REFRESH_TOKEN_SECRET || 'your_refresh_secret',
+		expiry: '7d',
+		expiry_in_ms: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+	},	
 };
 
 /**
@@ -28,16 +32,16 @@ export const generateTokens = (user, onlyAccessToken = false) => {
 		role: user.role,
 	};
 
-	const accessToken = jwt.sign(payload, config.accessSecret, {
-		expiresIn: config.accessTokenExpiry,
+	const accessToken = jwt.sign(payload, config.ACCESS_TOKEN.secret, {
+		expiresIn: config.ACCESS_TOKEN.expiry,
 		issuer: config.issuer,
 		audience: config.audience,
 	});
 
 	if (onlyAccessToken) return { accessToken };
 
-	const refreshToken = jwt.sign({ id: user.id }, config.refreshSecret, {
-		expiresIn: config.refreshTokenExpiry,
+	const refreshToken = jwt.sign({ id: user.id }, config.REFRESH_TOKEN.secret, {
+		expiresIn: config.REFRESH_TOKEN.expiry,
 		issuer: config.issuer,
 		audience: config.audience,
 	});
@@ -55,7 +59,7 @@ export const generateTokens = (user, onlyAccessToken = false) => {
 export const verifyToken = (token, type = 'access') => {
 	if (!token) throw new Error('Token is required');
 
-	const secret = type === 'refresh' ? config.refreshSecret : config.accessSecret;
+	const secret = type === 'refresh' ? config.REFRESH_TOKEN.secret : config.ACCESS_TOKEN.secret;
 
 	try {
 		return jwt.verify(token, secret, {
