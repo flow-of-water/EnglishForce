@@ -80,8 +80,6 @@ Why ? Stripe requires
 
 
 
-
-
 ###9 Enhancement - Feature
 #9.1.
 

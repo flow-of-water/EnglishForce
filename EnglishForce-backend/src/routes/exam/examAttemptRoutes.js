@@ -1,10 +1,10 @@
 // routes/exam.routes.js
 import express from 'express';
 import * as examAttemptController from '../../controllers/exam/examAttemptController.js';
-import { adminMiddleware, authMiddlewareWithoutError } from '../../middleware/authorize.js';
+import { adminMiddleware, authMiddleware, optionalAuthMiddleware } from '../../middleware/authorize.js';
 const router = express.Router();
 
-router.get('/', authMiddlewareWithoutError, adminMiddleware, examAttemptController.getPaginatedAttempts);
-router.get('/:publicId/user', authMiddlewareWithoutError, examAttemptController.getUserExamAttempts);
+router.get('/', authMiddleware, adminMiddleware, examAttemptController.getPaginatedAttempts);
+router.get('/:publicId/user', optionalAuthMiddleware, examAttemptController.getUserExamAttempts);
 
 export default router;
