@@ -1,3 +1,4 @@
+import { deleteCloudinaryFile } from '../config/cloudinary.config.js';
 import db from '../sequelize/models/index.js'; // Sequelize instance
 const { User } = db;
 
@@ -97,6 +98,30 @@ export const getUserProfileWithStats = async userId => {
 
 export const updateUserPassword = async (id, hashedPassword) => {
 	return await User.update({ password: hashedPassword }, { where: { id: id } });
+};
+
+export const updateAvatar = async (userId, file) => {
+  if (!file) throw new Error('No file provided');
+
+  const user = await User.findByPk(userId);
+  if (!user) throw new Error('User not found');
+  
+  if (user.avatar_public_id) {
+    try {
+      await deleteCloudinaryFile(user.avatar_public_id, 'image');
+    } catch (error) {
+      console.error('⚠️ Failed to delete old avatar:', error);
+    }
+  }
+
+  user.avatar = file.path;
+  user.avatar_public_id = file.filename;
+  await user.save();
+
+  return {
+    avatar: user.avatar,
+    avatar_public_id: user.avatar_public_id,
+  };
 };
 
 export const deleteUserById = async id => {

@@ -25,7 +25,7 @@ export default (sequelize, DataTypes) => {
 			role: DataTypes.TEXT, // ROLES: 'admin' , 'user'
 			stripe_customer_id: DataTypes.TEXT,
 			avatar: DataTypes.TEXT,
-			avatar_public_id: DataTypes.TEXT,
+			avatar_public_id: DataTypes.TEXT, // public ID image (Cloudinary)
 		},
 		{
 			tableName: 'users',

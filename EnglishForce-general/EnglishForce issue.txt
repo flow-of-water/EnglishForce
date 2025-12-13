@@ -125,14 +125,28 @@ Nếu mọi thứ OK:
 Tạo reset token (JWT hoặc random string)
 Lưu token vào DB hoặc cache (Redis) với TTL ngắn (5-10 phút)
 Đánh dấu is_used = true cho OTP
-Trả token về frontend
+Trả token về frontend (token này khá giống access Token, mình đang lưu ở http only cookie)
 - Đặt mật khẩu mới 
 User nhập mật khẩu mới và Gửi kèm reset token
-Tổng cộng 5 bước
+=> Tổng cộng 5 bước
 Và cơ bản là cần ít nhất 3 API : 
 - Request OTP : POST /api/auth/password/reset/request   (kèm email)
 - Verify OTP: POST /api/auth/password/reset/verify-otp  (kèm email và OTP)
 - Reset Password: POST /api/auth/password/reset/confirm  (password mới và reset_token)
+
+# 9.10.2. Chức năng set email lần đầu
+1. User Request Email Setup   
+2. Check Email Availability (unique check)
+3. Generate OTP Code (6 digits) , Hash & Store OTP Code in DB 
+4. Send OTP via Email Service
+5. User submits OTP  -> BE: Verify OTP (check hash, expiry, attempts)
+6. Update user.email , Mark OTP as consumed,  Return success
+* Vì sao set email lần đầu lại rườm rà vậy => Nếu cho set trực tiếp, Uset typo rồi đến lúc change email là bó tay luôn 
+# 9.10.3. Chức năng reset email (change email)  (cái này cần bàn thêm)
+1. Reqest change email & Nhập new email 
+2. Verify OTP được gửi về old email và gửi về 1 token (hiện tại đang gửi qua cookie http only)
+3. Verify OTP được gửi về new email 
+4. API PUT đổi email với token
 
 
 #9.11. Tìm Hiểu FE Domain là gì ? 

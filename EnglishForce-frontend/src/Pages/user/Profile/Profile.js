@@ -32,6 +32,8 @@ import CircularLoading from '../../../Components/Loading';
 import GradientTitle from '../../../Components/GradientTitle';
 import ChangePassword from './ChangePassword.component.js';
 import SetEmailWithOtp from './setEmail.component.js';
+import UpdateAvatar from './UpdateAvatar.component.js';
+
 
 const Profile = () => {
 	const [user, setUser] = useState(null);
@@ -55,25 +57,24 @@ const Profile = () => {
 		Fetch();
 	}, []);
 
-	const handleDialogOpenPassword = () => {
-		setOpenDialogPassword(true);
+	const handleAvatarUpdated = (newAvatarUrl) => {
+		setUser(prevUser => ({
+			...prevUser,
+			avatar: newAvatarUrl
+		}));
 	};
 
-	const handleDialogClosePassword = () => {
-		setOpenDialogPassword(false);
-	};
+	const handleDialogOpenPassword = () => setOpenDialogPassword(true);
 
-	const handleDialogOpenEmailOTP = () => {
-		setOpenDialogEmailOTP(true);
-	};
+	const handleDialogClosePassword = () => setOpenDialogPassword(false);
 
-	const handleDialogCloseEmailOTP = () => {
-		setOpenDialogEmailOTP(false);
-	};
+	const handleDialogOpenEmailOTP = () => setOpenDialogEmailOTP(true);
 
-	if (loading) {
-		return <CircularLoading />;
-	}
+	const handleDialogCloseEmailOTP = () => setOpenDialogEmailOTP(false);
+	
+
+	if (loading) return <CircularLoading />;
+	
 	const data = [
 		{ name: 'Completed Program Lessons', value: user.stats?.programsCount || 0 },
 		{ name: 'Exam Attempts', value: user.stats?.examAttemptsCount || 0 },
@@ -90,11 +91,17 @@ const Profile = () => {
 						<CardContent>
 							<Grid container spacing={2} alignItems="center">
 								<Grid item>
-									<Avatar
-										src={user.avatar || defaultAvatar}
-										alt="User Avatar"
-										sx={{ width: 100, height: 100 }}
-									/>
+									<Box sx={{ position: 'relative', display: 'inline-block' }}>
+										<Avatar
+											src={user.avatar || defaultAvatar}
+											alt="User Avatar"
+											sx={{ width: 100, height: 100 }}
+										/>
+										<UpdateAvatar
+											currentAvatar={user.avatar || defaultAvatar}
+											onAvatarUpdated={handleAvatarUpdated}
+										/>
+									</Box>
 								</Grid>
 								<Grid item xs>
 									<Typography variant="h6" gutterBottom>

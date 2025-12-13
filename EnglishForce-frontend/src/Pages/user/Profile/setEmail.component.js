@@ -40,19 +40,19 @@ const SetEmailWithOtp = ({
 		setError('');
 		setInfo('');
 		if (!emailValid) {
-			setError('Email không hợp lệ.');
+			setError('Email is not valid.');
 			return;
 		}
 		setLoading(true);
 		try {
 			// Backend gợi ý: POST /auth/otp/request  body: { email, purpose }
 			const res = await axiosInstance.post('/otp/request', { email, purpose });
-			setInfo(res?.data?.message || 'OTP đã được gửi tới email.');
+			setInfo(res?.data?.message || 'OTP is sent to your email.');
 			setStep('otp');
 			setCooldown(resendCooldownSec);
 		} catch (err) {
 			const msg =
-				err?.response?.data?.error || err?.response?.data?.message || 'Không gửi được OTP. Thử lại sau.';
+				err?.response?.data?.error || err?.response?.data?.message || 'Cannot request OTP.';
 			setError(msg);
 		} finally {
 			setLoading(false);
@@ -66,10 +66,10 @@ const SetEmailWithOtp = ({
 		setLoading(true);
 		try {
 			const res = await axiosInstance.post('/auth/otp/request', { email, purpose });
-			setInfo(res?.data?.message || 'Đã gửi lại OTP.');
+			setInfo(res?.data?.message || 'Resent OTP successfully.');
 			setCooldown(resendCooldownSec);
 		} catch (err) {
-			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Không gửi lại được OTP.';
+			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Cannot resend OTP.';
 			setError(msg);
 		} finally {
 			setLoading(false);
@@ -81,7 +81,7 @@ const SetEmailWithOtp = ({
 		setError('');
 		setInfo('');
 		if (otpSanitized.length !== otpLength) {
-			setError(`Nhập đủ ${otpLength} số OTP.`);
+			setError(`Fill up ${otpLength} OTP.`);
 			return;
 		}
 		setLoading(true);
@@ -96,11 +96,11 @@ const SetEmailWithOtp = ({
 			// Sau khi verify thành công, cập nhật email user:
 			// Backend gợi ý: PATCH /users/me/email { email }
 			const res = await axiosInstance.patch('/users/me/email', { email });
-			setInfo(res?.data?.message || 'Cập nhật email thành công.');
+			setInfo(res?.data?.message || 'Update email sucessfully.');
 			setStep('done');
 			onSuccess && onSuccess(email);
 		} catch (err) {
-			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Xác minh OTP thất bại.';
+			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Fail to verify email.';
 			setError(msg);
 		} finally {
 			setLoading(false);
@@ -118,15 +118,13 @@ const SetEmailWithOtp = ({
 
 	return (
 		<Stack spacing={2} sx={{ minWidth: 360 }}>
-			{step !== 'done' && <Typography variant="h6">Thiết lập email bằng OTP</Typography>}
-
 			{info && <Alert severity="success">{info}</Alert>}
 			{error && <Alert severity="error">{error}</Alert>}
 
 			{step === 'email' && (
 				<form onSubmit={handleRequestOtp}>
 					<TextField
-						label="Email mới"
+						label="New Email"
 						type="email"
 						fullWidth
 						required
@@ -134,11 +132,11 @@ const SetEmailWithOtp = ({
 						onChange={e => setEmail(e.target.value)}
 						sx={{ mt: 1 }}
 						error={!!email && !emailValid}
-						helperText={!!email && !emailValid ? 'Email không hợp lệ' : ' '}
+						helperText={!!email && !emailValid ? 'Email is not valid' : ' '}
 						autoFocus
 					/>
 					<Button type="submit" variant="contained" disabled={loading || !emailValid}>
-						{loading ? 'Đang gửi...' : 'Gửi OTP'}
+						{loading ? 'Loading...' : 'Send OTP'}
 					</Button>
 				</form>
 			)}
@@ -192,12 +190,12 @@ const SetEmailWithOtp = ({
 
 			{step === 'done' && (
 				<Stack spacing={1}>
-					<Typography variant="h6">Hoàn tất</Typography>
+					<Typography variant="h6">Completed</Typography>
 					<Typography variant="body2">
-						Email của bạn đã được cập nhật: <strong>{email}</strong>
+						Your email is updated: <strong>{email}</strong>
 					</Typography>
 					<Button variant="contained" onClick={() => onSuccess && onSuccess(email)}>
-						Đóng
+						Close
 					</Button>
 				</Stack>
 			)}
