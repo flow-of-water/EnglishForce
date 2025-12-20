@@ -60,8 +60,8 @@ const Chatbot = () => {
 							right: 24,
 							background: 'linear-gradient(135deg, #1976d2, #00c6ff)',
 							color: 'white',
-							width: 64,
-							height: 64,
+							width: 50,
+							height: 50,
 							borderRadius: '50%',
 							boxShadow: '0 6px 18px rgba(0,0,0,0.25)',
 							transition: 'all 0.3s ease',
@@ -72,7 +72,7 @@ const Chatbot = () => {
 							},
 						}}
 					>
-						<ChatIcon fontSize="large" />
+						<ChatIcon fontSize="medium" />
 					</IconButton>
 				</Fade>
 			)}

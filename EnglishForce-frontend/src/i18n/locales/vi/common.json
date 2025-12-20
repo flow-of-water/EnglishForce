@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "courses": "Khóa học",
+    "exams": "Bài thi",
+    "programs": "Chương trình",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "profile": "Hồ sơ",
+    "logout": "Đăng xuất",
+    "admin": "Trang quản trị",
+    "cart": "Giỏ hàng"
+  },
+  "common": {
+    "welcome": "Chào mừng đến với English Force",
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "success": "Thành công!",
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "save": "Lưu",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "sort": "Sắp xếp",
+    "viewDetails": "Xem chi tiết",
+    "noData": "Không có dữ liệu",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa mục này?",
+    "yes": "Có",
+    "no": "Không"
+  },
+  "auth": {
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu",
+    "email": "Email",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "loginTitle": "Đăng nhập vào English Force",
+    "registerTitle": "Tạo tài khoản",
+    "alreadyHaveAccount": "Đã có tài khoản?",
+    "dontHaveAccount": "Chưa có tài khoản?",
+    "loginSuccess": "Đăng nhập thành công!",
+    "registerSuccess": "Đăng ký thành công!",
+    "loginError": "Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập.",
+    "registerError": "Đăng ký thất bại. Vui lòng thử lại."
+  },
+  "validation": {
+    "required": "Trường này là bắt buộc",
+    "invalidEmail": "Địa chỉ email không hợp lệ",
+    "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự",
+    "passwordsNotMatch": "Mật khẩu không khớp",
+    "invalidUsername": "Tên đăng nhập phải có ít nhất 3 ký tự"
+  },
+  "footer": {
+    "tagline": "Nền tảng học tiếng Anh tích hợp AI giúp bạn thành thạo cả bốn kỹ năng, mọi lúc, mọi nơi.",
+    "quickLinks": "Liên kết nhanh",
+    "support": "Hỗ trợ",
+    "followUs": "Theo dõi chúng tôi",
+    "language": "Ngôn ngữ",
+    "faq": "Câu hỏi thường gặp",
+    "contact": "Liên hệ",
+    "terms": "Điều khoản",
+    "privacy": "Chính sách bảo mật",
+    "copyright": "© {{year}} EnglishForce Platform. Bảo lưu mọi quyền."
+  }
+}

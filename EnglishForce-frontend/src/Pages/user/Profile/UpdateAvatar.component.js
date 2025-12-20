@@ -93,6 +93,7 @@ const UpdateAvatar = ({ currentAvatar, onAvatarUpdated }) => {
   return (
     <>
       <IconButton
+        size="small"
         color="primary"
         aria-label="upload picture"
         onClick={handleOpen}
@@ -135,7 +136,7 @@ const UpdateAvatar = ({ currentAvatar, onAvatarUpdated }) => {
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
             <Avatar
               src={previewUrl || currentAvatar}
-              sx={{ width: 300, height: 300 }}
+              sx={{ width: 250, height: 250 }}
             />
 
             <input

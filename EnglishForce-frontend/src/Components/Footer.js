@@ -1,8 +1,67 @@
 import React from 'react';
-import { Box, Container, Grid, Typography, Link, IconButton } from '@mui/material';
-import { Facebook, Instagram, Twitter } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Grid, Typography, Link, IconButton, FormControl, Select, MenuItem, } from '@mui/material';
+import { Facebook, Instagram, Twitter, Language } from '@mui/icons-material';
+
+const LanguageSwitcherDropdown = () => {
+	const { t, i18n } = useTranslation();
+
+	const languages = [
+		{ code: 'en', name: 'English', flag: '🇬🇧' },
+		{ code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
+	];
+
+	const handleLanguageChange = (event) => {
+		i18n.changeLanguage(event.target.value);
+	};
+
+	return (
+		<FormControl 
+			size="small" 
+			sx={{ 
+				minWidth: 150,
+				'& .MuiOutlinedInput-root': {
+					color: 'white',
+					'& fieldset': {
+						borderColor: 'rgba(255, 255, 255, 0.3)',
+					},
+					'&:hover fieldset': {
+						borderColor: 'rgba(255, 255, 255, 0.5)',
+					},
+					'&.Mui-focused fieldset': {
+						borderColor: 'primary.main',
+					},
+				},
+				'& .MuiSvgIcon-root': {
+					color: 'white',
+				},
+			}}
+		>
+			<Select
+				value={i18n.language}
+				onChange={handleLanguageChange}
+				displayEmpty
+			>
+				{languages.map((language) => (
+					<MenuItem key={language.code} value={language.code}>
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+							<span>{language.flag}</span>
+							<span>{language.name}</span>
+						</Box>
+					</MenuItem>
+				))}
+			</Select>
+		</FormControl>
+	);
+};
+
+
+
 
 export default function Footer() {
+	const { t } = useTranslation('common');
+	const currentYear = new Date().getFullYear();
+
 	return (
 		<Box component="footer" sx={{ bgcolor: '#111827', color: 'white', py: 6 }}>
 			<Container maxWidth="lg">
@@ -12,13 +71,13 @@ export default function Footer() {
 							EnglishForce
 						</Typography>
 						<Typography variant="body2" color="gray">
-							AI-powered English learning platform to master all four skills—anytime, anywhere.
+							{t('footer.tagline')}
 						</Typography>
 					</Grid>
 
 					<Grid item xs={6} md={3}>
 						<Typography variant="subtitle1" gutterBottom>
-							Quick Links
+							{t('footer.quickLinks')}
 						</Typography>
 						<Link href="/" color="inherit" underline="hover" display="block">
 							Home
@@ -36,7 +95,7 @@ export default function Footer() {
 
 					<Grid item xs={6} md={3}>
 						<Typography variant="subtitle1" gutterBottom>
-							Support
+							{t('footer.support')}
 						</Typography>
 						<Link href="/faq" color="inherit" underline="hover" display="block">
 							FAQs
@@ -54,7 +113,7 @@ export default function Footer() {
 
 					<Grid item xs={12} md={3}>
 						<Typography variant="subtitle1" gutterBottom>
-							Follow Us
+							{t('footer.followUs')}
 						</Typography>
 						<Box mt={1}>
 							<IconButton href="#" sx={{ color: 'white' }}>
@@ -67,12 +126,22 @@ export default function Footer() {
 								<Twitter />
 							</IconButton>
 						</Box>
+
+						<Box mt={2}>
+							<Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+								<Language sx={{ mr: 1, fontSize: 18 }} />
+								<Typography variant="subtitle2">
+									{t('footer.language')}
+								</Typography>
+							</Box>
+							<LanguageSwitcherDropdown />
+						</Box>
 					</Grid>
 				</Grid>
 
 				<Box mt={5} textAlign="center" borderTop={1} borderColor="gray" pt={3}>
 					<Typography variant="body2" color="gray">
-						© 2025 EnglishForce Platform. All rights reserved.
+						{t('footer.copyright', { year: currentYear })}
 					</Typography>
 				</Box>
 			</Container>

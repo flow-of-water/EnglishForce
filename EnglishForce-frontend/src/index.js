@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 //Context
 import { CartProvider } from './Context/CartContext';
 import { SearchProvider } from './Context/SearchContext';
+//i18n
+import './i18n/config';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
