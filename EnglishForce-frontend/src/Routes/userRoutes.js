@@ -11,6 +11,8 @@ import LoginPage from '../Pages/user/Login';
 import RegisterPage from '../Pages/user/Register';
 import ProfilePage from '../Pages/user/Profile/Profile';
 import TestPage from '../Pages/user/Test';
+import AboutUsPage from '../Pages/user/AboutUs';
+import FAQPage from '../Pages/user/FAQ';
 
 // ***** OTP feature *****
 import OTPVerificationPage from '../Pages/user/OTP/OTP';
@@ -45,6 +47,8 @@ export const UserRoutes = () => (
     <Route path="/register" element={<UserLayout><RegisterPage /></UserLayout>} />
     <Route path="/profile" element={<UserLayout><ProfilePage /></UserLayout>} />
     <Route path="/test" element={<UserLayout><TestPage /></UserLayout>} />
+    <Route path="/about-us" element={<UserLayout><AboutUsPage /></UserLayout>} />
+    <Route path="/faq" element={<UserLayout><FAQPage /></UserLayout>} />
 
     {/* OTP feature */}
     <Route path="/reset-password" element={<UserLayout><ResetPasswordPage /></UserLayout>} />

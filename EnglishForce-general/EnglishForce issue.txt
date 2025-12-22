@@ -81,7 +81,17 @@ Why ? Stripe requires
 
 
 ###9 Enhancement - Feature
-#9.1.
+#9.1. Development below features:
+- Continue Redis cache
+- Continue with email OTP 
+- Continue with i18n 
+- Add role: teacher/Instructor into system 
+- Add Redis queue (serve OTP email , something else ,... )
+- Add voucher ? 
+- Add chức năng Blog markdown (table: blog , blog_category: official (vậy thì có những category mà chỉ admin mới dùng được))
+- Add subdomain cho admin , instructor/teacher 
+- Enhance Ai chatbot: RAG + gemini API , AI Agent => Auto buy 
+- Write unit test for code 
 
 
 

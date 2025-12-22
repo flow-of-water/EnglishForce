@@ -16,10 +16,12 @@ import {
 } from '@mui/material';
 import GradientTitle from '../../../Components/GradientTitle';
 import CircularLoading from '../../../Components/Loading';
+import { useTranslation } from 'react-i18next';
 
 const ProgramPage = () => {
 	const [programs, setPrograms] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const { t } = useTranslation('program');
 
 	const fetchPrograms = async () => {
 		try {
@@ -100,11 +102,10 @@ const ProgramPage = () => {
 				},
 			}}
 		>
-			<GradientTitle>Learning Programs</GradientTitle>
+			<GradientTitle>{t('page.title')}</GradientTitle>
 
 			<Typography align="center" color="text.secondary" sx={{ maxWidth: 720, mx: 'auto', mb: 3 }}>
-				Browse through our curated programs designed to level up your English with a premium learning
-				experience.
+				{t('page.subtitle')}
 			</Typography>
 
 			<Grid container spacing={4}>
@@ -312,7 +313,7 @@ const ProgramPage = () => {
 							}}
 						>
 							<Typography variant="h6" fontWeight={800} gutterBottom>
-								No learning programs available
+								{t('page.noPrograms')}
 							</Typography>
 							<Typography color="text.secondary">New programs are coming soon. Stay tuned!</Typography>
 						</Box>

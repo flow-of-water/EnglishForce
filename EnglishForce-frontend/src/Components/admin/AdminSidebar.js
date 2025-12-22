@@ -16,74 +16,78 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PsychologyIcon from '@mui/icons-material/Psychology'; // cho Chatbot
 
+import { useTranslation } from 'react-i18next';
+
 const AdminSidebar = ({ isOpen, toggleSidebar }) => {
+	const { t } = useTranslation('common'); 
+
 	return (
 		<Drawer anchor="left" open={isOpen} onClose={toggleSidebar}>
-			<div className="admin-sidebar p-3" style={{ width: 250 }}>
-				<h4 className="text-center">Admin Panel</h4>
+			<div className="admin-sidebar p-3" style={{ width: 250, marginTop: '64px' }}>
+				<h4 className="text-center">{t('navAdmin.title')}</h4>
 
 				<List>
 					<ListItem button component={Link} to="/admin">
 						<ListItemIcon>
 							<DashboardIcon />
 						</ListItemIcon>
-						<ListItemText primary="Dashboard" />
+						<ListItemText primary={t('navAdmin.dashboard')} />
 					</ListItem>
 				</List>
 
 				<Divider />
 
-				<List subheader={<ListSubheader component="div">User Management</ListSubheader>}>
+				<List subheader={<ListSubheader component="div">{t('navAdmin.userManagement')}</ListSubheader>}>
 					<ListItem button component={Link} to="/admin/users">
 						<ListItemIcon>
 							<PeopleIcon />
 						</ListItemIcon>
-						<ListItemText primary="Users" />
+						<ListItemText primary={t('navAdmin.users')} />
 					</ListItem>
 				</List>
 
 				<Divider />
 
-				<List subheader={<ListSubheader component="div">Course Management</ListSubheader>}>
+				<List subheader={<ListSubheader component="div">{t('navAdmin.courseManagement')}</ListSubheader>}>
 					<ListItem button component={Link} to="/admin/courses">
 						<ListItemIcon>
 							<SchoolIcon />
 						</ListItemIcon>
-						<ListItemText primary="Courses" />
+						<ListItemText primary={t('navAdmin.courses')} />
 					</ListItem>
 					<ListItem button component={Link} to="/admin/comments">
 						<ListItemIcon>
 							<CommentIcon />
 						</ListItemIcon>
-						<ListItemText primary="Comments" />
+						<ListItemText primary={t('navAdmin.comments')} />
 					</ListItem>
 				</List>
 
 				<Divider />
 
-				<List subheader={<ListSubheader component="div">Exam Management</ListSubheader>}>
+				<List subheader={<ListSubheader component="div">{t('navAdmin.examManagement')}</ListSubheader>}>
 					<ListItem button component={Link} to="/admin/exams">
 						<ListItemIcon>
 							<QuizIcon />
 						</ListItemIcon>
-						<ListItemText primary="Exams" />
+						<ListItemText primary={t('navAdmin.exams')} />
 					</ListItem>
 					<ListItem button component={Link} to="/admin/exam-attempts">
 						<ListItemIcon>
 							<TaskIcon />
 						</ListItemIcon>
-						<ListItemText primary="Exam Attempts" />
+						<ListItemText primary={t('navAdmin.examAttempts')} />
 					</ListItem>
 				</List>
 
 				<Divider />
 
-				<List subheader={<ListSubheader component="div">Program Management</ListSubheader>}>
+				<List subheader={<ListSubheader component="div">{t('navAdmin.programManagement')}</ListSubheader>}>
 					<ListItem button component={Link} to="/admin/programs">
 						<ListItemIcon>
 							<MenuBookIcon />
 						</ListItemIcon>
-						<ListItemText primary="Programs" />
+						<ListItemText primary={t('navAdmin.programs')} />
 					</ListItem>
 					{/* <ListItem button component={Link} to="/admin/units">
             <ListItemIcon><ViewModuleIcon /></ListItemIcon>
@@ -101,12 +105,12 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
 
 				<Divider />
 
-				<List subheader={<ListSubheader component="div">AI Management</ListSubheader>}>
+				<List subheader={<ListSubheader component="div">{t('navAdmin.aiManagement')}</ListSubheader>}>
 					<ListItem button component={Link} to="/admin/ai">
 						<ListItemIcon>
 							<PsychologyIcon />
 						</ListItemIcon>
-						<ListItemText primary="Chatbot & Recommend system" />
+						<ListItemText primary={t('navAdmin.chatbotAndRecommend')} />
 					</ListItem>
 				</List>
 
@@ -117,7 +121,7 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
 						<ListItemIcon>
 							<ExitToAppIcon sx={{ transform: 'rotate(180deg)' }} />
 						</ListItemIcon>
-						<ListItemText primary="Home" />
+						<ListItemText primary={t('navAdmin.backToHome')} />
 					</ListItem>
 				</List>
 			</div>

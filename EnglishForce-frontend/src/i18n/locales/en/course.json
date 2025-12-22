@@ -1,0 +1,93 @@
+{
+  "page": {
+    "title": "Courses",
+    "subtitle": "Explore our comprehensive English courses",
+    "myCoursesTitle": "My Courses",
+    "noCourses": "No courses available",
+    "noEnrolledCourses": "You haven't enrolled in any courses yet"
+  },
+  "card": {
+    "instructor": "Instructor",
+    "price": "Price",
+    "free": "Free",
+    "enrolled": "Enrolled",
+    "enroll": "Enroll Now",
+    "viewDetails": "View Details",
+    "continue": "Continue Learning",
+    "sections": "{{count}} section",
+    "sections_plural": "{{count}} sections"
+  },
+  "detail": {
+    "overview": "Overview",
+    "curriculum": "Curriculum",
+    "instructor": "Instructor",
+    "reviews": "Reviews",
+    "aboutCourse": "About This Course",
+    "whatYouWillLearn": "What You'll Learn",
+    "courseContent": "Course Content",
+    "requirements": "Requirements",
+    "description": "Description",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "startLearning": "Start Learning"
+  },
+  "section": {
+    "title": "Section",
+    "video": "Video",
+    "duration": "Duration",
+    "completed": "Completed",
+    "locked": "Locked",
+    "preview": "Preview"
+  },
+  "comment": {
+    "title": "Comments",
+    "add": "Add Comment",
+    "reply": "Reply",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "placeholder": "Write your comment here...",
+    "replyPlaceholder": "Write your reply...",
+    "noComments": "No comments yet. Be the first to comment!",
+    "confirmDelete": "Are you sure you want to delete this comment?",
+    "deleted": "Comment deleted successfully",
+    "added": "Comment added successfully",
+    "updated": "Comment updated successfully"
+  },
+  "admin": {
+    "createCourse": "Create Course",
+    "editCourse": "Edit Course",
+    "deleteCourse": "Delete Course",
+    "courseList": "Course List",
+    "courseName": "Course Name",
+    "instructor": "Instructor",
+    "price": "Price",
+    "thumbnail": "Thumbnail",
+    "description": "Description",
+    "actions": "Actions",
+    "createSection": "Create Section",
+    "editSection": "Edit Section",
+    "deleteSection": "Delete Section",
+    "sectionName": "Section Name",
+    "videoLink": "Video Link",
+    "orderIndex": "Order",
+    "uploadVideo": "Upload Video",
+    "uploadThumbnail": "Upload Thumbnail"
+  },
+  "validation": {
+    "nameRequired": "Course name is required",
+    "priceInvalid": "Price must be a valid number",
+    "instructorRequired": "Instructor name is required",
+    "thumbnailRequired": "Thumbnail is required",
+    "videoRequired": "Video is required"
+  },
+  "messages": {
+    "enrollSuccess": "Successfully enrolled in course!",
+    "enrollError": "Failed to enroll. Please try again.",
+    "addToCartSuccess": "Course added to cart!",
+    "alreadyEnrolled": "You are already enrolled in this course",
+    "loginRequired": "Please login to enroll",
+    "purchaseRequired": "Please purchase this course to access content"
+  }
+}

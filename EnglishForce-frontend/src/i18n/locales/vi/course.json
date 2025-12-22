@@ -1,0 +1,93 @@
+{
+  "page": {
+    "title": "Khóa học",
+    "subtitle": "Khám phá các khóa học tiếng Anh toàn diện",
+    "myCoursesTitle": "Khóa học của tôi",
+    "noCourses": "Không có khóa học nào",
+    "noEnrolledCourses": "Bạn chưa đăng ký khóa học nào"
+  },
+  "card": {
+    "instructor": "Giảng viên",
+    "price": "Giá",
+    "free": "Miễn phí",
+    "enrolled": "Đã đăng ký",
+    "enroll": "Đăng ký ngay",
+    "viewDetails": "Xem chi tiết",
+    "continue": "Tiếp tục học",
+    "sections": "{{count}} phần",
+    "sections_plural": "{{count}} phần"
+  },
+  "detail": {
+    "overview": "Tổng quan",
+    "curriculum": "Chương trình học",
+    "instructor": "Giảng viên",
+    "reviews": "Đánh giá",
+    "aboutCourse": "Về khóa học này",
+    "whatYouWillLearn": "Bạn sẽ học được gì",
+    "courseContent": "Nội dung khóa học",
+    "requirements": "Yêu cầu",
+    "description": "Mô tả",
+    "addToCart": "Thêm vào giỏ",
+    "buyNow": "Mua ngay",
+    "startLearning": "Bắt đầu học"
+  },
+  "section": {
+    "title": "Phần",
+    "video": "Video",
+    "duration": "Thời lượng",
+    "completed": "Đã hoàn thành",
+    "locked": "Đã khóa",
+    "preview": "Xem trước"
+  },
+  "comment": {
+    "title": "Bình luận",
+    "add": "Thêm bình luận",
+    "reply": "Trả lời",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "placeholder": "Viết bình luận của bạn...",
+    "replyPlaceholder": "Viết câu trả lời...",
+    "noComments": "Chưa có bình luận. Hãy là người đầu tiên!",
+    "confirmDelete": "Bạn có chắc muốn xóa bình luận này?",
+    "deleted": "Đã xóa bình luận",
+    "added": "Đã thêm bình luận",
+    "updated": "Đã cập nhật bình luận"
+  },
+  "admin": {
+    "createCourse": "Tạo khóa học",
+    "editCourse": "Sửa khóa học",
+    "deleteCourse": "Xóa khóa học",
+    "courseList": "Danh sách khóa học",
+    "courseName": "Tên khóa học",
+    "instructor": "Giảng viên",
+    "price": "Giá",
+    "thumbnail": "Ảnh đại diện",
+    "description": "Mô tả",
+    "actions": "Thao tác",
+    "createSection": "Tạo phần",
+    "editSection": "Sửa phần",
+    "deleteSection": "Xóa phần",
+    "sectionName": "Tên phần",
+    "videoLink": "Liên kết video",
+    "orderIndex": "Thứ tự",
+    "uploadVideo": "Tải video",
+    "uploadThumbnail": "Tải ảnh đại diện"
+  },
+  "validation": {
+    "nameRequired": "Tên khóa học là bắt buộc",
+    "priceInvalid": "Giá phải là số hợp lệ",
+    "instructorRequired": "Tên giảng viên là bắt buộc",
+    "thumbnailRequired": "Ảnh đại diện là bắt buộc",
+    "videoRequired": "Video là bắt buộc"
+  },
+  "messages": {
+    "enrollSuccess": "Đăng ký khóa học thành công!",
+    "enrollError": "Đăng ký thất bại. Vui lòng thử lại.",
+    "addToCartSuccess": "Đã thêm vào giỏ hàng!",
+    "alreadyEnrolled": "Bạn đã đăng ký khóa học này",
+    "loginRequired": "Vui lòng đăng nhập để đăng ký",
+    "purchaseRequired": "Vui lòng mua khóa học để truy cập nội dung"
+  }
+}

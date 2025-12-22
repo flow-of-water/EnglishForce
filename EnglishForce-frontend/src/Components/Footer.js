@@ -80,16 +80,16 @@ export default function Footer() {
 							{t('footer.quickLinks')}
 						</Typography>
 						<Link href="/" color="inherit" underline="hover" display="block">
-							Home
+							{t('footer.home')}
 						</Link>
 						<Link href="/courses" color="inherit" underline="hover" display="block">
-							Courses
+							{t('footer.courses')}
 						</Link>
-						<Link href="/exam" color="inherit" underline="hover" display="block">
-							Practice Tests
+						<Link href="/exams" color="inherit" underline="hover" display="block">
+							{t('footer.exams')}
 						</Link>
-						<Link href="/about" color="inherit" underline="hover" display="block">
-							About Us
+						<Link href="/about-us" color="inherit" underline="hover" display="block">
+							{t('footer.aboutUs')}
 						</Link>
 					</Grid>
 
@@ -98,16 +98,16 @@ export default function Footer() {
 							{t('footer.support')}
 						</Typography>
 						<Link href="/faq" color="inherit" underline="hover" display="block">
-							FAQs
+							{t('footer.faq')}
 						</Link>
 						<Link href="/contact" color="inherit" underline="hover" display="block">
-							Contact
+							{t('footer.contact')}
 						</Link>
 						<Link href="/terms" color="inherit" underline="hover" display="block">
-							Terms
+							{t('footer.terms')}
 						</Link>
 						<Link href="/privacy" color="inherit" underline="hover" display="block">
-							Privacy Policy
+							{t('footer.privacy')}
 						</Link>
 					</Grid>
 

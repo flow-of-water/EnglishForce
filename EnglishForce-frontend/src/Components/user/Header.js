@@ -24,6 +24,8 @@ import { Link } from 'react-router-dom';
 import { CartContext } from '../../Context/CartContext';
 import * as Constants from './../../Constants/index.js';
 import axiosInstance from '../../Api/axiosInstance.js';
+import { useTranslation } from 'react-i18next';
+
 
 function HideOnScroll({ children }) {
 	const trigger = useScrollTrigger();
@@ -43,6 +45,7 @@ export default function Header() {
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+	const { t } = useTranslation('common'); 
 
 	useEffect(() => {
 		const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
@@ -157,21 +160,21 @@ export default function Header() {
 											sx={navLinkStyle}
 											startIcon={<AdminPanelSettingsIcon />}
 										>
-											Admin
+											{t('nav.admin')}
 										</Button>
 									)}
 									<Button component={Link} to="/programs" fullWidth sx={navLinkStyle}>
-										Programs
+										{t('nav.programs')}
 									</Button>
 									<Button component={Link} to="/exams" fullWidth sx={navLinkStyle}>
-										Exams
+										{t('nav.exams')}
 									</Button>
 									<Button component={Link} to="/courses" fullWidth sx={navLinkStyle}>
-										Courses
+										{t('nav.courses')}
 									</Button>
 									{isLoggedIn && (
 										<Button component={Link} to="/courses-user" fullWidth sx={navLinkStyle}>
-											My Learning
+											{t('nav.myLearning')}
 										</Button>
 									)}
 
@@ -179,15 +182,15 @@ export default function Header() {
 
 									{isLoggedIn ? (
 										<Button onClick={handleLogout} fullWidth sx={navLinkStyle}>
-											Logout
+											{t('nav.logout')}
 										</Button>
 									) : (
 										<>
 											<Button component={Link} to="/login" fullWidth sx={navLinkStyle}>
-												Login
+												{t('nav.login')}
 											</Button>
 											<Button component={Link} to="/register" fullWidth sx={navLinkStyle}>
-												Register
+												{t('nav.register')}
 											</Button>
 										</>
 									)}
@@ -203,23 +206,23 @@ export default function Header() {
 									startIcon={<AdminPanelSettingsIcon />}
 									sx={navLinkStyle}
 								>
-									Admin
+									{t('nav.admin')}
 								</Button>
 							)}
 							<Button component={Link} to="/programs" sx={navLinkStyle}>
-								Programs
+								{t('nav.programs')}
 							</Button>
 							<Button component={Link} to="/exams" sx={navLinkStyle}>
-								Exams
+								{t('nav.exams')}
 							</Button>
 							<Button component={Link} to="/courses" sx={navLinkStyle}>
-								Courses
+								{t('nav.courses')}
 							</Button>
 
 							{isLoggedIn ? (
 								<>
 									<Button component={Link} to="/courses-user" sx={navLinkStyle}>
-										My Learning
+										{t('nav.myLearning')}
 									</Button>
 
 									<IconButton
@@ -256,16 +259,16 @@ export default function Header() {
 									</Tooltip>
 
 									<Button onClick={handleLogout} sx={navLinkStyle}>
-										Logout
+										{t('nav.logout')}
 									</Button>
 								</>
 							) : (
 								<>
 									<Button component={Link} to="/login" sx={navLinkStyle}>
-										Login
+										{t('nav.login')}
 									</Button>
 									<Button component={Link} to="/register" sx={navLinkStyle}>
-										Register
+										{t('nav.register')}
 									</Button>
 								</>
 							)}

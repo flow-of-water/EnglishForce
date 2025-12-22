@@ -6,6 +6,7 @@ import CourseCard from '../../Components/user/CourseCard';
 import { HomeFeatures } from '../../Components/user/HomeFeatures';
 import Slider from 'react-slick'; // Import Carousel
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Import CSS cho carousel
 import 'slick-carousel/slick/slick.css';
@@ -33,6 +34,7 @@ const testimonials = [
 
 const HomePage = () => {
 	const [courses, setCourses] = useState([]);
+	const { t } = useTranslation('common'); 
 
 	useEffect(() => {
 		async function fetchCourses() {
@@ -111,7 +113,7 @@ const HomePage = () => {
 				>
 					<RocketLaunchIcon sx={{ fontSize: 60, color: '#90caf9', mb: 2 }} />
 					<Typography variant="h2" fontWeight={800} gutterBottom sx={{ textShadow: '0 0 10px #1976d2' }}>
-						Welcome to EnglishForce
+						{t('common.welcome')}
 					</Typography>
 					<Typography variant="h6" sx={{ mb: 4, maxWidth: 700, margin: 'auto' }}>
 						Your ultimate platform for effective and fun English learning.

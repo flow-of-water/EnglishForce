@@ -33,6 +33,7 @@ import GradientTitle from '../../../Components/GradientTitle';
 import ChangePassword from './ChangePassword.component.js';
 import SetEmailWithOtp from './setEmail.component.js';
 import UpdateAvatar from './UpdateAvatar.component.js';
+import { useTranslation } from 'react-i18next';
 
 
 const Profile = () => {
@@ -41,6 +42,7 @@ const Profile = () => {
 	const [openDialogPassword, setOpenDialogPassword] = useState(false); // For controlling Dialog visibility
 	const [openDialogEmailOTP, setOpenDialogEmailOTP] = useState(false); // For controlling Dialog visibility
 	const defaultAvatar = '/2.png';
+	const { t } = useTranslation('user');
 
 	useEffect(() => {
 		async function Fetch() {
@@ -80,13 +82,13 @@ const Profile = () => {
 		{ name: 'Exam Attempts', value: user.stats?.examAttemptsCount || 0 },
 		{ name: 'Courses Purchased', value: user.stats?.coursesCount || 0 },
 	];
-	console.log('user : ', user);
+	// console.log('user : ', user);
 
 	return (
 		<Container>
 			{user ? (
 				<Paper style={{ padding: '20px' }}>
-					<GradientTitle align="left">Profile</GradientTitle>
+					<GradientTitle align="left">{t('profile.title')}</GradientTitle>
 					<Card elevation={3} sx={{ borderRadius: 3 }}>
 						<CardContent>
 							<Grid container spacing={2} alignItems="center">
@@ -105,14 +107,14 @@ const Profile = () => {
 								</Grid>
 								<Grid item xs>
 									<Typography variant="h6" gutterBottom>
-										Username: <strong>{user.username}</strong>
+										{t('profile.username')}: <strong>{user.username}</strong>
 									</Typography>
 									<Typography variant="h6" gutterBottom>
-										Role: <strong>{user.role}</strong>
+										{t('profile.role')}: <strong>{user.role}</strong>
 									</Typography>
 									<Typography variant="h6">
-										Email:{' '}
-										<strong>{user?.email ? user.email : <em>Bro, you need an email</em>}</strong>
+										{t('profile.email')}:{' '}
+										<strong>{user?.email ? user.email : <em>{t('profile.noEmail')}</em>}</strong>
 									</Typography>
 								</Grid>
 							</Grid>

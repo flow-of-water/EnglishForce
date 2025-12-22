@@ -1,0 +1,26 @@
+{
+  "profile": {
+    "title": "Hồ sơ",
+    "username": "Tên đăng nhập",
+    "role": "Vai trò",
+    "email": "Email",
+    "noEmail": "Bạn cần thiết lập email",
+    "changePassword": "Đổi mật khẩu",
+    "setChangeEmail": "Thiết lập / Đổi Email",
+    "noData": "Không có dữ liệu người dùng",
+    "statistics": {
+      "title": "Thống kê học tập tổng quan",
+      "completedLessons": "Bài học đã hoàn thành",
+      "examAttempts": "Lượt thi",
+      "coursesPurchased": "Khóa học đã mua",
+      "averageScores": "Điểm trung bình",
+      "programAverage": "Điểm TB Chương trình",
+      "examAverage": "Điểm TB Bài thi",
+      "examScoreOverTime": "Điểm thi theo thời gian"
+    },
+    "dialog": {
+      "changePasswordTitle": "Đổi mật khẩu",
+      "setEmailTitle": "Thiết lập Email"
+    }
+  }
+}

@@ -8,11 +8,29 @@
     "register": "Register",
     "profile": "Profile",
     "logout": "Logout",
-    "admin": "Admin Dashboard",
-    "cart": "Cart"
+    "admin": "Admin",
+    "cart": "Cart",
+    "myLearning": "My Learning"
+  },
+  "navAdmin": {
+    "title": "Admin Panel",
+    "dashboard": "Dashboard",
+    "userManagement": "User Management",
+    "users": "Users",
+    "courseManagement": "Course Management",
+    "courses": "Courses",
+    "comments": "Comments",
+    "examManagement": "Exam Management",
+    "exams": "Exams",
+    "examAttempts": "Exam Attempts",
+    "programManagement": "Program Management",
+    "programs": "Programs",
+    "aiManagement": "AI Management",
+    "chatbotAndRecommend": "Chatbot & Recommend System",
+    "backToHome": "Home"
   },
   "common": {
-    "welcome": "Welcome to English Force",
+    "welcome": "Welcome to EnglishForce",
     "loading": "Loading...",
     "error": "An error occurred",
     "success": "Success!",
@@ -59,13 +77,17 @@
   "footer": {
     "tagline": "AI-powered English learning platform to master all four skills—anytime, anywhere.",
     "quickLinks": "Quick Links",
+    "home": "Home",
+    "courses": "Courses",
+    "exams": "Practice Tests",
+    "aboutUs": "About Us",
     "support": "Support",
-    "followUs": "Follow Us",
     "language": "Language",
     "faq": "FAQs",
     "contact": "Contact",
     "terms": "Terms",
     "privacy": "Privacy Policy",
+    "followUs": "Follow Us",
     "copyright": "© {{year}} EnglishForce Platform. All rights reserved."
   }
 }

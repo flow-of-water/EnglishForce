@@ -1,0 +1,26 @@
+{
+  "profile": {
+    "title": "Profile",
+    "username": "Username",
+    "role": "Role",
+    "email": "Email",
+    "noEmail": "Bro, you need an email",
+    "changePassword": "Change Password",
+    "setChangeEmail": "Set / Change Email",
+    "noData": "No user data available",
+    "statistics": {
+      "title": "Your General Learning Statistics",
+      "completedLessons": "Completed Program Lessons",
+      "examAttempts": "Exam Attempts",
+      "coursesPurchased": "Courses Purchased",
+      "averageScores": "Average Scores",
+      "programAverage": "Program Average Score",
+      "examAverage": "Exam Average Score",
+      "examScoreOverTime": "Exam Score Over Time"
+    },
+    "dialog": {
+      "changePasswordTitle": "Change Password",
+      "setEmailTitle": "Set Email"
+    }
+  }
+}

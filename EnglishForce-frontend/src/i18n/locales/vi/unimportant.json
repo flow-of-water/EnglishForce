@@ -1,0 +1,116 @@
+{
+    "faq": {
+        "title": "Câu hỏi thường gặp",
+        "subtitle": "Tìm câu trả lời cho các câu hỏi phổ biến về EnglishForce",
+        "searchPlaceholder": "Tìm kiếm câu hỏi...",
+        "noResults": "Không tìm thấy câu hỏi phù hợp",
+        "stillHaveQuestions": "Vẫn còn thắc mắc?",
+        "contactSupport": "Liên hệ với đội ngũ hỗ trợ của chúng tôi",
+        "categories": {
+            "all": "Tất cả",
+            "general": "Tổng quan",
+            "courses": "Khóa học",
+            "exams": "Bài thi",
+            "programs": "Chương trình học",
+            "account": "Tài khoản",
+            "technical": "Kỹ thuật",
+            "ai": "Tính năng AI"
+        },
+        "questions": {
+            "general": {
+                "whatIsEnglishForce": {
+                    "question": "EnglishForce là gì?",
+                    "answer": "EnglishForce là nền tảng học tiếng Anh trực tuyến tích hợp AI, cung cấp các khóa học, bài thi thử, chương trình học có cấu trúc, và chatbot AI hỗ trợ học tập cá nhân hóa. Chúng tôi giúp người học cải thiện cả bốn kỹ năng: nghe, nói, đọc, viết."
+                },
+                "whoIsItFor": {
+                    "question": "EnglishForce phù hợp với ai?",
+                    "answer": "EnglishForce phù hợp với mọi trình độ từ người mới bắt đầu đến nâng cao. Dù bạn đang chuẩn bị cho kỳ thi TOEIC, muốn cải thiện tiếng Anh giao tiếp, hay học tiếng Anh chuyên ngành, chúng tôi đều có nội dung phù hợp."
+                },
+                "howToGetStarted": {
+                    "question": "Làm thế nào để bắt đầu học?",
+                    "answer": "1. Tạo tài khoản miễn phí\n2. Khám phá các khóa học miễn phí\n3. Tham gia các chương trình học có cấu trúc\n4. Mua khóa học premium để truy cập toàn bộ nội dung\n5. Sử dụng AI chatbot để luyện tập hàng ngày"
+                }
+            },
+            "courses": {
+                "howToPurchase": {
+                    "question": "Làm thế nào để mua khóa học?",
+                    "answer": "Bạn có thể mua khóa học bằng cách:\n1. Duyệt khóa học tại trang Courses\n2. Nhấn 'Add to Cart'\n3. Vào giỏ hàng và thanh toán qua Stripe\n4. Sau khi thanh toán thành công, khóa học sẽ xuất hiện trong 'My Learning'"
+                },
+                "refundPolicy": {
+                    "question": "Chính sách hoàn tiền như thế nào?",
+                    "answer": "Chúng tôi cung cấp chính sách hoàn tiền trong vòng 7 ngày nếu bạn chưa hoàn thành quá 20% khóa học. Liên hệ support@englishforce.com để yêu cầu hoàn tiền."
+                },
+                "courseAccess": {
+                    "question": "Tôi có truy cập khóa học mãi mãi không?",
+                    "answer": "Có! Sau khi mua, bạn có quyền truy cập trọn đời vào khóa học, bao gồm tất cả các cập nhật trong tương lai."
+                },
+                "certificate": {
+                    "question": "Tôi có nhận được chứng chỉ không?",
+                    "answer": "Có, sau khi hoàn thành khóa học và đạt điểm tối thiểu 70%, bạn sẽ nhận được chứng chỉ hoàn thành có thể tải xuống."
+                }
+            },
+            "exams": {
+                "examTypes": {
+                    "question": "Có những loại bài thi nào?",
+                    "answer": "EnglishForce cung cấp:\n- Bài thi thử TOEIC (Listening & Reading)\n- Bài kiểm tra đầu vào đánh giá trình độ\n- Bài thi cuối khóa\n- Bài thi theo chủ đề (Grammar, Vocabulary, v.v.)"
+                },
+                "retake": {
+                    "question": "Tôi có thể làm lại bài thi không?",
+                    "answer": "Có, bạn có thể làm lại bài thi không giới hạn số lần. Mỗi lần làm sẽ được lưu lại trong lịch sử và bạn có thể xem chi tiết kết quả."
+                },
+                "toeicPrep": {
+                    "question": "EnglishForce có giúp tôi chuẩn bị TOEIC không?",
+                    "answer": "Có! Chúng tôi có chương trình chuẩn bị TOEIC chuyên biệt với:\n- Bài thi thử format giống TOEIC thật\n- 7 Parts đầy đủ (Listening & Reading)\n- Giải thích chi tiết từng câu\n- Lộ trình học theo từng part"
+                }
+            },
+            "programs": {
+                "difference": {
+                    "question": "Khác biệt giữa Courses và Programs là gì?",
+                    "answer": "- Courses: Các khóa học dạng video độc lập theo chủ đề (có phí)\n- Programs: Chương trình học có cấu trúc với Units → Lessons → Exercises (miễn phí)\n\nPrograms phù hợp để xây dựng nền tảng, Courses phù hợp để học chuyên sâu."
+                },
+                "progress": {
+                    "question": "Làm thế nào để theo dõi tiến độ học?",
+                    "answer": "Vào trang Profile để xem:\n- Số bài học đã hoàn thành\n- Điểm trung bình của Programs và Exams\n- Biểu đồ điểm thi theo thời gian\n- Thống kê chi tiết cho từng chương trình"
+                }
+            },
+            "account": {
+                "forgotPassword": {
+                    "question": "Tôi quên mật khẩu, phải làm sao?",
+                    "answer": "1. Nhấn 'Forgot Password?' tại trang đăng nhập\n2. Nhập email của bạn\n3. Nhận mã OTP qua email\n4. Nhập OTP và tạo mật khẩu mới"
+                },
+                "changeEmail": {
+                    "question": "Làm thế nào để đổi email?",
+                    "answer": "1. Vào trang Profile\n2. Nhấn 'Set / Change Email'\n3. Xác thực OTP gửi đến email cũ (nếu có)\n4. Nhập email mới và xác thực OTP\n5. Email mới sẽ được cập nhật"
+                },
+                "deleteAccount": {
+                    "question": "Tôi có thể xóa tài khoản không?",
+                    "answer": "Có, bạn có thể yêu cầu xóa tài khoản bằng cách liên hệ support@englishforce.com. Lưu ý rằng tất cả dữ liệu và tiến độ học sẽ bị xóa vĩnh viễn."
+                }
+            },
+            "technical": {
+                "browserSupport": {
+                    "question": "EnglishForce hỗ trợ những trình duyệt nào?",
+                    "answer": "EnglishForce hoạt động tốt nhất trên:\n- Google Chrome (phiên bản mới nhất)\n- Mozilla Firefox (phiên bản mới nhất)\n- Safari (phiên bản mới nhất)\n- Microsoft Edge (phiên bản mới nhất)"
+                },
+                "mobileApp": {
+                    "question": "Có ứng dụng mobile không?",
+                    "answer": "Hiện tại EnglishForce đang phát triển ứng dụng mobile. Bạn có thể truy cập qua trình duyệt trên điện thoại với trải nghiệm responsive."
+                },
+                "videoNotPlaying": {
+                    "question": "Video không phát được, phải làm sao?",
+                    "answer": "Hãy thử:\n1. Kiểm tra kết nối internet\n2. Refresh trang (F5)\n3. Xóa cache và cookies của trình duyệt\n4. Thử trình duyệt khác\n5. Nếu vẫn không được, liên hệ support"
+                }
+            },
+            "ai": {
+                "chatbot": {
+                    "question": "AI Chatbot có thể giúp tôi những gì?",
+                    "answer": "AI Chatbot của EnglishForce có thể:\n- Trả lời câu hỏi về ngữ pháp, từ vựng\n- Giải thích bài tập và đề thi\n- Luyện hội thoại tiếng Anh\n- Gợi ý tài liệu học tập phù hợp\n- Sửa lỗi và đưa ra feedback"
+                },
+                "recommendations": {
+                    "question": "Hệ thống gợi ý hoạt động như thế nào?",
+                    "answer": "Hệ thống AI của chúng tôi phân tích:\n- Lịch sử học tập của bạn\n- Điểm số và tiến độ\n- Sở thích và mục tiêu\n\nDựa vào đó đề xuất khóa học, bài tập phù hợp với trình độ và nhu cầu của bạn."
+                }
+            }
+        }
+    }
+}

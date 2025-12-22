@@ -1,0 +1,116 @@
+{
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Find answers to common questions about EnglishForce",
+        "searchPlaceholder": "Search questions...",
+        "noResults": "No matching questions found",
+        "stillHaveQuestions": "Still have questions?",
+        "contactSupport": "Contact our support team",
+        "categories": {
+            "all": "All",
+            "general": "General",
+            "courses": "Courses",
+            "exams": "Exams",
+            "programs": "Programs",
+            "account": "Account",
+            "technical": "Technical",
+            "ai": "AI Features"
+        },
+        "questions": {
+            "general": {
+                "whatIsEnglishForce": {
+                    "question": "What is EnglishForce?",
+                    "answer": "EnglishForce is an AI-powered online English learning platform offering courses, practice tests, structured learning programs, and an AI chatbot for personalized learning support. We help learners improve all four skills: listening, speaking, reading, and writing."
+                },
+                "whoIsItFor": {
+                    "question": "Who is EnglishForce for?",
+                    "answer": "EnglishForce is suitable for all levels from beginner to advanced. Whether you're preparing for TOEIC, improving conversational English, or learning English for specific purposes, we have content for you."
+                },
+                "howToGetStarted": {
+                    "question": "How do I get started?",
+                    "answer": "1. Create a free account\n2. Explore free courses\n3. Join structured learning programs\n4. Purchase premium courses for full access\n5. Use the AI chatbot for daily practice"
+                }
+            },
+            "courses": {
+                "howToPurchase": {
+                    "question": "How do I purchase a course?",
+                    "answer": "You can purchase courses by:\n1. Browse courses on the Courses page\n2. Click 'Add to Cart'\n3. Go to cart and checkout via Stripe\n4. After successful payment, the course appears in 'My Learning'"
+                },
+                "refundPolicy": {
+                    "question": "What is the refund policy?",
+                    "answer": "We offer a 7-day refund policy if you haven't completed more than 20% of the course. Contact support@englishforce.com to request a refund."
+                },
+                "courseAccess": {
+                    "question": "Do I have lifetime access to courses?",
+                    "answer": "Yes! After purchasing, you have lifetime access to the course, including all future updates."
+                },
+                "certificate": {
+                    "question": "Will I receive a certificate?",
+                    "answer": "Yes, after completing the course and achieving a minimum score of 70%, you'll receive a downloadable certificate of completion."
+                }
+            },
+            "exams": {
+                "examTypes": {
+                    "question": "What types of exams are available?",
+                    "answer": "EnglishForce offers:\n- TOEIC practice tests (Listening & Reading)\n- Placement tests to assess your level\n- Final course exams\n- Topic-based tests (Grammar, Vocabulary, etc.)"
+                },
+                "retake": {
+                    "question": "Can I retake exams?",
+                    "answer": "Yes, you can retake exams unlimited times. Each attempt is saved in your history and you can review detailed results."
+                },
+                "toeicPrep": {
+                    "question": "Does EnglishForce help with TOEIC preparation?",
+                    "answer": "Yes! We have a specialized TOEIC preparation program with:\n- Practice tests in real TOEIC format\n- All 7 Parts (Listening & Reading)\n- Detailed explanations for each question\n- Structured learning path by part"
+                }
+            },
+            "programs": {
+                "difference": {
+                    "question": "What's the difference between Courses and Programs?",
+                    "answer": "- Courses: Independent video-based courses by topic (paid)\n- Programs: Structured learning with Units → Lessons → Exercises (free)\n\nPrograms are great for building foundations, Courses for in-depth learning."
+                },
+                "progress": {
+                    "question": "How do I track my progress?",
+                    "answer": "Go to your Profile page to see:\n- Number of lessons completed\n- Average scores for Programs and Exams\n- Exam score chart over time\n- Detailed statistics for each program"
+                }
+            },
+            "account": {
+                "forgotPassword": {
+                    "question": "I forgot my password, what should I do?",
+                    "answer": "1. Click 'Forgot Password?' on the login page\n2. Enter your email\n3. Receive OTP code via email\n4. Enter OTP and create new password"
+                },
+                "changeEmail": {
+                    "question": "How do I change my email?",
+                    "answer": "1. Go to Profile page\n2. Click 'Set / Change Email'\n3. Verify OTP sent to old email (if exists)\n4. Enter new email and verify OTP\n5. New email will be updated"
+                },
+                "deleteAccount": {
+                    "question": "Can I delete my account?",
+                    "answer": "Yes, you can request account deletion by contacting support@englishforce.com. Note that all data and learning progress will be permanently deleted."
+                }
+            },
+            "technical": {
+                "browserSupport": {
+                    "question": "Which browsers does EnglishForce support?",
+                    "answer": "EnglishForce works best on:\n- Google Chrome (latest version)\n- Mozilla Firefox (latest version)\n- Safari (latest version)\n- Microsoft Edge (latest version)"
+                },
+                "mobileApp": {
+                    "question": "Is there a mobile app?",
+                    "answer": "EnglishForce is currently developing a mobile app. You can access via browser on your phone with a responsive experience."
+                },
+                "videoNotPlaying": {
+                    "question": "Videos won't play, what should I do?",
+                    "answer": "Try:\n1. Check internet connection\n2. Refresh the page (F5)\n3. Clear browser cache and cookies\n4. Try a different browser\n5. If still not working, contact support"
+                }
+            },
+            "ai": {
+                "chatbot": {
+                    "question": "What can the AI Chatbot help me with?",
+                    "answer": "EnglishForce's AI Chatbot can:\n- Answer grammar and vocabulary questions\n- Explain exercises and test questions\n- Practice English conversation\n- Suggest appropriate learning materials\n- Correct errors and provide feedback"
+                },
+                "recommendations": {
+                    "question": "How does the recommendation system work?",
+                    "answer": "Our AI system analyzes:\n- Your learning history\n- Scores and progress\n- Preferences and goals\n\nBased on this, it recommends courses and exercises suitable for your level and needs."
+                }
+            }
+        }
+    }
+}
