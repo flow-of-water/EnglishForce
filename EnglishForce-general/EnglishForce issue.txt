@@ -85,7 +85,7 @@ Why ? Stripe requires
 - Continue Redis cache
 - Continue with email OTP 
 - Continue with i18n 
-- Add role: teacher/Instructor into system 
+- Add role: teacher/Instructor into system. Add calendar for this role
 - Add Redis queue (serve OTP email , something else ,... )
 - Add voucher ? 
 - Add chức năng Blog markdown (table: blog , blog_category: official (vậy thì có những category mà chỉ admin mới dùng được))

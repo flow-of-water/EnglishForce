@@ -10,7 +10,9 @@
     "logout": "Logout",
     "admin": "Admin",
     "cart": "Cart",
-    "myLearning": "My Learning"
+    "myLearning": "My Learning",
+    "more": "More",
+    "blog": "Blogs"
   },
   "navAdmin": {
     "title": "Admin Panel",

@@ -40,6 +40,10 @@ import ProgramDetailPage from '../Pages/user/Program/ProgramDetail';
 import UnitDetailPage from '../Pages/user/Program/UnitDetail';
 import LessonStartPage from '../Pages/user/Program/LessonStart';
 
+// ***** Blog feature *****
+import BlogPage from '../Pages/user/Blog/Blog';
+import BlogDetailPage from '../Pages/user/Blog/BlogDetail';
+
 export const UserRoutes = () => (
   <>
     <Route path="/" element={<UserLayout isHomePage={true}><HomePage /></UserLayout>} />
@@ -75,6 +79,10 @@ export const UserRoutes = () => (
     <Route path="/units/:unitPublicId" element={<UserLayout><UnitDetailPage /></UserLayout>} />
     <Route path="/units/:unitPublicId/lessons/:lessonPublicId/start" element={<UserLayout><LessonStartPage /></UserLayout>} />
 
+    {/* blog feature  */}
+    <Route path="/blogs" element={<UserLayout><BlogPage /></UserLayout>} />
+    <Route path="/blogs/:publicId/:slug" element={<UserLayout><BlogDetailPage /></UserLayout>} />
+    
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />
   </>

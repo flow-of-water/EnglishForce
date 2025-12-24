@@ -10,7 +10,9 @@
     "logout": "Đăng xuất",
     "admin": "Trang quản trị",
     "cart": "Giỏ hàng",
-    "myLearning": "Khóa học của tôi"
+    "myLearning": "Khóa học của tôi",
+    "more": "Thêm",
+    "blog": "Bài viết"
   },
   "navAdmin": {
     "title": "Trang quản trị",
