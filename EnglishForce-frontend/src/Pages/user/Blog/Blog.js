@@ -11,12 +11,15 @@ import {
     Pagination,
     CircularProgress,
     Avatar,
-    Stack
+    Stack,
+    Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../../Api/axiosInstance';
+import AddIcon from '@mui/icons-material/Add';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import GradientTitle from '../../../Components/GradientTitle';
 
 const BlogPage = () => {
     const navigate = useNavigate();
@@ -31,14 +34,12 @@ const BlogPage = () => {
     const fetchBlogs = async (page) => {
         try {
             setLoading(true);
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/blogs`, {
+            const response = await axiosInstance.get('blogs', {
                 params: { page, limit: 9 }
             });
-            
-            if (response.data.success) {
-                setBlogs(response.data.data.blogs);
-                setPagination(response.data.data.pagination);
-            }
+
+            setBlogs(response.data.blogs);
+            // setPagination(response.data.data.pagination);
         } catch (error) {
             console.error('Fetch blogs error:', error);
         } finally {
@@ -47,7 +48,7 @@ const BlogPage = () => {
     };
 
     const handleBlogClick = (slug) => {
-        navigate(`/blog/${slug}`);
+        navigate(`/blogs/${slug}`);
     };
 
     const handlePageChange = (event, value) => {
@@ -75,14 +76,21 @@ const BlogPage = () => {
         <Container maxWidth="lg" sx={{ py: 6 }}>
             {/* Header */}
             <Box mb={6} textAlign="center">
-                <Typography variant="h3" fontWeight="bold" gutterBottom>
-                    Blog
-                </Typography>
+                <GradientTitle>
+                    Blogs
+                </GradientTitle>
                 <Typography variant="h6" color="text.secondary">
                     Learn English tips, strategies, and more
                 </Typography>
             </Box>
-
+            <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => navigate('/blogs/create')}
+                sx={{ mb: 2 }}
+            >
+                Create New Blog
+            </Button>
             {/* Blog Grid */}
             <Grid container spacing={4}>
                 {blogs.map((blog) => (
@@ -106,7 +114,7 @@ const BlogPage = () => {
                                 component="img"
                                 height="200"
                                 image={blog.thumbnail || 'https://via.placeholder.com/400x200?text=Blog+Thumbnail'}
-                                alt={blog.title}
+                                alt={blog.name}
                             />
 
                             <CardContent sx={{ flexGrow: 1 }}>
@@ -125,7 +133,7 @@ const BlogPage = () => {
 
                                 {/* Title */}
                                 <Typography variant="h6" fontWeight="bold" gutterBottom>
-                                    {blog.title}
+                                    {blog.name}
                                 </Typography>
 
                                 {/* Description */}
@@ -145,7 +153,7 @@ const BlogPage = () => {
                                 </Typography>
 
                                 {/* Author & Meta */}
-                                <Box display="flex" alignItems="center" justifyContent="space-between" mt="auto">
+                                {/* <Box display="flex" alignItems="center" justifyContent="space-between" mt="auto">
                                     <Box display="flex" alignItems="center" gap={1}>
                                         <Avatar
                                             src={blog.Author?.avatar}
@@ -163,17 +171,7 @@ const BlogPage = () => {
                                             {formatDate(blog.published_at)}
                                         </Typography>
                                     </Box>
-                                </Box>
-
-                                {/* View Count */}
-                                {blog.view_count > 0 && (
-                                    <Box display="flex" alignItems="center" gap={0.5} mt={1}>
-                                        <VisibilityIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                                        <Typography variant="body2" color="text.secondary">
-                                            {blog.view_count} views
-                                        </Typography>
-                                    </Box>
-                                )}
+                                </Box> */}
                             </CardContent>
                         </Card>
                     </Grid>

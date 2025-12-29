@@ -26,6 +26,7 @@ export default (sequelize, DataTypes) => {
             through: 'blog_blog_categories',
             foreignKey: 'blog_id',
             otherKey: 'blog_category_id',
+			onDelete: 'CASCADE'
         });
 	};
 

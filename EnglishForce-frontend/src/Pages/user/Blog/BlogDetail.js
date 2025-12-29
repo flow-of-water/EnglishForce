@@ -11,10 +11,11 @@ import {
     Paper
 } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ReactMarkdown from 'react-markdown';
+import axiosInstance from '../../../Api/axiosInstance'; 
 
 const BlogDetail = () => {
     const { slug } = useParams();
@@ -29,11 +30,8 @@ const BlogDetail = () => {
     const fetchBlogDetail = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/${slug}`);
-            
-            if (response.data.success) {
-                setBlog(response.data.data);
-            }
+            const response = await axiosInstance.get(`/blogs/slug/${slug}`);
+            setBlog(response.data.blog);
         } catch (error) {
             console.error('Fetch blog detail error:', error);
         } finally {
@@ -74,7 +72,7 @@ const BlogDetail = () => {
                 gap={1}
                 mb={4}
                 sx={{ cursor: 'pointer', width: 'fit-content' }}
-                onClick={() => navigate('/blog')}
+                onClick={() => navigate('/blogs')}
             >
                 <ArrowBackIcon />
                 <Typography>Back to Blog</Typography>
@@ -171,7 +169,7 @@ const BlogDetail = () => {
                         whiteSpace: 'pre-wrap'
                     }}
                 >
-                    {blog.content}
+                    <ReactMarkdown>{blog.content}</ReactMarkdown>
                 </Typography>
             </Paper>
         </Container>
