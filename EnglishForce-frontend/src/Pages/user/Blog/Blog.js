@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Container,
-    Grid,
-    Card,
-    CardMedia,
-    CardContent,
-    Typography,
-    Chip,
-    Box,
-    Pagination,
-    CircularProgress,
-    Avatar,
-    Stack,
-    Button
+    Container, Grid,
+    Card, CardMedia, CardContent,
+    Typography, Chip, Box, Pagination, Avatar, Stack, Button,
+    Tabs, Tab,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
@@ -20,31 +11,40 @@ import AddIcon from '@mui/icons-material/Add';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import GradientTitle from '../../../Components/GradientTitle';
+import CircularLoading from '../../../Components/Loading';
 
 const BlogPage = () => {
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [tabValue, setTabValue] = useState(0);
     const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
 
     useEffect(() => {
         fetchBlogs(pagination.page);
-    }, [pagination.page]);
+    }, [pagination.page, tabValue]);
 
     const fetchBlogs = async (page) => {
         try {
             setLoading(true);
-            const response = await axiosInstance.get('blogs', {
-                params: { page, limit: 9 }
+            const response = await axiosInstance.get(`blogs?owned=${tabValue}`, {
+                params: { page }
             });
 
             setBlogs(response.data.blogs);
-            // setPagination(response.data.data.pagination);
+            setPagination({
+                totalPages: response.data.totalPages,
+                page: response.data.currentPage
+            });
         } catch (error) {
             console.error('Fetch blogs error:', error);
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
     };
 
     const handleBlogClick = (slug) => {
@@ -64,13 +64,7 @@ const BlogPage = () => {
         });
     };
 
-    if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
-                <CircularProgress />
-            </Box>
-        );
-    }
+    if (loading) return <CircularLoading />;
 
     return (
         <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -91,6 +85,13 @@ const BlogPage = () => {
             >
                 Create New Blog
             </Button>
+
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+                <Tabs value={tabValue} onChange={handleTabChange}>
+                    <Tab label="All Posts" value={0} />
+                    <Tab label="My Posts" value={1} />
+                </Tabs>
+            </Box>
             {/* Blog Grid */}
             <Grid container spacing={4}>
                 {blogs.map((blog) => (

@@ -2,8 +2,14 @@ import * as blogService from '../../services/blog/blog.service.js';
 
 export const getBlogsController = async (req, res) => {
     try {
-        const blogs = await blogService.getBlogs();
-        res.status(200).json({ blogs });
+        const { owned, page } = req.query;
+        const userId = req?.user?.id;
+        const limit = 6;
+        const pageNum = page ? parseInt(page) : 1;
+        console.log('Fetching blogs with params:', { owned, page: pageNum, userId });
+
+        const { blogs, totalPages } = await blogService.getBlogs(pageNum, limit, owned, userId);
+        res.status(200).json({ blogs, totalPages, currentPage: pageNum });
     } catch (error) {
         console.error('Error fetching blogs:', error);
         res.status(500).json({ message: 'Internal server error' });

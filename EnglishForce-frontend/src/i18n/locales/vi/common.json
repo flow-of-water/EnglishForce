@@ -29,7 +29,10 @@
     "programs": "Chương trình học",
     "aiManagement": "Quản lý AI",
     "chatbotAndRecommend": "Chatbot & Hệ thống gợi ý",
-    "backToHome": "Về trang chủ"
+    "backToHome": "Về trang chủ",
+    "blogManagement": "Quản lý bài viết",
+    "blogs": "Bài viết",
+    "blogCategories": "Danh mục bài viết"
   },
   "common": {
     "welcome": "Chào mừng đến với English Force",

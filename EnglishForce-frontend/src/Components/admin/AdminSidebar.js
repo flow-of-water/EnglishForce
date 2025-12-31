@@ -15,11 +15,13 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PsychologyIcon from '@mui/icons-material/Psychology'; // cho Chatbot
+import ArticleIcon from '@mui/icons-material/Article';
+import CategoryIcon from '@mui/icons-material/Category';
 
 import { useTranslation } from 'react-i18next';
 
 const AdminSidebar = ({ isOpen, toggleSidebar }) => {
-	const { t } = useTranslation('common'); 
+	const { t } = useTranslation('common');
 
 	return (
 		<Drawer anchor="left" open={isOpen} onClose={toggleSidebar}>
@@ -101,6 +103,23 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
             <ListItemIcon><CheckCircleIcon /></ListItemIcon>
             <ListItemText primary="Exercises" />
           </ListItem> */}
+				</List>
+
+				<Divider />
+
+				<List subheader={<ListSubheader component="div">{t('navAdmin.blogManagement')}</ListSubheader>}>
+					<ListItem button component={Link} to="/admin/blogs">
+						<ListItemIcon>
+							<ArticleIcon />
+						</ListItemIcon>
+						<ListItemText primary={t('navAdmin.blogs')} />
+					</ListItem>
+					<ListItem button component={Link} to="/admin/blog-categories">
+						<ListItemIcon>
+							<CategoryIcon />
+						</ListItemIcon>
+						<ListItemText primary={t('navAdmin.blogCategories')} />
+					</ListItem>
 				</List>
 
 				<Divider />

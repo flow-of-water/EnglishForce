@@ -29,7 +29,10 @@
     "programs": "Programs",
     "aiManagement": "AI Management",
     "chatbotAndRecommend": "Chatbot & Recommend System",
-    "backToHome": "Home"
+    "backToHome": "Home",
+    "blogManagement": "Blog Management",
+    "blogs": "Blogs",
+    "blogCategories": "Blog Categories"
   },
   "common": {
     "welcome": "Welcome to EnglishForce",
