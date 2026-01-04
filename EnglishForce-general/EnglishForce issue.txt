@@ -398,6 +398,13 @@ const paymentIntent = await stripe.paymentIntents.create({
 });
 
 
+7.7. Không xem được Blogs khi log out 
+Solve: Xem lại luồng của middleware 
+- Không login (không có token) -> next() -> Controller/Service tự xử lý (lấy userId ra null) -> xem Blogs ok 
+- Login (có token)
+  + Token hết hạn -> Middleware trả về response 401 -> FE redirect login page
+  + Token chưa hết hạn -> Middleware verify thành công và next để Controller/Service xử lý 
+
 #8 Public Id : UUID 
 Đổi từ id -> public id hết ; ẩn id khỏi frontend để tăng độ bảo mật 
 Khá rối rắm, mình cần 1 flow có hệ thống 

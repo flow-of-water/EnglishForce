@@ -1,6 +1,6 @@
 import express from 'express';
 import * as blogController from '../../controllers/blog/blogController.js';
-import { authMiddlewareWithoutError, optionalAuthMiddleware } from '../../middleware/authorize.js';
+import { optionalAuthMiddleware } from '../../middleware/authorize.js';
 const router = express.Router();
 
 router.get('/', optionalAuthMiddleware, blogController.getBlogsController);

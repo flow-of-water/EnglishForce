@@ -31,11 +31,13 @@ const BlogPage = () => {
                 params: { page }
             });
 
-            setBlogs(response.data.blogs);
-            setPagination({
-                totalPages: response.data.totalPages,
-                page: response.data.currentPage
-            });
+            if (response.data.blogs) {
+                setBlogs(response.data.blogs);
+                setPagination({
+                    totalPages: response.data.totalPages,
+                    page: response.data.currentPage
+                });
+            }
         } catch (error) {
             console.error('Fetch blogs error:', error);
         } finally {
