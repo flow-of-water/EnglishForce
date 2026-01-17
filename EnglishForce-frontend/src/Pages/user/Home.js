@@ -116,7 +116,7 @@ const HomePage = () => {
 						{t('common.welcome')}
 					</Typography>
 					<Typography variant="h6" sx={{ mb: 4, maxWidth: 700, margin: 'auto' }}>
-						Your ultimate platform for effective and fun English learning.
+						{t('common.description')}
 					</Typography>
 					<Button
 						component={Link}

@@ -36,6 +36,7 @@
   },
   "common": {
     "welcome": "Chào mừng đến với English Force",
+    "description": "Nền tảng học tiếng Anh hiệu quả và thú vị nhất.",
     "loading": "Đang tải...",
     "error": "Đã xảy ra lỗi",
     "success": "Thành công!",

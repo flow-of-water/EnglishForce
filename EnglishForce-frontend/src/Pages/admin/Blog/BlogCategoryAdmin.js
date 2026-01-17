@@ -17,6 +17,8 @@ import {
 	DialogActions,
 	TextField,
 	IconButton,
+	Box,
+	Typography,
 } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import axiosInstance from '../../../Api/axiosInstance';
@@ -32,7 +34,11 @@ const BlogCategoryAdmin = () => {
 	// Dialog states
 	const [openDialog, setOpenDialog] = useState(false);
 	const [editMode, setEditMode] = useState(false);
-	const [currentCategory, setCurrentCategory] = useState({ name: '', description: '' });
+	const [currentCategory, setCurrentCategory] = useState({ 
+		name: '', 
+		description: '',
+		color: '#007BFF'
+	});
 
 	useEffect(() => {
 		fetchCategories();
@@ -61,14 +67,14 @@ const BlogCategoryAdmin = () => {
 			setCurrentCategory(category);
 		} else {
 			setEditMode(false);
-			setCurrentCategory({ name: '', description: '' });
+			setCurrentCategory({ name: '', description: '', color: '#007BFF' });
 		}
 		setOpenDialog(true);
 	};
 
 	const handleCloseDialog = () => {
 		setOpenDialog(false);
-		setCurrentCategory({ name: '', description: '' });
+		setCurrentCategory({ name: '', description: '', color: '#007BFF' });
 	};
 
 	const handleSave = async () => {
@@ -78,16 +84,18 @@ const BlogCategoryAdmin = () => {
 				await axiosInstance.put(`/blog-categories/${currentCategory.public_id}`, {
 					name: currentCategory.name,
 					description: currentCategory.description,
+					color: currentCategory.color,
 				});
 			} else {
 				// Create new category
 				await axiosInstance.post('/blog-categories', {
 					name: currentCategory.name,
 					description: currentCategory.description,
+					color: currentCategory.color,
 				});
 			}
 			handleCloseDialog();
-			fetchCategories(); // Refresh list
+			fetchCategories();
 		} catch (error) {
 			console.error('Error saving category:', error);
 			alert('Failed to save category');
@@ -123,6 +131,7 @@ const BlogCategoryAdmin = () => {
 						<TableRow>
 							<TableCell>#</TableCell>
 							<TableCell>Name</TableCell>
+							<TableCell>Color</TableCell>
 							<TableCell>Description</TableCell>
 							<TableCell>Actions</TableCell>
 						</TableRow>
@@ -131,7 +140,25 @@ const BlogCategoryAdmin = () => {
 						{categories.map((category, index) => (
 							<TableRow key={category.public_id}>
 								<TableCell>{(page - 1) * 10 + index + 1}</TableCell>
-								<TableCell>{category.name}</TableCell>
+								<TableCell>
+									<Stack direction="row" alignItems="center" spacing={1}>
+										<Box
+											sx={{
+												width: 20,
+												height: 20,
+												borderRadius: '4px',
+												backgroundColor: category.color || '#007BFF',
+												border: '1px solid #ddd'
+											}}
+										/>
+										<span>{category.name}</span>
+									</Stack>
+								</TableCell>
+								<TableCell>
+									<Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
+										{category.color || '#007BFF'}
+									</Typography>
+								</TableCell>
 								<TableCell>
 									{category.description || 'No description'}
 								</TableCell>
@@ -157,7 +184,7 @@ const BlogCategoryAdmin = () => {
 						))}
 						{categories.length === 0 && (
 							<TableRow>
-								<TableCell colSpan={4} align="center">
+								<TableCell colSpan={5} align="center">
 									No categories found.
 								</TableCell>
 							</TableRow>
@@ -196,6 +223,37 @@ const BlogCategoryAdmin = () => {
 							value={currentCategory.description}
 							onChange={e => setCurrentCategory({ ...currentCategory, description: e.target.value })}
 						/>
+						
+						{/* Color Picker */}
+						<Box>
+							<Typography variant="subtitle2" gutterBottom>
+								Category Color
+							</Typography>
+							<Stack direction="row" spacing={2} alignItems="center">
+								<input
+									type="color"
+									value={currentCategory.color}
+									onChange={e => setCurrentCategory({ ...currentCategory, color: e.target.value })}
+									style={{
+										width: '60px',
+										height: '40px',
+										border: '1px solid #ccc',
+										borderRadius: '4px',
+										cursor: 'pointer'
+									}}
+								/>
+								<TextField
+									value={currentCategory.color}
+									onChange={e => setCurrentCategory({ ...currentCategory, color: e.target.value })}
+									placeholder="#007BFF"
+									size="small"
+									sx={{ width: '120px' }}
+									inputProps={{
+										style: { fontFamily: 'monospace' }
+									}}
+								/>
+							</Stack>
+						</Box>
 					</Stack>
 				</DialogContent>
 				<DialogActions>

@@ -8,15 +8,18 @@ import { CartProvider } from './Context/CartContext';
 import { SearchProvider } from './Context/SearchContext';
 //i18n
 import './i18n/config';
+import { AppThemeProvider } from './i18n/AppThemeProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
-		<CartProvider>
-			<SearchProvider>
-				<App />
-			</SearchProvider>
-		</CartProvider>
+		<AppThemeProvider>
+			<CartProvider>
+				<SearchProvider>
+					<App />
+				</SearchProvider>
+			</CartProvider>
+		</AppThemeProvider>
 	</React.StrictMode>
 );
 

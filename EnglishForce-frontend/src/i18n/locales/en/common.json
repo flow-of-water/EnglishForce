@@ -36,6 +36,7 @@
   },
   "common": {
     "welcome": "Welcome to EnglishForce",
+    "description": "Your ultimate platform for effective and fun English learning.",
     "loading": "Loading...",
     "error": "An error occurred",
     "success": "Success!",
