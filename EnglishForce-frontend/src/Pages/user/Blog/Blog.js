@@ -12,6 +12,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import GradientTitle from '../../../Components/GradientTitle';
 import CircularLoading from '../../../Components/Loading';
+import * as Constants from './../../../Constants/index.js';
 
 const BlogPage = () => {
     const navigate = useNavigate();
@@ -79,21 +80,23 @@ const BlogPage = () => {
                     Learn English tips, strategies, and more
                 </Typography>
             </Box>
-            <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={() => navigate('/blogs/create')}
-                sx={{ mb: 2 }}
-            >
-                Create New Blog
-            </Button>
 
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
-                <Tabs value={tabValue} onChange={handleTabChange}>
-                    <Tab label="All Posts" value={0} />
-                    <Tab label="My Posts" value={1} />
-                </Tabs>
-            </Box>
+            {localStorage.getItem(Constants.LOCAL_STORAGE.USERNAME) && (<>
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => navigate('/blogs/create')}
+                    sx={{ mb: 2 }}
+                >
+                Create New Blog
+                </Button>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+                    <Tabs value={tabValue} onChange={handleTabChange}>
+                        <Tab label="All Posts" value={0} />
+                        <Tab label="My Posts" value={1} />
+                    </Tabs>
+                </Box>
+            </>)}
             {/* Blog Grid */}
             <Grid container spacing={4}>
                 {blogs.map((blog) => (
@@ -128,8 +131,8 @@ const BlogPage = () => {
                                             key={cat.public_id}
                                             label={cat.name}
                                             size="small"
-                                            color="primary"
                                             variant="outlined"
+                                            sx={{backgroundColor: cat.color}}
                                         />
                                     ))}
                                 </Stack>

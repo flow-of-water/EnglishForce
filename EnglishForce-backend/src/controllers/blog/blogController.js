@@ -6,7 +6,6 @@ export const getBlogsController = async (req, res) => {
         const userId = req?.user?.id;
         const limit = 6;
         const pageNum = page ? parseInt(page) : 1;
-        console.log('Fetching blogs with params:', { owned, page: pageNum, userId });
 
         const { blogs, totalPages } = await blogService.getBlogs(pageNum, limit, owned, userId);
         res.status(200).json({ blogs, totalPages, currentPage: pageNum });
@@ -19,8 +18,8 @@ export const getBlogsController = async (req, res) => {
 export const findBlogIdByPublicIdController = async (req, res) => {
     const { publicId } = req.params;
     try {
-        const blogId = await blogService.findBlogIdByPublicId(publicId);
-        res.status(200).json({ blogId });
+        const blog = await blogService.findBlogIdByPublicId(publicId);
+        res.status(200).json({ blog });
     } catch (error) {
         console.error('Error finding blog by public_id:', error);
         res.status(404).json({ message: 'Blog not found' });
@@ -36,4 +35,35 @@ export const findBlogBySlugController = async (req, res) => {
         console.error('Error finding blog by slug:', error);
         res.status(404).json({ message: 'Blog not found' });
     }   
+};
+
+export const createBlogController = async (req, res) => {
+    try {
+        const blogData = req.body;
+        const newBlog = await blogService.createBlog(blogData);
+        res.status(201).json({ blog: newBlog });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+export const updateBlogController = async (req, res) => {
+    try {
+        const { publicId } = req.params;
+        const blogData = req.body;
+        const updatedBlog = await blogService.updateBlog(publicId, blogData);
+        res.status(200).json({ blog: updatedBlog });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+export const deleteBlogController = async (req, res) => {
+    try {
+        const { publicId } = req.params;    
+        await blogService.deleteBlog(publicId);
+        res.status(200).json({ message: 'Blog deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 };

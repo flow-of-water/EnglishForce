@@ -37,6 +37,7 @@ import exerciseAnswerRoutes from './routes/program/exerciseAnswerRoutes.js';
 import userProcessRoutes from './routes/program/userProgressRoutes.js';
 // blog 
 import blogRoutes from './routes/blog/blogRoutes.js';
+import blogCategoryRoutes from './routes/blog/blogCategoryRoutes.js';
 
 const app = express();
 
@@ -71,7 +72,7 @@ app.use('/api/AI', AIRoutes);
 
 // Course
 app.use('/api/courses', courseRoutes);
-app.use('/api/course_sections', courseSectionRoutes);
+app.use('/api/course-sections', courseSectionRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/user-course', userCourseRoutes);
 app.use('/api/comments', commentRoutes);
@@ -91,5 +92,6 @@ app.use('/api/exercise-answers', exerciseAnswerRoutes);
 app.use('/api/user-progresses', userProcessRoutes);
 // Blog
 app.use('/api/blogs', blogRoutes);
+app.use('/api/blog-categories', blogCategoryRoutes);
 
 export default app;

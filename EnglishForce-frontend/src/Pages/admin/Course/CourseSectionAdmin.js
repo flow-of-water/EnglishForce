@@ -38,7 +38,7 @@ const AdminCourseSections = () => {
 
 	const fetchSections = async () => {
 		try {
-			const response = await axiosInstance.get(`/course_sections/course/${publicId}`);
+			const response = await axiosInstance.get(`/course-sections/course/${publicId}`);
 			setSections(response.data);
 		} catch (error) {
 			console.error('Error fetching sections:', error);
@@ -60,7 +60,7 @@ const AdminCourseSections = () => {
 		console.log(videoFile);
 
 		try {
-			const response = await axiosInstance.post('/course_sections', formData, {
+			const response = await axiosInstance.post('/course-sections', formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			});
 			setSections([...sections, response.data]);
@@ -78,7 +78,7 @@ const AdminCourseSections = () => {
 
 	const handleDeleteSection = async publicId => {
 		try {
-			await axiosInstance.delete(`/course_sections/${publicId}`);
+			await axiosInstance.delete(`/course-sections/${publicId}`);
 			setSections(sections.filter(s => s.public_id !== publicId));
 			setSnackbarMessage('Section deleted!');
 			setOpenSnackbar(true);

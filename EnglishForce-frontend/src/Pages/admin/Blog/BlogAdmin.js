@@ -110,7 +110,7 @@ const BlogAdmin = () => {
 												key={category.id}
 												label={category.name}
 												size="small"
-												sx={{ mb: 0.5 }}
+												sx={{ mb: 0.5, backgroundColor: category.color, }}
 											/>
 										))}
 										{blog.BlogCategories?.length > 2 && (

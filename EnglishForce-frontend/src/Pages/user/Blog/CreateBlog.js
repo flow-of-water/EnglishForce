@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Container,
     Paper,
@@ -30,6 +30,7 @@ const CreateBlog = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [tabValue, setTabValue] = useState(0); // 0: Edit, 1: Preview
+    const [categories, setCategories] = useState([]);
     
     const [formData, setFormData] = useState({
         name: '',
@@ -40,15 +41,13 @@ const CreateBlog = () => {
         categories: []
     });
 
-    // Mock categories - replace with actual API call
-    const availableCategories = [
-        { id: 1, name: 'Grammar Tips' },
-        { id: 2, name: 'Vocabulary' },
-        { id: 3, name: 'TOEIC Preparation' },
-        { id: 4, name: 'Pronunciation' },
-        { id: 5, name: 'Study Methods' },
-        { id: 6, name: 'Business English' }
-    ];
+    useEffect(()=> {
+        const fetchCategory = async () => {
+            const result = await axiosInstance.get('/blog-categories') ;
+            setCategories(result.data.categories) ;
+        }
+        fetchCategory() ;
+    }, []);
 
     const handleChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -160,7 +159,7 @@ const CreateBlog = () => {
 
                             <Autocomplete
                                 multiple
-                                options={availableCategories}
+                                options={categories}
                                 getOptionLabel={(option) => option.name}
                                 value={formData.categories}
                                 onChange={(e, newValue) => handleChange('categories', newValue)}
@@ -172,7 +171,7 @@ const CreateBlog = () => {
                                         <Chip
                                             label={option.name}
                                             {...getTagProps({ index })}
-                                            color="primary"
+                                            sx={{backgroundColor: option.color}}
                                         />
                                     ))
                                 }

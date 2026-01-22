@@ -85,8 +85,8 @@ const BlogDetail = () => {
                         <Chip
                             key={cat.public_id}
                             label={cat.name}
-                            color="primary"
                             variant="outlined"
+                            sx={{backgroundColor: cat.color}}
                         />
                     ))}
                 </Stack>
@@ -100,13 +100,13 @@ const BlogDetail = () => {
                 <Box display="flex" alignItems="center" gap={3} mb={3} flexWrap="wrap">
                     <Box display="flex" alignItems="center" gap={1}>
                         <Avatar
-                            src={blog.Author?.avatar}
-                            alt={blog.Author?.username}
+                            src={blog.User?.avatar}
+                            alt={blog.User?.username}
                             sx={{ width: 40, height: 40 }}
                         />
                         <Box>
                             <Typography variant="body2" fontWeight="bold">
-                                {blog.Author?.username}
+                                {blog.User?.username}
                             </Typography>
                             <Typography variant="caption" color="text.secondary">
                                 Author

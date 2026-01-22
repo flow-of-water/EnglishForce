@@ -30,12 +30,12 @@ const BlogCategoryAdmin = () => {
 	const [page, setPage] = useState(1);
 	const [pageCount, setPageCount] = useState(1);
 	const [loading, setLoading] = useState(true);
-	
+
 	// Dialog states
 	const [openDialog, setOpenDialog] = useState(false);
 	const [editMode, setEditMode] = useState(false);
-	const [currentCategory, setCurrentCategory] = useState({ 
-		name: '', 
+	const [currentCategory, setCurrentCategory] = useState({
+		name: '',
 		description: '',
 		color: '#007BFF'
 	});
@@ -47,7 +47,7 @@ const BlogCategoryAdmin = () => {
 	const fetchCategories = async () => {
 		try {
 			setLoading(true);
-			const response = await axiosInstance.get(`/blog-categories/?page=${page}`);
+			const response = await axiosInstance.get(`/blog-categories?page=${page}`);
 			setCategories(response.data.categories);
 			setPageCount(response.data.totalPages);
 		} catch (error) {
@@ -98,7 +98,7 @@ const BlogCategoryAdmin = () => {
 			fetchCategories();
 		} catch (error) {
 			console.error('Error saving category:', error);
-			alert('Failed to save category');
+			alert(error?.response?.data?.error || 'Failed to save category');
 		}
 	};
 
@@ -141,6 +141,9 @@ const BlogCategoryAdmin = () => {
 							<TableRow key={category.public_id}>
 								<TableCell>{(page - 1) * 10 + index + 1}</TableCell>
 								<TableCell>
+									<span>{category.name}</span>
+								</TableCell>
+								<TableCell>
 									<Stack direction="row" alignItems="center" spacing={1}>
 										<Box
 											sx={{
@@ -151,13 +154,8 @@ const BlogCategoryAdmin = () => {
 												border: '1px solid #ddd'
 											}}
 										/>
-										<span>{category.name}</span>
+										<span>{category.color}</span>
 									</Stack>
-								</TableCell>
-								<TableCell>
-									<Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
-										{category.color || '#007BFF'}
-									</Typography>
 								</TableCell>
 								<TableCell>
 									{category.description || 'No description'}
@@ -223,7 +221,7 @@ const BlogCategoryAdmin = () => {
 							value={currentCategory.description}
 							onChange={e => setCurrentCategory({ ...currentCategory, description: e.target.value })}
 						/>
-						
+
 						{/* Color Picker */}
 						<Box>
 							<Typography variant="subtitle2" gutterBottom>
@@ -258,9 +256,9 @@ const BlogCategoryAdmin = () => {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCloseDialog}>Cancel</Button>
-					<Button 
-						onClick={handleSave} 
-						variant="contained" 
+					<Button
+						onClick={handleSave}
+						variant="contained"
 						disabled={!currentCategory.name.trim()}
 					>
 						{editMode ? 'Update' : 'Create'}

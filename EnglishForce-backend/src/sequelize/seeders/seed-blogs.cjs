@@ -14,31 +14,37 @@ const categories = [
     public_id: uuidv4(),
     name: 'Grammar Tips',
     description: 'Essential grammar rules and tips for English learners',
+    color: '#3B82F6',
   },
   {
     public_id: uuidv4(),
     name: 'Vocabulary',
     description: 'Expand your English vocabulary with useful words and phrases',
+    color: '#8B5CF6',
   },
   {
     public_id: uuidv4(),
     name: 'TOEIC Preparation',
     description: 'Strategies and resources for TOEIC exam preparation',
+    color: '#F59E0B',
   },
   {
     public_id: uuidv4(),
     name: 'Pronunciation',
     description: 'Improve your English pronunciation and speaking skills',
+    color: '#10B981',
   },
   {
     public_id: uuidv4(),
     name: 'Study Methods',
     description: 'Effective techniques and methods for learning English',
+    color: '#06B6D4',
   },
   {
     public_id: uuidv4(),
     name: 'Business English',
     description: 'Professional English for workplace communication',
+    color: '#1E40AF', 
   }
 ];
 
