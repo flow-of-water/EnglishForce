@@ -39,7 +39,9 @@ export const findBlogBySlugController = async (req, res) => {
 
 export const createBlogController = async (req, res) => {
     try {
+        const userId = req.user.id;
         const blogData = req.body;
+        blogData.user_id = userId;
         const newBlog = await blogService.createBlog(blogData);
         res.status(201).json({ blog: newBlog });
     } catch (error) {

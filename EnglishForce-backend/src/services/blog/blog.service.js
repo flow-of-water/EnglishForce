@@ -23,6 +23,7 @@ export const getBlogs = async (page, limit, owned, userId) => {
         limit,
         offset,
         order: [['id', 'DESC']],
+        distinct: true,
     };
 
     if (owned == null || owned == undefined || owned == 0) {}

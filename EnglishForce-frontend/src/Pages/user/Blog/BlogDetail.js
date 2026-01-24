@@ -117,7 +117,7 @@ const BlogDetail = () => {
                     <Box display="flex" alignItems="center" gap={0.5}>
                         <CalendarTodayIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                         <Typography variant="body2" color="text.secondary">
-                            {formatDate(blog.published_at)}
+                            {formatDate(blog.created_at)}
                         </Typography>
                     </Box>
 
