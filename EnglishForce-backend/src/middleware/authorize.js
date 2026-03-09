@@ -28,9 +28,7 @@ export const optionalAuthMiddleware = async (req, res, next) => {
 	const token = req.header('Authorization');
     
     // 🔵 CASE 1: Không có token → anonymous user → OK
-    if (!token) {
-		return res.status(200).json({ message: 'Anonymous user. You are not logged in.' });
-    }
+    if (!token) return next();
 
 	// 🔵 CASE 2: Có token nhưng không hợp lệ → lỗi 401
 	try {

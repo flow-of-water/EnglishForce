@@ -45,7 +45,7 @@ const CourseDetail = () => {
 				setCourse(courseRes.data);
 
 				// Gọi API lấy danh sách sections theo coursePublicId
-				const sectionsRes = await axiosInstance.get(`/course_sections/course/${publicId}`);
+				const sectionsRes = await axiosInstance.get(`/course-sections/course/${publicId}`);
 				setSections(sectionsRes.data);
 			} catch (err) {
 				console.error('Error fetching data:', err);

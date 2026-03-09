@@ -42,6 +42,8 @@ export default (sequelize, DataTypes) => {
 		User.hasMany(models.UserCourse, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 
 		User.hasMany(models.Comment, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+
+		User.hasMany(models.Blog, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 	};
 
 	return User;

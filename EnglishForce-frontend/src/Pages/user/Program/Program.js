@@ -79,6 +79,7 @@ const ProgramPage = () => {
 							borderColor: 'divider',
 							color: 'text.secondary',
 							backdropFilter: 'blur(6px)',
+							bgcolor: 'grey.200'
 						}}
 					/>
 				);

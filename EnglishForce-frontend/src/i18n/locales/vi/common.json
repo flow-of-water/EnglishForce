@@ -10,7 +10,9 @@
     "logout": "Đăng xuất",
     "admin": "Trang quản trị",
     "cart": "Giỏ hàng",
-    "myLearning": "Khóa học của tôi"
+    "myLearning": "Khóa học của tôi",
+    "more": "Thêm",
+    "blog": "Bài viết"
   },
   "navAdmin": {
     "title": "Trang quản trị",
@@ -27,10 +29,14 @@
     "programs": "Chương trình học",
     "aiManagement": "Quản lý AI",
     "chatbotAndRecommend": "Chatbot & Hệ thống gợi ý",
-    "backToHome": "Về trang chủ"
+    "backToHome": "Về trang chủ",
+    "blogManagement": "Quản lý bài viết",
+    "blogs": "Bài viết",
+    "blogCategories": "Danh mục bài viết"
   },
   "common": {
     "welcome": "Chào mừng đến với English Force",
+    "description": "Nền tảng học tiếng Anh hiệu quả và thú vị nhất.",
     "loading": "Đang tải...",
     "error": "Đã xảy ra lỗi",
     "success": "Thành công!",

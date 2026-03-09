@@ -27,7 +27,7 @@ const EditCourseSection = () => {
 	useEffect(() => {
 		const fetchSection = async () => {
 			try {
-				const response = await axiosInstance.get(`/course_sections/${publicId}`);
+				const response = await axiosInstance.get(`/course-sections/${publicId}`);
 				setSection(response.data);
 			} catch (err) {
 				console.error('Error fetching section:', err);
@@ -64,7 +64,7 @@ const EditCourseSection = () => {
 				formData.append('video', section.videoFile); // field name phải giống bên backend expect
 			}
 
-			await axiosInstance.put(`/course_sections/${publicId}`, formData, {
+			await axiosInstance.put(`/course-sections/${publicId}`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},

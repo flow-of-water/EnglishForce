@@ -40,6 +40,12 @@ import ProgramDetailPage from '../Pages/user/Program/ProgramDetail';
 import UnitDetailPage from '../Pages/user/Program/UnitDetail';
 import LessonStartPage from '../Pages/user/Program/LessonStart';
 
+// ***** Blog feature *****
+import BlogPage from '../Pages/user/Blog/Blog';
+import BlogDetailPage from '../Pages/user/Blog/BlogDetail';
+import CreateBlogPage from '../Pages/user/Blog/CreateBlog';
+import EditBlogPage from '../Pages/user/Blog/EditBlog';
+
 export const UserRoutes = () => (
   <>
     <Route path="/" element={<UserLayout isHomePage={true}><HomePage /></UserLayout>} />
@@ -75,6 +81,12 @@ export const UserRoutes = () => (
     <Route path="/units/:unitPublicId" element={<UserLayout><UnitDetailPage /></UserLayout>} />
     <Route path="/units/:unitPublicId/lessons/:lessonPublicId/start" element={<UserLayout><LessonStartPage /></UserLayout>} />
 
+    {/* blog feature  */}
+    <Route path="/blogs" element={<UserLayout><BlogPage /></UserLayout>} />
+    <Route path="/blogs/:slug" element={<UserLayout><BlogDetailPage /></UserLayout>} />
+    <Route path="/blogs/create" element={<UserLayout><CreateBlogPage /></UserLayout>} />
+    <Route path="/blogs/:slug/edit" element={<UserLayout><EditBlogPage /></UserLayout>} />
+    
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />
   </>

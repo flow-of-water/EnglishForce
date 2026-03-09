@@ -42,6 +42,12 @@ import DetailExerciseAdmin from '../Pages/admin/Program/DetailExerciseAdmin';
 import EditExerciseAdmin from '../Pages/admin/Program/EditExercise';
 import EditExerciseAnswerAdmin from '../Pages/admin/Program/EditExerciseAnswerAdmin';
 
+// Blog feature 
+import BlogAdmin from '../Pages/admin/Blog/BlogAdmin';
+import BlogCategoryAdmin from '../Pages/admin/Blog/BlogCategoryAdmin';
+import DetailBlogAdmin from '../Pages/admin/Blog/DetailBlogAdmin';
+import EditBlogAdmin from '../Pages/admin/Blog/EditBlogAdmin';
+
 // AI feature 
 import AIAdmin from '../Pages/admin/AI/AIAdmin';
 export const AdminRoutes = () => (
@@ -84,6 +90,12 @@ export const AdminRoutes = () => (
     <Route path="/admin/exercises/:exercisePublicId/edit" element={<AdminLayout><EditExerciseAdmin /></AdminLayout>} />
     <Route path="/admin/exercises/:exercisePublicId/answer/:answerPublicId" element={<AdminLayout><EditExerciseAnswerAdmin /></AdminLayout>} />
 
+    {/* Blog feature  */}
+    <Route path="/admin/blogs" element={<AdminLayout><BlogAdmin /></AdminLayout>} />
+    <Route path="/admin/blogs/:publicId" element={<AdminLayout><DetailBlogAdmin /></AdminLayout>} />
+    <Route path="/admin/blog-categories" element={<AdminLayout><BlogCategoryAdmin /></AdminLayout>} />
+    <Route path="/admin/blogs/:publicId/edit" element={<AdminLayout><EditBlogAdmin /></AdminLayout>} />
+    
     {/* AI  */}
     <Route path="/admin/ai" element={<AdminLayout><AIAdmin /></AdminLayout>} />
 

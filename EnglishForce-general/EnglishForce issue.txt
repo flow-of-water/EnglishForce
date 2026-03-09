@@ -78,15 +78,59 @@ Failure Message : API POST /api/auth/login, ConnectionResetError(10054, 'An exis
 - Greater or equal 1$
 Why ? Stripe requires
 
+# 7.6. Error when install library in FE 
+$ npm install react-markdown remark-gfm react-syntax-highlighter
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: react-scripts@5.0.1
+npm error Found: typescript@5.9.3
+npm error node_modules/typescript
+npm error   peer typescript@">= 2.7" from fork-ts-checker-webpack-plugin@6.5.3
+npm error   node_modules/fork-ts-checker-webpack-plugin
+npm error     fork-ts-checker-webpack-plugin@"^6.5.0" from react-dev-utils@12.0.1
+npm error     node_modules/react-dev-utils
+npm error       react-dev-utils@"^12.0.1" from react-scripts@5.0.1
+npm error       node_modules/react-scripts
+npm error         react-scripts@"5.0.1" from the root project
+npm error   peerOptional typescript@"^5" from i18next@25.7.2
+npm error   node_modules/i18next
+npm error     peer i18next@">= 25.6.2" from react-i18next@16.5.0
+npm error     node_modules/react-i18next
+npm error       react-i18next@"^16.5.0" from the root project
+npm error     i18next@"^25.7.2" from the root project
+npm error   2 more (react-i18next, tsutils)
+npm error
+npm error Could not resolve dependency:
+npm error peerOptional typescript@"^3.2.1 || ^4" from react-scripts@5.0.1
+npm error node_modules/react-scripts
+npm error   react-scripts@"5.0.1" from the root project
+npm error
+npm error Conflicting peer dependency: typescript@4.9.5
+npm error node_modules/typescript
+npm error   peerOptional typescript@"^3.2.1 || ^4" from react-scripts@5.0.1
+npm error   node_modules/react-scripts
+npm error     react-scripts@"5.0.1" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+
 
 
 ###9 Enhancement - Feature
 #9.1. Development below features:
+- Cho xem Profile của user khác 
 - Continue Redis cache
-- Continue with email OTP 
+- Continue with email OTP  
 - Continue with i18n 
-- Add role: teacher/Instructor into system 
+- Add role: teacher/Instructor into system. Add calendar for this role
+Ai là người có thể có role instructor ? Nên là User Request tới Admin
+1 trang quản lý riêng giống với Admin 
+- Role nhân viên (quản lý cho thằng admin với các quyền hạn chế, nhận backlog từ Admin)
+Nghiên cứu cái backlog nào (có lẽ là cho Instructor, kết hợp với calendar luôn)
 - Add Redis queue (serve OTP email , something else ,... )
+- Cronjob to backup data
 - Add voucher ? 
 - Add chức năng Blog markdown (table: blog , blog_category: official (vậy thì có những category mà chỉ admin mới dùng được))
 - Add subdomain cho admin , instructor/teacher 
@@ -353,6 +397,13 @@ const paymentIntent = await stripe.paymentIntents.create({
   customer: stripeCustomerId, // <-- nếu không có dòng này thì payment không gắn với customer
 });
 
+
+7.7. Không xem được Blogs khi log out 
+Solve: Xem lại luồng của middleware 
+- Không login (không có token) -> next() -> Controller/Service tự xử lý (lấy userId ra null) -> xem Blogs ok 
+- Login (có token)
+  + Token hết hạn -> Middleware trả về response 401 -> FE redirect login page
+  + Token chưa hết hạn -> Middleware verify thành công và next để Controller/Service xử lý 
 
 #8 Public Id : UUID 
 Đổi từ id -> public id hết ; ẩn id khỏi frontend để tăng độ bảo mật 
