@@ -41,16 +41,18 @@ export const getBlogs = async (page, limit, owned, userId) => {
     };
 }
 
-export const findBlogIdByPublicId = async publicId => {
-    const blog = await Blog.findOne({ where: { public_id: publicId }, include: includeOptions });
+export const findBlogIdByPublicId = async (publicId, userId = null) => {
+    const blog = (await Blog.findOne({ where: { public_id: publicId }, include: includeOptions }))?.get({ plain: true });
     if (!blog) throw new Error('Blog not found with that public_id');
-    return blog.get({ plain: true });
+    blog.is_owned = userId != null && blog.user_id === userId;
+    return blog ;
 }
 
-export const findBlogBySlug = async slug => {
-    const blog = await Blog.findOne({ where: { slug }, include: includeOptions });
+export const findBlogBySlug = async (slug, userId = null) => {
+    const blog = (await Blog.findOne({ where: { slug }, include: includeOptions }))?.get({ plain: true });
     if (!blog) throw new Error('Blog not found with that slug');
-    return blog.get({ plain: true });
+    blog.is_owned = userId != null && blog.user_id === userId;
+    return blog ;
 }
 
 export const createBlog = async blogData => {
@@ -88,8 +90,41 @@ export const createBlog = async blogData => {
 export const updateBlog = async (publicId, blogData) => {
     const blog = await Blog.findOne({ where: { public_id: publicId } });
     if (!blog) throw new Error('Blog not found with that public_id');
-    await blog.update(blogData);
+
+    // Frontend sends "categories[]" which becomes "categories" after parsing
+    const { categories, category_ids, ...updateData } = blogData;
+    await blog.update(updateData);
+
+    // Use categories (public_ids from frontend) or category_ids (internal ids)
+    const categoryPublicIds = categories || category_ids;
+    if (categoryPublicIds && categoryPublicIds.length > 0) {
+        const categoryRecords = await BlogCategory.findAll({
+            where: { public_id: categoryPublicIds }
+        });
+        await blog.setBlogCategories(categoryRecords);
+    }
+
     return await Blog.findOne({ where: { public_id: publicId }, include: includeOptions });
+}
+
+export const updateBlogBySlug = async (slug, blogData) => {
+    const blog = await Blog.findOne({ where: { slug } });
+    if (!blog) throw new Error('Blog not found with that slug');
+
+    // Frontend sends "categories[]" which becomes "categories" after parsing
+    const { categories, category_ids, ...updateData } = blogData;
+    await blog.update(updateData);
+
+    // Use categories (public_ids from frontend) or category_ids (internal ids)
+    const categoryPublicIds = categories || category_ids;
+    if (categoryPublicIds && categoryPublicIds.length > 0) {
+        const categoryRecords = await BlogCategory.findAll({
+            where: { public_id: categoryPublicIds }
+        });
+        await blog.setBlogCategories(categoryRecords);
+    }
+
+    return await Blog.findOne({ where: { public_id: blog.public_id }, include: includeOptions });
 }
 
 export const deleteBlog = async publicId => {

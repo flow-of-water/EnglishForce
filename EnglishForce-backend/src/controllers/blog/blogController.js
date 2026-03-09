@@ -17,8 +17,9 @@ export const getBlogsController = async (req, res) => {
 
 export const findBlogIdByPublicIdController = async (req, res) => {
     const { publicId } = req.params;
+    const userId = req?.user?.id;
     try {
-        const blog = await blogService.findBlogIdByPublicId(publicId);
+        const blog = await blogService.findBlogIdByPublicId(publicId, userId);
         res.status(200).json({ blog });
     } catch (error) {
         console.error('Error finding blog by public_id:', error);
@@ -28,8 +29,9 @@ export const findBlogIdByPublicIdController = async (req, res) => {
 
 export const findBlogBySlugController = async (req, res) => {
     const { slug } = req.params;
+    const userId = req?.user?.id;
     try {
-        const blog = await blogService.findBlogBySlug(slug);
+        const blog = await blogService.findBlogBySlug(slug, userId);
         res.status(200).json({ blog });
     } catch (error) {
         console.error('Error finding blog by slug:', error);
@@ -53,7 +55,24 @@ export const updateBlogController = async (req, res) => {
     try {
         const { publicId } = req.params;
         const blogData = req.body;
+        if (req.file) {
+            blogData.thumbnail = req.file.path;
+        }
         const updatedBlog = await blogService.updateBlog(publicId, blogData);
+        res.status(200).json({ blog: updatedBlog });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+export const updateBlogBySlugController = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const blogData = req.body;
+        if (req.file) {
+            blogData.thumbnail = req.file.path;
+        }
+        const updatedBlog = await blogService.updateBlogBySlug(slug, blogData);
         res.status(200).json({ blog: updatedBlog });
     } catch (error) {
         res.status(400).json({ message: error.message });

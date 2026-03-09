@@ -26,7 +26,7 @@ import {
   Delete as DeleteIcon,
   Image as ImageIcon,
 } from '@mui/icons-material';
-import axios from 'axios';
+import axiosInstance from '../../../Api/axiosInstance';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -74,7 +74,7 @@ const EditBlogAdmin = () => {
   const fetchBlogData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/blogs/${publicId}`, {
+      const response = await axiosInstance.get(`/blogs/${publicId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -93,7 +93,7 @@ const EditBlogAdmin = () => {
 
       // Set selected categories
       if (blog.BlogCategories) {
-        setSelectedCategories(blog.BlogCategories.map(cat => cat.id));
+        setSelectedCategories(blog.BlogCategories.map(cat => cat.public_id));
       }
 
       setError(null);
@@ -107,7 +107,7 @@ const EditBlogAdmin = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/blog-categories', {
+      const response = await axiosInstance.get('/blog-categories', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -208,13 +208,13 @@ const EditBlogAdmin = () => {
       submitData.append('description', formData.description.trim());
       submitData.append('content', formData.content.trim());
       submitData.append('slug', formData.slug.trim());
-      submitData.append('categories', JSON.stringify(selectedCategories));
+      selectedCategories.forEach(item => submitData.append('categories[]', item));
 
       if (imageFile) {
         submitData.append('thumbnail', imageFile);
       }
 
-      await axios.put(`/api/blogs/${publicId}`, submitData, {
+      await axiosInstance.put(`/blogs/${publicId}`, submitData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
@@ -340,7 +340,7 @@ const EditBlogAdmin = () => {
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {selected.map((value) => {
-                        const category = categories.find(cat => cat.id === value);
+                        const category = categories.find(cat => cat.public_id === value);
                         return (
                           <Chip
                             key={value}
@@ -354,7 +354,7 @@ const EditBlogAdmin = () => {
                   MenuProps={MenuProps}
                 >
                   {categories.map((category) => (
-                    <MenuItem key={category.id} value={category.id}>
+                    <MenuItem key={category.public_id} value={category.public_id}>
                       {category.name}
                     </MenuItem>
                   ))}

@@ -93,7 +93,9 @@ axiosInstance.interceptors.response.use(
 				} catch (refreshError) {
 					isRefreshing = false;
 					refreshPromise = null;
-					localStorage.clear();
+					localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
 					window.location.href = '/login';
 					return Promise.reject(refreshError);
 				}
