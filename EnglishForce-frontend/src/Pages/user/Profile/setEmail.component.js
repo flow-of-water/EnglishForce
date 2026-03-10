@@ -51,8 +51,7 @@ const SetEmailWithOtp = ({
 			setStep('otp');
 			setCooldown(resendCooldownSec);
 		} catch (err) {
-			const msg =
-				err?.response?.data?.error || err?.response?.data?.message || 'Cannot request OTP.';
+			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Cannot request OTP.';
 			setError(msg);
 		} finally {
 			setLoading(false);

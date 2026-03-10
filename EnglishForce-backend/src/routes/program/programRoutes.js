@@ -12,7 +12,13 @@ router.get('/:public_id/progress', authMiddleware, programController.getProgramD
 
 router.post('/', authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), programController.createProgram);
 
-router.put('/:public_id', authMiddleware, adminMiddleware, uploadImage.single('thumbnail'), programController.updateProgram);
+router.put(
+	'/:public_id',
+	authMiddleware,
+	adminMiddleware,
+	uploadImage.single('thumbnail'),
+	programController.updateProgram
+);
 
 router.delete('/:publicId', authMiddleware, adminMiddleware, programController.deleteProgramByPublicId);
 

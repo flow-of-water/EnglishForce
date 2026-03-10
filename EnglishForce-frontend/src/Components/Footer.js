@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Container, Grid, Typography, Link, IconButton, FormControl, Select, MenuItem, } from '@mui/material';
+import { Box, Container, Grid, Typography, Link, IconButton, FormControl, Select, MenuItem } from '@mui/material';
 import { Facebook, Instagram, Twitter, Language } from '@mui/icons-material';
 
 const LanguageSwitcherDropdown = () => {
@@ -11,14 +11,14 @@ const LanguageSwitcherDropdown = () => {
 		{ code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
 	];
 
-	const handleLanguageChange = (event) => {
+	const handleLanguageChange = event => {
 		i18n.changeLanguage(event.target.value);
 	};
 
 	return (
-		<FormControl 
-			size="small" 
-			sx={{ 
+		<FormControl
+			size="small"
+			sx={{
 				minWidth: 150,
 				'& .MuiOutlinedInput-root': {
 					color: 'white',
@@ -37,12 +37,8 @@ const LanguageSwitcherDropdown = () => {
 				},
 			}}
 		>
-			<Select
-				value={i18n.language}
-				onChange={handleLanguageChange}
-				displayEmpty
-			>
-				{languages.map((language) => (
+			<Select value={i18n.language} onChange={handleLanguageChange} displayEmpty>
+				{languages.map(language => (
 					<MenuItem key={language.code} value={language.code}>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 							<span>{language.flag}</span>
@@ -54,9 +50,6 @@ const LanguageSwitcherDropdown = () => {
 		</FormControl>
 	);
 };
-
-
-
 
 export default function Footer() {
 	const { t } = useTranslation('common');
@@ -130,9 +123,7 @@ export default function Footer() {
 						<Box mt={2}>
 							<Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
 								<Language sx={{ mr: 1, fontSize: 18 }} />
-								<Typography variant="subtitle2">
-									{t('footer.language')}
-								</Typography>
+								<Typography variant="subtitle2">{t('footer.language')}</Typography>
 							</Box>
 							<LanguageSwitcherDropdown />
 						</Box>

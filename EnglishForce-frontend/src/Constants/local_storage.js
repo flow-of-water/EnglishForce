@@ -5,5 +5,5 @@ export const LOCAL_STORAGE = Object.freeze({
 	USER_ROLE: 'userRole',
 	USER_PUBLIC_ID: 'userPublicId',
 	USER_EMAIL: 'email',
-    RESET_PASSWORD_TOKEN: 'resetToken',
+	RESET_PASSWORD_TOKEN: 'resetToken',
 });

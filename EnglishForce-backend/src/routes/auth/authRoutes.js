@@ -1,5 +1,12 @@
 import express from 'express';
-import { register, login, logout, changePassword, refreshToken, resetPassword } from '../../controllers/auth/authController.js';
+import {
+	register,
+	login,
+	logout,
+	changePassword,
+	refreshToken,
+	resetPassword,
+} from '../../controllers/auth/authController.js';
 import { authMiddleware, authResetPasswordTokenMiddleware } from '../../middleware/authorize.js';
 import rateLimiter from '../../middleware/rateLimit.js';
 

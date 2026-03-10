@@ -35,7 +35,6 @@ import SetEmailWithOtp from './setEmail.component.js';
 import UpdateAvatar from './UpdateAvatar.component.js';
 import { useTranslation } from 'react-i18next';
 
-
 const Profile = () => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -59,10 +58,10 @@ const Profile = () => {
 		Fetch();
 	}, []);
 
-	const handleAvatarUpdated = (newAvatarUrl) => {
+	const handleAvatarUpdated = newAvatarUrl => {
 		setUser(prevUser => ({
 			...prevUser,
-			avatar: newAvatarUrl
+			avatar: newAvatarUrl,
 		}));
 	};
 
@@ -73,10 +72,9 @@ const Profile = () => {
 	const handleDialogOpenEmailOTP = () => setOpenDialogEmailOTP(true);
 
 	const handleDialogCloseEmailOTP = () => setOpenDialogEmailOTP(false);
-	
 
 	if (loading) return <CircularLoading />;
-	
+
 	const data = [
 		{ name: 'Completed Program Lessons', value: user.stats?.programsCount || 0 },
 		{ name: 'Exam Attempts', value: user.stats?.examAttemptsCount || 0 },

@@ -14,8 +14,6 @@ router.get('/', getPagingUsersController);
 router.get('/profile', authMiddleware, getMyUserAccountController);
 router.patch('/avatar', authMiddleware, uploadImage.single('avatar'), updateAvatarController);
 
-
 router.patch('/:publicId', authMiddleware, adminMiddleware, updateUserRoleController);
-
 
 export default router;

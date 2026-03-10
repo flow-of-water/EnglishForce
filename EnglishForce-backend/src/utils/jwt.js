@@ -6,13 +6,13 @@ export const config = {
 	audience: 'EnglishForce user',
 	ACCESS_TOKEN: {
 		secret: process.env.JWT_ACCESS_TOKEN_SECRET || 'your_jwt_secret',
-		expiry: '1m',
+		expiry: '10m',
 	},
 	REFRESH_TOKEN: {
 		secret: process.env.JWT_REFRESH_TOKEN_SECRET || 'your_refresh_secret',
 		expiry: '7d',
 		expiry_in_ms: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-	},	
+	},
 };
 
 /**

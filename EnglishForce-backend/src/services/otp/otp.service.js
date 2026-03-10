@@ -93,7 +93,7 @@ export async function verifyOtpWithAuth({ email, code, purpose = 'login' }) {
 	let user = await db.User.findOne({ where: { email } });
 
 	if (!user) return { ok: false };
-	
+
 	const { accessToken } = generateTokens(user, true);
 
 	// Step 5: Return token và user info

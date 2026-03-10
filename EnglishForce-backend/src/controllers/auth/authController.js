@@ -30,12 +30,12 @@ export const login = async (req, res) => {
 		if (!isMatch) return res.status(400).json({ message: 'Invalid password' });
 
 		const { accessToken, refreshToken } = generateTokens(user);
-		
+
 		// 🔒 Lưu refreshToken vào HttpOnly Cookie
 		res.cookie('refreshToken', refreshToken, {
-			httpOnly: true,                          // Không thể truy cập qua JavaScript
+			httpOnly: true, // Không thể truy cập qua JavaScript
 			secure: process.env.NODE_ENV === 'production', // Chỉ HTTPS ở production
-			sameSite: 'lax',                      // Chống CSRF
+			sameSite: 'lax', // Chống CSRF
 			maxAge: config.REFRESH_TOKEN.expiry_in_ms, // Thời gian sống của cookie
 			path: '/',
 		});
@@ -48,18 +48,18 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
 	try {
-		// (Optional) Blacklist token nếu có hệ thống blacklist		
+		// (Optional) Blacklist token nếu có hệ thống blacklist
 		// Xóa cookie refreshToken
 		res.clearCookie('refreshToken', {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'lax',
-			path: '/' // ← Quan trọng: phải khớp với lúc set cookie
+			path: '/', // ← Quan trọng: phải khớp với lúc set cookie
 		});
-		
+
 		console.log('✅ RefreshToken cookie cleared');
-		
-		res.status(200).json({ message: 'Logged out successfully', success: true});
+
+		res.status(200).json({ message: 'Logged out successfully', success: true });
 	} catch (error) {
 		res.status(500).json({ message: 'Error logging out', error: error.message });
 	}
@@ -114,16 +114,16 @@ export const changePassword = async (req, res) => {
 export const resetPassword = async (req, res) => {
 	try {
 		const { newPassword } = req.body;
-		
+
 		// req.user đã được set bởi authMiddleware
 		const userId = req.user.id;
 
 		if (!newPassword) return res.status(400).json({ error: 'New password is required' });
-		
+
 		const user = await userService.getUserById(userId);
 
 		if (!user) return res.status(404).json({ error: 'User not found' });
-		
+
 		// Hash new password using utility function
 		const hashedPassword = await hashValue(newPassword);
 
@@ -137,7 +137,6 @@ export const resetPassword = async (req, res) => {
 		res.status(500).json({ error: 'Failed to reset password' });
 	}
 };
-
 
 // ___ OAuth ___
 // Google and Facebook

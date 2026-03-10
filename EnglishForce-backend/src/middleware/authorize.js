@@ -26,9 +26,9 @@ export const authMiddlewareWithoutError = (req, res, next) => {
 
 export const optionalAuthMiddleware = async (req, res, next) => {
 	const token = req.header('Authorization');
-    
-    // 🔵 CASE 1: Không có token → anonymous user → OK
-    if (!token) return next();
+
+	// 🔵 CASE 1: Không có token → anonymous user → OK
+	if (!token) return next();
 
 	// 🔵 CASE 2: Có token nhưng không hợp lệ → lỗi 401
 	try {
@@ -38,7 +38,7 @@ export const optionalAuthMiddleware = async (req, res, next) => {
 	} catch (err) {
 		res.status(401).json({ message: 'Invalid token' });
 	}
-}
+};
 
 export const adminMiddleware = (req, res, next) => {
 	if (req.user.role !== 'admin') {

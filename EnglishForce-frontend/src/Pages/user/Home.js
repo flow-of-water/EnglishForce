@@ -34,7 +34,7 @@ const testimonials = [
 
 const HomePage = () => {
 	const [courses, setCourses] = useState([]);
-	const { t } = useTranslation('common'); 
+	const { t } = useTranslation('common');
 
 	useEffect(() => {
 		async function fetchCourses() {

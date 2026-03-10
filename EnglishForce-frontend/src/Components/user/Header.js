@@ -70,7 +70,7 @@ function UserComponent(isLoggedIn, username, handleLogout, navLinkStyle, t) {
 				{t('nav.register')}
 			</Button>
 		</>
-	)
+	);
 }
 
 function HideOnScroll({ children }) {
@@ -124,7 +124,7 @@ export default function Header() {
 		}
 	};
 
-	const handleMoreClick = (event) => {
+	const handleMoreClick = event => {
 		setMoreAnchorEl(event.currentTarget);
 	};
 
@@ -250,10 +250,7 @@ export default function Header() {
 									)}
 
 									<Divider sx={{ my: 1, borderColor: 'rgba(255,255,255,0.2)' }} />
-									<Typography
-										variant="caption"
-										sx={{ color: 'rgba(255,255,255,0.5)', px: 1 }}
-									>
+									<Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', px: 1 }}>
 										{t('nav.more')}
 									</Typography>
 									<Button component={Link} to="/blogs" fullWidth sx={navLinkStyle}>

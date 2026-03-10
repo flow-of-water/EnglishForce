@@ -37,7 +37,7 @@ const BlogCategoryAdmin = () => {
 	const [currentCategory, setCurrentCategory] = useState({
 		name: '',
 		description: '',
-		color: '#007BFF'
+		color: '#007BFF',
 	});
 
 	useEffect(() => {
@@ -103,7 +103,11 @@ const BlogCategoryAdmin = () => {
 	};
 
 	const handleDelete = async publicId => {
-		if (window.confirm('Are you sure you want to delete this category? This will remove it from all associated blogs.')) {
+		if (
+			window.confirm(
+				'Are you sure you want to delete this category? This will remove it from all associated blogs.'
+			)
+		) {
 			try {
 				await axiosInstance.delete(`/blog-categories/${publicId}`);
 				setCategories(categories.filter(cat => cat.public_id !== publicId));
@@ -151,15 +155,13 @@ const BlogCategoryAdmin = () => {
 												height: 20,
 												borderRadius: '4px',
 												backgroundColor: category.color || '#007BFF',
-												border: '1px solid #ddd'
+												border: '1px solid #ddd',
 											}}
 										/>
 										<span>{category.color}</span>
 									</Stack>
 								</TableCell>
-								<TableCell>
-									{category.description || 'No description'}
-								</TableCell>
+								<TableCell>{category.description || 'No description'}</TableCell>
 								<TableCell>
 									<Stack direction="row" spacing={1}>
 										<IconButton
@@ -237,7 +239,7 @@ const BlogCategoryAdmin = () => {
 										height: '40px',
 										border: '1px solid #ccc',
 										borderRadius: '4px',
-										cursor: 'pointer'
+										cursor: 'pointer',
 									}}
 								/>
 								<TextField
@@ -247,7 +249,7 @@ const BlogCategoryAdmin = () => {
 									size="small"
 									sx={{ width: '120px' }}
 									inputProps={{
-										style: { fontFamily: 'monospace' }
+										style: { fontFamily: 'monospace' },
 									}}
 								/>
 							</Stack>
@@ -256,11 +258,7 @@ const BlogCategoryAdmin = () => {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCloseDialog}>Cancel</Button>
-					<Button
-						onClick={handleSave}
-						variant="contained"
-						disabled={!currentCategory.name.trim()}
-					>
+					<Button onClick={handleSave} variant="contained" disabled={!currentCategory.name.trim()}>
 						{editMode ? 'Update' : 'Create'}
 					</Button>
 				</DialogActions>

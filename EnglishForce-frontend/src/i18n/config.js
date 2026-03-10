@@ -20,66 +20,66 @@ import viUnimportant from './locales/vi/unimportant.json';
 
 // Gộp tất cả translations
 const resources = {
-  en: {
-    common: enCommon,
-    course: enCourse,
-    exam: enExam,
-    program: enProgram,
-    user: enUser,
-    unimportant: enUnimportant,
-  },
-  vi: {
-    common: viCommon,
-    course: viCourse,
-    exam: viExam,
-    program: viProgram,
-    user: viUser,
-    unimportant: viUnimportant,
-  },
+	en: {
+		common: enCommon,
+		course: enCourse,
+		exam: enExam,
+		program: enProgram,
+		user: enUser,
+		unimportant: enUnimportant,
+	},
+	vi: {
+		common: viCommon,
+		course: viCourse,
+		exam: viExam,
+		program: viProgram,
+		user: viUser,
+		unimportant: viUnimportant,
+	},
 };
 
 i18n
-  // Tự động detect ngôn ngữ
-  .use(LanguageDetector)
-  // Kết nối với React
-  .use(initReactI18next)
-  // Khởi tạo i18next
-  .init({
-    resources,
-    // Ngôn ngữ mặc định nếu không detect được
-    fallbackLng: 'en',
-    
-    // Namespace mặc định
-    defaultNS: 'common',
-    
-    // Tất cả namespace có sẵn
-    ns: ['common', 'course', 'exam', 'program', 'user', 'unimportant'],
-    
-    // Cấu hình language detection
-    detection: {
-      // Thứ tự ưu tiên detect ngôn ngữ
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      
-      // Lưu ngôn ngữ vào localStorage
-      caches: ['localStorage'],
-      
-      // Key trong localStorage
-      lookupLocalStorage: 'i18nextLng',
-    },
+	// Tự động detect ngôn ngữ
+	.use(LanguageDetector)
+	// Kết nối với React
+	.use(initReactI18next)
+	// Khởi tạo i18next
+	.init({
+		resources,
+		// Ngôn ngữ mặc định nếu không detect được
+		fallbackLng: 'en',
 
-    // React đã tự động escape HTML
-    interpolation: {
-      escapeValue: false,
-    },
+		// Namespace mặc định
+		defaultNS: 'common',
 
-    // Bật debug mode trong development
-    debug: process.env.NODE_ENV === 'development',
+		// Tất cả namespace có sẵn
+		ns: ['common', 'course', 'exam', 'program', 'user', 'unimportant'],
 
-    // React-specific options
-    react: {
-      // Enable Suspense
-      useSuspense: true,
-    },
-  });
+		// Cấu hình language detection
+		detection: {
+			// Thứ tự ưu tiên detect ngôn ngữ
+			order: ['localStorage', 'navigator', 'htmlTag'],
+
+			// Lưu ngôn ngữ vào localStorage
+			caches: ['localStorage'],
+
+			// Key trong localStorage
+			lookupLocalStorage: 'i18nextLng',
+		},
+
+		// React đã tự động escape HTML
+		interpolation: {
+			escapeValue: false,
+		},
+
+		// Bật debug mode trong development
+		debug: process.env.NODE_ENV === 'development',
+
+		// React-specific options
+		react: {
+			// Enable Suspense
+			useSuspense: true,
+		},
+	});
 
 export default i18n;

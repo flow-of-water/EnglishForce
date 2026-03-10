@@ -117,6 +117,8 @@ npm error this command with --force or --legacy-peer-deps
 npm error to accept an incorrect (and potentially broken) dependency resolution.
 
 
+###8 Security 
+
 
 ###9 Enhancement - Feature
 #9.1. Development below features:
@@ -405,20 +407,6 @@ Solve: Xem lại luồng của middleware
   + Token hết hạn -> Middleware trả về response 401 -> FE redirect login page
   + Token chưa hết hạn -> Middleware verify thành công và next để Controller/Service xử lý 
 
-#8 Public Id : UUID 
-Đổi từ id -> public id hết ; ẩn id khỏi frontend để tăng độ bảo mật 
-Khá rối rắm, mình cần 1 flow có hệ thống 
-Frontend: dùng public_id , không dùng id serial nữa 
-Đổi tên URL /:id -> /:publicId
-Backend: 
-- Routes: /:id -> /:publicId
-- Controller: nhận về publicId , parse về id , gọi service xử lý 
-Ẩn id khỏi người dùng khi trả về json (chưa làm)
-- Service: giữ nguyên không cần thay đổi
-Note: 
-- Đã đổi tất cả sang dùng public_id trừ phần comment 
-Comment có phần parent_comment_id(serial) cần thiết để render ra các reply 
-- Xóa các endpoint dùng id:serial ở course, section, usercourse, user
 
 
 

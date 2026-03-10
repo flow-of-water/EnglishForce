@@ -110,7 +110,7 @@ const BlogAdmin = () => {
 												key={category.id}
 												label={category.name}
 												size="small"
-												sx={{ mb: 0.5, backgroundColor: category.color, }}
+												sx={{ mb: 0.5, backgroundColor: category.color }}
 											/>
 										))}
 										{blog.BlogCategories?.length > 2 && (
@@ -118,9 +118,7 @@ const BlogAdmin = () => {
 										)}
 									</Stack>
 								</TableCell>
-								<TableCell>
-									{new Date(blog.created_at).toLocaleDateString()}
-								</TableCell>
+								<TableCell>{new Date(blog.created_at).toLocaleDateString()}</TableCell>
 								<TableCell>
 									<Stack direction="row" spacing={1}>
 										<Button
@@ -131,11 +129,7 @@ const BlogAdmin = () => {
 										>
 											Detail
 										</Button>
-										<Button
-											color="error"
-											onClick={() => handleDelete(blog.public_id)}
-											size="small"
-										>
+										<Button color="error" onClick={() => handleDelete(blog.public_id)} size="small">
 											Delete
 										</Button>
 									</Stack>

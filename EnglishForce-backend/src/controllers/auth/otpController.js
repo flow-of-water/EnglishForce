@@ -18,7 +18,7 @@ export const requestOtpController = async (req, res) => {
 
 export const verifyOtpController = async (req, res) => {
 	try {
-		const { email, code, purpose} = req.body;
+		const { email, code, purpose } = req.body;
 
 		// Validation
 		if (!email || !code || !purpose) {
@@ -31,9 +31,9 @@ export const verifyOtpController = async (req, res) => {
 		const result = await verifyOtpWithAuth({ email, code, purpose });
 
 		res.cookie('resetToken', result.resetToken, {
-			httpOnly: true,  
-			secure: process.env.NODE_ENV === 'production', 
-			sameSite: 'lax', 
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
 			maxAge: 15 * 60 * 1000, // 15 minutes
 			path: '/api/auth/reset-password',
 		});

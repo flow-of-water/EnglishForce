@@ -5,7 +5,7 @@ import {
 	findUserIdByPublicId,
 	getUserProfileWithStats,
 	getPagingUsers,
-	updateAvatar
+	updateAvatar,
 } from '../services/user.service.js';
 
 export const getAllUsersController = async (req, res) => {
@@ -54,24 +54,22 @@ export const getUserByIdController = async (req, res) => {
 };
 
 export const updateAvatarController = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const file = req.file;
+	try {
+		const userId = req.user.id;
+		const file = req.file;
 
-    const result = await updateAvatar(userId, file);
-    
-    res.json({
-      message: 'Avatar updated successfully',
-      ...result
-    });
-  } catch (error) {
-    if (error.message == 'No file provided') return res.status(400).json({ error: error.message });
-    else if (error.message == 'User not found') return res.status(404).json({ error: error.message });
-    res.status(500).json({ error: 'Failed to update avatar' });
-  }
+		const result = await updateAvatar(userId, file);
+
+		res.json({
+			message: 'Avatar updated successfully',
+			...result,
+		});
+	} catch (error) {
+		if (error.message == 'No file provided') return res.status(400).json({ error: error.message });
+		else if (error.message == 'User not found') return res.status(404).json({ error: error.message });
+		res.status(500).json({ error: 'Failed to update avatar' });
+	}
 };
-
-
 
 export const updateUserRoleController = async (req, res) => {
 	try {

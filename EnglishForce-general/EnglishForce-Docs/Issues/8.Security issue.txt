@@ -1,0 +1,52 @@
+
+8.2. System to automate JWT access/refresh token secret rotation
+Requirement: 
+- Zero downtime: no need to restart the server to apply new secrets 
+- Simple, solid, stable, easy to maintain
+- Be as secure as possible
+
+Idea: 
+- Graceful Overlap (zero downtime): The old key and new key work simultaneously, after the grace period, only the new key is valid 
+(now it become the old key and one new key is generated).
+- Where are the keys stored ? Maybe in a DB with encryption — the encryption key is then stored in a .env file.
+- This design can slow down key access speed; apply Redis to boost it.
+
+Downsides:
+- 2 keys = 2× the chance of being compromised. Solution: 
+    + make the secret keys long enough to be infeasible to guess.
+    + minimizing key lifetime
+- If you rotate a key and Redis still has the old key cached, you have a window where the new key isn't recognized. 
+You need a cache invalidation strategy — either TTL-based or pub/sub.
+- We shouldn't do the Graceful Overlap on refresh Secret key
+    + overlap window — 30 days => weaken the security on refresh token => weaken the security on access token
+    + Possible solution: 
+        + Refresh Token: Just a random string. No signature. No secret. No JWT.
+        + But storing the refresh token in the DB will put more load on the DB — aren't we giving up the advantage of JWT?
+        That's the tradeoff. The DB hit only happens when the access token expires. Not on every request. 
+        The load is negligible compared to your normal API traffic.
+
+Why Rotate JWT Secrets? (Theory)
+- Compromised secret — if your signing key leaks, all existing tokens are immediately forgeable
+- Compliance — SOC2, PCI-DSS often require periodic key rotation
+- Least-privilege hygiene — limits the blast radius of any single secret's exposure window
+
+
+__________________________________________________
+*** SOLVED ***
+__________________________________________________
+
+
+#8.1. Public Id : UUID 
+Đổi từ id -> public id hết ; ẩn id khỏi frontend để tăng độ bảo mật 
+Khá rối rắm, mình cần 1 flow có hệ thống 
+Frontend: dùng public_id , không dùng id serial nữa 
+Đổi tên URL /:id -> /:publicId
+Backend: 
+- Routes: /:id -> /:publicId
+- Controller: nhận về publicId , parse về id , gọi service xử lý 
+Ẩn id khỏi người dùng khi trả về json (chưa làm)
+- Service: giữ nguyên không cần thay đổi
+Note: 
+- Đã đổi tất cả sang dùng public_id trừ phần comment 
+Comment có phần parent_comment_id(serial) cần thiết để render ra các reply 
+- Xóa các endpoint dùng id:serial ở course, section, usercourse, user

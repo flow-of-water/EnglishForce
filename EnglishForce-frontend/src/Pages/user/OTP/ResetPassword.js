@@ -11,12 +11,7 @@ import {
 	IconButton,
 	CircularProgress,
 } from '@mui/material';
-import {
-	LockOutlined,
-	Visibility,
-	VisibilityOff,
-	CheckCircleOutline,
-} from '@mui/icons-material';
+import { LockOutlined, Visibility, VisibilityOff, CheckCircleOutline } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import * as Constants from '../../../Constants/index';
@@ -412,9 +407,7 @@ const ResetPasswordPage = () => {
 									component="li"
 									variant="caption"
 									color={
-										/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)
-											? 'success.main'
-											: 'text.secondary'
+										/[!@#$%^&*(),.?":{}|<>]/.test(newPassword) ? 'success.main' : 'text.secondary'
 									}
 								>
 									One special character (!@#$%^&*)
@@ -444,11 +437,7 @@ const ResetPasswordPage = () => {
 								},
 							}}
 						>
-							{loading ? (
-								<CircularProgress size={24} color="inherit" />
-							) : (
-								'Reset Password'
-							)}
+							{loading ? <CircularProgress size={24} color="inherit" /> : 'Reset Password'}
 						</Button>
 
 						{/* Back to Login */}

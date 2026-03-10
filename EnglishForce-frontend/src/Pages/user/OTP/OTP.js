@@ -164,11 +164,11 @@ const OTPVerificationPage = () => {
 			const response = await axiosInstance.post('/otp/verify', {
 				email: email.trim(),
 				code: otpCode,
-                purpose: 'reset_password',
+				purpose: 'reset_password',
 			});
 			localStorage.setItem(Constants.LOCAL_STORAGE.RESET_PASSWORD_TOKEN, response.data.resetToken);
 			localStorage.setItem(Constants.LOCAL_STORAGE.TOKEN, response.data.resetToken);
-			
+
 			navigate('/reset-password', { state: { email: email.trim() } });
 		} catch (err) {
 			setError(err.response?.data?.error || 'Invalid or expired OTP code');
@@ -372,9 +372,7 @@ const OTPVerificationPage = () => {
 								color={timeRemaining <= 60 ? 'error.main' : 'text.secondary'}
 								sx={{ mb: 2, fontWeight: 600 }}
 							>
-								{timeRemaining > 0
-									? `Time remaining: ${formatTime(timeRemaining)}`
-									: 'OTP expired'}
+								{timeRemaining > 0 ? `Time remaining: ${formatTime(timeRemaining)}` : 'OTP expired'}
 							</Typography>
 						</>
 					)}
