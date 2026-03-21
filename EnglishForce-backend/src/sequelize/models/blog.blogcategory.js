@@ -8,9 +8,9 @@ export default (sequelize, DataTypes) => {
 			description: DataTypes.TEXT,
 			color: { type: DataTypes.STRING, defaultValue: '#007BFF' },
 			allowed_roles: {
-				type: DataTypes.JSON,
+				type: DataTypes.TEXT,
 				allowNull: true, // null means available to all roles
-				comment: 'Array of role names/IDs that can use this category. Null = all roles',
+				comment: 'String role names/IDs that can use this category. Null = all roles',
 			},
 		},
 		{

@@ -45,7 +45,14 @@ const categories = [
     name: 'Business English',
     description: 'Professional English for workplace communication',
     color: '#1E40AF', 
-  }
+  },
+  {
+  public_id: uuidv4(),
+  name: 'Official',
+  description: 'Official announcements, updates, and information',
+  color: '#184b9eff',
+  allowed_roles: 'admin', // Only visible to admin users
+  },
 ];
 
 const blogCategoryMapping = {

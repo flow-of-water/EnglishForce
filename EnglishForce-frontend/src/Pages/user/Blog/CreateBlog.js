@@ -43,7 +43,7 @@ const CreateBlog = () => {
 
 	useEffect(() => {
 		const fetchCategory = async () => {
-			const result = await axiosInstance.get('/blog-categories');
+			const result = await axiosInstance.get('/blog-categories?all=true');
 			setCategories(result.data.categories);
 		};
 		fetchCategory();

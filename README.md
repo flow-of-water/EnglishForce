@@ -154,3 +154,13 @@ docker-compose up -d
    ```
    python server.py
    ```
+#### Database Seeding
+1. Seed all
+   ```
+   npx sequelize-cli db:seed:all
+   ```
+
+2. Undo all seeds
+   ```
+   npx sequelize-cli db:seed:undo:all
+   ```

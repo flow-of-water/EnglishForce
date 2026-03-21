@@ -19,6 +19,10 @@ import {
 	IconButton,
 	Box,
 	Typography,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
 } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import axiosInstance from '../../../Api/axiosInstance';
@@ -38,6 +42,7 @@ const BlogCategoryAdmin = () => {
 		name: '',
 		description: '',
 		color: '#007BFF',
+		allowed_roles: '',
 	});
 
 	useEffect(() => {
@@ -67,14 +72,14 @@ const BlogCategoryAdmin = () => {
 			setCurrentCategory(category);
 		} else {
 			setEditMode(false);
-			setCurrentCategory({ name: '', description: '', color: '#007BFF' });
+			setCurrentCategory({ name: '', description: '', color: '#007BFF', allowed_roles: '' });
 		}
 		setOpenDialog(true);
 	};
 
 	const handleCloseDialog = () => {
 		setOpenDialog(false);
-		setCurrentCategory({ name: '', description: '', color: '#007BFF' });
+		setCurrentCategory({ name: '', description: '', color: '#007BFF', allowed_roles: '' });
 	};
 
 	const handleSave = async () => {
@@ -85,6 +90,7 @@ const BlogCategoryAdmin = () => {
 					name: currentCategory.name,
 					description: currentCategory.description,
 					color: currentCategory.color,
+					allowed_roles: currentCategory.allowed_roles,
 				});
 			} else {
 				// Create new category
@@ -92,6 +98,7 @@ const BlogCategoryAdmin = () => {
 					name: currentCategory.name,
 					description: currentCategory.description,
 					color: currentCategory.color,
+					allowed_roles: currentCategory.allowed_roles,
 				});
 			}
 			handleCloseDialog();
@@ -137,6 +144,7 @@ const BlogCategoryAdmin = () => {
 							<TableCell>Name</TableCell>
 							<TableCell>Color</TableCell>
 							<TableCell>Description</TableCell>
+							<TableCell>Allowed Roles</TableCell>
 							<TableCell>Actions</TableCell>
 						</TableRow>
 					</TableHead>
@@ -162,6 +170,7 @@ const BlogCategoryAdmin = () => {
 									</Stack>
 								</TableCell>
 								<TableCell>{category.description || 'No description'}</TableCell>
+								<TableCell>{category.allowed_roles || 'All roles'}</TableCell>
 								<TableCell>
 									<Stack direction="row" spacing={1}>
 										<IconButton
@@ -254,6 +263,22 @@ const BlogCategoryAdmin = () => {
 								/>
 							</Stack>
 						</Box>
+
+						{/* Allowed Roles */}
+						<FormControl fullWidth>
+							<InputLabel>Allowed Roles</InputLabel>
+							<Select
+								label="Allowed Roles"
+								value={currentCategory.allowed_roles || ''}
+								onChange={e =>
+									setCurrentCategory({ ...currentCategory, allowed_roles: e.target.value })
+								}
+							>
+								<MenuItem value="">All roles</MenuItem>
+								<MenuItem value="user">User</MenuItem>
+								<MenuItem value="admin">Admin</MenuItem>
+							</Select>
+						</FormControl>
 					</Stack>
 				</DialogContent>
 				<DialogActions>
