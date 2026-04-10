@@ -14,7 +14,9 @@ const startServer = async () => {
 		await sequelize.authenticate();
 		console.log('✅ Database connected successfully.');
 
-		await sequelize.sync(isDevelopment ? { alter: true } : undefined);
+		// Schema is managed by migrations (npx sequelize-cli db:migrate).
+		// sync() here only creates missing tables on a fresh DB — it never alters existing ones.
+		await sequelize.sync();
 		console.log('📦 Models synchronized with DB');
 
 		app.listen(port, () => {

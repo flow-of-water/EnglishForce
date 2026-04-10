@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 // Import CSS cho carousel
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Height } from '@mui/icons-material';
 import GradientTitle from '../../Components/GradientTitle';
 
 const testimonials = [
@@ -149,8 +148,8 @@ const HomePage = () => {
 				{courses.length > 0 ? (
 					<Slider {...sliderSettings}>
 						{courses.map((course, index) => (
-							<Box key={index} sx={{ px: 2 }}>
-								<CourseCard course={course} sx={{ minHeight: '50%vp' }} />
+							<Box key={index} sx={{ px: 2, height: 400 }}>
+								<CourseCard course={course} />
 							</Box>
 						))}
 					</Slider>
@@ -165,15 +164,16 @@ const HomePage = () => {
 				<GradientTitle>What Our Learners Say</GradientTitle>
 				<Slider {...sliderSettings}>
 					{testimonials.map((t, idx) => (
-						<Box key={idx} sx={{ px: 2, height: 250 }}>
+						<Box key={idx} sx={{ px: 2 }}>
 							<Box
 								sx={{
 									borderRadius: 3,
 									boxShadow: 3,
 									p: 3,
 									textAlign: 'center',
-									height: '100%',
 									bgcolor: 'background.paper',
+									borderTop: '3px solid #1976d2',
+									borderBottom: '3px solid #1976d2',
 								}}
 							>
 								<Box

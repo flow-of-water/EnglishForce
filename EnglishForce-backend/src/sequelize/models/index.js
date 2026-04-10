@@ -3,7 +3,7 @@ import path from 'path';
 import { Sequelize, DataTypes } from 'sequelize';
 import process from 'process';
 import { fileURLToPath, pathToFileURL } from 'url';
-import configFile from '../config/config.js';
+import configFile from '../config/config.cjs';
 // import dotenv from "dotenv";
 // dotenv.config();
 

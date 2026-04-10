@@ -16,6 +16,8 @@ const CourseCard = ({ course }) => {
 				overflow: 'hidden',
 				position: 'relative',
 				transition: 'transform 0.3s, box-shadow 0.3s',
+				borderTop: '3px solid #1976d2',
+				borderBottom: '3px solid #1976d2',
 				'&:hover': {
 					transform: 'translateY(-6px) scale(1.01)',
 					boxShadow: '0 15px 40px rgba(25, 118, 210, 0.15)',

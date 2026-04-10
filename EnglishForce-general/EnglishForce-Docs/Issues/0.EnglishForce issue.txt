@@ -68,6 +68,9 @@ Failure Message : API POST /api/auth/login, ConnectionResetError(10054, 'An exis
 
 # 6.2.1. Tìm hiểu nguyên nhân 2 lỗi khi xảy ra load test 
 
+#6.3. Đánh index cho DB 
+Tìm hiểu: Cách làm sao biết nên đánh index gì ? 
+Tìm hiểu: Re-index định kỳ 
 
 
 
