@@ -46,6 +46,11 @@ import BlogDetailPage from '../Pages/user/Blog/BlogDetail';
 import CreateBlogPage from '../Pages/user/Blog/CreateBlog';
 import EditBlogPage from '../Pages/user/Blog/EditBlog';
 
+// ***** Feedback feature *****
+import FeedbackPage from '../Pages/user/Feedback/Feedback';
+import FeedbackDetailPage from '../Pages/user/Feedback/FeedbackDetail';
+import CreateFeedbackPage from '../Pages/user/Feedback/CreateFeedback';
+
 export const UserRoutes = () => (
   <>
     <Route path="/" element={<UserLayout isHomePage={true}><HomePage /></UserLayout>} />
@@ -86,7 +91,12 @@ export const UserRoutes = () => (
     <Route path="/blogs/:slug" element={<UserLayout><BlogDetailPage /></UserLayout>} />
     <Route path="/blogs/create" element={<UserLayout><CreateBlogPage /></UserLayout>} />
     <Route path="/blogs/:slug/edit" element={<UserLayout><EditBlogPage /></UserLayout>} />
-    
+
+    {/* feedback feature  */}
+    <Route path="/feedback" element={<UserLayout><FeedbackPage /></UserLayout>} />
+    <Route path="/feedback/create" element={<UserLayout><CreateFeedbackPage /></UserLayout>} />
+    <Route path="/feedback/:id" element={<UserLayout><FeedbackDetailPage /></UserLayout>} />
+
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />
   </>

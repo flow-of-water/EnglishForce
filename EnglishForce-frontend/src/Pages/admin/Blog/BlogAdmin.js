@@ -66,7 +66,7 @@ const BlogAdmin = () => {
 		<Container sx={{ mt: 4 }}>
 			<Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
 				<GradientTitle align="left">Blog Management</GradientTitle>
-				<Button variant="contained" startIcon={<Add />} href="/admin/blogs/create">
+				<Button variant="contained" startIcon={<Add />} href="/blogs/create">
 					Create Blog
 				</Button>
 			</Stack>

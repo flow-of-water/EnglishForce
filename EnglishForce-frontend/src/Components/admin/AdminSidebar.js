@@ -17,6 +17,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PsychologyIcon from '@mui/icons-material/Psychology'; // cho Chatbot
 import ArticleIcon from '@mui/icons-material/Article';
 import CategoryIcon from '@mui/icons-material/Category';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 
 import { useTranslation } from 'react-i18next';
 
@@ -119,6 +120,17 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
 							<CategoryIcon />
 						</ListItemIcon>
 						<ListItemText primary={t('navAdmin.blogCategories')} />
+					</ListItem>
+				</List>
+
+				<Divider />
+
+				<List subheader={<ListSubheader component="div">{t('navAdmin.feedbackManagement')}</ListSubheader>}>
+					<ListItem button component={Link} to="/admin/feedbacks">
+						<ListItemIcon>
+							<FeedbackIcon />
+						</ListItemIcon>
+						<ListItemText primary={t('navAdmin.feedbacks')} />
 					</ListItem>
 				</List>
 

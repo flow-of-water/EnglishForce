@@ -359,6 +359,10 @@ export default function Header() {
 								<MenuItem component={Link} to="/faq" onClick={handleMoreClose}>
 									<ListItemText>{t('footer.faq')}</ListItemText>
 								</MenuItem>
+
+								<MenuItem component={Link} to="/feedback" onClick={handleMoreClose}>
+									<ListItemText>{t('nav.feedback')}</ListItemText>
+								</MenuItem>
 							</Menu>
 
 							{UserComponent(isLoggedIn, username, handleLogout, navLinkStyle, t)}

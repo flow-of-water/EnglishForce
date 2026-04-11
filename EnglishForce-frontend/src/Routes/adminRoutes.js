@@ -42,13 +42,16 @@ import DetailExerciseAdmin from '../Pages/admin/Program/DetailExerciseAdmin';
 import EditExerciseAdmin from '../Pages/admin/Program/EditExercise';
 import EditExerciseAnswerAdmin from '../Pages/admin/Program/EditExerciseAnswerAdmin';
 
-// Blog feature 
+// Blog feature
 import BlogAdmin from '../Pages/admin/Blog/BlogAdmin';
 import BlogCategoryAdmin from '../Pages/admin/Blog/BlogCategoryAdmin';
 import DetailBlogAdmin from '../Pages/admin/Blog/DetailBlogAdmin';
 import EditBlogAdmin from '../Pages/admin/Blog/EditBlogAdmin';
 
-// AI feature 
+// Feedback feature
+import FeedbackAdmin from '../Pages/admin/Feedback/FeedbackAdmin';
+
+// AI feature
 import AIAdmin from '../Pages/admin/AI/AIAdmin';
 export const AdminRoutes = () => (
   <Route element={<ProtectedRoute />}>
@@ -96,6 +99,9 @@ export const AdminRoutes = () => (
     <Route path="/admin/blog-categories" element={<AdminLayout><BlogCategoryAdmin /></AdminLayout>} />
     <Route path="/admin/blogs/:publicId/edit" element={<AdminLayout><EditBlogAdmin /></AdminLayout>} />
     
+    {/* Feedback feature  */}
+    <Route path="/admin/feedbacks" element={<AdminLayout><FeedbackAdmin /></AdminLayout>} />
+
     {/* AI  */}
     <Route path="/admin/ai" element={<AdminLayout><AIAdmin /></AdminLayout>} />
 

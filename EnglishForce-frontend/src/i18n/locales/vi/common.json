@@ -12,7 +12,8 @@
     "cart": "Giỏ hàng",
     "myLearning": "Khóa học của tôi",
     "more": "Thêm",
-    "blog": "Bài viết"
+    "blog": "Bài viết",
+    "feedback": "Góp ý"
   },
   "navAdmin": {
     "title": "Trang quản trị",
@@ -32,7 +33,9 @@
     "backToHome": "Về trang chủ",
     "blogManagement": "Quản lý bài viết",
     "blogs": "Bài viết",
-    "blogCategories": "Danh mục bài viết"
+    "blogCategories": "Danh mục bài viết",
+    "feedbackManagement": "Quản lý góp ý",
+    "feedbacks": "Góp ý"
   },
   "common": {
     "welcome": "Chào mừng đến với English Force",
@@ -55,7 +58,9 @@
     "noData": "Không có dữ liệu",
     "confirmDelete": "Bạn có chắc chắn muốn xóa mục này?",
     "yes": "Có",
-    "no": "Không"
+    "no": "Không",
+    "learnAnytimeAnywhere": "Học mọi lúc, mọi nơi",
+    "learnAnytimeAnywhereDesc": "Khai phá tiềm năng của bạn với việc học tiếng Anh được cá nhân hóa được hỗ trợ bởi các thuật toán thông minh, các khóa học tương tác và mô phỏng trong thế giới thực."
   },
   "auth": {
     "username": "Tên đăng nhập",
@@ -91,6 +96,7 @@
     "followUs": "Theo dõi chúng tôi",
     "language": "Ngôn ngữ",
     "faq": "Câu hỏi thường gặp",
+    "feedback": "Góp ý",
     "contact": "Liên hệ",
     "terms": "Điều khoản",
     "privacy": "Chính sách bảo mật",

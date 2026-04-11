@@ -209,7 +209,7 @@ Và cơ bản là cần ít nhất 3 API :
 #9.11. Tìm Hiểu FE Domain là gì ? 
 API của FE được gửi từ đâu ? Browser/IP/Device của client đến BE, hay là từ Domain FE đến BE 
 
-
+#9.12. Phát triển tính năng Notifications - thông báo 
 
 
 __________________________________________________

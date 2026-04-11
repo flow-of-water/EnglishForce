@@ -38,6 +38,9 @@ import userProcessRoutes from './routes/program/userProgressRoutes.js';
 // blog 
 import blogRoutes from './routes/blog/blogRoutes.js';
 import blogCategoryRoutes from './routes/blog/blogCategoryRoutes.js';
+// feedback
+import feedbackRoutes from './routes/feedback/feedbackRoutes.js';
+import feedbackReplyRoutes from './routes/feedback/feedbackReplyRoutes.js';
 
 const app = express();
 
@@ -93,5 +96,8 @@ app.use('/api/user-progresses', userProcessRoutes);
 // Blog
 app.use('/api/blogs', blogRoutes);
 app.use('/api/blog-categories', blogCategoryRoutes);
+// Feedback
+app.use('/api/feedbacks', feedbackRoutes);
+app.use('/api/feedback-replies', feedbackReplyRoutes);
 
 export default app;

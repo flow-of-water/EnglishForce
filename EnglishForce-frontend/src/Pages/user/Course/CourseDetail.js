@@ -22,6 +22,7 @@ import CourseNote from '../../../Components/user/CourseNote';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function imageProgress(course) {
 	return course.thumbnail ? course.thumbnail : '/Errores-Web-404.jpg';
@@ -181,6 +182,7 @@ const CourseDetail = () => {
 
 					{/* Back Button */}
 					<Button variant="contained" color="secondary" sx={{ mt: 3 }} component={Link} to="/courses">
+						<ArrowBackIcon />
 						Back to Courses
 					</Button>
 				</CardContent>

@@ -6,10 +6,12 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import GradientTitle from '../GradientTitle';
+import { useTranslation } from 'react-i18next';
 
 import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
+	const { t } = useTranslation();
 	return (
 		<Box
 			sx={{
@@ -80,7 +82,7 @@ const HeroSection = () => {
 								WebkitTextFillColor: 'transparent',
 							}}
 						>
-							Learn Anytime, Anywhere
+							{t('common.learnAnytimeAnywhere')}
 						</Typography>
 
 						<Typography
@@ -91,8 +93,7 @@ const HeroSection = () => {
 								mb: 4,
 							}}
 						>
-							Unlock your potential with personalized English learning powered by smart algorithms,
-							interactive courses, and real-world simulations. Study from anywhere, anytime.
+							{t('common.learnAnytimeAnywhereDesc')}
 						</Typography>
 
 						<Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

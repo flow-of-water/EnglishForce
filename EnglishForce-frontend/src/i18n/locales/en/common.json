@@ -12,7 +12,8 @@
     "cart": "Cart",
     "myLearning": "My Learning",
     "more": "More",
-    "blog": "Blogs"
+    "blog": "Blogs",
+    "feedback": "Feedback"
   },
   "navAdmin": {
     "title": "Admin Panel",
@@ -32,7 +33,9 @@
     "backToHome": "Home",
     "blogManagement": "Blog Management",
     "blogs": "Blogs",
-    "blogCategories": "Blog Categories"
+    "blogCategories": "Blog Categories",
+    "feedbackManagement": "Feedback Management",
+    "feedbacks": "Feedbacks"
   },
   "common": {
     "welcome": "Welcome to EnglishForce",
@@ -55,7 +58,9 @@
     "noData": "No data available",
     "confirmDelete": "Are you sure you want to delete this item?",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "learnAnytimeAnywhere": "Learn Anytime, Anywhere",
+    "learnAnytimeAnywhereDesc": "Unlock your potential with personalized English learning powered by smart algorithms, interactive courses, and real-world simulations. Study from anywhere, anytime."
   },
   "auth": {
     "username": "Username",
@@ -90,6 +95,7 @@
     "support": "Support",
     "language": "Language",
     "faq": "FAQs",
+    "feedback": "Feedback",
     "contact": "Contact",
     "terms": "Terms",
     "privacy": "Privacy Policy",

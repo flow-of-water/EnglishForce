@@ -23,6 +23,7 @@ import axiosInstance from '../../../Api/axiosInstance';
 import { CartContext } from '../../../Context/CartContext';
 import CircularLoading from '../../../Components/Loading';
 import MyAlert from '../../../Components/Alert';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // ========= helpers =========
 function imageProgress(course) {
@@ -291,6 +292,7 @@ const CourseOverview = () => {
 							to="/courses"
 							sx={{ textTransform: 'none', fontWeight: 800, borderRadius: 999, px: 2.5 }}
 						>
+							<ArrowBackIcon />
 							Back to Courses
 						</Button>
 					</Stack>
