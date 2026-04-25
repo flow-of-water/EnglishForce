@@ -360,7 +360,7 @@ export default function Header() {
 									<ListItemText>{t('footer.faq')}</ListItemText>
 								</MenuItem>
 
-								<MenuItem component={Link} to="/feedback" onClick={handleMoreClose}>
+								<MenuItem component={Link} to="/feedbacks" onClick={handleMoreClose}>
 									<ListItemText>{t('nav.feedback')}</ListItemText>
 								</MenuItem>
 							</Menu>

@@ -89,7 +89,7 @@ const CreateFeedback = () => {
 	return (
 		<Container maxWidth="md" sx={{ py: 4 }}>
 			<Box display="flex" alignItems="center" mb={3}>
-				<IconButton onClick={() => navigate('/feedback')} sx={{ mr: 2 }}>
+				<IconButton onClick={() => navigate('/feedbacks')} sx={{ mr: 2 }}>
 					<ArrowBackIcon />
 				</IconButton>
 				<Typography variant="h4" fontWeight="bold">

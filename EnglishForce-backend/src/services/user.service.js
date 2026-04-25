@@ -81,6 +81,7 @@ export const getUserProfileWithStats = async userId => {
 		attributes: ['score', 'created_at'],
 		order: [['created_at', 'ASC']],
 		raw: true,
+		limit: 50,
 	});
 
 	return {

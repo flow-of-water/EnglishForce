@@ -23,7 +23,8 @@ const STATUS_CONFIG = {
 	not_supported: { label: 'Not Supported', color: 'default' },
 	in_progress: { label: 'In Progress', color: 'info' },
 	in_review: { label: 'In Review', color: 'warning' },
-	complete: { label: 'Complete', color: 'success' },
+	completed: { label: 'Completed', color: 'success' },
+	rejected: { label: 'Rejected', color: 'error' },
 };
 
 const FeedbackPage = () => {
@@ -70,7 +71,7 @@ const FeedbackPage = () => {
 				<Button
 					variant="contained"
 					startIcon={<AddIcon />}
-					onClick={() => navigate('/feedback/create')}
+					onClick={() => navigate('/feedbacks/create')}
 					sx={{ mb: 3 }}
 				>
 					Create Feedback
@@ -101,7 +102,7 @@ const FeedbackPage = () => {
 										boxShadow: 6,
 									},
 								}}
-								onClick={() => navigate(`/feedback/${feedback.public_id}`)}
+								onClick={() => navigate(`/feedbacks/${feedback.public_id}`)}
 							>
 								{feedback.thumbnail ? (
 									<Box

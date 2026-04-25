@@ -81,6 +81,7 @@ const BlogAdmin = () => {
 							<TableCell>Author</TableCell>
 							<TableCell>Description</TableCell>
 							<TableCell>Categories</TableCell>
+							<TableCell>Views</TableCell>
 							<TableCell>Created At</TableCell>
 							<TableCell>Actions</TableCell>
 						</TableRow>
@@ -118,6 +119,7 @@ const BlogAdmin = () => {
 										)}
 									</Stack>
 								</TableCell>
+								<TableCell>{blog.views}</TableCell>
 								<TableCell>{new Date(blog.created_at).toLocaleDateString()}</TableCell>
 								<TableCell>
 									<Stack direction="row" spacing={1}>

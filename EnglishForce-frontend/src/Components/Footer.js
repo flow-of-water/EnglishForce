@@ -93,7 +93,7 @@ export default function Footer() {
 						<Link href="/faq" color="inherit" underline="hover" display="block">
 							{t('footer.faq')}
 						</Link>
-						<Link href="/feedback" color="inherit" underline="hover" display="block">
+						<Link href="/feedbacks" color="inherit" underline="hover" display="block">
 							{t('footer.feedback')}
 						</Link>
 						<Link href="/contact" color="inherit" underline="hover" display="block">

@@ -10,10 +10,11 @@ export default (sequelize, DataTypes) => {
 			thumbnail: DataTypes.TEXT,
 			thumbnail_public_id: DataTypes.TEXT,
 			status: {
-				type: DataTypes.ENUM('not_supported', 'in_progress', 'in_review', 'complete'),
+				type: DataTypes.ENUM('not_supported', 'in_progress', 'in_review', 'completed', 'rejected'),
 				allowNull: false,
-				defaultValue: 'in_review',
+				defaultValue: 'not_supported',
 			},
+			url: DataTypes.TEXT,
 		},
 		{
 			tableName: 'feedbacks',

@@ -23,7 +23,8 @@ const STATUS_CONFIG = {
 	not_supported: { label: 'Not Supported', color: 'default' },
 	in_progress: { label: 'In Progress', color: 'info' },
 	in_review: { label: 'In Review', color: 'warning' },
-	complete: { label: 'Complete', color: 'success' },
+	completed: { label: 'Completed', color: 'success' },
+	rejected: { label: 'Rejected', color: 'error' },
 };
 
 const FeedbackDetail = () => {
@@ -105,7 +106,7 @@ const FeedbackDetail = () => {
 				gap={1}
 				mb={4}
 				sx={{ cursor: 'pointer', width: 'fit-content' }}
-				onClick={() => navigate('/feedback')}
+				onClick={() => navigate('/feedbacks')}
 			>
 				<ArrowBackIcon />
 				<Typography>Back to Feedback</Typography>

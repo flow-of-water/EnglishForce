@@ -93,9 +93,9 @@ export const UserRoutes = () => (
     <Route path="/blogs/:slug/edit" element={<UserLayout><EditBlogPage /></UserLayout>} />
 
     {/* feedback feature  */}
-    <Route path="/feedback" element={<UserLayout><FeedbackPage /></UserLayout>} />
-    <Route path="/feedback/create" element={<UserLayout><CreateFeedbackPage /></UserLayout>} />
-    <Route path="/feedback/:id" element={<UserLayout><FeedbackDetailPage /></UserLayout>} />
+    <Route path="/feedbacks" element={<UserLayout><FeedbackPage /></UserLayout>} />
+    <Route path="/feedbacks/create" element={<UserLayout><CreateFeedbackPage /></UserLayout>} />
+    <Route path="/feedbacks/:id" element={<UserLayout><FeedbackDetailPage /></UserLayout>} />
 
     {/* OAuth  */}
     <Route path="/login/success" element={<UserLayout><OAuthLoginSuccess /></UserLayout>} />

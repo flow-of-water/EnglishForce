@@ -42,9 +42,7 @@ export const getBlogs = async (page, limit, owned, userId) => {
 };
 
 export const findBlogIdByPublicId = async (publicId, userId = null) => {
-	const blog = (await Blog.findOne({ where: { public_id: publicId }, include: includeOptions }))?.get({
-		plain: true,
-	});
+	const blog = (await Blog.findOne({ where: { public_id: publicId }, include: includeOptions }))?.get({plain: true,});
 	if (!blog) throw new Error('Blog not found with that public_id');
 	blog.is_owned = userId != null && blog.user_id === userId;
 	return blog;
@@ -54,6 +52,7 @@ export const findBlogBySlug = async (slug, userId = null) => {
 	const blog = (await Blog.findOne({ where: { slug }, include: includeOptions }))?.get({ plain: true });
 	if (!blog) throw new Error('Blog not found with that slug');
 	blog.is_owned = userId != null && blog.user_id === userId;
+	incrementBlogViews(blog.id); // Increase views each time the blog is visited. No await - Fire-and-forget with silent failure
 	return blog;
 };
 
@@ -132,4 +131,8 @@ export const deleteBlog = async publicId => {
 	const blog = await Blog.findOne({ where: { public_id: publicId } });
 	if (!blog) throw new Error('Blog not found with that public_id');
 	await blog.destroy();
+};
+
+const incrementBlogViews = async (blogId) => {
+  await Blog.increment('views', { by: 1, where: { id: blogId } });
 };

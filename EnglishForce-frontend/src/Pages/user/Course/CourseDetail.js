@@ -185,6 +185,10 @@ const CourseDetail = () => {
 						<ArrowBackIcon />
 						Back to Courses
 					</Button>
+
+					<Button color="secondary" sx={{ mt: 3, ml: 2 }} component={Link} to={`/courses/overview/${publicId}`}>
+						See This Course Overview
+					</Button>
 				</CardContent>
 			</Card>
 		</Container>

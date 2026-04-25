@@ -22,10 +22,11 @@ import CircularLoading from '../../../Components/Loading';
 import GradientTitle from '../../../Components/GradientTitle';
 
 const STATUS_OPTIONS = [
-	{ value: 'in_review', label: 'In Review', color: 'warning' },
-	{ value: 'in_progress', label: 'In Progress', color: 'info' },
-	{ value: 'complete', label: 'Complete', color: 'success' },
 	{ value: 'not_supported', label: 'Not Supported', color: 'default' },
+	{ value: 'in_progress', label: 'In Progress', color: 'info' },
+	{ value: 'in_review', label: 'In Review', color: 'warning' },
+	{ value: 'completed', label: 'Completed', color: 'success' },
+	{ value: 'rejected', label: 'Rejected', color: 'error' },
 ];
 
 const statusColor = value => STATUS_OPTIONS.find(s => s.value === value)?.color || 'default';

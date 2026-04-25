@@ -11,6 +11,7 @@ export default (sequelize, DataTypes) => {
 			slug: { type: DataTypes.TEXT, allowNull: false, unique: true }, // URL-friendly identifier
 			thumbnail: DataTypes.TEXT,
 			thumbnail_public_id: DataTypes.TEXT, // public ID image (Cloudinary)
+			views: { type: DataTypes.INTEGER, defaultValue: 0 },
 		},
 		{
 			tableName: 'blogs',
