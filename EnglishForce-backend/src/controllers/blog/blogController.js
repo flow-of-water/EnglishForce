@@ -18,9 +18,8 @@ export const getBlogsController = async (req, res) => {
 export const findBlogIdByPublicIdController = async (req, res) => {
 	const { publicId } = req.params;
 	const userId = req?.user?.id;
-	const userRole = req?.user?.role;
 	try {
-		const blog = await blogService.findBlogIdByPublicId(publicId, userId, userRole);
+		const blog = await blogService.findBlogIdByPublicId(publicId, userId);
 		res.status(200).json({ blog });
 	} catch (error) {
 		console.error('Error finding blog by public_id:', error);
