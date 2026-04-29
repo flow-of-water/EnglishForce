@@ -1,5 +1,5 @@
-import { authMiddleware , adminMiddleware } from './../../middleware/authorize.js';
-import * as feedbackController from './../../controllers/feedback/feedbackController.js';
+import { authMiddleware , adminMiddleware } from '../../middleware/authorize.js';
+import * as feedbackController from './../../controllers/feedback/feedback.Controller.js';
 import { uploadImage } from '../../config/cloudinary.config.js';
 import express from 'express';
 

@@ -1,6 +1,6 @@
 // routes/exam.routes.js
 import express from 'express';
-import * as examAttemptController from '../../controllers/exam/examAttemptController.js';
+import * as examAttemptController from '../../controllers/exam/examAttempt.Controller.js';
 import { adminMiddleware, authMiddleware, optionalAuthMiddleware } from '../../middleware/authorize.js';
 const router = express.Router();
 

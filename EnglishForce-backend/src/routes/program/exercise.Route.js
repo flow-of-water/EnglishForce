@@ -1,5 +1,5 @@
 import express from 'express';
-import * as exerciseController from '../../controllers/program/exerciseController.js';
+import * as exerciseController from '../../controllers/program/exercise.Controller.js';
 
 const router = express.Router();
 

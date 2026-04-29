@@ -1,5 +1,5 @@
 import express from 'express';
-import * as questionController from '../../controllers/exam/questionController.js';
+import * as questionController from '../../controllers/exam/question.Controller.js';
 import { authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 import { uploadMixed } from '../../config/cloudinary.config.js';
 

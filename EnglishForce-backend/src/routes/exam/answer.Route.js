@@ -1,5 +1,5 @@
 import express from 'express';
-import * as answerController from '../../controllers/exam/answerController.js';
+import * as answerController from '../../controllers/exam/answer.Controller.js';
 import { authMiddlewareWithoutError, authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 
 const router = express.Router();

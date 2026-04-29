@@ -7,7 +7,7 @@ import {
 	deleteCourseController,
 	getCoursesBySearch,
 	getTopRatedCoursesController,
-} from '../../controllers/course/courseController.js';
+} from '../../controllers/course/course.Controller.js';
 import { authMiddleware, adminMiddleware, authMiddlewareWithoutError } from '../../middleware/authorize.js';
 import { uploadImage, uploadVideo } from '../../config/cloudinary.config.js';
 

@@ -7,7 +7,7 @@ import {
 	checkWritingController,
 	getCourseRecommendations,
 	reloadRecommendationModel,
-} from '../controllers/AIController.js';
+} from '../controllers/AI.Controller.js';
 import { authMiddlewareWithoutError, authMiddleware, adminMiddleware } from '../middleware/authorize.js';
 
 const router = express.Router();

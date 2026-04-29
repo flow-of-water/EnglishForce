@@ -1,6 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../../middleware/authorize.js';
-import * as feedbackReplyController from '../../controllers/feedback/feedbackReplyController.js';
+import * as feedbackReplyController from '../../controllers/feedback/feedbackReply.Controller.js';
 const router = express.Router();
 
 router.get('/', feedbackReplyController.getAllFeedbackReplies);

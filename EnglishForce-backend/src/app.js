@@ -7,40 +7,40 @@ import rateLimiter from './middleware/rateLimit.js';
 import passport from 'passport';
 
 // ***** routes *****
-import authRoutes from './routes/auth/authRoutes.js';
-import authGoogleRoutes from './routes/auth/authGoogleRoutes.js';
-import authFacebookRoutes from './routes/auth/authFacebookRoutes.js';
-import authOtpcodeRoutes from './routes/auth/authOtpRoutes.js';
-import AIRoutes from './routes/AIRoutes.js';
-import userRoutes from './routes/userRoutes.js';
+import authRoutes from './routes/auth/auth.Route.js';
+import authGoogleRoutes from './routes/auth/authGoogle.Route.js';
+import authFacebookRoutes from './routes/auth/authFacebook.Route.js';
+import authOtpcodeRoutes from './routes/auth/authOtp.Route.js';
+import AIRoutes from './routes/AI.Route.js';
+import userRoutes from './routes/user.Route.js';
 // course
-import courseRoutes from './routes/course/courseRoutes.js';
-import courseSectionRoutes from './routes/course/courseSectionRoutes.js';
-import paymentRoutes from './routes/course/paymentRoutes.js';
-import userCourseRoutes from './routes/course/userCourseRoutes.js';
-import commentRoutes from './routes/course/commentRoutes.js';
-import interactionRoutes from './routes/course/interactionRoutes.js';
+import courseRoutes from './routes/course/course.Route.js';
+import courseSectionRoutes from './routes/course/courseSection.Route.js';
+import paymentRoutes from './routes/course/payment.Route.js';
+import userCourseRoutes from './routes/course/userCourse.Route.js';
+import commentRoutes from './routes/course/comment.Route.js';
+import interactionRoutes from './routes/course/interaction.Route.js';
 // Stripe webhook
-import stripeRoutes from './routes/course/stripeRoutes.js';
+import stripeRoutes from './routes/course/stripe.Route.js';
 // exam
-import examRoutes from './routes/exam/examRoutes.js';
-import examAttemptRoutes from './routes/exam/examAttemptRoutes.js';
-import questionRoutes from './routes/exam/questionRoutes.js';
-import answerRoutes from './routes/exam/answerRoutes.js';
-import examPartRoutes from './routes/exam/examPartRoutes.js';
+import examRoutes from './routes/exam/exam.Route.js';
+import examAttemptRoutes from './routes/exam/examAttempt.Route.js';
+import questionRoutes from './routes/exam/question.Route.js';
+import answerRoutes from './routes/exam/answer.Route.js';
+import examPartRoutes from './routes/exam/examPart.Route.js';
 // program
-import programRoutes from './routes/program/programRoutes.js';
-import unitRoutes from './routes/program/unitRoutes.js';
-import lessonRoutes from './routes/program/lessonRoutes.js';
-import exerciseRoutes from './routes/program/exerciseRoutes.js';
-import exerciseAnswerRoutes from './routes/program/exerciseAnswerRoutes.js';
-import userProcessRoutes from './routes/program/userProgressRoutes.js';
+import programRoutes from './routes/program/program.Route.js';
+import unitRoutes from './routes/program/unit.Route.js';
+import lessonRoutes from './routes/program/lesson.Route.js';
+import exerciseRoutes from './routes/program/exercise.Route.js';
+import exerciseAnswerRoutes from './routes/program/exerciseAnswer.Route.js';
+import userProcessRoutes from './routes/program/userProgress.Route.js';
 // blog 
-import blogRoutes from './routes/blog/blogRoutes.js';
-import blogCategoryRoutes from './routes/blog/blogCategoryRoutes.js';
+import blogRoutes from './routes/blog/blog.Route.js';
+import blogCategoryRoutes from './routes/blog/blogCategory.Route.js';
 // feedback
-import feedbackRoutes from './routes/feedback/feedbackRoutes.js';
-import feedbackReplyRoutes from './routes/feedback/feedbackReplyRoutes.js';
+import feedbackRoutes from './routes/feedback/feedback.Route.js';
+import feedbackReplyRoutes from './routes/feedback/feedbackReply.Route.js';
 
 const app = express();
 

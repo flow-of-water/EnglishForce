@@ -1,7 +1,7 @@
 // routes/auth.otp.routes.js
 import express from 'express';
 import rateLimiter from '../../middleware/rateLimit.js';
-import { requestOtpController, verifyOtpController } from '../../controllers/auth/otpController.js';
+import { requestOtpController, verifyOtpController } from '../../controllers/auth/otp.Controller.js';
 
 const router = express.Router();
 

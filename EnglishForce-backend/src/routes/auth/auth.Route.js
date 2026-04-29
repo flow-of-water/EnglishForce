@@ -6,7 +6,7 @@ import {
 	changePassword,
 	refreshToken,
 	resetPassword,
-} from '../../controllers/auth/authController.js';
+} from '../../controllers/auth/auth.Controller.js';
 import { authMiddleware, authResetPasswordTokenMiddleware } from '../../middleware/authorize.js';
 import rateLimiter from '../../middleware/rateLimit.js';
 

@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import express from 'express';
-import { OAuthCallback } from '../../controllers/auth/authController.js';
+import { OAuthCallback } from '../../controllers/auth/auth.Controller.js';
 
 passport.use(
 	new FacebookStrategy(

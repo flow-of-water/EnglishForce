@@ -1,5 +1,5 @@
 import express from 'express';
-import * as unitController from '../../controllers/program/unitController.js';
+import * as unitController from '../../controllers/program/unit.Controller.js';
 import { authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 
 const router = express.Router();

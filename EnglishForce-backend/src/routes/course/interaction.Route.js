@@ -1,5 +1,5 @@
 import express from 'express';
-import * as interactionController from '../../controllers/course/interactionController.js';
+import * as interactionController from '../../controllers/course/interaction.Controller.js';
 import { authMiddlewareWithoutError } from '../../middleware/authorize.js';
 
 const router = express.Router();

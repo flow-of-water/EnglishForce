@@ -9,7 +9,7 @@ import {
 	updateUserCourseRatingController,
 	updateNotes,
 	getNotesByCoursePublicId,
-} from '../../controllers/course/userCourseController.js';
+} from '../../controllers/course/userCourse.Controller.js';
 import { authMiddleware, adminMiddleware, authMiddlewareWithoutError } from '../../middleware/authorize.js';
 
 const router = express.Router();

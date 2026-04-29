@@ -7,7 +7,7 @@ import {
 	getCourseSectionByIdController,
 	deleteCourseSectionController,
 	updateCourseSectionController,
-} from '../../controllers/course/courseSectionController.js';
+} from '../../controllers/course/courseSection.Controller.js';
 import { uploadVideo } from '../../config/cloudinary.config.js';
 
 const router = express.Router();

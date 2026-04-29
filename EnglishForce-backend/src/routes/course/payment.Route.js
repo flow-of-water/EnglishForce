@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPaymentIntent, setStripeStatsController } from '../../controllers/course/paymentController.js';
+import { createPaymentIntent, setStripeStatsController } from '../../controllers/course/payment.Controller.js';
 import { authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 
 const router = express.Router();

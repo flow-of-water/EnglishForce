@@ -1,5 +1,5 @@
 import express from 'express';
-import * as examPartController from '../../controllers/exam/examPartController.js';
+import * as examPartController from '../../controllers/exam/examPart.Controller.js';
 import { authMiddlewareWithoutError, authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 import { uploadMixed } from '../../config/cloudinary.config.js';
 

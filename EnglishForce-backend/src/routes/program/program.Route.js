@@ -1,5 +1,5 @@
 import express from 'express';
-import * as programController from '../../controllers/program/programController.js';
+import * as programController from '../../controllers/program/program.Controller.js';
 import { authMiddleware, adminMiddleware } from '../../middleware/authorize.js';
 import { uploadImage } from '../../config/cloudinary.config.js';
 

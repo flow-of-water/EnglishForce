@@ -1,5 +1,5 @@
 import express from 'express';
-import * as blogCategoryController from '../../controllers/blog/blogCategoryController.js';
+import * as blogCategoryController from '../../controllers/blog/blogCategory.Controller.js';
 import { adminMiddleware, authMiddleware, optionalAuthMiddleware } from '../../middleware/authorize.js';
 const router = express.Router();
 

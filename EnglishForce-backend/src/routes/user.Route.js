@@ -4,7 +4,7 @@ import {
 	updateUserRoleController,
 	getMyUserAccountController,
 	updateAvatarController,
-} from '../controllers/userController.js';
+} from '../controllers/user.Controller.js';
 import { authMiddleware, adminMiddleware } from '../middleware/authorize.js';
 import { uploadImage } from '../config/cloudinary.config.js';
 
