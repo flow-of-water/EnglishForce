@@ -2,6 +2,7 @@ import express from 'express';
 import * as blogController from '../../controllers/blog/blog.Controller.js';
 import { optionalAuthMiddleware, authMiddleware } from '../../middleware/authorize.js';
 import { uploadImage } from '../../config/cloudinary.config.js';
+
 const router = express.Router();
 
 router.get('/', optionalAuthMiddleware, blogController.getBlogsController);

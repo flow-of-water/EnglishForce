@@ -133,6 +133,16 @@ export const deleteUserById = async id => {
 	return user;
 };
 
+export const updateUserEmail = async (userId, newEmail) => {
+	const existing = await User.findOne({ where: { email: newEmail } });
+	if (existing) throw new Error('Email is already in use.');
+	const user = await User.findByPk(userId);
+	if (!user) throw new Error('User not found.');
+	user.email = newEmail;
+	await user.save();
+	return { email: user.email };
+};
+
 export const updateUserRole = async (id, role) => {
 	const [updatedCount, [updatedUser]] = await User.update(
 		{ role },

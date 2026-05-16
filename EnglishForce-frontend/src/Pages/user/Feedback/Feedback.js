@@ -17,6 +17,7 @@ import CircularLoading from '../../../Components/Loading';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import AddIcon from '@mui/icons-material/Add';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import * as Constants from '../../../Constants/index.js';
 
 const STATUS_CONFIG = {
@@ -75,6 +76,17 @@ const FeedbackPage = () => {
 					sx={{ mb: 3 }}
 				>
 					Create Feedback
+				</Button>
+			)}
+
+			{localStorage.getItem(Constants.LOCAL_STORAGE.USER_ROLE) === 'admin' && (
+				<Button
+					variant="outlined"
+					startIcon={<ManageAccountsIcon />}
+					onClick={() => navigate('/admin/feedbacks')}
+					sx={{ mb: 3, ml: 2 }}
+				>
+					Manage Feedback
 				</Button>
 			)}
 

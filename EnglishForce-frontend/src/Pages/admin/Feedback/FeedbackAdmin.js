@@ -16,6 +16,7 @@ import {
 	MenuItem,
 	Button,
 	Box,
+	Link,
 } from '@mui/material';
 import axiosInstance from '../../../Api/axiosInstance';
 import CircularLoading from '../../../Components/Loading';
@@ -94,19 +95,20 @@ const FeedbackAdmin = () => {
 					<TableHead>
 						<TableRow>
 							<TableCell>#</TableCell>
+							<TableCell>Public ID</TableCell>
 							<TableCell>Thumbnail</TableCell>
 							<TableCell>Title</TableCell>
 							<TableCell>Author</TableCell>
 							<TableCell>Content</TableCell>
 							<TableCell>Status</TableCell>
 							<TableCell>Replies</TableCell>
-							<TableCell>Created At</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
 						{feedbacks.map((feedback, index) => (
 							<TableRow key={feedback.id}>
 								<TableCell>{index + 1}</TableCell>
+								<TableCell>{feedback.public_id}</TableCell>
 								<TableCell>
 									<Avatar
 										src={feedback.thumbnail}
@@ -118,15 +120,17 @@ const FeedbackAdmin = () => {
 									</Avatar>
 								</TableCell>
 								<TableCell sx={{ maxWidth: 180 }}>
-									<Typography variant="body2" fontWeight="bold" noWrap>
-										{feedback.title}
-									</Typography>
+									<Link href={`/feedbacks/${feedback.public_id}`} underline="hover" color="primary">
+										<Typography variant="body2" fontWeight="bold" noWrap>
+											{feedback.title}
+										</Typography>
+									</Link>
 								</TableCell>
 								<TableCell>{feedback.User?.username || 'Unknown'}</TableCell>
 								<TableCell sx={{ maxWidth: 200 }}>
 									<Typography variant="body2" color="text.secondary" noWrap>
-										{feedback.content?.substring(0, 80)}
-										{feedback.content?.length > 80 && '...'}
+										{feedback.content?.substring(0, 100)}
+										{feedback.content?.length > 100 && '...'}
 									</Typography>
 								</TableCell>
 								<TableCell>
@@ -153,9 +157,6 @@ const FeedbackAdmin = () => {
 								</TableCell>
 								<TableCell align="center">
 									{feedback.FeedbackReplies?.length ?? 0}
-								</TableCell>
-								<TableCell>
-									{new Date(feedback.created_at).toLocaleDateString()}
 								</TableCell>
 							</TableRow>
 						))}

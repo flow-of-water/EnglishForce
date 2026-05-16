@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import rateLimiter from './middleware/rateLimit.js';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger.config.js';
 // OAuth
 import passport from 'passport';
 
@@ -53,8 +55,18 @@ app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(passport.initialize());
 
+app.get('/', (req, res) => {
+	res.send("Welcome to The Last Water Bender API. Go to /api-docs for API documentation.");
+});
+
 app.get('/api', (req, res) => {
-	res.send("Backend of The Last Water Bender is working. I'll teach you anything you want !");
+	res.send("Backend of The Last Water Bender is working.");
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api-docs.json', (req, res) => {
+	res.setHeader('Content-Type', 'application/json');
+	res.send(swaggerSpec);
 });
 
 // ***** WEBHOOK *****

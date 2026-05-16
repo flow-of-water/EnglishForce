@@ -190,7 +190,7 @@ const Profile = () => {
 					<Dialog open={openDialogEmailOTP} onClose={handleDialogCloseEmailOTP}>
 						<DialogTitle>Set Email</DialogTitle>
 						<DialogContent>
-							<SetEmailWithOtp defaultEmail={user?.email || ''} purpose="update_email" />
+							<SetEmailWithOtp defaultEmail={user?.email || ''} purpose="verify_email" />
 						</DialogContent>
 					</Dialog>
 				</Paper>

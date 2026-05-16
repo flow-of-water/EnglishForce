@@ -13,7 +13,7 @@ import axiosInstance from '../../../Api/axiosInstance';
  */
 const SetEmailWithOtp = ({
 	defaultEmail = '',
-	purpose = 'update_email',
+	purpose = 'verify_email',
 	onSuccess,
 	resendCooldownSec = 60,
 	otpLength = 6,
@@ -64,7 +64,7 @@ const SetEmailWithOtp = ({
 		setInfo('');
 		setLoading(true);
 		try {
-			const res = await axiosInstance.post('/auth/otp/request', { email, purpose });
+			const res = await axiosInstance.post('/otp/request', { email, purpose });
 			setInfo(res?.data?.message || 'Resent OTP successfully.');
 			setCooldown(resendCooldownSec);
 		} catch (err) {
@@ -85,21 +85,15 @@ const SetEmailWithOtp = ({
 		}
 		setLoading(true);
 		try {
-			// Backend gợi ý: POST /auth/otp/verify  body: { email, code, purpose }
-			await axiosInstance.post('/auth/otp/verify', {
+			const res = await axiosInstance.patch('/users/me/email', {
 				email,
 				code: otpSanitized,
-				purpose,
 			});
-
-			// Sau khi verify thành công, cập nhật email user:
-			// Backend gợi ý: PATCH /users/me/email { email }
-			const res = await axiosInstance.patch('/users/me/email', { email });
-			setInfo(res?.data?.message || 'Update email sucessfully.');
+			setInfo(res?.data?.message || 'Email updated successfully.');
 			setStep('done');
 			onSuccess && onSuccess(email);
 		} catch (err) {
-			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Fail to verify email.';
+			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Failed to verify or update email.';
 			setError(msg);
 		} finally {
 			setLoading(false);
