@@ -21,14 +21,20 @@ English Force provides a comprehensive English course management system, includi
 
 ## Key Features
 
-- Course and program management: Create, update, delete courses, programs, units, and lessons.
-- Exercises and exams: Support various exercise types such as multiple-choice, speaking, writing; create exams with multiple parts and questions.
-- User management: Registration, login, role management, and progress tracking.
-- Media management: Upload images, videos, and audio files with Cloudinary.
-- Comments: Users can comment on courses.
-- Progress tracking: Store and display progress and scores for lessons and courses.
-- AI-powered chatbot: Retrieval-based chatbot providing intelligent conversation and support for learners.
-- Hybrid recommendation system: Personalized course recommendations combining multiple algorithms to enhance learning outcomes.
+- **Authentication:** Email/password login, Google & Facebook OAuth, OTP email verification, JWT access + refresh tokens, password reset.
+- **Courses:** Full CRUD for courses, sections, programs, units, and lessons; keyword search; top-rated listing; bulk cart enrollment; star ratings and reviews; per-course user notes.
+- **Exams:** Multi-part exams (Exam → Parts → Questions → Answers) with image/audio uploads; automatic score calculation; per-user attempt history.
+- **Progress tracking:** Lesson-level completion records with score and timestamp; program-wide completion overview.
+- **Reactions:** Like, love, helpful, and insightful reactions on courses, comments, and blogs.
+- **Blog:** Blog posts with categories, thumbnail uploads, slug-based lookup, and pagination.
+- **Feedback:** Users submit feedback with images; threaded replies for support responses.
+- **Payments:** Stripe payment intents for course purchases, webhook confirmation, admin revenue dashboard.
+- **AI chatbot:** Intent-matching neural network (TensorFlow/Keras) for learner Q&A.
+- **Recommendation system:** Hybrid collaborative + content-based filtering (scikit-learn) for personalized course suggestions; admin can trigger model retraining.
+- **AI writing check:** Grammar and style feedback on user-submitted text.
+- **Media management:** Cloudinary for course thumbnails, video lessons, user avatars, and exam audio/images.
+- **Internationalization:** English and Vietnamese UI via i18next; language auto-detected from browser and saved to localStorage.
+- **Role-based access:** Users can enroll, comment, and take exams; admins manage all content, users, and ML models.
 
 ---
 
@@ -164,3 +170,82 @@ docker-compose up -d
    ```
    npx sequelize-cli db:seed:undo:all
    ```
+
+---
+
+## Folder Structure
+
+```
+EnglishForce/
+├── docker-compose.yml
+├── docker-compose.prod.yml
+├── README.md
+│
+├── EnglishForce-backend/
+│   ├── server.js
+│   ├── Dockerfile
+│   └── src/
+│       ├── app.js
+│       ├── config/               # Cloudinary, Redis, Swagger setup
+│       ├── constants/            # Shared enums and API messages
+│       ├── controllers/          # Request/response handlers (by domain)
+│       │   ├── auth/
+│       │   ├── blog/
+│       │   ├── course/
+│       │   ├── exam/
+│       │   ├── feedback/
+│       │   ├── program/
+│       │   ├── AI.Controller.js
+│       │   └── user.Controller.js
+│       ├── docs/                 # Swagger documentation per domain
+│       ├── middleware/           # JWT auth, rate limiting
+│       ├── routes/               # API route definitions (by domain)
+│       ├── sequelize/
+│       │   ├── config/
+│       │   ├── migrations/
+│       │   ├── models/
+│       │   └── seeders/
+│       ├── services/             # Business logic (by domain)
+│       │   ├── blog/
+│       │   ├── course/
+│       │   ├── exam/
+│       │   ├── feedback/
+│       │   ├── otp/
+│       │   ├── program/
+│       │   ├── interaction.service.js
+│       │   └── user.service.js
+│       └── utils/                # JWT, hashing, Redis cache, mailer
+│
+├── EnglishForce-frontend/
+│   ├── public/
+│   ├── Dockerfile
+│   └── src/
+│       ├── App.js
+│       ├── Api/                  # Axios instance & interceptors
+│       ├── Components/           # Reusable UI components
+│       │   ├── admin/
+│       │   └── user/
+│       ├── Constants/            # API endpoint strings, localStorage keys
+│       ├── Context/              # CartContext, SearchContext
+│       ├── i18n/                 # i18next config & locale files
+│       ├── Layouts/              # AdminLayout, UserLayout, ProtectedRoute
+│       ├── Pages/                # Page-level components
+│       │   ├── admin/
+│       │   └── user/
+│       └── Routes/               # adminRoutes.js, userRoutes.js
+│
+├── EnglishForce-AI/
+│   ├── AIServer/                 # Production FastAPI service
+│   │   ├── server.py
+│   │   ├── config.py
+│   │   ├── db_utils.py
+│   │   ├── Dockerfile
+│   │   ├── chatbot/              # Neural network chatbot (TensorFlow/Keras)
+│   │   └── recommended_system/   # Hybrid recommendation engine
+│   └── Retrieval based Chatbots/ # Chatbot training & experimentation
+│
+└── EnglishForce-general/
+    ├── DB-Design/                # Database schema (dbdiagram.io)
+    ├── EnglishForce-Docs/        # Diagrams, demo screenshots, issue logs
+    └── load_test.py
+```

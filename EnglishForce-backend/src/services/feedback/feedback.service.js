@@ -3,6 +3,16 @@ const { Feedback, FeedbackReply, User } = db;
 
 export const getAllFeedbacks = async () => {
     const feedbacks = await Feedback.findAll({
+        attributes: {
+            include: [
+                [
+                    db.sequelize.literal(
+                        `(SELECT COUNT(*) FROM reactions WHERE reactions.reactable_type = 'feedback' AND reactions.reactable_id = "Feedback"."id")`
+                    ),
+                    'reaction_count',
+                ],
+            ],
+        },
         include: [
             {
                 model: User,

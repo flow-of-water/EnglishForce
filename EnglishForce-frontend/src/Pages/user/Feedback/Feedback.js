@@ -19,6 +19,7 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import AddIcon from '@mui/icons-material/Add';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import * as Constants from '../../../Constants/index.js';
+import ReactionButton from '../../../Components/user/ReactionButton';
 
 const STATUS_CONFIG = {
 	not_supported: { label: 'Not Supported', color: 'default' },
@@ -187,6 +188,14 @@ const FeedbackPage = () => {
 											<Typography variant="caption" color="text.secondary">
 												{feedback.User.username}
 											</Typography>
+
+											<Box ml={2}>
+												<ReactionButton
+													reactableType="feedback"
+													reactableId={feedback.id}
+													initialCount={Number(feedback.reaction_count) || 0}
+												/>
+											</Box>
 										</Stack>
 									)}
 								</CardContent>

@@ -1,0 +1,46 @@
+repos:
+  # ── Generic file hygiene ────────────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.md$
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: detect-private-key        # guard against accidental secret commits
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-ast                 # Python syntax validation (AI service)
+        files: \.py$
+      - id: mixed-line-ending
+        args: ['--fix=auto']
+
+  # ── Prettier (JS / JSX / CSS / JSON / Markdown) ────────────────────────────
+  # Uses the root .prettierrc for config.
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier@3.7.2
+        types_or: [javascript, jsx, css, json, markdown]
+
+  # ── ESLint — run per sub-project with their own configs ───────────────────
+  - repo: local
+    hooks:
+      - id: eslint-backend
+        name: ESLint (Backend)
+        language: system
+        # lint:fix auto-corrects what it can; unfixable errors fail the commit.
+        entry: bash -c 'cd EnglishForce-backend && npm run lint:fix'
+        files: ^EnglishForce-backend/src/.*\.js$
+        pass_filenames: false
+
+      - id: eslint-frontend
+        name: ESLint (Frontend)
+        language: system
+        entry: bash -c 'cd EnglishForce-frontend && npm run lint:fix'
+        files: ^EnglishForce-frontend/src/.*\.(js|jsx)$
+        pass_filenames: false

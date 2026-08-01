@@ -43,6 +43,8 @@ import blogCategoryRoutes from './routes/blog/blogCategory.Route.js';
 // feedback
 import feedbackRoutes from './routes/feedback/feedback.Route.js';
 import feedbackReplyRoutes from './routes/feedback/feedbackReply.Route.js';
+// polymorphic
+import polymorphicRoutes from './routes/_polymorphic/polymorphic.Routes.js';
 
 const app = express();
 
@@ -111,5 +113,7 @@ app.use('/api/blog-categories', blogCategoryRoutes);
 // Feedback
 app.use('/api/feedbacks', feedbackRoutes);
 app.use('/api/feedback-replies', feedbackReplyRoutes);
+// Polymorphic
+app.use('/api', polymorphicRoutes);
 
 export default app;

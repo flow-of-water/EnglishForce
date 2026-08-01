@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
 			public_id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, unique: true },
 			user_id: { type: DataTypes.INTEGER, allowNull: false },
 			reactable_type: {
-				type: DataTypes.ENUM('course', 'comment', 'blog'),
+				type: DataTypes.ENUM('course', 'comment', 'blog', 'feedback'),
 				allowNull: false,
 			},
 			reactable_id: { type: DataTypes.INTEGER, allowNull: false },
