@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-	Container,
-	Paper,
-	TextField,
-	Button,
-	Box,
-	Typography,
-	IconButton,
-	Alert,
-} from '@mui/material';
+import { Container, Paper, TextField, Button, Box, Typography, IconButton, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
@@ -165,11 +156,7 @@ const CreateFeedback = () => {
 							</Box>
 						)}
 
-						<Button
-							variant="outlined"
-							component="label"
-							startIcon={<CloudUploadIcon />}
-						>
+						<Button variant="outlined" component="label" startIcon={<CloudUploadIcon />}>
 							{thumbnailPreview ? 'Change Image' : 'Upload Image'}
 							<input type="file" hidden accept="image/*" onChange={handleImageChange} />
 						</Button>
@@ -188,11 +175,7 @@ const CreateFeedback = () => {
 						>
 							{loading ? 'Submitting...' : 'Submit Feedback'}
 						</Button>
-						<Button
-							variant="outlined"
-							size="large"
-							onClick={() => navigate('/feedback')}
-						>
+						<Button variant="outlined" size="large" onClick={() => navigate('/feedback')}>
 							Cancel
 						</Button>
 					</Box>

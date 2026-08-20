@@ -27,7 +27,10 @@ export const authPaths = {
 			},
 			responses: {
 				201: { description: 'User registered successfully' },
-				400: { description: 'Validation error or email already taken', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+				400: {
+					description: 'Validation error or email already taken',
+					content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } },
+				},
 			},
 		},
 	},
@@ -53,7 +56,10 @@ export const authPaths = {
 			},
 			responses: {
 				200: { description: 'Login successful — access & refresh tokens set in HTTP-only cookies' },
-				401: { description: 'Invalid credentials', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+				401: {
+					description: 'Invalid credentials',
+					content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } },
+				},
 			},
 		},
 	},

@@ -9,7 +9,12 @@ export const examsPaths = {
 			summary: 'Get all exams',
 			tags: ['Exams'],
 			security: [],
-			responses: { 200: { description: 'List of exams', content: { 'application/json': { schema: { type: 'array', items: examSchema } } } } },
+			responses: {
+				200: {
+					description: 'List of exams',
+					content: { 'application/json': { schema: { type: 'array', items: examSchema } } },
+				},
+			},
 		},
 		post: {
 			summary: 'Create a new exam (admin)',
@@ -74,7 +79,9 @@ export const examsPaths = {
 			summary: 'Get the result of an exam attempt',
 			tags: ['Exams'],
 			security: [],
-			parameters: [{ in: 'path', name: 'attemptPublicId', required: true, schema: { type: 'string', format: 'uuid' } }],
+			parameters: [
+				{ in: 'path', name: 'attemptPublicId', required: true, schema: { type: 'string', format: 'uuid' } },
+			],
 			responses: {
 				200: { description: 'Exam attempt result with correct answers and score' },
 				404: { description: 'Attempt not found' },

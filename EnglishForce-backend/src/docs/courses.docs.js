@@ -22,7 +22,12 @@ export const coursesPaths = {
 			summary: 'Get top-rated courses',
 			tags: ['Courses'],
 			security: [],
-			responses: { 200: { description: 'Top-rated courses', content: { 'application/json': { schema: { type: 'array', items: courseSchema } } } } },
+			responses: {
+				200: {
+					description: 'Top-rated courses',
+					content: { 'application/json': { schema: { type: 'array', items: courseSchema } } },
+				},
+			},
 		},
 	},
 	'/api/courses': {

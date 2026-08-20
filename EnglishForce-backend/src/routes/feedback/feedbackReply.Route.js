@@ -5,4 +5,4 @@ const router = express.Router();
 
 router.get('/', feedbackReplyController.getAllFeedbackReplies);
 router.post('/:feedbackId', authMiddleware, feedbackReplyController.createFeedbackReply);
-export default router;  
+export default router;

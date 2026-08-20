@@ -1,7 +1,14 @@
 export const blogsTags = [{ name: 'Blogs', description: 'Blog posts' }];
 
 const blogSchema = { $ref: '#/components/schemas/Blog' };
-const thumbnailUpload = { type: 'object', properties: { title: { type: 'string' }, content: { type: 'string' }, thumbnail: { type: 'string', format: 'binary' } } };
+const thumbnailUpload = {
+	type: 'object',
+	properties: {
+		title: { type: 'string' },
+		content: { type: 'string' },
+		thumbnail: { type: 'string', format: 'binary' },
+	},
+};
 
 export const blogsPaths = {
 	'/api/blogs': {

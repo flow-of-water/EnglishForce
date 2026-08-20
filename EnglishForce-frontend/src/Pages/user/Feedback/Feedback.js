@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-	Container,
-	Card,
-	CardContent,
-	Typography,
-	Chip,
-	Box,
-	Avatar,
-	Stack,
-	Button,
-} from '@mui/material';
+import { Container, Card, CardContent, Typography, Chip, Box, Avatar, Stack, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../Api/axiosInstance';
 import GradientTitle from '../../../Components/GradientTitle';

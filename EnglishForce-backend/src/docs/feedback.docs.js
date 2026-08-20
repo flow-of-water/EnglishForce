@@ -1,7 +1,10 @@
 export const feedbackTags = [{ name: 'Feedback', description: 'User feedback and support tickets' }];
 
 const feedbackSchema = { $ref: '#/components/schemas/Feedback' };
-const thumbnailUpload = { type: 'object', properties: { content: { type: 'string' }, thumbnail: { type: 'string', format: 'binary' } } };
+const thumbnailUpload = {
+	type: 'object',
+	properties: { content: { type: 'string' }, thumbnail: { type: 'string', format: 'binary' } },
+};
 
 export const feedbackPaths = {
 	'/api/feedbacks': {
@@ -26,7 +29,14 @@ export const feedbackPaths = {
 				required: true,
 				content: {
 					'multipart/form-data': {
-						schema: { type: 'object', required: ['content'], properties: { content: { type: 'string' }, thumbnail: { type: 'string', format: 'binary' } } },
+						schema: {
+							type: 'object',
+							required: ['content'],
+							properties: {
+								content: { type: 'string' },
+								thumbnail: { type: 'string', format: 'binary' },
+							},
+						},
 					},
 				},
 			},

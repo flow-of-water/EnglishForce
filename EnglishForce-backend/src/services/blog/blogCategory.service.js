@@ -4,7 +4,7 @@ const { Op } = Sequelize;
 
 export const getBlogCategories = async (page, limit, user) => {
 	const where = user && user.role === 'admin' ? {} : { allowed_roles: { [Op.is]: null } };
-	if(limit === null) {
+	if (limit === null) {
 		const allCategories = await BlogCategory.findAll({ where, order: [['id', 'ASC']] });
 		return {
 			categories: allCategories.map(cat => cat.get({ plain: true })),
@@ -34,14 +34,14 @@ export const findBlogCategoryByPublicId = async publicId => {
 export const createBlogCategory = async ({ name, description, color, allowed_roles }) => {
 	const existingCategory = await BlogCategory.findOne({ where: { name } });
 	if (existingCategory) throw new Error('Blog category with that name already exists');
-	const newCategory = await BlogCategory.create({ name, description, color, allowed_roles: allowed_roles});
+	const newCategory = await BlogCategory.create({ name, description, color, allowed_roles: allowed_roles });
 	return newCategory.get({ plain: true });
 };
 
 export const updateBlogCategory = async (publicId, { name, description, color, allowed_roles }) => {
 	const category = await BlogCategory.findOne({ where: { public_id: publicId } });
 	if (!category) throw new Error('Blog category not found with that public_id');
-	await category.update({ name, description, color, allowed_roles: allowed_roles});
+	await category.update({ name, description, color, allowed_roles: allowed_roles });
 	return category.get({ plain: true });
 };
 

@@ -57,9 +57,7 @@ const FeedbackAdmin = () => {
 		setUpdatingId(feedback.id);
 		try {
 			await axiosInstance.put(`/feedbacks/${feedback.id}`, { status: newStatus });
-			setFeedbacks(prev =>
-				prev.map(f => (f.id === feedback.id ? { ...f, status: newStatus } : f))
-			);
+			setFeedbacks(prev => prev.map(f => (f.id === feedback.id ? { ...f, status: newStatus } : f)));
 		} catch (error) {
 			console.error('Error updating status:', error);
 			alert('Failed to update status');
@@ -155,9 +153,7 @@ const FeedbackAdmin = () => {
 										))}
 									</Select>
 								</TableCell>
-								<TableCell align="center">
-									{feedback.FeedbackReplies?.length ?? 0}
-								</TableCell>
+								<TableCell align="center">{feedback.FeedbackReplies?.length ?? 0}</TableCell>
 							</TableRow>
 						))}
 						{feedbacks.length === 0 && (

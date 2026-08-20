@@ -38,7 +38,12 @@ export const updateBlogCategory = async (req, res) => {
 	try {
 		const { publicId } = req.params;
 		const { name, description, color, allowed_roles } = req.body;
-		const updatedCategory = await blogCategoryService.updateBlogCategory(publicId, { name, description, color, allowed_roles });
+		const updatedCategory = await blogCategoryService.updateBlogCategory(publicId, {
+			name,
+			description,
+			color,
+			allowed_roles,
+		});
 		res.status(200).json(updatedCategory);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

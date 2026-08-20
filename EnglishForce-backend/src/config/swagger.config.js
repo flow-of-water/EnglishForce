@@ -97,15 +97,7 @@ export const swaggerSpec = {
 		},
 	},
 	security: [{ cookieAuth: [] }],
-	tags: [
-		...authTags,
-		...usersTags,
-		...coursesTags,
-		...blogsTags,
-		...feedbackTags,
-		...examsTags,
-		...aiTags,
-	],
+	tags: [...authTags, ...usersTags, ...coursesTags, ...blogsTags, ...feedbackTags, ...examsTags, ...aiTags],
 	paths: {
 		...authPaths,
 		...usersPaths,

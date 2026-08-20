@@ -42,7 +42,9 @@ export const getBlogs = async (page, limit, owned, userId) => {
 };
 
 export const findBlogIdByPublicId = async (publicId, userId = null) => {
-	const blog = (await Blog.findOne({ where: { public_id: publicId }, include: includeOptions }))?.get({plain: true,});
+	const blog = (await Blog.findOne({ where: { public_id: publicId }, include: includeOptions }))?.get({
+		plain: true,
+	});
 	if (!blog) throw new Error('Blog not found with that public_id');
 	blog.is_owned = userId != null && blog.user_id === userId;
 	return blog;
@@ -133,6 +135,6 @@ export const deleteBlog = async publicId => {
 	await blog.destroy();
 };
 
-const incrementBlogViews = async (blogId) => {
-  await Blog.increment('views', { by: 1, where: { id: blogId } });
+const incrementBlogViews = async blogId => {
+	await Blog.increment('views', { by: 1, where: { id: blogId } });
 };

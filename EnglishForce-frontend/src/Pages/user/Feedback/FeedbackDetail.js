@@ -129,11 +129,7 @@ const FeedbackDetail = () => {
 
 				{feedback.User && (
 					<Stack direction="row" alignItems="center" spacing={1} mb={3}>
-						<Avatar
-							src={feedback.User.avatar}
-							alt={feedback.User.username}
-							sx={{ width: 36, height: 36 }}
-						>
+						<Avatar src={feedback.User.avatar} alt={feedback.User.username} sx={{ width: 36, height: 36 }}>
 							{feedback.User.username?.[0]?.toUpperCase()}
 						</Avatar>
 						<Box>

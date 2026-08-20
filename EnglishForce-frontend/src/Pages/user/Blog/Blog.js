@@ -170,23 +170,23 @@ const BlogPage = () => {
 
 								{/* Author & Meta */}
 								<Box display="flex" alignItems="center" justifyContent="space-between" mt="auto">
-                                    <Box display="flex" alignItems="center" gap={1}>
-                                        <Avatar
-                                            src={blog.User?.avatar}
-                                            alt={blog.User?.username}
-                                            sx={{ width: 28, height: 28 }}
-                                        />
-                                        <Typography variant="body2" color="text.secondary">
-                                            {blog.User?.username}
-                                        </Typography>
-                                    </Box>
+									<Box display="flex" alignItems="center" gap={1}>
+										<Avatar
+											src={blog.User?.avatar}
+											alt={blog.User?.username}
+											sx={{ width: 28, height: 28 }}
+										/>
+										<Typography variant="body2" color="text.secondary">
+											{blog.User?.username}
+										</Typography>
+									</Box>
 
-                                    <Box display="flex" alignItems="center" gap={1}>
-                                        <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                                        <Typography variant="body2" color="text.secondary">
-                                            {formatDate(blog.created_at)}
-                                        </Typography>
-                                    </Box>
+									<Box display="flex" alignItems="center" gap={1}>
+										<CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+										<Typography variant="body2" color="text.secondary">
+											{formatDate(blog.created_at)}
+										</Typography>
+									</Box>
 
 									<Box display="flex" alignItems="center" gap={1}>
 										<VisibilityIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
@@ -194,7 +194,7 @@ const BlogPage = () => {
 											{blog.views ?? 0}
 										</Typography>
 									</Box>
-                                </Box>
+								</Box>
 							</CardContent>
 						</Card>
 					</Grid>

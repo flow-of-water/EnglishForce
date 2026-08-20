@@ -98,7 +98,10 @@ export const aiPaths = {
 			requestBody: {
 				content: {
 					'application/json': {
-						schema: { type: 'object', properties: { interests: { type: 'array', items: { type: 'string' } } } },
+						schema: {
+							type: 'object',
+							properties: { interests: { type: 'array', items: { type: 'string' } } },
+						},
 					},
 				},
 			},

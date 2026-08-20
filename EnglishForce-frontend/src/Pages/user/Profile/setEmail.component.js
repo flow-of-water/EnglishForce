@@ -93,7 +93,8 @@ const SetEmailWithOtp = ({
 			setStep('done');
 			onSuccess && onSuccess(email);
 		} catch (err) {
-			const msg = err?.response?.data?.error || err?.response?.data?.message || 'Failed to verify or update email.';
+			const msg =
+				err?.response?.data?.error || err?.response?.data?.message || 'Failed to verify or update email.';
 			setError(msg);
 		} finally {
 			setLoading(false);

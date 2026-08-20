@@ -37,7 +37,7 @@ import lessonRoutes from './routes/program/lesson.Route.js';
 import exerciseRoutes from './routes/program/exercise.Route.js';
 import exerciseAnswerRoutes from './routes/program/exerciseAnswer.Route.js';
 import userProcessRoutes from './routes/program/userProgress.Route.js';
-// blog 
+// blog
 import blogRoutes from './routes/blog/blog.Route.js';
 import blogCategoryRoutes from './routes/blog/blogCategory.Route.js';
 // feedback
@@ -48,21 +48,23 @@ import polymorphicRoutes from './routes/_polymorphic/polymorphic.Routes.js';
 
 const app = express();
 
-app.use(cors({
-	origin: process.env.FRONT_END_URL || 'http://localhost:3000',
-	credentials: true // ← Bắt buộc để gửi/nhận cookies
-}));
+app.use(
+	cors({
+		origin: process.env.FRONT_END_URL || 'http://localhost:3000',
+		credentials: true, // ← Bắt buộc để gửi/nhận cookies
+	})
+);
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(passport.initialize());
 
 app.get('/', (req, res) => {
-	res.send("Welcome to The Last Water Bender API. Go to /api-docs for API documentation.");
+	res.send('Welcome to The Last Water Bender API. Go to /api-docs for API documentation.');
 });
 
 app.get('/api', (req, res) => {
-	res.send("Backend of The Last Water Bender is working.");
+	res.send('Backend of The Last Water Bender is working.');
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
