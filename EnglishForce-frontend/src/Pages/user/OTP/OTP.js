@@ -167,7 +167,7 @@ const OTPVerificationPage = () => {
 				purpose: 'reset_password',
 			});
 			localStorage.setItem(Constants.LOCAL_STORAGE.RESET_PASSWORD_TOKEN, response.data.resetToken);
-			localStorage.setItem(Constants.LOCAL_STORAGE.TOKEN, response.data.resetToken);
+			localStorage.setItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN, response.data.resetToken);
 
 			navigate('/reset-password', { state: { email: email.trim() } });
 		} catch (err) {
