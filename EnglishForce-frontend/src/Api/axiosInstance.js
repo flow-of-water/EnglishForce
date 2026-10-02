@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use(
 		const needsCookie = COOKIE_ENDPOINTS.some(e => config.url?.includes(e));
 		if (needsCookie) config.withCredentials = true;
 
-		const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
+		const token = localStorage.getItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
 		}
@@ -77,7 +77,7 @@ axiosInstance.interceptors.response.use(
 					const res = await refreshPromise;
 					const newAccessToken = res.data.accessToken;
 
-					localStorage.setItem(Constants.LOCAL_STORAGE.TOKEN, newAccessToken);
+					localStorage.setItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN, newAccessToken);
 					axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
@@ -91,7 +91,7 @@ axiosInstance.interceptors.response.use(
 				} catch (refreshError) {
 					isRefreshing = false;
 					refreshPromise = null;
-					localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 					localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
 					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
 					window.location.href = '/login';

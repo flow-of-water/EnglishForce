@@ -10,7 +10,7 @@ const ReactionButton = ({ reactableType, reactableId, initialCount = 0 }) => {
 	const [count, setCount] = useState(initialCount);
 	const [loading, setLoading] = useState(false);
 
-	const isLoggedIn = !!localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
+	const isLoggedIn = !!localStorage.getItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 
 	const handleClick = async e => {
 		e.stopPropagation();

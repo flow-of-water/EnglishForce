@@ -1,7 +1,8 @@
 export const LOCAL_STORAGE = Object.freeze({
-	TOKEN: 'token',
+	ACCESS_TOKEN: 'accessToken',
 	REFRESH_TOKEN: 'refreshToken',
 	USERNAME: 'username',
+	USER_ID: 'userId',
 	USER_ROLE: 'userRole',
 	USER_PUBLIC_ID: 'userPublicId',
 	USER_EMAIL: 'email',

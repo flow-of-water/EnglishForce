@@ -74,11 +74,7 @@ const EditBlogAdmin = () => {
 	const fetchBlogData = async () => {
 		try {
 			setLoading(true);
-			const response = await axiosInstance.get(`/blogs/${publicId}`, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
-				},
-			});
+			const response = await axiosInstance.get(`/blogs/${publicId}`);
 
 			const blog = response.data.blog;
 			setFormData({
@@ -107,11 +103,7 @@ const EditBlogAdmin = () => {
 
 	const fetchCategories = async () => {
 		try {
-			const response = await axiosInstance.get('/blog-categories', {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
-				},
-			});
+			const response = await axiosInstance.get('/blog-categories');
 			setCategories(response.data.categories || []);
 		} catch (err) {
 			console.error('Error fetching categories:', err);
@@ -214,7 +206,6 @@ const EditBlogAdmin = () => {
 
 			await axiosInstance.put(`/blogs/${publicId}`, submitData, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
 					'Content-Type': 'multipart/form-data',
 				},
 			});
