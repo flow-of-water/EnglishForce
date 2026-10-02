@@ -27,7 +27,7 @@ class WebsiteUser(HttpUser):
     def on_start(self):
         """Gọi login API để lấy JWT token"""
         self.token = self.get_jwt_token()
-        self.headers = { 
+        self.headers = {
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json"
         }
@@ -47,15 +47,15 @@ class WebsiteUser(HttpUser):
             "password": "Admin@123"
         }
         response = self.client.post("/api/auth/login", json=login_payload)
-        
+
         # Kiểm tra mã trạng thái HTTP để chắc chắn đã đăng nhập thành công
         assert response.status_code == 200, f"Expected 200 OK, but got {response.status_code}"
-        
+
         # Lấy token từ phản hồi và trả về
         data = response.json()
         token = data.get("accessToken")
         assert token, "Token not found in response"
-        
+
         return token
 
     def create_exam(self):
@@ -98,7 +98,7 @@ class WebsiteUser(HttpUser):
         self.client.post("/api/AI/recommendations", json=payload, headers=headers)
 
 
-    # Case này test: Gọi PUT cập nhập tên 1  bài thi , gọi GET để kiểm tra thông tin cập nhập 
+    # Case này test: Gọi PUT cập nhập tên 1  bài thi , gọi GET để kiểm tra thông tin cập nhập
     # Với load test nhiều user đồng thời ghi vào 1 record , lỗi là điều tất yếu xảy ra
     @task(1)
     def update_exam_and_check(self):
@@ -107,13 +107,13 @@ class WebsiteUser(HttpUser):
             "name": f"Updated Exam {self.random_string()}",
             "description": "This is an updated test exam.",
             "duration": self.random_int(),
-            "type": random.choice(["general", "toeic"]) 
+            "type": random.choice(["general", "toeic"])
         }
-        
+
         # Bước 1: Gửi yêu cầu PUT để cập nhật bài thi
         with self.client.put(
-            f"/api/exams/{exam_id}", 
-            json=updated_payload, 
+            f"/api/exams/{exam_id}",
+            json=updated_payload,
             headers=self.headers,
             catch_response=True
         ) as response:
@@ -121,26 +121,26 @@ class WebsiteUser(HttpUser):
                 response.failure(f"Update failed: Expected 200 OK, but got {response.status_code}")
                 return
             response.success()
-        
+
         # Bước 2: Gửi yêu cầu GET để lấy thông tin bài thi sau khi cập nhật
         with self.client.get(f"/api/exams/{exam_id}", catch_response=True) as response:
             if response.status_code != 200:
                 response.failure(f"Get exam failed: Expected 200 OK, but got {response.status_code}")
                 return
-            
+
             # Kiểm tra dữ liệu trả về có chứa thông tin đã cập nhật
             data = response.json()
             errors = []
-            
+
             if data.get("name") != updated_payload["name"]:
                 errors.append(f"name: expected '{updated_payload['name']}', got '{data.get('name')}'")
-            
+
             if data.get("description") != updated_payload["description"]:
                 errors.append(f"description: expected '{updated_payload['description']}', got '{data.get('description')}'")
-            
+
             if data.get("duration") != updated_payload["duration"]:
                 errors.append(f"duration: expected {updated_payload['duration']}, got {data.get('duration')}")
-            
+
             if errors:
                 response.failure(f"Validation failed - {'; '.join(errors)}")
             else:
@@ -151,10 +151,10 @@ class WebsiteUser(HttpUser):
     def delete_exam_and_check(self):
         """Delete an exam and check if it was removed correctly."""
         exam_id = self.create_exam()  # Tạo bài thi mới và lấy exam_id
-        
+
         # Bước 1: Gửi yêu cầu DELETE để xóa bài thi
         with self.client.delete(
-            f"/api/exams/{exam_id}", 
+            f"/api/exams/{exam_id}",
             headers=self.headers,
             catch_response=True
         ) as response:
@@ -162,26 +162,25 @@ class WebsiteUser(HttpUser):
                 response.failure(f"Delete failed: Expected 200 or 204 No Content, but got {response.status_code}")
                 return
             response.success()
-        
+
         # Bước 2: Gửi yêu cầu GET để kiểm tra thông tin bài thi đã xóa
         with self.client.get(f"/api/exams/{exam_id}", catch_response=True) as response:
             if response.status_code != 404  and response.status_code != 500:
                 response.failure(f"Exam still exists: Expected 404 Not Found or 500 , but got {response.status_code}")
                 return
             response.success()
-        
+
         # Bước 3: Gửi yêu cầu GET list để kiểm tra xem bài thi đã xóa không còn trong danh sách
         with self.client.get("/api/exams", catch_response=True) as response:
             if response.status_code != 200:
                 response.failure(f"Get exam list failed: Expected 200 OK, but got {response.status_code}")
                 return
-            
+
             # Kiểm tra xem bài thi đã xóa không còn trong danh sách bài thi
             data = response.json()
             exam_ids = [exam["public_id"] for exam in data.get("exams", [])]
-            
+
             if exam_id in exam_ids:
                 response.failure(f"Deleted exam {exam_id} is still in the exam list")
             else:
                 response.success()
-

@@ -3,12 +3,12 @@
 node_modules/
 
 
-# FastAPI server gitignore 
+# FastAPI server gitignore
 # Ignore virtual environment
 .venv/
 venv/
 # Ignore Python cache & compiled files
-__pycache__/ 
+__pycache__/
 # Ignore IDE/editor folders (optional)
 .vscode/
 .idea/
@@ -151,7 +151,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
- 
+
 tmp/*
 *.tmp.*
 CLAUDE.local.md

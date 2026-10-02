@@ -32,6 +32,13 @@ export default [
 		},
 	},
 	{
-		ignores: ['node_modules/**', 'dist/**', 'build/**', 'coverage/**'],
+		ignores: [
+			'node_modules/**',
+			'dist/**',
+			'build/**',
+			'coverage/**',
+			'package.json',
+			'package-lock.json',
+		],
 	},
 ];

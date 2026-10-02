@@ -247,5 +247,5 @@ EnglishForce/
 └── EnglishForce-general/
     ├── DB-Design/                # Database schema (dbdiagram.io)
     ├── EnglishForce-Docs/        # Diagrams, demo screenshots, issue logs
-    └── load_test.py
+    └── Script/                   # load_test.py (Locust), wt.sh (git worktree helper)
 ```
