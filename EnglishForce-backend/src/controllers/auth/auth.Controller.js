@@ -2,6 +2,17 @@ import { hashValue, verifyHash } from '../../utils/hashing.js';
 import { generateTokens, verifyToken, config } from '../../utils/jwt.js';
 import * as userService from '../../services/user.service.js';
 
+// 🔒 Lưu refreshToken vào HttpOnly Cookie
+const setRefreshTokenCookie = (res, refreshToken) => {
+	res.cookie('refreshToken', refreshToken, {
+		httpOnly: true, // Không thể truy cập qua JavaScript
+		secure: process.env.NODE_ENV === 'production', // Chỉ HTTPS ở production
+		sameSite: 'lax', // Chống CSRF
+		maxAge: config.REFRESH_TOKEN.expiry_in_ms, // Thời gian sống của cookie
+		path: '/',
+	});
+};
+
 // Sign up - Đăng ký
 export const register = async (req, res) => {
 	const { username, password } = req.body;
@@ -31,14 +42,7 @@ export const login = async (req, res) => {
 
 		const { accessToken, refreshToken } = generateTokens(user);
 
-		// 🔒 Lưu refreshToken vào HttpOnly Cookie
-		res.cookie('refreshToken', refreshToken, {
-			httpOnly: true, // Không thể truy cập qua JavaScript
-			secure: process.env.NODE_ENV === 'production', // Chỉ HTTPS ở production
-			sameSite: 'lax', // Chống CSRF
-			maxAge: config.REFRESH_TOKEN.expiry_in_ms, // Thời gian sống của cookie
-			path: '/',
-		});
+		setRefreshTokenCookie(res, refreshToken);
 
 		res.json({ accessToken, id: user.id, role: user.role, email: user.email });
 	} catch (error) {
@@ -142,10 +146,11 @@ export const resetPassword = async (req, res) => {
 // Google and Facebook
 export const OAuthCallback = async (req, res) => {
 	const user = await userService.findOrCreateUser(req.user); // req.user chính là Googleuser Hoặc Facebookuser
-	const token = generateTokens(user, True).accessToken;
+	const { refreshToken } = generateTokens(user);
 
-	res.redirect(
-		process.env.FRONT_END_URL +
-			`/login/success?token=${token}&username=${user.username}&userid=${user.id}&role=${user.role}`
-	);
+	setRefreshTokenCookie(res, refreshToken);
+
+	// Không đưa token lên URL: frontend gọi /auth/refresh-token để lấy accessToken
+	const params = new URLSearchParams({ username: user.username, userid: user.id, role: user.role });
+	res.redirect(process.env.FRONT_END_URL + `/login/success?${params}`);
 };

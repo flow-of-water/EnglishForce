@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { hashValue, verifyHash } from '../../utils/hashing.js';
 import db from '../../sequelize/models/index.js';
 import { sendMail, otpEmailTemplate } from '../../utils/mailer.js';
-import { generateTokens } from '../../utils/jwt.js';
+import { generateResetToken } from '../../utils/jwt.js';
 
 // TTL_MIN: thời gian sống của OTP (phút), mặc định 10.
 const TTL_MIN = Number(process.env.OTP_TTL_MINUTES || 10);
@@ -94,12 +94,10 @@ export async function verifyOtpWithAuth({ email, code, purpose = 'login' }) {
 
 	if (!user) return { ok: false };
 
-	const { accessToken } = generateTokens(user, true);
-
 	// Step 5: Return token và user info
 	return {
 		ok: true,
-		resetToken: accessToken,
+		resetToken: generateResetToken(user),
 		user: {
 			email: user.email,
 			username: user.username,

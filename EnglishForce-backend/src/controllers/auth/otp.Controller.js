@@ -1,4 +1,5 @@
 import { requestOtp, verifyOtpWithAuth } from '../../services/otp/otp.service.js';
+import { config } from '../../utils/jwt.js';
 
 export const requestOtpController = async (req, res) => {
 	try {
@@ -34,7 +35,7 @@ export const verifyOtpController = async (req, res) => {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'lax',
-			maxAge: 15 * 60 * 1000, // 15 minutes
+			maxAge: config.RESET_TOKEN.expiry_in_ms, // 15 minutes
 			path: '/api/auth/reset-password',
 		});
 

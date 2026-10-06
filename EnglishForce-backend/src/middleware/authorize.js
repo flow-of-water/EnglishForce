@@ -53,7 +53,7 @@ export const authResetPasswordTokenMiddleware = (req, res, next) => {
 	if (!token) return res.status(401).json({ message: 'Unauthorized - No token in cookie' });
 
 	try {
-		const decoded = verifyToken(token, 'access');
+		const decoded = verifyToken(token, 'reset');
 		req.user = decoded;
 		next();
 	} catch (err) {
