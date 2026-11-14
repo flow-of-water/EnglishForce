@@ -20,6 +20,7 @@ import {
 	Paper,
 } from '@mui/material';
 import axiosInstance from '../../../Api/axiosInstance';
+import * as Constants from '../../../Constants/index.js';
 import { CartContext } from '../../../Context/CartContext';
 import CircularLoading from '../../../Components/Loading';
 import MyAlert from '../../../Components/Alert';
@@ -121,7 +122,7 @@ const CourseOverview = () => {
 	const [reviews, setReviews] = useState([]);
 	const [myRating, setMyRating] = useState(null);
 	const [myComment, setMyComment] = useState('');
-	const token = localStorage.getItem('token');
+	const token = localStorage.getItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 
 	useEffect(() => {
 		const fetchCourseDetails = async () => {

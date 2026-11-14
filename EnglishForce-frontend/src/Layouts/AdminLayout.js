@@ -15,7 +15,7 @@ const AdminLayout = ({ children }) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
+		const token = localStorage.getItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 		const storedUsername = localStorage.getItem(Constants.LOCAL_STORAGE.USERNAME);
 
 		if (token && storedUsername) {
@@ -25,7 +25,7 @@ const AdminLayout = ({ children }) => {
 	}, []);
 
 	const handleLogout = () => {
-		localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+		localStorage.removeItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 		localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
 		setIsLoggedIn(false);
 		setUsername('');

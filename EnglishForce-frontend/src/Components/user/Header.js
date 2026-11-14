@@ -97,7 +97,7 @@ export default function Header() {
 	const { t } = useTranslation('common');
 
 	useEffect(() => {
-		const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
+		const token = localStorage.getItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 		const storedUsername = localStorage.getItem(Constants.LOCAL_STORAGE.USERNAME);
 		const storedRole = localStorage.getItem(Constants.LOCAL_STORAGE.USER_ROLE);
 
@@ -114,7 +114,7 @@ export default function Header() {
 		} catch (error) {
 			console.error('Error during logout:', error);
 		} finally {
-			localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+			localStorage.removeItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 			localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
 			localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
 			setIsLoggedIn(false);

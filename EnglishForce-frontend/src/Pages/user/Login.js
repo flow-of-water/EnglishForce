@@ -15,6 +15,7 @@ import {
 import { Visibility, VisibilityOff, MailOutline, LockOutlined } from '@mui/icons-material';
 import axiosInstance from '../../Api/axiosInstance';
 import OAuthLoginButtons from '../../Components/OAuthLoginButtons.js';
+import * as Constants from '../../Constants/index.js';
 
 const LoginPage = () => {
 	const [email, setEmail] = useState('');
@@ -34,10 +35,10 @@ const LoginPage = () => {
 
 			const { accessToken, id, role } = response.data;
 
-			localStorage.setItem('token', accessToken);
-			localStorage.setItem('username', email);
-			localStorage.setItem('userId', id);
-			localStorage.setItem('userRole', role);
+			localStorage.setItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN, accessToken);
+			localStorage.setItem(Constants.LOCAL_STORAGE.USERNAME, email);
+			localStorage.setItem(Constants.LOCAL_STORAGE.USER_ID, id);
+			localStorage.setItem(Constants.LOCAL_STORAGE.USER_ROLE, role);
 			window.location.href = '/';
 		} catch (err) {
 			setError('Invalid email or password');

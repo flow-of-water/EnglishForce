@@ -11,14 +11,21 @@ const axiosInstance = axios.create({
 	},
 });
 
-const COOKIE_ENDPOINTS = ['/auth/login', '/auth/logout', '/auth/refresh-token', '/otp/verify', '/auth/reset-password'];
+const COOKIE_ENDPOINTS = [
+	'/auth/login',
+	'/auth/logout',
+	'/auth/refresh-token',
+	'/auth/change-password',
+	'/otp/verify',
+	'/auth/reset-password',
+];
 // Tự động gắn token vào header của mỗi request
 axiosInstance.interceptors.request.use(
 	config => {
 		const needsCookie = COOKIE_ENDPOINTS.some(e => config.url?.includes(e));
 		if (needsCookie) config.withCredentials = true;
 
-		const token = localStorage.getItem(Constants.LOCAL_STORAGE.TOKEN);
+		const token = localStorage.getItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
 		}
@@ -36,9 +43,9 @@ function subscribeTokenRefresh(cb) {
 	subscribers.push(cb);
 }
 
-function notifySubscribers(newToken) {
-	// Thông báo token mới cho tất cả request đang chờ → Trigger retry
-	subscribers.forEach(cb => cb(newToken));
+function notifySubscribers(newToken, error) {
+	// Thông báo token mới (hoặc lỗi refresh) cho tất cả request đang chờ → Trigger retry / reject
+	subscribers.forEach(cb => cb(newToken, error));
 	subscribers = [];
 }
 
@@ -55,8 +62,9 @@ axiosInstance.interceptors.response.use(
 			// Case 1: refresh đang chạy → request này CHỜ
 			// ---------------------------
 			if (isRefreshing) {
-				return new Promise(resolve => {
-					subscribeTokenRefresh(newToken => {
+				return new Promise((resolve, reject) => {
+					subscribeTokenRefresh((newToken, refreshError) => {
+						if (refreshError) return reject(refreshError);
 						originalRequest.headers.Authorization = `Bearer ${newToken}`;
 						resolve(axiosInstance(originalRequest));
 					});
@@ -77,7 +85,7 @@ axiosInstance.interceptors.response.use(
 					const res = await refreshPromise;
 					const newAccessToken = res.data.accessToken;
 
-					localStorage.setItem(Constants.LOCAL_STORAGE.TOKEN, newAccessToken);
+					localStorage.setItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN, newAccessToken);
 					axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
@@ -86,14 +94,17 @@ axiosInstance.interceptors.response.use(
 					isRefreshing = false;
 					refreshPromise = null;
 
-					console.log('I get access Token again bro');
 					return axiosInstance(originalRequest);
 				} catch (refreshError) {
 					isRefreshing = false;
 					refreshPromise = null;
-					localStorage.removeItem(Constants.LOCAL_STORAGE.TOKEN);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 					localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
 					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ID);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_PUBLIC_ID);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_EMAIL);
+					notifySubscribers(null, refreshError);
 					window.location.href = '/login';
 					return Promise.reject(refreshError);
 				}

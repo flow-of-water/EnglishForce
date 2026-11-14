@@ -123,12 +123,13 @@ export const authPaths = {
 	},
 	'/api/auth/refresh-token': {
 		post: {
-			summary: 'Issue a new access token using the refresh token cookie',
+			summary: 'Issue a new access token using the refresh token cookie (the cookie is rotated)',
 			tags: ['Auth'],
 			security: [],
 			responses: {
-				200: { description: 'New access token issued' },
-				401: { description: 'Missing or invalid refresh token' },
+				200: { description: 'New access token issued, new refresh token cookie set' },
+				401: { description: 'Missing refresh token' },
+				403: { description: 'Invalid, expired or revoked refresh token' },
 			},
 		},
 	},
