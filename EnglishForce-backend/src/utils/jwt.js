@@ -1,21 +1,25 @@
 import jwt from 'jsonwebtoken';
 
+// Fail fast instead of signing with a guessable default secret
+const requireEnv = name => {
+	const value = process.env[name];
+	if (!value) throw new Error(`Missing required environment variable: ${name}`);
+	return value;
+};
+
+const accessTokenSecret = requireEnv('JWT_ACCESS_TOKEN_SECRET');
+
 // Configuration
+// (Refresh tokens are opaque random strings stored in DB: see services/auth/refreshToken.service.js)
 export const config = {
 	issuer: 'EnglishForce System',
 	ACCESS_TOKEN: {
-		secret: process.env.JWT_ACCESS_TOKEN_SECRET || 'your_jwt_secret',
+		secret: accessTokenSecret,
 		audience: 'EnglishForce user',
 		expiry: '10m',
 	},
-	REFRESH_TOKEN: {
-		secret: process.env.JWT_REFRESH_TOKEN_SECRET || 'your_refresh_secret',
-		audience: 'EnglishForce user',
-		expiry: '7d',
-		expiry_in_ms: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-	},
 	RESET_TOKEN: {
-		secret: process.env.JWT_ACCESS_TOKEN_SECRET || 'your_jwt_secret',
+		secret: accessTokenSecret,
 		audience: 'EnglishForce password reset',
 		expiry: '15m',
 		expiry_in_ms: 15 * 60 * 1000, // 15 minutes in milliseconds
@@ -23,14 +27,14 @@ export const config = {
 };
 
 /**
- * Generate access and refresh tokens
+ * Generate an access token
  * @param {Object} user - User object
  * @param {string} user.id - User ID
  * @param {string} user.username - Username
  * @param {string} user.role - User role
- * @returns {Object} { accessToken, refreshToken }
+ * @returns {string} accessToken
  */
-export const generateTokens = (user, onlyAccessToken = false) => {
+export const generateAccessToken = user => {
 	if (!user || !user.id) throw new Error('User object with id is required');
 
 	const payload = {
@@ -39,21 +43,11 @@ export const generateTokens = (user, onlyAccessToken = false) => {
 		role: user.role,
 	};
 
-	const accessToken = jwt.sign(payload, config.ACCESS_TOKEN.secret, {
+	return jwt.sign(payload, config.ACCESS_TOKEN.secret, {
 		expiresIn: config.ACCESS_TOKEN.expiry,
 		issuer: config.issuer,
 		audience: config.ACCESS_TOKEN.audience,
 	});
-
-	if (onlyAccessToken) return { accessToken };
-
-	const refreshToken = jwt.sign({ id: user.id }, config.REFRESH_TOKEN.secret, {
-		expiresIn: config.REFRESH_TOKEN.expiry,
-		issuer: config.issuer,
-		audience: config.REFRESH_TOKEN.audience,
-	});
-
-	return { accessToken, refreshToken };
 };
 
 /**
@@ -74,14 +68,13 @@ export const generateResetToken = user => {
 
 const TOKEN_CONFIG = {
 	access: config.ACCESS_TOKEN,
-	refresh: config.REFRESH_TOKEN,
 	reset: config.RESET_TOKEN,
 };
 
 /**
- * Verify JWT token (access, refresh or reset)
+ * Verify JWT token (access or reset)
  * @param {string} token - JWT token to verify
- * @param {string} type - Token type: 'access', 'refresh' or 'reset'
+ * @param {string} type - Token type: 'access' or 'reset'
  * @returns {Object} Decoded payload
  * @throws {Error} If token is invalid or expired
  */

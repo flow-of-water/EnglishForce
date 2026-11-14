@@ -1,17 +1,28 @@
+import { URLSearchParams } from 'url';
 import { hashValue, verifyHash } from '../../utils/hashing.js';
-import { generateTokens, verifyToken, config } from '../../utils/jwt.js';
+import { generateAccessToken } from '../../utils/jwt.js';
 import * as userService from '../../services/user.service.js';
+import * as refreshTokenService from '../../services/auth/refreshToken.service.js';
 
-// 🔒 Lưu refreshToken vào HttpOnly Cookie
-const setRefreshTokenCookie = (res, refreshToken) => {
-	res.cookie('refreshToken', refreshToken, {
-		httpOnly: true, // Không thể truy cập qua JavaScript
-		secure: process.env.NODE_ENV === 'production', // Chỉ HTTPS ở production
-		sameSite: 'lax', // Chống CSRF
-		maxAge: config.REFRESH_TOKEN.expiry_in_ms, // Thời gian sống của cookie
-		path: '/',
+const refreshTokenCookieOptions = {
+	httpOnly: true, // Không thể truy cập qua JavaScript
+	secure: process.env.NODE_ENV === 'production', // Chỉ HTTPS ở production
+	sameSite: 'lax', // Chống CSRF
+	path: '/api/auth', // Chỉ refresh-token / logout / change-password cần cookie này
+};
+
+// Store the refreshToken in an HttpOnly cookie
+const setRefreshTokenCookie = (res, { token, expiresAt }) => {
+	res.cookie('refreshToken', token, {
+		...refreshTokenCookieOptions,
+		maxAge: expiresAt.getTime() - Date.now(), // Thời gian sống của cookie
 	});
 };
+
+// Important: the options must match those used when the cookie was set
+const clearRefreshTokenCookie = res => res.clearCookie('refreshToken', refreshTokenCookieOptions);
+
+const getClientMeta = req => ({ userAgent: req.get('user-agent'), ip: req.ip });
 
 // Sign up - Đăng ký
 export const register = async (req, res) => {
@@ -40,7 +51,8 @@ export const login = async (req, res) => {
 		const isMatch = await verifyHash(password, user.password);
 		if (!isMatch) return res.status(400).json({ message: 'Invalid password' });
 
-		const { accessToken, refreshToken } = generateTokens(user);
+		const accessToken = generateAccessToken(user);
+		const refreshToken = await refreshTokenService.issueRefreshToken(user.id, getClientMeta(req));
 
 		setRefreshTokenCookie(res, refreshToken);
 
@@ -52,16 +64,9 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
 	try {
-		// (Optional) Blacklist token nếu có hệ thống blacklist
-		// Xóa cookie refreshToken
-		res.clearCookie('refreshToken', {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
-			path: '/', // ← Quan trọng: phải khớp với lúc set cookie
-		});
-
-		console.log('✅ RefreshToken cookie cleared');
+		// Thu hồi refreshToken trong DB rồi xóa cookie
+		await refreshTokenService.revokeRefreshToken(req.cookies.refreshToken);
+		clearRefreshTokenCookie(res);
 
 		res.status(200).json({ message: 'Logged out successfully', success: true });
 	} catch (error) {
@@ -78,18 +83,25 @@ export const refreshToken = async (req, res) => {
 	}
 
 	try {
-		// ✅ Xác thực refresh token
-		const payload = verifyToken(refreshToken, 'refresh');
+		// ✅ Xác thực refresh token và đổi sang token mới (rotation)
+		const rotated = await refreshTokenService.rotateRefreshToken(refreshToken, getClientMeta(req));
+		if (!rotated) {
+			clearRefreshTokenCookie(res);
+			return res.status(403).json({ message: 'Invalid or expired refresh token' });
+		}
 
-		const user = await userService.getUserById(payload.id);
-		if (!user) return res.status(403).json({ message: 'User no longer exists' });
+		const user = await userService.getUserById(rotated.userId);
+		if (!user) {
+			clearRefreshTokenCookie(res);
+			return res.status(403).json({ message: 'User no longer exists' });
+		}
+
+		setRefreshTokenCookie(res, rotated);
 
 		// ✅ Tạo access token mới
-		const { accessToken } = generateTokens(user, true); // true để chỉ tạo accessToken;
-
-		res.json({ accessToken });
+		res.json({ accessToken: generateAccessToken(user) });
 	} catch (err) {
-		return res.status(403).json({ message: 'Invalid or expired refresh token' });
+		return res.status(500).json({ message: 'Error refreshing token' });
 	}
 };
 
@@ -107,6 +119,10 @@ export const changePassword = async (req, res) => {
 
 		const hashedPassword = await hashValue(newPassword);
 		await userService.updateUserPassword(userId, hashedPassword);
+
+		// Đăng xuất mọi thiết bị khác, phiên hiện tại nhận refreshToken mới
+		await refreshTokenService.revokeAllRefreshTokensForUser(userId);
+		setRefreshTokenCookie(res, await refreshTokenService.issueRefreshToken(userId, getClientMeta(req)));
 
 		res.status(200).json({ message: 'Password was changed' });
 	} catch (error) {
@@ -133,6 +149,9 @@ export const resetPassword = async (req, res) => {
 
 		await user.update({ password: hashedPassword });
 
+		// Đăng xuất mọi thiết bị đang đăng nhập bằng mật khẩu cũ
+		await refreshTokenService.revokeAllRefreshTokensForUser(userId);
+
 		res.json({
 			message: 'Password reset successfully',
 		});
@@ -146,7 +165,7 @@ export const resetPassword = async (req, res) => {
 // Google and Facebook
 export const OAuthCallback = async (req, res) => {
 	const user = await userService.findOrCreateUser(req.user); // req.user chính là Googleuser Hoặc Facebookuser
-	const { refreshToken } = generateTokens(user);
+	const refreshToken = await refreshTokenService.issueRefreshToken(user.id, getClientMeta(req));
 
 	setRefreshTokenCookie(res, refreshToken);
 

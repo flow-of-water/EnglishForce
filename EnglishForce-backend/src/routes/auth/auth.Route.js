@@ -15,9 +15,9 @@ const authLimiter = rateLimiter(100);
 
 router.post('/register', authLimiter, register);
 router.post('/login', authLimiter, login);
-router.post('/logout', logout);
+router.post('/logout', authLimiter, logout);
 router.patch('/change-password', authMiddleware, changePassword);
 router.post('/reset-password', authResetPasswordTokenMiddleware, resetPassword);
-router.post('/refresh-token', refreshToken);
+router.post('/refresh-token', authLimiter, refreshToken);
 
 export default router;

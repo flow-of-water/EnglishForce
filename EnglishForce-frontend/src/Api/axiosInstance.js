@@ -11,7 +11,14 @@ const axiosInstance = axios.create({
 	},
 });
 
-const COOKIE_ENDPOINTS = ['/auth/login', '/auth/logout', '/auth/refresh-token', '/otp/verify', '/auth/reset-password'];
+const COOKIE_ENDPOINTS = [
+	'/auth/login',
+	'/auth/logout',
+	'/auth/refresh-token',
+	'/auth/change-password',
+	'/otp/verify',
+	'/auth/reset-password',
+];
 // Tự động gắn token vào header của mỗi request
 axiosInstance.interceptors.request.use(
 	config => {
@@ -36,9 +43,9 @@ function subscribeTokenRefresh(cb) {
 	subscribers.push(cb);
 }
 
-function notifySubscribers(newToken) {
-	// Thông báo token mới cho tất cả request đang chờ → Trigger retry
-	subscribers.forEach(cb => cb(newToken));
+function notifySubscribers(newToken, error) {
+	// Thông báo token mới (hoặc lỗi refresh) cho tất cả request đang chờ → Trigger retry / reject
+	subscribers.forEach(cb => cb(newToken, error));
 	subscribers = [];
 }
 
@@ -55,8 +62,9 @@ axiosInstance.interceptors.response.use(
 			// Case 1: refresh đang chạy → request này CHỜ
 			// ---------------------------
 			if (isRefreshing) {
-				return new Promise(resolve => {
-					subscribeTokenRefresh(newToken => {
+				return new Promise((resolve, reject) => {
+					subscribeTokenRefresh((newToken, refreshError) => {
+						if (refreshError) return reject(refreshError);
 						originalRequest.headers.Authorization = `Bearer ${newToken}`;
 						resolve(axiosInstance(originalRequest));
 					});
@@ -86,7 +94,6 @@ axiosInstance.interceptors.response.use(
 					isRefreshing = false;
 					refreshPromise = null;
 
-					console.log('I get access Token again bro');
 					return axiosInstance(originalRequest);
 				} catch (refreshError) {
 					isRefreshing = false;
@@ -94,6 +101,10 @@ axiosInstance.interceptors.response.use(
 					localStorage.removeItem(Constants.LOCAL_STORAGE.ACCESS_TOKEN);
 					localStorage.removeItem(Constants.LOCAL_STORAGE.USERNAME);
 					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ROLE);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_ID);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_PUBLIC_ID);
+					localStorage.removeItem(Constants.LOCAL_STORAGE.USER_EMAIL);
+					notifySubscribers(null, refreshError);
 					window.location.href = '/login';
 					return Promise.reject(refreshError);
 				}
